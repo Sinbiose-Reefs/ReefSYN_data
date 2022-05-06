@@ -1,0 +1,722 @@
+---
+title: "Documentation of data handling, ReefSYN Working Group"
+author: "André Luís Luza (Post-Doc of ReefSYN)"
+date: "18/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## The data
+
+This document aims to describe modifications in the datasets gathered by the ReefSYN Working Group (all databases are referenced at the end of this document). Modifications were made in order to enable the match of different sources of data -- and therefore the integration of data. The original datasets are kept together with modified versions of the dataset (see ReadMe files). Datasets with consolidated modifications have in their file name the sufix "... _updated_ALLuza_v1". "v1" is used to control the version, so that it can change over time with updates and identification of errors. 
+
+At this moment, we handle the data of Morais et al. (2017), Aued et al. (2018, 2019), Longo et al. (2019), Ross et al. (2019), and Francini-Filho et al. (unpublished data). Although most of these data were collected by the same group of researchers, it was possible to identify some inconsistencies regarding: 
+1) region names;
+2) locality names;
+3) site names;
+4) different IDs of unique sampling events;
+5) format of sampling data, month and year;
+6) lack of geographical information;
+7) incorrect writing of species names;
+8) the identity of the most basic sampling unit (e.g., one video plot, photoquadrat) was not readily available. Instead, it was embedded together with the identity of the unique sample IDs (that often combine site, depth observer, device, video ID; e.g., "Cagarras/Fundo_061011_Cam_am_Video1/"; "pml_basil_19abril13_fundo_jpq_gopro3_v1")
+
+Such inconsistencies occur because repositories of published data did not require that such data follow  formatting rules. Also, due to the inconsistencies just listed, the different datasets do not match each other (but we can make it work even after these data are published -- under the rights of copy of each dataset). Many sites are shared among the five datasets, which indicate that we can make studies combining/collate different sources of data (it is a method underlying "ecological synthesis", Ref.).
+
+Previous modifications are listed in the metadata files (format 'docx' or 'rmd'). Some modifications that could not be done in R, regarding the splitting of the sample IDs, were done in Microsoft Excel.
+
+#### Organization in folders
+These data are organized in a folder called "Data". Within it we can find the names of the different datasources. See below a table with all these information.
+
+
+```{r,echo=F}
+
+
+tab_present <- data.frame ("Folder.Name"=list.files("Data"),
+            "Type.of.file" = c("Raster",
+                               "Spatial lines",
+                                "Spatial polygons",
+                               "Excel spreadsheets",
+                               "Excel spreadsheets",
+                               "Excel spreadsheets",
+                               "Excel spreadsheets",
+                               "Excel spreadsheets",
+                               "Excel spreadsheets",
+                               "Excel spreadsheets",
+                               "Excel spreadsheets",
+                               "Excel spreadsheets",
+                               "Spatial polygons",
+                               "Excel spreadsheets",
+                               "Excel spreadsheets",
+                               "Excel spreadsheets"),
+            "Data about" = c("Environmental layers", 
+                           "Brazilian coastal line",
+                           "BR Protected Areas",
+                           "Benthos",
+                           "Benthos",
+                           "Fish",
+                           "Benthos(mainly corals)",
+                           "Fish & Benthos",
+                           "Fish",
+                           "Fish",
+                           "Fish",
+                           "Our team",
+                           "Conservation priorities",
+                           "Benthos",
+                           "Corals",
+                           "Fish"),
+            "Trait data" = c("",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "",
+                             "X",
+                             "X",
+                             "X"),
+            "Has R script" = c("",
+                           "",
+                           "",
+                             "X",
+                             "X",
+                             "X",
+                             "X",
+                             "X",
+                             "X",
+                             "",
+                             "X",
+                             "",
+                             "",
+                             "",
+                             "",
+                             ""),
+            "Original Data Name" = c("BO_*.tif",
+                                     "brazil_coastline.shp",
+                                    "cnuc_2021_02.shp",
+                                     "compiled_quadrats_allsites.csv",
+                                    "",
+                                     "Compiled_quadrats_benthic_Erika_Anaide.xlsx",
+                                    "",
+                                     "Data_Trophic_Interactions_WAtlantic_GLongo_clean.csv",
+                                     "census_br_Morais_et_al_2017.csv",
+                                     "data_Rocas_final.xlsx/Planilha_noronha_peld.xlsx",
+                                   "Censos_peixes_RN.xlsx/Bentos_RN.xlsx",
+                                   "PLANILHA_CONSOLIDADA.xlsx",
+                                   "05_Areas_Prioritarias.gdb",
+                                   "Database_benthos.csv",
+                                   "Planilha_functional_traits_CORAL_TRAITS.xlsx",
+                                   "Atributos_especies_Atlantico_&_Pacifico_Oriental_2020_04_28.csv"),
+            "Modified Data Name" = c("---",
+                                     "---",
+                                     "---",
+                                     "Compiled_quadrats_allsites_Updated_ALLuza_v1.xlsx",
+                                     "---",
+                                     "---",
+                                     "Compiled_quadrats_benthic_Erika_Anaide_updated_ALLuza_v1.xlsx",
+                                     "---",
+                                                               "Data_Trophic_Interactions_WAtlantic_GLongo_clean_Updated_ALLuza_v1.xlsx",
+                                     "UpdatedData_RMorais_et_al_2017_ALLuza_v1.xlsx",
+                                     "---",
+                                     "Censos_peixes_RN_updated_ALLuza_v1.xlsx/---",
+                                     "---",
+                                     "---",
+                                     "---",
+                                     "---"
+                                     ))
+
+
+knitr::kable(tab_present, format = "markdown",align="c",padding=0)
+
+```
+Now it will be briefly shown the original structure of the five datasets already modified.  
+
+```{r, echo = F, message=F, warning=F, results="asis",eval=T}
+
+## call packages
+
+source("R/packages.R")
+source("R/functions.R")
+
+## load occurrence data
+# aued
+occ_Aued_et_al <- read.xlsx(here("Data","occ_Aued_et_al","Compiled_quadrats_allsites_Updated_ALLuza_v1.xlsx"),sheet = 1, colNames = TRUE,detectDates=T)
+occ_Aued_et_al$Data<- convertToDate(occ_Aued_et_al$Data)
+
+## G longo
+occ_Longo_et_al <- read.xlsx(here("Data","occ_Longo_et_al","Data_Trophic_Interactions_WAtlantic_GLongo_clean_UPDATED_ALLuza_v1.xlsx"),
+                             sheet = 1, colNames = TRUE,detectDates=T)
+
+# Morais
+occ_Morais_et_al <- read.xlsx(here("Data","occ_Morais_et_al","UpdatedData_RMorais_et_al_2017_ALLuza_v1.xlsx"),
+                              sheet = 1, colNames = TRUE,detectDates=T)
+
+
+# Ross, Longo et al. (RN fish)
+occ_Ross_et_al <- read.xlsx(here("Data","occ_RN_Norte_Longo",
+                                 "Censos_peixes_RN_updated_ALLuza_v1.xlsx"),
+                              sheet = 1, colNames = TRUE,detectDates=T)
+
+#francini et al. 
+occ_francini <- read.xlsx (here("Data",
+                                  "occ_Francini_et_al",
+                                  "Compiled_quadrats_benthic_Erika_Anaide_updated_ALLuza_v1.xlsx"),
+                           sheet = 1, colNames = TRUE,detectDates=T)
+
+
+```
+
+
+In the original format, it was not possible to have the ID of each sampling unit, date, observer, depth, and quadrat in a standardized format (check out this example -- actually a random sample of each datum in the table) (column "VerbatimSamples).
+The information is still collated in only one descriptor -- it is not a separated column. Thus, it was needed to extract the information by hand, using the Excel to have more control on what information to get. See that we still have some issues considering the observer (OBS) as there are abbreviations of the name (e.e., GOL, CAMC). It will be handled in the future again using the Excel. "ModSamples" is the VerbatimSamples split according to the character "/". "Record replicate" is the ID of each video in each locality, site, and depth. 
+Finally, since we lack coordinates for every sampling unit (as it is not possible to gather this data in sea), our most basic sampling unit is one given "depth" within sites, localities and regions. Thus, our 'eventid' will be the combination of such variables. If one wants go 'deeper' then is just paste 'eventid' and e.g., video_id, transect_id, and so on.
+
+mixed info in verbatim sampels Thus sampling design was not clear
+
+
+
+```{r,echo=F}
+samp_datum <- sample(length(unique(occ_Aued_et_al$VerbatimSamples )) 
+                                          ,6)
+to_present_aued <- occ_Aued_et_al [samp_datum,]
+# c("VerbatimSamples","ModSamples","Record_replicate","eventDepth","eventDate","OBS")
+knitr::kable(to_present_aued, format = "markdown",align="c",padding=0)
+
+```
+
+That said, let's dig into the different data sets a bit more.
+
+Aued et al. (2019)
+
+```{r,echo=F}
+
+knitr::kable(head(occ_Aued_et_al) , format = "markdown",align="c",padding=0)
+# [,1:7]
+```
+
+Morais et al. (2017)
+```{r,echo=F}
+
+knitr::kable(head(occ_Morais_et_al) , format = "markdown",align="c",padding=0)
+#[,1:7]
+
+```
+
+Longo et al. (2019)
+```{r,echo=F}
+
+knitr::kable(head(occ_Longo_et_al) , format = "markdown",align="c",padding=0)
+# [,1:7]
+
+```
+
+Ross et al. (2019)
+```{r,echo=F}
+
+knitr::kable(head(occ_Ross_et_al) , format = "markdown",align="c",padding=0)
+# [,1:7]
+```
+
+Francini-Filho et al. (unpublished data)
+```{r,echo=F}
+knitr::kable(head(occ_francini) , format = "markdown",align="c",padding=0)
+# [,1:7]
+```
+As you can see, there are different headings, IDs for unique sampling occasions, order of columns. Also there are the same descriptor ("Region") for different information (compare data of Francini-Filho et al. and Morais et al.).  
+
+  
+
+#### From now I will modify some colnames, subset the dataset and and put cols in order to have descriptors that make it possible to match/collate the different datasets.  
+
+Now we have datasets with sampling information that matches (e.g., eventid).
+
+
+```{r,echo=F, message=F, warning=F, results="asis",eval=T}
+
+# edits across all datasets
+# edit scientific name
+occ_Morais_et_al$ScientificName <- tolower (occ_Morais_et_al$ScientificName)# lower case
+occ_Longo_et_al$ScientificName <- tolower (occ_Longo_et_al$ScientificName)# lower case
+occ_Longo_et_al$ScientificName <- gsub (" ",".",occ_Longo_et_al$ScientificName)# replace space by "dot", to match Morais et al.
+occ_Ross_et_al$scientificname <- tolower(occ_Ross_et_al$scientificname)
+occ_francini$scientificname <- tolower(occ_francini$scientificname) # see that it is still the abbreviation
+
+# edit colnames
+colnames(occ_Longo_et_al) <-tolower(colnames(occ_Longo_et_al))
+colnames(occ_Morais_et_al) <-tolower(colnames(occ_Morais_et_al))
+colnames(occ_Aued_et_al) <-tolower(colnames(occ_Aued_et_al))
+colnames(occ_Ross_et_al) <-tolower(colnames(occ_Ross_et_al))
+colnames(occ_francini) <-tolower(colnames(occ_francini))
+
+# diver = observer (as Morais et al.)
+colnames(occ_Longo_et_al)[which(colnames(occ_Longo_et_al) == "diver")] <- "observer"
+colnames(occ_Aued_et_al)[which(colnames(occ_Aued_et_al) == "obs")] <- "observer"
+colnames(occ_Morais_et_al)[which(colnames(occ_Morais_et_al) == "obs")] <- "observer"
+colnames(occ_Ross_et_al) [which(colnames(occ_Ross_et_al) == "coletor")] <- "observer" # abbreviation
+occ_francini$observer <- NA # no observer data
+
+# locality = location
+colnames(occ_Aued_et_al)[which(colnames(occ_Aued_et_al) == "locality")] <- "location"
+colnames(occ_Morais_et_al)[which(colnames(occ_Morais_et_al) == "locality")] <- "location"
+
+# site = sites
+colnames(occ_Aued_et_al)[which(colnames(occ_Aued_et_al) == "sites")] <- "site"
+colnames(occ_Ross_et_al)[which(colnames(occ_Ross_et_al) == "sitename")] <- "site"
+
+# --------------------------------------------------------------- #
+# edits in Longo et al.
+# eventdepth
+occ_Longo_et_al$eventdepth <- occ_Longo_et_al$depth_m
+# eventdate
+occ_Longo_et_al$eventdate <- occ_Longo_et_al$date
+# eventyear
+occ_Longo_et_al$eventyear <- substr(occ_Longo_et_al$eventdate,1,4)
+# eventmonth
+occ_Longo_et_al$eventmonth <- substr(occ_Longo_et_al$eventdate,6,7)
+# eventid
+occ_Longo_et_al$eventid <- paste (occ_Longo_et_al$region,
+                                     occ_Longo_et_al$location,
+                                     occ_Longo_et_al$site,
+                                     occ_Longo_et_al$eventdepth,
+                                     sep=".")
+
+# verbatim samples of Longo et al. 
+colnames(occ_Longo_et_al)[which(colnames(occ_Longo_et_al) == "movie_filename_code")] <- "verbatimsamples"
+colnames(occ_Longo_et_al)[which(colnames(occ_Longo_et_al) == "lat_dd")] <- "latitude"
+colnames(occ_Longo_et_al)[which(colnames(occ_Longo_et_al) == "long_dd")] <- "longitude"
+
+# --------------------------------------------------------------------------------------
+# edits in Aued et al.
+colnames(occ_Aued_et_al)[which(colnames(occ_Aued_et_al) == "value")] <- "cover"
+colnames(occ_Aued_et_al)[which(colnames(occ_Aued_et_al) == "sp")] <- "scientificname"
+colnames(occ_Aued_et_al)[which(colnames(occ_Aued_et_al) == "lon")] <- "longitude"
+colnames(occ_Aued_et_al)[which(colnames(occ_Aued_et_al) == "lat")] <- "latitude"
+
+# --------------------------------------------------------------------------------------
+# edits in Morais et al.
+colnames(occ_Morais_et_al)[which(colnames(occ_Morais_et_al) == "lon")] <- "longitude"
+colnames(occ_Morais_et_al)[which(colnames(occ_Morais_et_al) == "lat")] <- "latitude"
+
+# --------------------------------------------------------------------------------------
+# edits in francini et al.
+colnames(occ_francini)[1] <- "verbatimregion" # the first column is the orginial data
+colnames(occ_francini)[which(colnames(occ_francini) == "long")] <- "longitude"
+colnames(occ_francini)[which(colnames(occ_francini) == "lat")] <- "latitude"
+
+# subsetting
+# aued
+target_cols_aued <- c(# common to all datasets
+                      "region","location","site","latitude","longitude",
+                      "eventdate","eventmonth","eventyear","eventdepth","eventid","scientificname",
+                     # unique to this data
+                      "cover",
+                      "record_replicate")
+
+# morais
+target_cols_morais <- c(# common to all datasets
+                      "region","location","site","latitude","longitude",
+                      "eventdate","eventmonth","eventyear","eventdepth","eventid","scientificname",
+                      # unique to this data
+                      "abun",
+                      "size_cm",
+                      "biomass_g",
+                      "transect_id") # these data also include diet and functional group; but we will use Quimbayo et al. 2021 to get those traits (and others)
+
+# longo
+target_cols_longo <- c(# common to all datasets
+                      "region","location","site","latitude","longitude",
+                      "eventdate","eventmonth","eventyear","eventdepth","eventid","scientificname",
+                      # unique to this data
+                      "number_of_bites",
+                      "body_size_cm",
+                      "individual_body_mass_g",
+                      "video_id") # these data also include diet and functional group; but we will use Quimbayo et al. 2021 to get those traits (and others)
+
+# Ross
+target_cols_ross <- c(# common to all datasets
+                      "region","location","site","latitude","longitude",
+                      "eventdate","eventmonth","eventyear","eventdepth","eventid","scientificname",
+                      # unique to this data
+                      "abundance",
+                      "biomass",
+                      "transectidsite")
+
+# francini
+target_cols_francini <- c(# common to all datasets
+                      "region","location","site","latitude","longitude",
+                     "eventdate","eventmonth","eventyear","eventdepth","eventid","scientificname",
+                      # unique to this data
+                      "cover")
+
+
+# subsetting & matching
+occ_Aued_et_al_sel_cols <- occ_Aued_et_al[,which(colnames(occ_Aued_et_al) %in% target_cols_aued)]
+occ_Aued_et_al_sel_cols <- occ_Aued_et_al_sel_cols[,match(target_cols_aued,colnames(occ_Aued_et_al_sel_cols))]
+
+occ_Morais_et_al_sel_cols <- occ_Morais_et_al[,which(colnames(occ_Morais_et_al) %in% target_cols_morais)]
+occ_Morais_et_al_sel_cols <- occ_Morais_et_al_sel_cols[,match(target_cols_morais,colnames(occ_Morais_et_al_sel_cols))]
+
+occ_Longo_et_al_sel_cols <- occ_Longo_et_al[,which(colnames(occ_Longo_et_al) %in% target_cols_longo)]
+occ_Longo_et_al_sel_cols <- occ_Longo_et_al_sel_cols[,match(target_cols_longo,colnames(occ_Longo_et_al_sel_cols))]
+
+occ_Ross_et_al_sel_cols <- occ_Ross_et_al[,which(colnames(occ_Ross_et_al) %in% target_cols_ross)]
+occ_Ross_et_al_sel_cols <- occ_Ross_et_al_sel_cols[,match(target_cols_ross,colnames(occ_Ross_et_al_sel_cols))]
+
+occ_francini_et_al_sel_cols <- occ_francini[,which(colnames(occ_francini) %in% target_cols_francini)]
+occ_francini_et_al_sel_cols <- occ_francini_et_al_sel_cols[,match(target_cols_francini,colnames(occ_francini_et_al_sel_cols))]
+
+
+```
+
+New headings of Aued et al. 
+
+```{r,echo=F}
+
+knitr::kable(head(occ_Aued_et_al_sel_cols) , format = "markdown",align="c",padding=0)
+
+
+```
+
+New headings of Morais et al. 
+
+```{r,echo=F}
+
+knitr::kable(head(occ_Morais_et_al_sel_cols) , format = "markdown",align="c",padding=0)
+
+```
+
+New headings of Longo et al. 
+
+```{r,echo=F}
+
+knitr::kable(head(occ_Longo_et_al_sel_cols), format = "markdown",align="c",padding=0)
+
+
+```
+
+New headings of Ross et al. 
+
+```{r,echo=F}
+
+knitr::kable(head(occ_Ross_et_al_sel_cols), format = "markdown",align="c",padding=0)
+
+
+```
+
+New headings of Francini-Filho et al. 
+
+```{r,echo=F}
+
+knitr::kable(head(occ_francini_et_al_sel_cols), format = "markdown",align="c",padding=0)
+
+```
+As you see, the first 11 columns have the same name, and describe several aspects of the sampling. The subsequent columns are unique to each dataset.
+
+We start integrating/collating these data by mapping all sites with unique coordinate values (points were subtly jittered to improve the visualization).
+VP = Videoplots, UVC = Underwater Visual Censuses, PQ=Photoquadrat
+
+```{r,echo=T, results="asis"}
+
+# obtain coords
+# aggregate coords
+# with a suble jitter in long to avoid overlap of points
+# note that coordinates vary at the scale of location + site
+coords <- rbind (data.frame (aggregate (latitude ~ location+site+eventid,occ_Aued_et_al_sel_cols, FUN=mean,na.rm=T),
+                             longitude=aggregate (longitude ~ location+site+eventid,occ_Aued_et_al_sel_cols, FUN=mean,na.rm=T)[,"longitude"],
+                             Data = "Benthos(PQ)"),
+                 data.frame (aggregate (latitude ~ location+site+eventid,occ_Morais_et_al_sel_cols, FUN=mean,na.rm=T),
+                             longitude=aggregate (longitude ~ location+site+eventid,occ_Morais_et_al_sel_cols, FUN=mean,na.rm=T)[,"longitude"],
+                             Data = "Fish(UVC)"),
+                 data.frame (aggregate (latitude ~ location+site+eventid,occ_Longo_et_al_sel_cols, FUN=mean,na.rm=T),
+                             longitude=aggregate (longitude ~ location+site+eventid,occ_Longo_et_al_sel_cols, FUN=mean,na.rm=T)[,"longitude"],
+                             Data = "Fish(VP)"),
+                 data.frame (aggregate (latitude ~ location+site+eventid,occ_Ross_et_al_sel_cols, FUN=mean,na.rm=T),
+                             longitude=aggregate (longitude ~ location+site+eventid,occ_Ross_et_al_sel_cols, FUN=mean,na.rm=T)[,"longitude"],
+                             Data = "FishRN(UVC)"),
+                 data.frame (aggregate (latitude ~ location+site+eventid,occ_Ross_et_al_sel_cols, FUN=mean,na.rm=T),
+                             longitude=aggregate (longitude ~ location+site+eventid,occ_Ross_et_al_sel_cols, FUN=mean,na.rm=T)[,"longitude"],
+                             Data = "BentosCorals(PQ)")
+                 )
+
+## mapping of all sampling sites
+require(ggplot2); library(ggrepel)
+require("rnaturalearth");require("rnaturalearthdata")
+# mapa mundi
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# cut the map
+wm <- ggplot() + 
+  geom_sf (data=world, size = 0.1, 
+           fill="gray90", colour=NA) +
+  coord_sf (xlim = c(min(coords$longitude)-10, 
+                     max(coords$longitude)+10),  
+            ylim = c(max(coords$latitude)+10, 
+                    min(coords$latitude)-10), expand = FALSE) +
+  
+  theme_bw() + xlab(NULL) + ylab(NULL) +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        axis.text.x = element_blank(),axis.ticks.x=element_blank(),
+        axis.text.y = element_blank(),axis.ticks.y=element_blank(),
+        title = element_text(size=8)) 
+
+# plot aued
+wm + geom_point(data=coords,
+                aes(x=jitter (longitude,500),y=jitter(latitude,600), col = Data),
+                    alpha=0.4,size=1.7) +
+  
+  scale_colour_viridis_d(option = "magma",
+                         direction = 1) + 
+  theme (legend.title = element_text(size=10))
+  
+
+
+```
+
+
+```{r,echo=F}
+
+
+count_events <- length(unique(paste (occ_Aued_et_al_sel_cols$eventid, occ_Aued_et_al_sel_cols$record_replicate,sep="."))) +
+                length(unique(paste (occ_Morais_et_al_sel_cols$eventid, occ_Morais_et_al_sel_cols$transect_id,sep="."))) + 
+                length(unique(paste (occ_Longo_et_al_sel_cols$eventid, occ_Longo_et_al_sel_cols$video_id,sep="."))) + 
+                length(unique(paste (occ_Ross_et_al_sel_cols$eventid, occ_Ross_et_al_sel_cols$transectidsite,sep="."))) +
+                length(unique(occ_francini_et_al_sel_cols$eventid))
+
+
+```
+The data consist of `r count_events` unique events of sampling (i.e., video/transect within an eventid). There are `r nrow(coords)` unique points (sites) in the map.
+
+## EXAMPLE
+Now we can make an example of data matching. We can check, for instance, for correspondence between fish and benthic diversity at local scale Let's use fish data collected through video plots (VP). We could ask, for instance, whether sites with high average benthic cover receive more bites from fish, and whether fish and benthos have a similar latitudinal variation in species richness.
+
+
+```{r,echo=T,fig.height=3,fig.width=4,message=F, warning=F, results="asis",eval=T}
+
+# let's match the datasets
+occ_Longo_et_al_match<-occ_Longo_et_al_sel_cols[which(occ_Longo_et_al_sel_cols$eventid %in% occ_Aued_et_al_sel_cols$eventid ),]
+occ_Aued_et_al_match<-occ_Aued_et_al_sel_cols[which(occ_Aued_et_al_sel_cols$eventid %in% occ_Longo_et_al_sel_cols$eventid ),]
+
+# community tables
+require(reshape)
+# fish
+comm_tab_fish <- cast (eventid ~ scientificname, 
+                       value = "number_of_bites",
+                       fun.aggregate = sum,
+                       na.rm=T,
+                        data= occ_Longo_et_al_match)
+# benthos
+comm_tab_benthos <- cast (eventid ~ scientificname,
+                       value = "cover",
+                       fun.aggregate = mean,
+                       na.rm=T,
+                        data= occ_Aued_et_al_match)
+
+```
+
+The number of rows in the fish dataset is `r nrow(comm_tab_fish)`, and in the benthic dataset is `r nrow(comm_tab_benthos)`. The eventids also match (all equal == T): `r table(comm_tab_fish$eventid == comm_tab_benthos$eventid)`
+
+We then continue.
+```{r,echo=T,fig.height=3,fig.width=4,message=F, warning=F, results="asis",eval=T}
+
+# let's remove some garbage (sand, quadrat, shadow...)
+to_remove_benthos <- c("areia.e.cascalho","desconhecido","quadrado","sombra")
+to_remove_fish <- c("not_identified")
+comm_tab_benthos <- comm_tab_benthos[,which(tolower (colnames(comm_tab_benthos)) %in% to_remove_benthos == F)]
+comm_tab_fish <- comm_tab_fish[,which(tolower (colnames(comm_tab_fish)) %in% to_remove_fish == F)]
+
+# organize data to plot
+data_plot <- data.frame (eventid= comm_tab_benthos$eventid,
+                         bent_rich= apply(comm_tab_benthos[,-1]>0,1,sum),
+                         bites = apply(comm_tab_fish[,-1],1,mean),
+                         fish_rich = apply(comm_tab_fish[,-1]>0,1,sum),
+                         latitude = coords [match (comm_tab_fish$eventid, coords$eventid),"latitude"]
+                          )
+
+# fit poisson regression
+poisson_smooth <- function(...) {
+  geom_smooth(method = "glm", method.args = list(family = "poisson"), ...)
+}
+
+# plot
+ggplot (data_plot,aes(x=bent_rich,
+                 y=bites)) + 
+  geom_point(col= "gray") + 
+  poisson_smooth(
+    formula = y ~ splines::ns(x, 2),
+    se=T,
+    #size=1,
+    fill = "orange",
+    colour = "black",
+    alpha=0.5) + 
+  xlab ("Benthic richness") + 
+  ylab ("Average number of bites") + 
+  theme_classic()
+
+
+```
+
+  We then continue.  
+```{r,echo=T,fig.height=4,fig.width=6,message=F, warning=F, results="asis",eval=T}
+
+# to answer the question about latitude, we need to melt the dataframe and transform it in a long format
+data_plot_LF<- melt (data_plot,c("latitude", "eventid"))
+
+# plot
+ggplot (data_plot_LF[which(data_plot_LF$variable != "bites"),],
+        aes(x=latitude, y=value,
+                      group = variable,
+            fill=variable)) + 
+  geom_point(col= "gray") + 
+  poisson_smooth(
+    formula = y ~ splines::ns(x, 2),
+    se=T,
+    colour = "black",
+    alpha=0.5) + 
+  xlab ("Latitude") + 
+  ylab ("Species richness") + 
+  theme_classic() + 
+  scale_fill_viridis_d(option="magma")
+
+
+```
+
+  
+  
+#### We can go farther and use the spatial information of sites to gather environmental factors from data available on the internet (e.g., BioOracle, Thyberghein et al. 2011; distance from BR coastline, data from the Brazilian Navy).
+
+#### Sea surface temperature (SST)  
+
+```{r,echo=T,fig.height=4,fig.width=6,message=F, warning=F, results="asis",eval=T}
+
+# BiO Oracle - extracting covariate data
+require(sdmpredictors)
+layers <- list_layers()
+
+# Download specific layers to the current directory
+# set prefered folder (to download data)
+dir.create (here ("Data","BioOracle"))
+options(sdmpredictors_datadir=here ("Data","BioOracle"))
+
+## chlorophil has different extent - loading and extracting in two steps         
+layers_oracle <- load_layers(c("BO2_tempmean_ss",
+                               "BO2_ppmean_ss", 
+                               "BO2_salinitymean_ss", 
+                               "BO_damean"
+                               ))
+
+## coordinates to spatial points
+spdf <- SpatialPointsDataFrame(coords = coords[,c("longitude","latitude")], 
+                               data = coords,
+                               proj4string = CRS("+proj=longlat +datum=WGS84 +no_defs"))
+
+## extracting data
+extracted_sea_data <- extract (layers_oracle, spdf,method='simple', fun=mean)
+
+# collating variables into the analyzed dataframe
+data_plot_LF<- cbind (data_plot_LF,
+                      extracted_sea_data[match(data_plot_LF$eventid, coords$eventid),]
+)
+
+# plot relative to temperature
+ggplot (data_plot_LF[which(data_plot_LF$variable != "bites"),],
+        aes(x=BO2_tempmean_ss, y=value,
+                      group = variable,
+            fill=variable)) + 
+  geom_point(col= "gray") + 
+  poisson_smooth(
+    formula = y ~ splines::ns(x, 2),
+    se=T,
+    colour = "black",
+    alpha=0.5) + 
+  xlab ("Sea surface temperature") + 
+  ylab ("Species richness") + 
+  theme_classic() + 
+  scale_fill_viridis_d(option="magma")
+
+
+```
+
+#### Distance offshore  
+
+```{r,echo=T, results="asis",warning=F,message=F}
+
+# ------------------------------
+#  distance offshore
+# BR coastline, download from here https://mapcruzin.com/free-brazil-arcgis-maps-shapefiles.htm
+
+#BR <- readOGR(dsn=here("Data", "brazil-coastline"), "brazil_coastline")
+#crs(BR) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
+#BR <- spTransform(BR, CRS("+init=epsg:4326"))
+#
+## use dist2Line from geosphere - only works for WGS84 
+#spdf <- spTransform(spdf, CRS("+init=epsg:4326"))
+#
+## measuring the distance (slow -- I ran the function and saved the RData)
+#dist_offshore <- geosphere::dist2Line(p = spdf, 
+#                             line = (BR))
+## save it as it is too slow
+#save (dist_offshore,file=here ("Data","brazil-coastline","extracted_distances.RData"))
+load (here ("Data","brazil-coastline","extracted_distances.RData"))
+
+# collating distance offshore into the  dataframe
+data_plot_LF<- cbind (data_plot_LF,
+                      distance_offshore = dist_offshore [match(data_plot_LF$eventid, coords$eventid),"distance"]
+)
+
+# plot relative to temperature
+ggplot (data_plot_LF[which(data_plot_LF$variable != "bites"),],
+        aes(x=distance_offshore, y=value,
+                      group = variable,
+            fill=variable)) + 
+  geom_point(col= "gray") + 
+  poisson_smooth(
+    formula = y ~ splines::ns(x, 2),
+    se=T,
+    colour = "black",
+    alpha=0.5) + 
+  xlab ("Coastal distance") + 
+  ylab ("Species richness") + 
+  theme_classic() + 
+  scale_fill_viridis_d(option="magma")
+
+# map
+#wm +
+#  geom_point(data=coords_sp_distance, 
+#             aes(x=jitter (longitude,500),y=jitter(latitude,600), 
+#                 col = distance)) +
+#  scale_colour_viridis_c(option = "magma",
+#                         direction = 1,
+#                         name = "Distance Offshore") + 
+#  theme (legend.title = element_text(size=10),
+#         legend.position = "top",
+#         legend.text=element_text(size=8),
+#         legend.direction = "horizontal")
+#
+
+```
+
+
+
+
+  More soon  
+  
+  
+  
+
+**ReefSYN Working Group**  
+
+
+
+
+
+
+
+
