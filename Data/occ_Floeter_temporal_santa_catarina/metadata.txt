@@ -1,0 +1,38 @@
+# Dataset for the paper:
+#Long-term assessment of reef fish community in a biogeographic climatic transition zone on southwestern Atlantic
+## censos_sc.csv  
+### Variables descriptions 
+
+*province:* Marine biogeographic province: Southwestern Atlantic (swa);
+*state:* Brazilian political federation unit;
+*location:* Marine locations where the transects were performed;
+*site:* Sites within the locations where the transects were performed;
+*thermal_category:* Division according to the prevalence of water thermal regime condition;
+*no_enter_area:* Wheter is or not inside the Non-enter area REBio Arvoredo;
+*longitude:* Longitude for the sampling site in decimals;
+*latitude:* Latitude for the sampling position in decimals;
+*ntransect:* Number of the transect in the year sampled;
+*transect_id:* Transect identification following the combination: site_year_ntransect;
+*observer:* "name_family name" of the scientist who made the census;
+*sampling_method:* Sampling method used;
+*day:* The day when sampling occurred;
+*month:* The month when sampling occurred;
+*year:* The year when sampling occurred;
+*sampling_season:* At which season the sampling was related to;
+*depth:* Which depth the transect was made expressed in meters;
+*temperature:* Water temperature recorded from dive computer, for each transect, in Celsius degree;
+*complexity:* Substratum complexity visually etimated in each transect, 1=low complexity, 2=medium complexity, 3=high complexity;
+*visibility:* The horizontal visibility estimated in each transect and expressed in meters;
+*start_time:* Exact time that start one transect;
+*end_time:* Exact time that finish the transect;
+*biotop:* Biotop on the reef where the census was made;
+*trophic_group:* Trophic group based on diet data available in the literature (minv = mobile invertebrate feeder; sinv = sessil invertebrate feeder; herb_detr = hebirvore_detritivore);
+*family:* Family name following the taxonomy provided in the online [Catalog of Fishes](http://researcharchive.calacademy.org/research/ichthyology/catalog/fishcatmain.asp);
+*genus:* Genus name following the taxonomy provided in the online [Catalog of Fishes](http://researcharchive.calacademy.org/research/ichthyology/catalog/fishcatmain.asp);
+*species:* Species name following the taxonomy provided in the online [Catalog of Fishes](http://researcharchive.calacademy.org/research/ichthyology/catalog/fishcatmain.asp);
+*fishbase_code:* Species code following [Fishbase website] (https://www.fishbase.org);
+*six_letter_code:* Species code following [Quimayo et al. 2020](https://doi.org/10.1002/ecy.3298);
+*total_lenght:* Fish's total lenght visually estimated in centimeters;
+*abundance:* Absolute number of individuals;
+*a:* Allometric coefficient (regression intercept);
+*b:* Allometric coefficient (regression slope);

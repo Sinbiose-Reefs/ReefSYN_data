@@ -1,0 +1,5 @@
+Dados enviados pelo Ronaldo Francini FIlho. Inclui os sitios de Aued e mais outros sitios,
+e inclui um subconjuntos dos taxons incluidos em Aued et al. 2017
+
+Os dados de Aued et al. não possuem o registro de ano na planilha. 
+Alguns sítios possuem amostragem em diferentes anos (bay em ASPSP, e Paraiba)
