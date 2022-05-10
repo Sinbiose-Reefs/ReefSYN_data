@@ -47,6 +47,9 @@ fish_long_format <- lapply (fish_size_list, function (species)
 )
 fish_long_format <- do.call(rbind,fish_long_format) # melt the list
 
+# verbatimIdentification 
+fish_long_format$verbatimIdentification <- fish_long_format$scientificName
+
 # separate scientificName from size class
 sp_size <- strsplit(fish_long_format$scientificName, "\\.")
 
@@ -138,13 +141,16 @@ worms_record <- lapply (unique(fish_long_format$scientificName), function (i)
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 
-# df_worms_record[which(df_worms_record$match_type == "near_1"),]
 # match
 # no match
+# valid name OBIS
+fish_long_format$scientificNameOBIS <- (df_worms_record$scientificname [match (fish_long_format$scientificName,
+                                                                         tolower (df_worms_record$scientificname))])
 fish_long_format$scientificNameID<-(df_worms_record$lsid [match (fish_long_format$scientificName, tolower(df_worms_record$scientificname))])
 fish_long_format$kingdom <-(df_worms_record$kingdom [match (fish_long_format$scientificName, tolower(df_worms_record$scientificname))])
 fish_long_format$class <-(df_worms_record$class [match (fish_long_format$scientificName, tolower(df_worms_record$scientificname))])
 fish_long_format$family <-(df_worms_record$family [match (fish_long_format$scientificName, tolower(df_worms_record$scientificname))])
+
 
 
 
@@ -174,8 +180,11 @@ fish_long_format[which(fish_long_format$HAB == "rocky_reef"),"maximumDepthinMete
 
 
 
+
+
 # -------------------------------------------------------------
 # ADJUSTING COORDINATES
+
 
 
 
@@ -208,11 +217,11 @@ match_sites_coords[match_sites_coords$SITE == "A3",c("LAT", "LONG")] <- c(-16.90
 # aind nao sabemos PA1
 
 match_sites_coords[match_sites_coords$SITE == "PA1",c("LAT", "LONG")] <- c(-17.771998,-39.045509)# parcel das paredes caravelas Bahia - google earth
-
 match_sites_coords[match_sites_coords$SITE == "PLEST",c("LAT", "LONG")] <- c(-17.783,-39.051)# parcel das paredes caravelas Bahia - google earth
 
 # matching site to have the coordinates
 coords <- (match_sites_coords [match (fish_long_format$SITE,match_sites_coords$SITE), c("REEF","SITE","LAT","LONG")])
+
 # table(coords$SITE == fish_long_format$SITE) # check matching
 fish_long_format<- cbind (fish_long_format,
                           coords[,c("LAT", "LONG")])
@@ -338,6 +347,7 @@ fish_long_format$occurrenceID <- paste (
 
 
 
+
 # ------------------------------------------------------------------------------------------
 # Formatted according to DwC
 
@@ -346,12 +356,20 @@ fish_long_format$occurrenceID <- paste (
 
 
 
-DF_eMOF <- fish_long_format [,c("eventID", "occurrenceID","scientificName","scientificNameID","kingdom","class","family",
+
+DF_eMOF <- fish_long_format [,c("eventID", "occurrenceID","verbatimIdentification",
+                                "scientificName",
+                                "scientificNameID","scientificNameOBIS",
+                                "kingdom","class","family",
                                 "measurementValue", "measurementType","measurementUnit")]
 
 
 
-DF_occ <- fish_long_format  [,c("eventID", "occurrenceID","basisOfRecord","scientificName","scientificNameID","kingdom","class","family",
+DF_occ <- fish_long_format  [,c("eventID", "occurrenceID","basisOfRecord",
+                                "verbatimIdentification","scientificName",
+                                "scientificNameID",
+                                "scientificNameOBIS",
+                                "kingdom","class","family",
                                 "recordedBy", "organismQuantityType", "occurrenceStatus")]
 
 # aggregate data by eventIDs to have event_core

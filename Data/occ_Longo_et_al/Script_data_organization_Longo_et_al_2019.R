@@ -49,6 +49,10 @@ L.peixes$location [which (L.peixes$site == "saco_do_vidal")] <- "ilhasc_norte"
 L.peixes$location [which (L.peixes$site == "engenho")] <- "ilhasc_norte"
 L.peixes$location [which (L.peixes$site == "xavier")] <- "ilhasc_sul"
 
+
+# verbatimLocality
+L.peixes$verbatimLocality <- L.peixes$site
+
 ### organizar os sitios
 L.peixes$site [which(L.peixes$site == "anacris")] <- "ana_cristina"
 L.peixes$site [which(L.peixes$site == "parrachos")] <- 'parrachos_de_rio_do_fogo'
@@ -138,6 +142,10 @@ split_names_JPQ <- lapply (strsplit(traits_peixes$Name," ",fixed=F), substr, 1,3
 split_names_JPQ <- lapply (split_names_JPQ,tolower)
 siglas_JPQ <- unlist(lapply (split_names_JPQ, function (i) paste(i[1],i[2],sep="_")))
 
+
+# verbatimIdentification
+L.peixes$verbatimIdentification <- L.peixes$species_code
+
 ## inserir uma tabela em Longo, com o nome completo das spp
 L.peixes$scientificName <- traits_peixes$Name [match(todas_sp_Longo,siglas_JPQ)]
 
@@ -147,7 +155,6 @@ unique (todas_sp_Longo [which(todas_sp_Longo %in% siglas_JPQ == F)])
 
 ## adjusting spp.
 # based on abbreviations
-
 
 L.peixes$scientificName [which(L.peixes$species_code == "spa_sp")] <- "Sparisoma_sp"
 L.peixes$scientificName [which(L.peixes$species_code == "ocy_cry")] <- "Ocyurus_chrysurus"
@@ -292,10 +299,12 @@ worms_record <- lapply (unique(L.peixes_coord$scientificName), function (i)
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 # match
+L.peixes_coord$scientificNameOBIS<-(df_worms_record$scientificname [match (L.peixes_coord$scientificName, tolower(df_worms_record$scientificname))])
 L.peixes_coord$scientificNameID<-(df_worms_record$lsid [match (L.peixes_coord$scientificName, tolower(df_worms_record$scientificname))])
 L.peixes_coord$kingdom<-(df_worms_record$kingdom [match (L.peixes_coord$scientificName,tolower(df_worms_record$scientificname))])
 L.peixes_coord$class<-(df_worms_record$class [match (L.peixes_coord$scientificName,tolower(df_worms_record$scientificname))])
 L.peixes_coord$family<-(df_worms_record$family [match (L.peixes_coord$scientificName,tolower(df_worms_record$scientificname))])
+
 
 
 
@@ -317,6 +326,7 @@ sites_plots_longo <- read.xlsx(here("Data","occ_Longo_et_al",
 # bind into the data
 L.peixes_coord <- cbind (L.peixes_coord, 
                          video_id = sites_plots_longo$video_id)
+
 
 # set years in missing data (rocas 2012)
 # check here https://onlinelibrary.wiley.com/doi/abs/10.1111/geb.12806
@@ -370,6 +380,7 @@ L.peixes_coord<-L.peixes_coord[which(L.peixes_coord$location %in% c("north_carol
                                                                     "mexico",
                                                                     "belize",            
                                                                     "curacao") == F),]
+
 
 
 
@@ -432,6 +443,7 @@ colnames(L.peixes_coord)[which(colnames(L.peixes_coord) == "depth_m")] <- "minim
 L.peixes_coord$maximumDepthinMeters <- L.peixes_coord$minimumDepthinMeters
 colnames(L.peixes_coord)[which(colnames(L.peixes_coord) == "beginning_time")] <- "begginingObservationTime"
 colnames(L.peixes_coord)[which(colnames(L.peixes_coord) == "ending_time")] <- "endingObservationTime"
+
 
 
 
@@ -519,21 +531,30 @@ dados_bind$measurementTypeID <- "http://vocab.nerc.ac.uk/collection/P14/current/
 
 
 
-DF_eMOF <- dados_bind [,c("eventID", "occurrenceID","scientificName","scientificNameID",
+DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
+                          "verbatimIdentification",
+                          "scientificName",
+                          "scientificNameID",
+                          "scientificNameOBIS",
                           "kingdom","class","family",
                           "measurementValue", "measurementType","measurementUnit",
                           "measurementTypeID",
                           "begginingObservationTime",
                           "endingObservationTime")]
 
-DF_occ <- dados_bind [,c("eventID", "occurrenceID","scientificName","scientificNameID",
-                                            "kingdom","class","family",
+DF_occ <- dados_bind [,c("eventID", "occurrenceID",
+                         "verbatimIdentification",
+                         "scientificName",
+                         "scientificNameID",
+                         "scientificNameOBIS",
+                         "kingdom","class","family",
+                         
                                             "recordedBy", "organismQuantityType",
                                             "basisOfRecord")]
 
 # aggregate data by eventIDs to have event_core
 
-event_core <- data.frame (group_by(dados_bind, eventID,higherGeographyID,locationID,locality) %>% 
+event_core <- data.frame (group_by(dados_bind, eventID,higherGeographyID,verbatimLocality,locationID,locality) %>% 
                             
                             summarise(eventYear = mean(as.numeric(eventYear)),
                                       eventDate = mean(eventDate),

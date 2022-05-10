@@ -3,14 +3,13 @@
 
 require(here); require(dplyr); require(worrms); require (reshape)
 
-## aqui tem os dados de bentos formatados corretamente
+## benthic dataset from Aued et al. 2018 (PloSOne)
 bentos_amostras <- read.csv (here ("Data","occ_Aued_et_al",
                                    "compiled_quadrats_allsites.csv"),
                              h=T,fill=T)
-# bentos_amostras$calcareous.turf
 
-## variaveis modificadas, mas os dados de bentos ficaram num formato errado - pegar da planilha antiga
 # ALLuza modified in excel because it was too difficult to separate events from video ids
+## variaveis modificadas, mas os dados de bentos ficaram num formato errado - pegar da planilha antiga
 bentos_variaveis <- read.csv (here("Data","occ_Aued_et_al",
                                    "Modified_compiled_quadrats_allsites.csv"), 
                             h=T,fill=T)
@@ -24,7 +23,7 @@ bentos_variaveis <- read.csv (here("Data","occ_Aued_et_al",
 
 
 
-### extrair data e outras info do samples ID original
+### extract data and other info from the original samples ID
 # amostras_bentos <- do.call(rbind, strsplit (as.character (bentos$Samples),"/",fixed=T))
 
 # transforming data into long format
@@ -47,23 +46,23 @@ bentos_long_format <- bentos_long_format [,-grep("variable",colnames(bentos_long
 ## adjusting dates
 bentos_long_format$Data <- as.character(bentos_long_format$Data)
 
-## set "2010" for missing dates (check again with anaide)
+## set "2010" for missing dates (check again with Anaide)
 novas_datas <- ifelse (nchar (bentos_long_format$Data) > 1  & nchar (bentos_long_format$Data) < 6,
                        paste (bentos_long_format$Data,"2010",sep="-"), # se falta ano/em branco, coloca 1999
                        bentos_long_format$Data)## se nao mantenha igual
 
-## colocar a data no format YYYY-mm-dd
+## dates in format YYYY-mm-dd
 novas_datas <- paste (substr (novas_datas,7,10), 
                       substr (novas_datas,4,5), 
                       substr (novas_datas,1,2),sep="-")
 
-### colar os diferentes formatos de datas
+### bind in the dataset the different dates
 bentos_long_format$eventDate <- as.Date(novas_datas, format="%Y-%m-%d")
 bentos_long_format$eventDay <- format(as.Date(novas_datas, format="%Y-%m-%d"),"%d")
 bentos_long_format$eventMonth <- format(as.Date(novas_datas, format="%Y-%m-%d"),"%m")
 bentos_long_format$eventYear <- format(as.Date(novas_datas, format="%Y-%m-%d"),"%Y")
 
-## retornar 1999 as Not available
+## return 1999 as Not available
 # bentos_long_format$eventYear [which(bentos_long_format$eventYear == "1999")] <- "NA"
 #plot(bentos_long_format$Lon , bentos_long_format$Lat,xlim=c(-70,10))
 
@@ -79,14 +78,14 @@ bentos_long_format$eventYear <- format(as.Date(novas_datas, format="%Y-%m-%d"),"
 
 
 
-## definir se amostras foram no deep ou no shallow
+## define whether samples were in deep or shallow
 bentos_long_format$eventDepth <- as.factor(bentos_long_format$Depth.1)
 levels (bentos_long_format$eventDepth) [which(levels (bentos_long_format$eventDepth) == "1-7m")] <- "shallow"
 levels (bentos_long_format$eventDepth) [which(levels (bentos_long_format$eventDepth) == "4-7m")] <- "shallow"
 levels (bentos_long_format$eventDepth) [which(levels (bentos_long_format$eventDepth) == "8-12m")] <- "deep"
 levels (bentos_long_format$eventDepth) [which(levels (bentos_long_format$eventDepth) == "8-15m")] <- "deep"
 
-## definir se os sitios estao em ilhas oceanicas, no SE ou NE
+## define whether samples were in oceanic islands,  Southeastern or Northeastern regions
 bentos_long_format$Region <- as.factor (bentos_long_format$Locality)
 levels (bentos_long_format$Region)[which(levels (bentos_long_format$Region) %in% c("noronha","rocas","trindade"))] <- "oc_isl"
 # nao tem sao pedro e sao paulo EM RELACAO A MORAIS ET AL. 2017
@@ -105,8 +104,9 @@ levels (bentos_long_format$Region)[which(levels (bentos_long_format$Region) == "
 levels (bentos_long_format$Region)[which(levels (bentos_long_format$Region) == "ilhasc_norte")] <- "se_reefs"
 levels (bentos_long_format$Region)[which(levels (bentos_long_format$Region) == "ilhasc_sul")] <- "se_reefs"
 
-## ajustar o nome dos sitios (ajustar de acordo com Morais et al. 2017)
-#bentos_long_format$Sites <- as.factor(bentos_long_format$Sites)
+## adjust site names (following Morais et al. 2017)
+# verbatimLocality
+bentos_long_format$verbatimLocality <- bentos_long_format$Sites
 # to lower 
 bentos_long_format$Sites <- tolower (bentos_long_format$Sites)
 bentos_long_format$Sites[which((bentos_long_format$Sites) == "farrilhoes")] <- "farilhoes"
@@ -220,7 +220,9 @@ colnames(bentos_long_format) <- c("verbatimSamples", "modifiedSamples", "depth",
                                   "recordedBy", "device", "photoquadrat", 
                                   "locality", "sites", "reefType","decimalLongitude", "decimalLatitude",
                                   "modifiedDepth", "scientificName", "measurementValue",
-                                  "eventDate", "eventDay", "eventMonth", "eventYear","eventDepth", "region", "eventID")
+                                  "eventDate", "eventDay", "eventMonth", "eventYear","eventDepth", "region",
+                                  "verbatimLocality",
+                                  "eventID")
 
 
 
@@ -234,7 +236,7 @@ colnames(bentos_long_format) <- c("verbatimSamples", "modifiedSamples", "depth",
 
 
 
-
+bentos_long_format$verbatimIdentification <- bentos_long_format$scientificName
 bentos_long_format$scientificName <-  (gsub("\\."," ",bentos_long_format$scientificName)) # replace dot by space
 bentos_long_format$scientificName <-(iconv(bentos_long_format$scientificName, "ASCII", "UTF-8", sub="")) # encoding
 bentos_long_format$scientificName <- tolower(bentos_long_format$scientificName) # lower case
@@ -257,6 +259,7 @@ bentos_long_format$scientificName[which(bentos_long_format$scientificName == "po
 bentos_long_format$scientificName[which(bentos_long_format$scientificName %in% c("ascidea colonial" ,                  
                                                              "ascidian",
                                                              "outra ascidia"))] <- "ascidiacea"
+
 # octocoral and anthozoa
 bentos_long_format$scientificName[which(bentos_long_format$scientificName == "outro anthozoa")] <- "anthozoa"
 bentos_long_format$scientificName[grep("octocoral",bentos_long_format$scientificName)] <- "alcyonaria"
@@ -313,6 +316,10 @@ worms_record <- lapply (unique(bentos_long_format$scientificName), function (i)
 
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
+
+# valid name OBIS
+bentos_long_format$scientificNameOBIS <- (df_worms_record$scientificname [match (bentos_long_format$scientificName,
+                                                                   tolower (df_worms_record$scientificname))])
 
 # match & bind
 bentos_long_format$scientificNameID<-(df_worms_record$lsid [match (bentos_long_format$scientificName,
@@ -426,14 +433,21 @@ bentos_long_format$higherGeographyID <- ifelse (bentos_long_format$locationID %i
 
 # Formatted according to DwC
 # measurement or facts
-DF_eMOF <- bentos_long_format [,c("eventID", "occurrenceID","scientificName","scientificNameID","kingdom","class","family",
+DF_eMOF <- bentos_long_format [,c("eventID", "occurrenceID",
+                                  "verbatimIdentification","scientificName",
+                                  "scientificNameID","scientificNameOBIS",
+                                  "kingdom","class","family",
                                   "measurementValue", "measurementType","measurementUnit")]
 # occurrence
-DF_occ <- bentos_long_format [,c("eventID", "occurrenceID","basisOfRecord","scientificName","scientificNameID","kingdom","class","family",
+DF_occ <- bentos_long_format [,c("eventID", "occurrenceID","basisOfRecord",
+                                 "verbatimIdentification",
+                                 "scientificName","scientificNameID",
+                                 "scientificNameOBIS",
+                                 "kingdom","class","family",
                                  "recordedBy", "organismQuantityType", "occurrenceStatus")]
 
 # aggregate data by eventIDs to have event_core
-event_core <- data.frame (group_by(bentos_long_format, eventID,higherGeographyID,locationID,locality) %>% 
+event_core <- data.frame (group_by(bentos_long_format, eventID,higherGeographyID,locationID,verbatimLocality,locality) %>% 
                             
                             summarise(eventYear = mean(as.numeric(eventYear)),
                                       eventDate = mean(eventDate),

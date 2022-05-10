@@ -60,8 +60,7 @@ unique(fish_TS_data$locality)[order(unique(fish_TS_data$locality))]
 # formatted fish data peld
 array_fish_peld <- formatting_fish_data_PELD(data = fish_TS_data,years=years)
 
-
-
+rownames(array_fish_peld)[which(rownames(array_fish_peld) == "praia_das_cabritas")]<-"cabritas"
 
 # ----------------------------------- #
 # benthic time series (Cordeiro C) in the oceanic islands
@@ -211,6 +210,9 @@ fish_TS_data_SC <- fish_event_core_SC [match (fish_DF_eMOF_SC$eventID,
 fish_TS_data_SC<- cbind (fish_TS_data_SC,
                          fish_DF_eMOF_SC)
 
+# remove NAs
+fish_TS_data_SC<-fish_TS_data_SC[which(is.na(fish_TS_data_SC$locality)!=T), ]
+
 # format
 array_fish_SC <- formatting_fish_data_SC(data = fish_TS_data_SC,years=years)
 
@@ -293,6 +295,7 @@ array_fish_morais <- formatting_fish_data_SC(data = fish_SN_data_morais,
 
 # ============================================
 # benthic snapshots (Aued et al. 2018 & Francini-Filho et al.)
+
 
 
 
@@ -623,7 +626,8 @@ unique(DF_long_benthos_valid_names$species)[order(unique(DF_long_benthos_valid_n
 # save (DF_long_benthos_valid_names, file="data_for_modeling_benthos.RData")
 dir.create ("format_occupancy_models")
 write.csv (DF_long_benthos_valid_names, file = here ("format_occupancy_models",
-                                                     "DF_long_benthos_valid_names.csv"))
+                                                     "DF_long_benthos_valid_names.csv"),
+           quote=F)
 
 # ===============================
 
@@ -636,6 +640,8 @@ list_fish_data <- list (array_fish_peld,
                         array_fish_longo,
                         array_fish_ross
                         )
+
+
 # fish data into long format
 DF_long_fish <- lapply (list_fish_data, array_into_long_format,group="fish")
 DF_long_fish <- do.call(rbind,DF_long_fish) # melt
@@ -645,9 +651,9 @@ site_geo_fish <- list (fish_event_core [,c("locality", "higherGeographyID")],
                         fish_event_core_RF [,c("locality", "higherGeographyID")],
                         fish_event_core_SC [,c("locality", "higherGeographyID")],
                        fish_event_core_RJ [,c("locality", "higherGeographyID")],
+                       fish_event_core_morais [,c("locality", "higherGeographyID")],
                       fish_event_core_longo [,c("locality", "higherGeographyID")],
-                      fish_event_core_ross [,c("locality", "higherGeographyID")],
-                      fish_event_core_morais [,c("locality", "higherGeographyID")])
+                      fish_event_core_ross [,c("locality", "higherGeographyID")])
 
 # adjust colnames
 site_geo_fish<-lapply (site_geo_fish, function (i){colnames(i)<- c("locationID","higherGeographyID");i})
@@ -656,44 +662,9 @@ site_geo_fish <- do.call(rbind,site_geo_fish)#melt
 site_geo_fish$locationID<-(iconv(site_geo_fish$locationID, "ASCII", "UTF-8", sub=""))
 site_geo_fish$locationID <- tolower(site_geo_fish$locationID)
 # adjust
-site_geo_fish$locationID[which(site_geo_fish$locationID == "farilhc5es")] <- "farilhoes"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "farol_dois")] <- "farol dois"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "tc:nel")] <- "tunel"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "tartarugas trindade")] <- "tartarugas_trindade"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "salc#o")] <- "salao"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "sao pedro  fora")] <- "sao_pedro_fora"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "saco_da_agua")] <- "saco_dagua"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "saco_do_capim")] <- "capim"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "saco_do_engenho")] <- "engenho"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "pta_agua")] <- "ponta_agua"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "pta_leste")] <- "ponta_leste"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "praia da conceic'c#o")] <- "conceicao"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "praia do sueste")] <- "sueste"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "praia do eme")] <- "eme"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "praia do sancho")] <- "sancho"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "praia das cabritas")] <- "cabritas"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "praia_porto")] <- "praia do porto"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "praia da calheta")] <- "calheta"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "ponta norte")] <- "ponta_norte"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "podes crer")] <- "podes_crer"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "saco_ingleses")] <- "ingleses"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "paredc#o")] <- "paredao"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "arvoredo_saco_dagua")] <- "saco_dagua"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "cemitério")] <- "cemiterio"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "laje dois irmc#os")] <- "laje_dois_irmaos"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "maramut")] <- "maramuta"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "martin vaz oeste")] <- "martin_vaz_oeste"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "batentedasagulhas")] <- "batente_das_agulhas"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "falsa_barreta")] <- "falsa barreta"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "piscina_das_rocas")] <- "piscina das rocas"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "gavetas ")] <- "gavetas"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "mestrevicente")] <- "mestre_vicente"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "naufrc!gio")] <- "naufragio"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "poita_do_zeca")] <- "poita do zeca"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "ponta_da_sapata")] <- "ponta da sapata"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "bc3ia")] <- "boia"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "cabec'o tartaruga")] <- "cabeco_tartaruga"
-site_geo_fish$locationID[which(site_geo_fish$locationID == "campim")] <- "capim"
+site_geo_fish$locationID[which(site_geo_fish$locationID == "cagarras_noronha")] <- "cagarras"
+site_geo_fish$locationID[which(site_geo_fish$locationID == "praia_das_cabritas")] <- "cabritas"
+site_geo_fish$locationID[which(site_geo_fish$locationID == "praia_do_porto")] <- "porto"
 unique(site_geo_fish$locationID )[order(unique(site_geo_fish$locationID ))]
 
 # do the same match for the sites in the dataframe
@@ -703,48 +674,15 @@ DF_long_fish$site <- tolower(DF_long_fish$site)
 
 # order names
 # adjust
-DF_long_fish$site[which(DF_long_fish$site == "farilhc5es")] <- "farilhoes"
-DF_long_fish$site[which(DF_long_fish$site == "farol_dois")] <- "farol dois"
-DF_long_fish$site[which(DF_long_fish$site == "tc:nel")] <- "tunel"
-DF_long_fish$site[which(DF_long_fish$site == "tartarugas trindade")] <- "tartarugas_trindade"
-DF_long_fish$site[which(DF_long_fish$site == "salc#o")] <- "salao"
-DF_long_fish$site[which(DF_long_fish$site == "sao pedro  fora")] <- "sao_pedro_fora"
-DF_long_fish$site[which(DF_long_fish$site == "saco_da_agua")] <- "saco_dagua"
-DF_long_fish$site[which(DF_long_fish$site == "saco_do_capim")] <- "capim"
-DF_long_fish$site[which(DF_long_fish$site == "saco_do_engenho")] <- "engenho"
-DF_long_fish$site[which(DF_long_fish$site == "pta_agua")] <- "ponta_agua"
-DF_long_fish$site[which(DF_long_fish$site == "pta_leste")] <- "ponta_leste"
-DF_long_fish$site[which(DF_long_fish$site == "praia da conceic'c#o")] <- "conceicao"
-DF_long_fish$site[which(DF_long_fish$site == "praia do sueste")] <- "sueste"
-DF_long_fish$site[which(DF_long_fish$site == "praia do eme")] <- "eme"
-DF_long_fish$site[which(DF_long_fish$site == "praia do sancho")] <- "sancho"
-DF_long_fish$site[which(DF_long_fish$site == "praia das cabritas")] <- "cabritas"
-DF_long_fish$site[which(DF_long_fish$site == "praia_porto")] <- "praia do porto"
-DF_long_fish$site[which(DF_long_fish$site == "praia da calheta")] <- "calheta"
-DF_long_fish$site[which(DF_long_fish$site == "ponta norte")] <- "ponta_norte"
-DF_long_fish$site[which(DF_long_fish$site == "podes crer")] <- "podes_crer"
-DF_long_fish$site[which(DF_long_fish$site == "saco_ingleses")] <- "ingleses"
-DF_long_fish$site[which(DF_long_fish$site == "paredc#o")] <- "paredao"
-DF_long_fish$site[which(DF_long_fish$site == "arvoredo_saco_dagua")] <- "saco_dagua"
-DF_long_fish$site[which(DF_long_fish$site == "cemitério")] <- "cemiterio"
-DF_long_fish$site[which(DF_long_fish$site == "laje dois irmc#os")] <- "laje_dois_irmaos"
-DF_long_fish$site[which(DF_long_fish$site == "maramut")] <- "maramuta"
-DF_long_fish$site[which(DF_long_fish$site == "martin vaz oeste")] <- "martin_vaz_oeste"
-DF_long_fish$site[which(DF_long_fish$site == "batentedasagulhas")] <- "batente_das_agulhas"
-DF_long_fish$site[which(DF_long_fish$site == "falsa_barreta")] <- "falsa barreta"
-DF_long_fish$site[which(DF_long_fish$site == "piscina_das_rocas")] <- "piscina das rocas"
-DF_long_fish$site[which(DF_long_fish$site == "gavetas ")] <- "gavetas"
-DF_long_fish$site[which(DF_long_fish$site == "mestrevicente")] <- "mestre_vicente"
-DF_long_fish$site[which(DF_long_fish$site == "naufrc!gio")] <- "naufragio"
-DF_long_fish$site[which(DF_long_fish$site == "poita_do_zeca")] <- "poita do zeca"
-DF_long_fish$site[which(DF_long_fish$site == "ponta_da_sapata")] <- "ponta da sapata"
-DF_long_fish$site[which(DF_long_fish$site == "bc3ia")] <- "boia"
-DF_long_fish$site[which(DF_long_fish$site == "cabec'o tartaruga")] <- "cabeco_tartaruga"
-DF_long_fish$site[which(DF_long_fish$site == "campim")] <- "capim"
+DF_long_fish$site[which(DF_long_fish$site == "cagarras_noronha")] <- "cagarras"
+DF_long_fish$site[which(DF_long_fish$site == "praia_das_cabritas")] <- "cabritas"
+DF_long_fish$site[which(DF_long_fish$site == "praia_do_porto")] <- "porto"
 (unique(DF_long_fish$site)[order(unique(DF_long_fish$site))])
 
+
 # making the match
-DF_long_fish$region <-site_geo_fish[match (DF_long_fish$site,site_geo_fish$locationID),"higherGeographyID"]
+DF_long_fish$region <-site_geo_fish[match (DF_long_fish$site,site_geo_fish$locationID),
+                                    "higherGeographyID"]
 
 # worms's validation
 worms_record_fish <- lapply (unique(DF_long_fish$species), function (i) 
@@ -771,4 +709,5 @@ DF_long_fish$speciesWorms <- df_worms_record_fish[match (DF_long_fish$species,
 DF_long_fish_valid_names<-(DF_long_fish [which(is.na(DF_long_fish$speciesWorms) != T),])
 
 # df ready for analysis
-write.csv (DF_long_fish_valid_names, file = "DF_long_fish_valid_names.csv")
+write.csv (DF_long_fish_valid_names, file = here ("format_occupancy_models","DF_long_fish_valid_names.csv"),
+           quote=F)

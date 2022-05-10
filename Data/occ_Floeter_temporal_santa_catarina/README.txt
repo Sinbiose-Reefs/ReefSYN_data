@@ -18,7 +18,7 @@ Long-term assessment of reef fish community in a biogeographic climatic transiti
 
 ### Uncertain genus
 
-* The following genus were not identified in the filed, thus similar species were used to obtain the ecological data 
+* The following genus were not identified in the field, thus similar species were used to obtain the ecological data 
 
 Acantostracion_sp - Acantostracion_polygons
 kyphosus_sp - kyphosus_vaigenses

@@ -599,9 +599,9 @@ formatting_fish_data_RF <- function (data,years){
   
   #  observation at the scale of transect (as fish)
   sample_id_scd <- strsplit (substr(data$eventID,nchar (data$eventID)-18, nchar(data$eventID)),"_") # substr
-  sample_id_scd<-(sapply (sample_id_scd,"[",2)) # extract sample id
+  sample_id_scd<-(sapply (sample_id_scd,"[",4)) # extract sample id
   data <- cbind (data, # bind
-                     sampleid=sample_id_scd)
+                sampleid=sample_id_scd)
   
   # unique occasions (eventIDs) per year and site
   occasions <- lapply (years, function (year)

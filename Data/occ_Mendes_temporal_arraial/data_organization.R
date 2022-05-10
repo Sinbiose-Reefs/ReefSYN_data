@@ -132,6 +132,8 @@ dados_bind$higherGeographyID <- "BrazilianCoast"
 
 
 
+# verbatimIdentification
+dados_bind$verbatimIdentification <-dados_bind$scientificName 
 
 # matching names with worms
 worms_record <- lapply (unique(dados_bind$scientificName), function (i) 
@@ -151,6 +153,8 @@ worms_record <- lapply (unique(dados_bind$scientificName), function (i)
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 # df_worms_record[which(df_worms_record$match_type == "near_1"),]
 # match
+dados_bind$scientificNameOBIS<-(df_worms_record$scientificname [match (dados_bind$scientificName,
+                                                           (df_worms_record$scientificname))])
 dados_bind$scientificNameID<-(df_worms_record$lsid [match (dados_bind$scientificName,
                                                             (df_worms_record$scientificname))])
 dados_bind$kingdom <-(df_worms_record$kingdom [match (dados_bind$scientificName,
@@ -161,6 +165,8 @@ dados_bind$class<-(df_worms_record$class [match (dados_bind$scientificName,
 # family
 dados_bind$family<-(df_worms_record$family [match (dados_bind$scientificName,
                                                    (df_worms_record$scientificname))])
+
+
 
 
 
@@ -220,12 +226,23 @@ dados_bind$occurrenceID <- paste (paste ("BR:RJ_TIME_SERIES-MAR:",
 
 
 
-DF_eMOF <- dados_bind [,c("eventID", "occurrenceID","scientificName","scientificNameID","kingdom","class","family",
+DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
+                          "verbatimIdentification",
+                          "scientificName",
+                          "scientificNameID",
+                          "scientificNameOBIS",
+                          "kingdom","class","family",
                           "measurementValue", "measurementType","measurementUnit")]
 
 
-DF_occ <- dados_bind [,c("eventID", "occurrenceID","basisOfRecord","scientificName","scientificNameID","kingdom","class","family",
+DF_occ <- dados_bind [,c("eventID", "occurrenceID","basisOfRecord",
+                         "verbatimIdentification",
+                         "scientificName",
+                         "scientificNameID",
+                         "scientificNameOBIS",
+                         "kingdom","class","family",
                          "recordedBy", "organismQuantityType", "occurrenceStatus")]
+
 
 # aggregate data by eventIDs to have event_core
 

@@ -61,7 +61,7 @@ colnames(benthos_long_format) <- c("locality","site","habitat","depthInMeters",
 
 
 
-
+benthos_long_format$verbatimIdentification <- benthos_long_format$scientificName
 # correcting scientificName (names based on Aued et al. 2019)
 benthos_long_format$scientificName[which(benthos_long_format$scientificName == "ACA")]  <- "calcareous articulate algae"
 benthos_long_format$scientificName[which(benthos_long_format$scientificName == "AFI")]  <- "filamentous algae"
@@ -102,6 +102,8 @@ df_worms_record <- data.frame(do.call(rbind,worms_record))
 # df_worms_record[which(df_worms_record$match_type == "near_1"),]
 # match
 # no match
+# valid name OBIS
+benthos_long_format$scientificNameOBIS<-(df_worms_record$scientificname [match (benthos_long_format$scientificName, tolower(df_worms_record$scientificname))])
 benthos_long_format$scientificNameID<-(df_worms_record$lsid [match (benthos_long_format$scientificName, tolower(df_worms_record$scientificname))])
 benthos_long_format$kingdom <-(df_worms_record$kingdom [match (benthos_long_format$scientificName,tolower (df_worms_record$scientificname))])
 benthos_long_format$class <-(df_worms_record$class [match (benthos_long_format$scientificName,tolower (df_worms_record$scientificname))])
@@ -273,10 +275,15 @@ benthos_long_format$locality <- tolower (benthos_long_format$locality)
 
 
 
-DF_eMOF <- benthos_long_format [,c("eventID", "occurrenceID","scientificName","scientificNameID","kingdom","class","family",
+DF_eMOF <- benthos_long_format [,c("eventID", "occurrenceID","verbatimIdentification",
+                                   "scientificName","scientificNameID","scientificNameOBIS",
+                                   "kingdom","class","family",
                                    "measurementValue", "measurementType","measurementUnit")]
 
-DF_occ <- benthos_long_format [,c("eventID", "occurrenceID","basisOfRecord","scientificName","scientificNameID","kingdom","class","family",
+DF_occ <- benthos_long_format [,c("eventID", "occurrenceID","basisOfRecord",
+                                  "verbatimIdentification",
+                                  "scientificName","scientificNameID","scientificNameOBIS",
+                                  "kingdom","class","family",
                                   "recordedBy", "organismQuantityType", "occurrenceStatus")]
 
 
@@ -360,7 +367,7 @@ colnames(benthos_long_format_2006) <- c("locationID","locality","habitat","regio
 
 
 
-
+benthos_long_format_2006$verbatimIdentification <- benthos_long_format_2006$scientificName
 # correcting scientific name  (names based on Aued et al. 2019)
 benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "CYANO")]  <- "cyanobacteria"
 benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "CCA")]  <- "crustose coralline algae"
@@ -484,6 +491,7 @@ df_worms_record <- data.frame(do.call(rbind,worms_record))
 # df_worms_record[which(df_worms_record$match_type == "near_1"),]
 # match
 # no match
+benthos_long_format_2006$scientificNameOBIS<-(df_worms_record$scientificname [match (benthos_long_format_2006$scientificName, tolower(df_worms_record$scientificname))])
 benthos_long_format_2006$scientificNameID<-(df_worms_record$lsid [match (benthos_long_format_2006$scientificName, tolower(df_worms_record$scientificname))])
 benthos_long_format_2006$kingdom <-(df_worms_record$kingdom [match (benthos_long_format_2006$scientificName, tolower(df_worms_record$scientificname))])
 benthos_long_format_2006$class <-(df_worms_record$class [match (benthos_long_format_2006$scientificName, tolower(df_worms_record$scientificname))])
@@ -611,10 +619,16 @@ benthos_long_format_2006$locality<- tolower (benthos_long_format_2006$locality)
 
 
 
-DF_eMOF_2006 <- benthos_long_format_2006 [,c("eventID", "occurrenceID","scientificName","scientificNameID","kingdom","class","family",
+DF_eMOF_2006 <- benthos_long_format_2006 [,c("eventID", "occurrenceID",
+                                             "verbatimIdentification",
+                                             "scientificName","scientificNameID","scientificNameOBIS",
+                                             "kingdom","class","family",
                                              "measurementValue", "measurementType","measurementUnit")]
 
-DF_occ_2006 <- benthos_long_format_2006 [,c("eventID", "occurrenceID","basisOfRecord","scientificName","scientificNameID","kingdom","class","family",
+DF_occ_2006 <- benthos_long_format_2006 [,c("eventID", "occurrenceID","basisOfRecord",
+                                            "verbatimIdentification",
+                                            "scientificName","scientificNameID","scientificNameOBIS",
+                                            "kingdom","class","family",
                                             "recordedBy", "organismQuantityType", "occurrenceStatus")]
 
 

@@ -58,6 +58,9 @@ cover_data<-melt(cover_data)
 colnames(cover_data) <- c("scientificName", "cover")
 cover_data$scientificName <- as.character(cover_data$scientificName)
 
+# verbatimIdentification
+cover_data$verbatimIdentification <- cover_data$scientificName
+
 # edit abbreviations
 cover_data$scientificName[which(cover_data$scientificName == "MUSHAR")] <- "mussismilia harttii"
 cover_data$scientificName[which(cover_data$scientificName == "MUSHIS")] <- "mussismilia hispida"
@@ -204,6 +207,7 @@ worms_record <- lapply (unique(francini_bind_data$scientificName), function (i)
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 
 # match
+francini_bind_data$scientificNameOBIS<-(df_worms_record$scientificname [match (francini_bind_data$scientificName,tolower (df_worms_record$scientificname))])
 francini_bind_data$scientificNameID<-(df_worms_record$lsid [match (francini_bind_data$scientificName,tolower (df_worms_record$scientificname))])
 francini_bind_data$kingdom<-(df_worms_record$kingdom [match (francini_bind_data$scientificName,tolower (df_worms_record$scientificname))])
 francini_bind_data$class<-(df_worms_record$class [match (francini_bind_data$scientificName,tolower (df_worms_record$scientificname))])
@@ -225,7 +229,7 @@ francini_bind_data$family<-(df_worms_record$family [match (francini_bind_data$sc
 
 # designate REGION,  SITE and REEF as original data
 colnames(francini_bind_data) [which(colnames(francini_bind_data) == "REGION")] <- "verbatimRegion"
-colnames(francini_bind_data) [which(colnames(francini_bind_data) == "SITE")] <- "verbatimSite"
+colnames(francini_bind_data) [which(colnames(francini_bind_data) == "SITE")] <- "verbatimLocality"
 colnames(francini_bind_data) [which(colnames(francini_bind_data) == "REEF")] <- "verbatimReef"
 
 # localities
@@ -249,7 +253,7 @@ francini_bind_data$locality [which(francini_bind_data$locality == "ROCAS")] <- "
 
 # adjust sites (mix of reef and sites)
 francini_bind_data$reef <- francini_bind_data$verbatimReef
-francini_bind_data$site <- francini_bind_data$verbatimSite
+francini_bind_data$site <- francini_bind_data$verbatimLocality
 francini_bind_data$locality[which(francini_bind_data$reef == "RGNOR_NORTE")] <- "rgnor_natal"
 francini_bind_data$locality[which(francini_bind_data$reef == "rgnor_parrachos")] <- "rgnor_parrachos"
 francini_bind_data$locality[which(francini_bind_data$reef == "ILHASC_NORTE")] <- "ilhasc_norte"
@@ -464,13 +468,19 @@ francini_bind_data$higherGeographyID <- ifelse (francini_bind_data$locality %in%
 
 
 # Formatted according to DwC
-DF_eMOF <- francini_bind_data [,c("eventID", "occurrenceID","scientificName","scientificNameID","kingdom","class","family",
+DF_eMOF <- francini_bind_data [,c("eventID", "occurrenceID",
+                                  "verbatimIdentification",
+                                  "scientificName","scientificNameID",
+                                  "scientificNameOBIS","kingdom","class","family",
                                   "measurementValue", "measurementType","measurementUnit")]
-DF_occ <- francini_bind_data [,c("eventID", "occurrenceID","basisOfRecord","scientificName","scientificNameID","kingdom","class","family",
+DF_occ <- francini_bind_data [,c("eventID", "occurrenceID","basisOfRecord",
+                                 "verbatimIdentification",
+                                 "scientificName","scientificNameID",
+                                 "scientificNameOBIS","kingdom","class","family",
                                  "recordedBy", "organismQuantityType", "occurrenceStatus")]
 
 # aggregate data by eventIDs to have event_core
-event_core <- data.frame (group_by(francini_bind_data, eventID,higherGeographyID,locationID,locality) %>% 
+event_core <- data.frame (group_by(francini_bind_data, eventID,higherGeographyID,locationID,verbatimLocality,locality) %>% 
                             
                             summarise(eventYear = unique(eventYear),
                                       eventDate = unique(eventDate),

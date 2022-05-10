@@ -56,7 +56,8 @@ occ_Ross_et_al$decimalLongitude <- angle2dec(occ_Ross_et_al$longDec)*-1 # west o
 occ_Ross_et_al [which(is.na(occ_Ross_et_al$longitude)),"decimalLongitude"] <- occ_Ross_et_al [which(is.na(occ_Ross_et_al$decimalLongitude))-1,"decimalLongitude"]
 
 
-
+# verbatimIdentification
+occ_Ross_et_al$verbatimIdentification <- occ_Ross_et_al$scientificName
 # taxonomic issues
 occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Platybelone argalus")] <- "Platybelone argalus argalus"
 occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Nicholsina usta collettei")] <- "Nicholsina collettei"
@@ -103,6 +104,7 @@ worms_record <- lapply (unique(occ_Ross_et_al$scientificName), function (i)
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 # match
+occ_Ross_et_al$scientificNameOBIS<-(df_worms_record$scientificname [match (occ_Ross_et_al$scientificName,tolower (df_worms_record$scientificname))])
 occ_Ross_et_al$scientificNameID<-(df_worms_record$lsid [match (occ_Ross_et_al$scientificName,tolower (df_worms_record$scientificname))])
 occ_Ross_et_al$kingdom<-(df_worms_record$kingdom [match (occ_Ross_et_al$scientificName,tolower (df_worms_record$scientificname))])
 occ_Ross_et_al$class<-(df_worms_record$class [match (occ_Ross_et_al$scientificName,tolower (df_worms_record$scientificname))])
@@ -167,6 +169,10 @@ occ_Ross_et_al$regionalization [which(occ_Ross_et_al$regionalization == "natal")
 # fixing locals(reefs)
 occ_Ross_et_al$locationID <- occ_Ross_et_al$local
 occ_Ross_et_al$locationID [which(occ_Ross_et_al$locationID == "riodofogo")] <- "parrachos_de_rio_do_fogo"
+
+# verbatimLocality
+
+occ_Ross_et_al$verbatimLocality <- occ_Ross_et_al$sitename
 
 # sitename = locality
 occ_Ross_et_al$locality <- occ_Ross_et_al$sitename
@@ -295,11 +301,19 @@ dados_bind <- rbind (abundance,
 
 
 
-DF_eMOF <- dados_bind [,c("eventID", "occurrenceID","scientificName","scientificNameID","kingdom","class","family",
+DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
+                          "verbatimIdentification",
+                          "scientificName","scientificNameID",
+                          "scientificNameOBIS",
+                          "kingdom","class","family",
                           "measurementValue", "measurementType","measurementUnit")]
 
 
-DF_occ <- dados_bind [,c("eventID", "occurrenceID","basisOfRecord","scientificName","scientificNameID","kingdom","class","family",
+DF_occ <- dados_bind [,c("eventID", "occurrenceID","basisOfRecord",
+                         "verbatimIdentification",
+                         "scientificName","scientificNameID",
+                         "scientificNameOBIS",
+                         "kingdom","class","family",
                          "recordedBy", "organismQuantityType", "occurrenceStatus")]
 
 
@@ -309,7 +323,7 @@ DF_occ <- dados_bind [,c("eventID", "occurrenceID","basisOfRecord","scientificNa
 # do the lines have the same information? (check this by calculating the sd of depth)
 # sd(fish_long_format[which(fish_long_format$eventID == unique_eventIDs[100]),"depthInMeters"])
 
-event_core <- data.frame (group_by(dados_bind, eventID,higherGeographyID,locationID,locality) %>% 
+event_core <- data.frame (group_by(dados_bind, eventID,higherGeographyID,locationID,verbatimLocality,locality) %>% 
                             
                             summarise(eventYear = mean(eventYear),
                                       eventDate = mean(eventDate),
@@ -403,7 +417,8 @@ occ_Ross_et_al_benthos$decimalLongitude <- angle2dec(occ_Ross_et_al_benthos$deci
 
 
 
-
+# verbatimIdentification
+occ_Ross_et_al_benthos$verbatimIdentification <- occ_Ross_et_al_benthos$sppName
 
 # replace space by "_"
 colnames(occ_Ross_et_al_benthos)[which(colnames(occ_Ross_et_al_benthos) == "sppName")] <- "scientificName"
@@ -505,6 +520,7 @@ worms_record <- lapply (unique(occ_Ross_et_al_benthos$scientificName), function 
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 # match
+occ_Ross_et_al_benthos$scientificNameOBIS<-(df_worms_record$scientificname [match (occ_Ross_et_al_benthos$scientificName,tolower (df_worms_record$scientificname))])
 occ_Ross_et_al_benthos$scientificNameID<-(df_worms_record$lsid [match (occ_Ross_et_al_benthos$scientificName,tolower (df_worms_record$scientificname))])
 occ_Ross_et_al_benthos$kingdom<-(df_worms_record$kingdom [match (occ_Ross_et_al_benthos$scientificName,tolower(df_worms_record$scientificname))])
 occ_Ross_et_al_benthos$class<-(df_worms_record$class [match (occ_Ross_et_al_benthos$scientificName,tolower(df_worms_record$scientificname))])
@@ -557,6 +573,11 @@ occ_Ross_et_al_benthos$locationID [which(occ_Ross_et_al_benthos$locationID == "D
 occ_Ross_et_al_benthos$locationID [which(occ_Ross_et_al_benthos$locationID == "CN")] <- "caicaradonorte"
 occ_Ross_et_al_benthos$locationID [which(occ_Ross_et_al_benthos$locationID == "PM")] <- "portodomangue"
 occ_Ross_et_al_benthos$locationID [which(occ_Ross_et_al_benthos$locationID == "NA")] <- "natal"
+
+
+# verbatimLocality
+occ_Ross_et_al_benthos$verbatimLocality <- occ_Ross_et_al_benthos$site
+
 
 # reef (location ID)
 occ_Ross_et_al_benthos$locality <- occ_Ross_et_al_benthos$site
@@ -642,12 +663,20 @@ occ_Ross_et_al_benthos$measurementUnit <- "dimensionless"
 
 
 
-DF_eMOF <- occ_Ross_et_al_benthos [,c("eventID", "occurrenceID","scientificName","scientificNameID","kingdom","class","family",
+DF_eMOF <- occ_Ross_et_al_benthos [,c("eventID", "occurrenceID",
+                                      "verbatimIdentification",
+                                      "scientificName","scientificNameID",
+                                      "scientificNameOBIS",
+                                      "kingdom","class","family",
                                       "measurementValue", "measurementType","measurementUnit")]
 
 
 
-DF_occ <- occ_Ross_et_al_benthos [,c("eventID", "occurrenceID","basisOfRecord","scientificName","scientificNameID","kingdom","class","family",
+DF_occ <- occ_Ross_et_al_benthos [,c("eventID", "occurrenceID","basisOfRecord",
+                                     "verbatimIdentification",
+                                     "scientificName","scientificNameID",
+                                     "scientificNameOBIS",
+                                     "kingdom","class","family",
                                      "recordedBy", "organismQuantityType", "occurrenceStatus")]
 
 # aggregate data by eventIDs to have event_core
@@ -664,7 +693,7 @@ DF_occ <- occ_Ross_et_al_benthos [,c("eventID", "occurrenceID","basisOfRecord","
 #                         data = occ_Ross_et_al_benthos,
 #                         FUN = mean)
 #
-event_core <- data.frame (group_by(occ_Ross_et_al_benthos, eventID,higherGeographyID,locationID,locality) %>% 
+event_core <- data.frame (group_by(occ_Ross_et_al_benthos, eventID,higherGeographyID,locationID,verbatimLocality, locality) %>% 
                             
                             summarise(eventYear = mean(eventYear),
                                       eventDate = mean(eventDate),

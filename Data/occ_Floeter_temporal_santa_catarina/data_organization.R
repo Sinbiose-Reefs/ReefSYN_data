@@ -9,6 +9,7 @@ sc_time_series <- read.csv(here ("Data",
                                  "occ_Floeter_temporal_santa_catarina",
                                  "censos_sc.csv"),
                            sep=";")
+
 # location
 sc_location <- read.xlsx(here ("Data",
                                  "occ_Floeter_temporal_santa_catarina",
@@ -134,6 +135,8 @@ dados_bind$higherGeographyID <- "BrazilianCoast"
 
 
 
+# verbatimLocality
+dados_bind$verbatimLocality<- dados_bind$locality
 
 
 # adjusting species scientific name
@@ -177,10 +180,16 @@ worms_record <- lapply (unique(dados_bind$scientificName), function (i)
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 
-# df_worms_record[which(df_worms_record$match_type == "near_1"),]
 # match
+dados_bind$verbatimIdentification <- dados_bind$scientificName
+
+# valid name OBIS
+dados_bind$scientificNameOBIS <- (df_worms_record$scientificname [match (dados_bind$scientificName,
+                                                                   tolower (df_worms_record$scientificname))])
+# id
 dados_bind$scientificNameID<-(df_worms_record$lsid [match (dados_bind$scientificName,
                                                            tolower (df_worms_record$scientificname))])
+# kingdom
 dados_bind$kingdom <-(df_worms_record$kingdom [match (dados_bind$scientificName,
                                                       tolower (df_worms_record$scientificname))])
 # class
@@ -249,19 +258,25 @@ dados_bind$occurrenceID <- paste (paste ("BR:SC_TIME_SERIES-MAR:",
 
 
 
-DF_eMOF <- dados_bind [,c("eventID", "occurrenceID","scientificName","scientificNameID","kingdom","class","family",
+DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
+                          "verbatimIdentification","scientificName",
+                          "scientificNameID","scientificNameOBIS",
+                          "kingdom","class","family",
                           "measurementValue", "measurementType","measurementUnit")]
 
 
 
-DF_occ <- dados_bind [,c("eventID", "occurrenceID","basisOfRecord","scientificName","scientificNameID","kingdom","class","family",
+DF_occ <- dados_bind [,c("eventID", "occurrenceID","basisOfRecord",
+                         "verbatimIdentification","scientificName",
+                         "scientificNameID","scientificNameOBIS",
+                         "kingdom","class","family",
                          "recordedBy", "organismQuantityType", "occurrenceStatus")]
 
 
 
 # aggregate data by eventIDs to have event_core
 
-event_core <- data.frame (group_by(dados_bind, eventID,higherGeographyID,locationID,locality) %>% 
+event_core <- data.frame (group_by(dados_bind, eventID,higherGeographyID,locationID,verbatimLocality,locality) %>% 
                             
                             summarise(eventYear = mean(eventYear),
                                       eventDate = mean(eventDate),
