@@ -2,6 +2,192 @@
 ## Organizing data of Morais et al. 2017
 
 
+require(openxlsx); require(here); require(worrms); require(dplyr); require(rfishbase); require(dplyr); require(tibble)
+
+
+# load original spreadsheet Morais
+dados <- read.csv (here ("Data", "occ_Morais_et_al",
+                         "census_br_Morais_et_al_2017.csv"),h=T,
+                   sep=";")
+
+## load species list, diet and functional groups (creatd by André L. Luza e Juan Quimbayo)
+# to fill the abbreviations
+# three different spreadsheets
+
+# species
+lista_sp <- read.xlsx(
+  here ("Data","occ_Morais_et_al", "species_list_Morais_2017.xlsx"),
+  sheet = 1,
+  startRow = 13,
+  colNames = TRUE,
+  rowNames = FALSE,
+  detectDates = FALSE,
+  skipEmptyRows = TRUE,
+  skipEmptyCols = TRUE,
+  rows = NULL,
+  cols = NULL,
+  check.names = FALSE,
+  sep.names = ".",
+  namedRegion = NULL,
+  na.strings = "NA",
+  fillMergedCells = FALSE
+)
+
+# diets
+lista_dieta <- read.xlsx(
+  here ("Data","occ_Morais_et_al", "species_list_Morais_2017.xlsx"),
+  sheet = 2,
+  startRow = 1,
+  colNames = TRUE,
+  rowNames = FALSE,
+  detectDates = FALSE,
+  skipEmptyRows = TRUE,
+  skipEmptyCols = TRUE,
+  rows = NULL,
+  cols = NULL,
+  check.names = FALSE,
+  sep.names = ".",
+  namedRegion = NULL,
+  na.strings = "NA",
+  fillMergedCells = FALSE
+)
+
+
+# functional groups
+lista_grupos_funcionais <- read.xlsx(
+  here ("Data","occ_Morais_et_al", "species_list_Morais_2017.xlsx"),
+  sheet = 3,
+  startRow = 1,
+  colNames = TRUE,
+  rowNames = FALSE,
+  detectDates = FALSE,
+  skipEmptyRows = TRUE,
+  skipEmptyCols = TRUE,
+  rows = NULL,
+  cols = NULL,
+  check.names = FALSE,
+  sep.names = ".",
+  namedRegion = NULL,
+  na.strings = "NA",
+  fillMergedCells = FALSE
+)
+
+
+## correcting abbreviations 
+dados$ScientificName <- lista_sp$ScientificName [match (as.character(dados$code), lista_sp$Abbreviation)] # scientificName
+dados$Diet <- lista_dieta$DietLabel [match (as.character(dados$diet_2012), lista_dieta$Abbreviation)] # diet
+dados$FunctionalGroup <- lista_grupos_funcionais$FunctionalGroupLabel [match (as.character(dados$func_gr), 
+                                                                              lista_grupos_funcionais$Abbreviation)] # functional groups
+
+
+
+
+
+# ------------------------------------------------------------------------------------
+# ADJUSTING DATES
+
+
+
+
+
+### adjust dates (format YYYY-mm-dd)
+# call it eventDate
+# "verbatimDate" = original dates
+dados$eventDate <- gsub ("_","-",dados$verbatimDate)
+dados$eventDate <- gsub ("jan","01",dados$eventDate)
+dados$eventDate <- gsub ("mar","03",dados$eventDate)
+dados$eventDate <- gsub ("apr","04",dados$eventDate)
+dados$eventDate <- gsub ("jun","06",dados$eventDate)
+dados$eventDate <- gsub ("jul","07",dados$eventDate)
+dados$eventDate <- gsub ("aug","08",dados$eventDate)
+dados$eventDate <- gsub ("oct","10",dados$eventDate)
+dados$eventDate <- gsub ("nov","11",dados$eventDate)
+dados$eventDate <- gsub ("1909","2009",dados$eventDate)
+dados$eventDate <- as.Date (dados$eventDate, format= "%d-%m-%Y") # finally transform into the format we want 
+
+### adjust year (call it eventYear, format %Y)
+dados$eventYear <- format(as.Date(dados$eventDate, format="%d-%m-%Y"),"%Y")
+
+## deal with cases of missing month and day 
+# substituir os NAs pelos anos, ja que na coluna de datas originais ("verbatimDate") so tem info do ano
+dados$eventYear[which (nchar (as.character (dados$verbatimDate)) < 5 & 
+                         is.na(dados$eventDate) == T)] <- as.character (dados$verbatimDate) [which (nchar (as.character (dados$verbatimDate)) < 5 & 
+                                                                                                      is.na(dados$eventDate) == T)]
+
+
+## eventMonth, to deal with cases of missing the sampling day
+dados$eventMonth <- format (dados$eventDate,"%Y-%m")
+
+
+## existem alguns anos com um formato inadequado, onde tem os meses de coleta
+mes_ano <- (as.character (dados$verbatimDate) [which (nchar (as.character (dados$verbatimDate)) > 5 & is.na(as.Date (dados$eventDate)) == T)])
+mes_ano <- gsub ("_","-",mes_ano)
+mes_ano <- gsub ("mar","03",mes_ano)
+mes_ano <- gsub ("apr","04",mes_ano)
+mes_ano <- gsub ("jun","06",mes_ano)
+mes_ano <- gsub ("jul","07",mes_ano)
+mes_ano <- gsub ("aug","08",mes_ano)
+mes_ano <- gsub ("nov","11",mes_ano)
+
+# again some cases of complete dates
+mes_ano<- ifelse (nchar (mes_ano) == 10,
+                  substr (mes_ano, 4,10),
+                  mes_ano)
+
+## format YYYY-mm
+mes_ano <- paste(substr (mes_ano, 4,8), substr (mes_ano, 1,2),"01",sep="-")
+## Unica maneira de colar na eventDate eh dizer que os dados sem dia de coleta foram coletados no dia 01 daquele mes
+mes_ano <- format(as.Date (mes_ano,format="%Y-%m-%d"), "%Y-%m")
+# code for a more simple date
+## mes_ano <- format(as.Date(mes_ano, format="%Y-%m-%d"),"%Y-%m")
+
+# transformar no formato data 
+dados$eventMonth [which (nchar (as.character (dados$verbatimDate)) > 5 & is.na(dados$eventDate) == T)] <- mes_ano
+
+# barplot para saber o ano de mais coleta de dados
+# pela contagem do numero de linhas por ano
+#barplot (table(as.numeric (format (as.Date (dados$eventDate), "%Y"))),
+#        las=2,xlab="Year",ylab="Frequency")
+
+
+
+# ------------------------------------------------------------------------------------
+# ADJUSTING SITES, DEPTHS
+
+
+
+
+## definir se eh uma transeccao do fundo ou do raso
+dados$eventDepth <- ifelse (dados$depth_m >= 8 , "deep","shallow")
+
+# ajustar os sitios de rio grande do norte, de acordo com G Longo
+dados$locality[which( dados$locality == "rgnor_norte")] <- "rgnor_natal"
+
+# ajustar tartaruga, trindade (tb tem tartaruga em rocas)
+dados [which(dados$locality == "trindade" & dados$site == "tartarugas"),"site"] <- "tartarugas_trindade"
+
+# removing locality names from location name
+dados$site<-gsub ("arvoredo_", "",dados$site)
+
+# adjusting site names based on other datasets
+
+dados$site<-(iconv(dados$site, "ASCII", "UTF-8", sub=""))
+dados$site <- tolower(dados$site)
+
+# adjust
+unique(dados$site)[order(unique(dados$site))]
+dados$site[which(dados$site == "pta_agua")] <- "ponta_agua"
+dados$site[which(dados$site == "pta_leste")] <- "ponta_leste"
+dados$site[which(dados$site == "praia_porto")] <- "praia_do_porto"
+dados$site[which(dados$site == "maramut")] <- "maramuta"
+
+unique(dados$site )[order(unique(dados$site ))]
+
+
+
+
+
+
 
 
 # ------------------------------------------------------
@@ -208,10 +394,13 @@ size$measurementUncertainty<-(ifelse (size$measurementValue <= size$measurementU
 fish_to_search <- unique(size [which(size$measurementUncertainty == "larger_than_reported_in_Quimbayo_et_al"),"ScientificName"])
 fish_to_search <-firstup(fish_to_search)
 # search
-search_fish<-data.frame (fb_tbl("species") %>% 
+search_fish<-data.frame (fb_tbl("species",version = "latest") %>% 
                         mutate(sci_name = paste(Genus, Species)) %>%
-                        filter(sci_name %in% fish_to_search) %>% 
-                                dplyr::select(sci_name, Length))
+                        filter(sci_name %in% fish_to_search)) #%>% 
+                                #dplyr::select(sci_name, Length))
+
+
+
 # flag based on fishbase
 subset_larger <- size[which(size$measurementUncertainty == "larger_than_reported_in_Quimbayo_et_al"),]
 subset_larger$measurementUncertainty <- (search_fish[match (subset_larger$ScientificName,tolower(search_fish$sci_name)),"Length"])

@@ -2,7 +2,7 @@
 # array into long format
 
 
-array_into_long_format <- function (array_data, group) {  
+array_into_long_format <- function (array_data, group,db) {  
   
   
     df_long<-lapply (seq(1,length(dimnames(array_data)[[1]])), function (i) # site
@@ -19,7 +19,8 @@ array_into_long_format <- function (array_data, group) {
                     "site" = dimnames(array_data)[[1]][i],
                     "year" = dimnames(array_data)[[3]][t],
                     "species" = dimnames(array_data)[[4]][k],
-                    "group" = group
+                    "group" = group,
+                    "database" = db
                     
         ),
         error = function(e) return ("NULL"))

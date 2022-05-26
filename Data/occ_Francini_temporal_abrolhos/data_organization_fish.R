@@ -212,11 +212,7 @@ match_sites_coords <- occ_Francini_et_al[match (total_sites, toupper (occ_Franci
 match_sites_coords[which(total_sites %in% match_sites_coords$SITE == F),"SITE"]<-total_sites[which(total_sites %in% match_sites_coords$SITE == F)]
 match_sites_coords[match_sites_coords$SITE == "AMP3",c("LAT", "LONG")] <- c(-16.914, -39.030)
 match_sites_coords[match_sites_coords$SITE == "A3",c("LAT", "LONG")] <- c(-16.903, -39.031)
-
-
-# aind nao sabemos PA1
-
-match_sites_coords[match_sites_coords$SITE == "PA1",c("LAT", "LONG")] <- c(-17.771998,-39.045509)# parcel das paredes caravelas Bahia - google earth
+match_sites_coords[match_sites_coords$SITE == "PA1",c("LAT", "LONG")] <- c(-17.699161805482,-38.942426147792)
 match_sites_coords[match_sites_coords$SITE == "PLEST",c("LAT", "LONG")] <- c(-17.783,-39.051)# parcel das paredes caravelas Bahia - google earth
 
 # matching site to have the coordinates

@@ -1,8 +1,8 @@
 ---
-title: "Documentation of data handling, ReefSYN Working Group"
+title: "Documentation of data management, ReefSYN Working Group"
 author: "André Luís Luza (Post-Doc of ReefSYN)"
 date: "18/10/2021"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -11,7 +11,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## The data
 
-This document aims to describe modifications in the datasets gathered by the ReefSYN Working Group (all databases are referenced at the end of this document). Modifications were made in order to enable the match of different sources of data -- and therefore the integration of data. The original datasets are kept together with modified versions of the dataset (see ReadMe files). Datasets with consolidated modifications have in their file name the sufix "... _updated_ALLuza_v1". "v1" is used to control the version, so that it can change over time with updates and identification of errors. 
+This document aims to describe the steps used in the standardization of data gathered by the Reef Synthesis Working Group (ReefSYN). All databases are referenced at the end of this document. 
+Standardization was needed to 1) achieve global standards of data structure and metadata (following the Darwin Core Format) and 2) enable the easy matching of different sources of data -- and therefore the integration of data. 
+
+The original data are kept separated (folder called "Data") from standardized data (folder called "DwC_output"). Each sub folder within the folder "Data" has its own R script, which contains the functions used along the standardization/formatting procedure.
+
+
+
+Datasets with consolidated modifications have in their file name the sufix "... _updated_ALLuza_v1". "v1" is used to control the version, so that it can change over time with updates and identification of errors. 
 
 At this moment, we handle the data of Morais et al. (2017), Aued et al. (2018, 2019), Longo et al. (2019), Ross et al. (2019), and Francini-Filho et al. (unpublished data). Although most of these data were collected by the same group of researchers, it was possible to identify some inconsistencies regarding: 
 1) region names;

@@ -15,7 +15,7 @@ source (here ("R", "function_array_to_long.R"))
 
 
 # years in the time series
-years <- seq (2000,2020)
+years <- seq (2001,2020)
 
 
 
@@ -59,7 +59,7 @@ unique(fish_TS_data$locality)[order(unique(fish_TS_data$locality))]
 
 # formatted fish data peld
 array_fish_peld <- formatting_fish_data_PELD(data = fish_TS_data,years=years)
-
+# adjust rownames
 rownames(array_fish_peld)[which(rownames(array_fish_peld) == "praia_das_cabritas")]<-"cabritas"
 
 # ----------------------------------- #
@@ -128,6 +128,7 @@ benthos_event_core_RF <-  read.csv(here ("DwC_output",
                                       "event_core_benthos.txt"),sep=",", encoding= "UTF-8",
                                    row.names=NULL)
 
+
 # matching event IDs to find site and locality (variables_we_want)
 benthos_TS_data_RF <- benthos_event_core_RF [match (benthos_DF_eMOF_RF$eventID,
                                               benthos_event_core_RF$eventID),
@@ -156,6 +157,8 @@ fish_DF_eMOF_RF <- read.csv(here ("DwC_output",
                                   "RFrancini_timeSeries_abrolhos",
                                   "DF_eMOF_fish.txt"),sep=",",encoding= "UTF-8",
                             row.names=NULL)
+
+
 # event core
 fish_event_core_RF <-  read.csv(here ("DwC_output", 
                                       "RFrancini_timeSeries_abrolhos",
@@ -233,6 +236,9 @@ fish_DF_eMOF_RJ <- read.csv(here ("DwC_output",
                                   "DF_eMOF.txt"),sep=",",
                             encoding= "UTF-8",
                             row.names=NULL)
+
+
+
 # event core
 fish_event_core_RJ <-  read.csv(here ("DwC_output", 
                                       "RJ_time_series",
@@ -274,6 +280,8 @@ fish_event_core_morais <-  read.csv(here ("DwC_output",
                                       "event_core.txt"),sep=",", 
                                 encoding= "UTF-8")
 
+
+
 # matching event IDs to find site and locality (variables_we_want)
 variables_we_want <- c("locality","eventYear")
 fish_SN_data_morais <- fish_event_core_morais [match (fish_DF_eMOF_morais$eventID,
@@ -293,8 +301,8 @@ array_fish_morais <- formatting_fish_data_SC(data = fish_SN_data_morais,
 
 
 
-# ============================================
-# benthic snapshots (Aued et al. 2018 & Francini-Filho et al.)
+## ============================================
+## benthic snapshots (Aued et al. 2018 & Francini-Filho et al.)
 
 
 
@@ -311,6 +319,9 @@ benthos_event_core_aued <-  read.csv(here ("DwC_output",
                                           "AAued_spatialData",
                                           "event_core.txt"),sep=",", 
                                     encoding= "UTF-8")
+
+
+
 
 # matching event IDs to find site and locality (variables_we_want)
 variables_we_want <- c("locality","eventYear")
@@ -329,9 +340,9 @@ array_benthos_aued <- formatting_fish_data_SC(data = benthos_SN_data_aued,
 
 
 
-# ========================================================================
-# R Francini
-# benthos snapshot (SN)
+## ========================================================================
+## R Francini
+## benthos snapshot (SN)
 
 
 
@@ -347,6 +358,7 @@ benthos_event_core_RF_SN <-  read.csv(here ("DwC_output",
                                          "RFrancini_spatialData",
                                          "event_core.txt"),sep=",", 
                                    encoding= "UTF-8")
+
 
 # matching event IDs to find site and locality (variables_we_want)
 variables_we_want <- c("locality","eventYear")
@@ -364,7 +376,7 @@ array_benthos_SN_RF <- formatting_fish_data_SC(data = benthos_SN_data_RF,
 
 
 
-# ========================================================================
+## ========================================================================
 # GLongo- 61 degrees lat, fish snapshot (Longo et al. 2019)
 
 
@@ -389,13 +401,15 @@ variables_we_want <- c("locality","eventYear")
 fish_SN_data_longo <- fish_event_core_longo [match (fish_DF_eMOF_longo$eventID,
                                                     fish_event_core_longo$eventID),
                                                variables_we_want]
-# bind the occurrence data
+## bind the occurrence data
 fish_SN_data_longo<- cbind (fish_SN_data_longo,
                              fish_DF_eMOF_longo)
-# filtering bite rates data
+## filtering bite rates data
 fish_SN_data_longo<-fish_SN_data_longo[which(fish_SN_data_longo$measurementType == "foraging behavior"),]
 fish_SN_data_longo$measurementValue <- as.numeric (fish_SN_data_longo$measurementValue)
-# formatting
+
+
+## formatting
 array_fish_longo <- formatting_fish_data_SC(data = fish_SN_data_longo,
                                              years=years)
 
@@ -406,10 +420,10 @@ array_fish_longo <- formatting_fish_data_SC(data = fish_SN_data_longo,
 # ==========================================================================
 # GLongo RN
 # Ross et al. 2019
-
-
-
-
+#
+#
+#
+#
 
 fish_DF_eMOF_ross <- read.csv(here ("DwC_output",
                                      "GLongo_NRoss_spatialData",
@@ -421,6 +435,7 @@ fish_event_core_ross <-  read.csv(here ("DwC_output",
                                          "GLongo_NRoss_spatialData",
                                          "event_core_fish.txt"),sep=",", 
                                    encoding= "UTF-8")
+
 
 # matching event IDs to find site and locality (variables_we_want)
 variables_we_want <- c("locality","eventYear")
@@ -439,8 +454,8 @@ array_fish_ross <- formatting_fish_data_SC(data = fish_SN_data_ross,
 
 
 
-# ===========================================================
-# benthos
+## ===========================================================
+## benthos
 
 
 
@@ -476,7 +491,7 @@ array_benthos_ross <- formatting_fish_data_SC(data = benthos_SN_data_ross,
 
 
 
-# =============================================================================
+## =============================================================================
 
 # list of sites for checking
 require(dplyr)
@@ -555,9 +570,18 @@ list_benthic_data <- list (array_benthos_peld,
                            array_benthos_aued,
                            array_benthos_SN_RF,
                            array_benthos_ross)
+# naming
+names (list_benthic_data) <- c("PELD","Abrolhos", "Sisbiota", "Francini_Coast", "Ross_RN")
 
 # benthic data into long format
-DF_long_benthos <- lapply (list_benthic_data, array_into_long_format,group="benthos")
+DF_long_benthos <- lapply (seq (1,length(list_benthic_data)), function (i) 
+  
+          array_into_long_format(list_benthic_data[[i]],
+                                 group="benthos",
+                                 db = names (list_benthic_data)[[i]])
+)
+
+# melt
 DF_long_benthos<-do.call(rbind,DF_long_benthos) # melt
 
 # list of sites/localities and geo location
@@ -640,10 +664,16 @@ list_fish_data <- list (array_fish_peld,
                         array_fish_longo,
                         array_fish_ross
                         )
-
+names (list_fish_data) <- c("PELD","Abrolhos", "SC", "RJ", "Sisbiota", "Sisbiota_RN", "Ross_RN")
 
 # fish data into long format
-DF_long_fish <- lapply (list_fish_data, array_into_long_format,group="fish")
+DF_long_fish <- lapply (seq (1,length(list_fish_data)), function (i) 
+  
+  array_into_long_format(list_fish_data[[i]],
+                         group="fish",
+                         db = names (list_fish_data)[[i]])
+)
+# melt
 DF_long_fish <- do.call(rbind,DF_long_fish) # melt
 
 # list of sites/locality and higherGeographyID
@@ -711,3 +741,92 @@ DF_long_fish_valid_names<-(DF_long_fish [which(is.na(DF_long_fish$speciesWorms) 
 # df ready for analysis
 write.csv (DF_long_fish_valid_names, file = here ("format_occupancy_models","DF_long_fish_valid_names.csv"),
            quote=F)
+
+
+# =============================================================================================
+# site covariates
+
+
+# benthos
+
+
+ds1<- read.table (here("DwC_output","AAued_spatialData", "event_core.txt"),sep=",",h=T)
+ds2<- read.table (here("DwC_output","GLongo_NRoss_spatialData", "event_core_benthos.txt"),sep=",",h=T)
+ds3<- read.table (here("DwC_output","PELD_iloc_benthos", "event_core.txt"),sep=",",h=T)
+colnames(ds3)[which(colnames(ds3) == "island")] <- "locationID"
+ds3$higherGeographyID <- "BrazilianIslands"
+ds4<- read.table (here("DwC_output","RFrancini_spatialData", "event_core.txt"),sep=",",h=T)
+ds5<- read.table (here("DwC_output","RFrancini_timeSeries_abrolhos","event_core_benthos.txt"),sep=",",h=T)
+
+# fish
+
+ds6<- read.table (here("DwC_output","GLongo_NRoss_spatialData", "event_core_fish.txt"),sep=",",h=T)
+ds7<- read.table (here("DwC_output","GLongo_spatialData", "event_core.txt"),sep=",",h=T)
+ds8<- read.table (here("DwC_output","PELD_iloc_fish", "event_core.txt"),sep=";",h=T)
+colnames(ds8)[which(colnames(ds8) == "island")] <- "locationID"
+ds8 <- ds8 [which(ds8$locationID != "Ascension"),]
+ds8$higherGeographyID <- "BrazilianIslands"
+ds9<- read.table (here("DwC_output","RFrancini_timeSeries_abrolhos","event_core_fish.txt"),sep=",",h=T)
+ds10<- read.table (here("DwC_output","RJ_time_series", "event_core.txt"),sep=",",h=T)
+ds11<- read.table (here("DwC_output","RMorais_spatialData", "event_core.txt"),sep=",",h=T)
+ds12<- read.table (here("DwC_output","SC_time_series", "event_core.txt"),sep=",",h=T)
+
+#
+
+fish_event_core
+fish_event_core_longo
+fish_event_core_ross
+fish_event_core_RF
+fish_event_core_SC
+fish_event_core_RJ
+fish_event_core_morais
+benthos_event_core
+benthos_event_core_RF
+benthos_event_core_aued
+benthos_event_core_RF_SN
+benthos_event_core_ross
+
+
+
+list_benthos <- list(ds1,ds2,ds3,ds4,ds5)
+
+# agggregate and get coordinates for each site
+require(dplyr)
+coords <- lapply (list_benthos, function (i) 
+  
+  
+  group_by(i,higherGeographyID, locationID, locality) %>% 
+    
+    summarise(decimalLatitude = mean( decimalLatitude),
+              decimalLongitude = mean( decimalLongitude)) %>% 
+    
+    select (higherGeographyID,locationID, locality,
+            decimalLatitude,decimalLongitude)
+)
+# melt
+coords <- do.call(rbind,coords)
+
+
+# fish
+list_fish <- list(ds6,ds7,ds8,ds9,ds10,ds11)
+
+# agggregate and get coordinates for each site
+coords_fish <- lapply (list_fish, function (i) 
+  
+  
+  group_by(i,higherGeographyID, locationID, locality) %>% 
+    
+    summarise(decimalLatitude = mean( decimalLatitude),
+              decimalLongitude = mean( decimalLongitude),
+              ) %>% 
+    
+    select (higherGeographyID,locationID, locality,
+            decimalLatitude,decimalLongitude)
+)
+# melt
+coords_fish <- do.call(rbind,coords_fish)
+
+
+
+
+

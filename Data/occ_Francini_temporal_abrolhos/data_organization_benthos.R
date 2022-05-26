@@ -230,13 +230,7 @@ match_sites_coords[which(total_sites %in% match_sites_coords$SITE == F),"SITE"]<
 
 match_sites_coords[match_sites_coords$SITE == "AMP3",c("LAT", "LONG")] <- c(-16.914, -39.030)
 match_sites_coords[match_sites_coords$SITE == "A3",c("LAT", "LONG")] <- c(-16.903, -39.031)
-
-
-# PA1 AINDA NAO SABEMOS
-
-match_sites_coords[match_sites_coords$SITE == "PA1",c("LAT", "LONG")] <- c(-17.771998,-39.045509)# parcel das paredes caravelas Bahia - google earth
-
-
+match_sites_coords[match_sites_coords$SITE == "PA1",c("LAT", "LONG")] <- c(-17.699161805482,-38.942426147792)#
 # match_sites_coords[match_sites_coords$SITE == "PEST",c("LAT", "LONG")] <- c(-17.771998,-39.045509)# parcel das paredes caravelas Bahia - google earth
 # PEST  == PLEST
 
