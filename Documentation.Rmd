@@ -2,7 +2,7 @@
 title: "Documentation of data management, ReefSYN Working Group"
 author: "André Luís Luza (Post-Doc of ReefSYN)"
 date: "18/10/2021"
-output: github_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
