@@ -1,8 +1,8 @@
 ## pacotes para abrir dados
 require (here)
 require (openxlsx)
-require(rgdal)
-require(raster)
+#require(rgdal)
+#require(raster)
 require(dplyr)
 
 
@@ -25,5 +25,5 @@ require(RColorBrewer)
 
 # load pictures
 library(knitr)    # For knitting document and include_graphics function
-library(ggplot2)  # For plotting
 library(png)      # For grabbing the dimensions of png files
+

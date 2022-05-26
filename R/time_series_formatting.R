@@ -204,6 +204,13 @@ fish_event_core_SC <-  read.csv(here ("DwC_output",
                                 encoding= "UTF-8")
 
 
+# occ
+fish_occ_SC <-  read.csv(here ("DwC_output", 
+                                      "SC_time_series",
+                                      "DF_occ.txt"),sep=",", 
+                                encoding= "UTF-8")
+
+
 # matching event IDs to find site and locality (variables_we_want)
 variables_we_want <- c("locality","eventYear")
 fish_TS_data_SC <- fish_event_core_SC [match (fish_DF_eMOF_SC$eventID,

@@ -32,6 +32,8 @@ If you want to know about data please assess <>
 source("R/packages.R")
 source("R/functions.R")
 
+
+
 # open researcher data
 researcher_data <- read.xlsx(here("Data","researcher_data","PLANILHA_CONSOLIDADA.xlsx"),sheet = 1, colNames = TRUE,detectDates=F)
 # formatting data
@@ -83,7 +85,7 @@ We are analyzing data from 221 unique localities distributed along the Brazilian
 
 
 ```{r, echo = F, fig.height=5,fig.width=8,message=F, warning=F}
-source("R/packages.R")
+#source("R/packages.R")
 source("R/functions.R")
 
 
@@ -122,13 +124,12 @@ ds12<- read.table (here("DwC_output","SC_time_series", "event_core.txt"),sep=","
 list_benthos <- list(ds1,ds2,ds3,ds4,ds5)
 
 
-
 # agggregate and get coordinates for each site
 require(dplyr)
 coords <- lapply (list_benthos, function (i) 
   
   
-  group_by(i,higherGeographyID, locationID, locality) %>% 
+  dplyr::group_by(i,higherGeographyID, locationID, locality) %>% 
   
                     summarise(decimalLatitude = mean( decimalLatitude),
                             decimalLongitude = mean( decimalLongitude)) %>% 
@@ -164,8 +165,10 @@ wm <- ggplot() +
         title = element_text(size=9)) 
 
 # map
-wm_data <- wm +  geom_point(data = coords, aes(x = decimalLongitude, y = decimalLatitude), 
+wm_data <- wm +  geom_jitter(data = coords, 
+                             aes(x = decimalLongitude, y = decimalLatitude), 
                             size =4, position= "jitter",
+                            stat = "identity",
         shape = 19, col = "green4",alpha=0.3) + 
   ggtitle (paste ("Data of benthic communities", "n=", nrow(coords), sep=" ")) 
 
@@ -176,7 +179,6 @@ list_fish <- list(ds6,ds7,ds8,ds9,ds10,ds11)
 
 
 # agggregate and get coordinates for each site
-require(dplyr)
 coords_fish <- lapply (list_fish, function (i) 
   
   
@@ -195,7 +197,7 @@ coords_fish <- do.call(rbind,coords_fish)
 # map
 wm_data_fish <- wm +  geom_point(data = coords_fish, aes(x = decimalLongitude, y = decimalLatitude), 
                             size =4, position= "jitter",
-        shape = 19, col = "red4",alpha=0.3) + 
+        shape = 19, col = "green4",alpha=0.3) + 
   ggtitle (paste ("Data of fish commnities", "n=", nrow(coords_fish), sep=" ")) 
 
 
