@@ -235,7 +235,8 @@ colnames(bentos_long_format) <- c("verbatimSamples", "modifiedSamples", "depth",
 # ----------------------------------------------------------------------------------------------
 # ADJUSTING SCIENTIFIC NAMES BASED ON THE KNOWLEDGE OF CESAR A.M.M. CORDEIRO
 
-
+### nem tudo aqui eh nome cientifico e alguns nem tem como incluir num taxon, podemos deixar no script como taxonOrGroup apenas 
+### pra organizar e esta coluna sumiria na planilha final do DwC, deixando soh scientificName (apos validar no WoRMS) e o verbatimIdentification
 
 
 
@@ -252,7 +253,7 @@ bentos_long_format$scientificName[which(bentos_long_format$scientificName == "ve
 # broader groups
 bentos_long_format$scientificName[which(bentos_long_format$scientificName == "anemona")] <- "actiniaria"
 bentos_long_format$scientificName[which(bentos_long_format$scientificName == "leathery")] <- "leathery algae"
-bentos_long_format$scientificName[which(bentos_long_format$scientificName == "spirobidae - polycchaete")] <- "spirorbidae"
+bentos_long_format$scientificName[which(bentos_long_format$scientificName == "spirobidae - polycchaete")] <- "spirorbinae"
 bentos_long_format$scientificName[which(bentos_long_format$scientificName == "briozoa")] <- "bryozoa"
 bentos_long_format$scientificName[which(bentos_long_format$scientificName == "bryozoan")] <- "bryozoa"
 bentos_long_format$scientificName[which(bentos_long_format$scientificName == "hidrozoan")] <- "hydrozoa"
@@ -265,7 +266,7 @@ bentos_long_format$scientificName[which(bentos_long_format$scientificName %in% c
 
 # octocoral and anthozoa
 bentos_long_format$scientificName[which(bentos_long_format$scientificName == "outro anthozoa")] <- "anthozoa"
-bentos_long_format$scientificName[grep("octocoral",bentos_long_format$scientificName)] <- "alcyonaria"
+bentos_long_format$scientificName[grep("octocoral",bentos_long_format$scientificName)] <- "octocorallia" # "alcyonaria" nao eh aceito
 # sponge
 bentos_long_format$scientificName[grep("sponge",bentos_long_format$scientificName)] <- "porifera"
 # echinoderms
@@ -275,29 +276,37 @@ bentos_long_format$scientificName[grep("outro echinoderma",bentos_long_format$sc
 bentos_long_format$scientificName[grep("crinside",bentos_long_format$scientificName)] <- "crinoidea"# crinoidea (crinside deviaod à conversao pra encoding utf 8)
 bentos_long_format$scientificName[grep("estrela",bentos_long_format$scientificName)] <- "asteroidea"
 
-# cca and caa
-bentos_long_format$scientificName[which(bentos_long_format$scientificName == "crostose coralline algae")] <- "crustose coralline algae"
+
+### melhor nao indicar grupo morfo-anatomico (MAG) como scientificName. Esse MAG nao tem compativel pra inseir no DwC/OBIS
+### Vou indicar o nivel taxonomico compativel com o que tiver e o resto deixamos como estava 
+### Os grupos morfo-anatomicos podem ser adicionados com merge de tabela referencia depois
+
+# cca and caa 
+bentos_long_format$scientificName[which(bentos_long_format$scientificName == "crostose coralline algae")] <- "corallinales" # "crustose coralline algae"
 bentos_long_format$scientificName[which(bentos_long_format$scientificName == "cianobacterias")] <- "cyanobacteria"
-bentos_long_format$scientificName[which(bentos_long_format$scientificName %in% c("amphiroa", 
-                                                             "amphiroa sp", 
-                                                             "amphiroideae", 
-                                                             "jania amphiroa", 
-                                                             "jania sp",
+bentos_long_format$scientificName[which(bentos_long_format$scientificName %in% c("amphiroa", # melhor deixar o genero mesmo
+                                                             "amphiroa sp", # melhor deixar o genero mesmo
+                                                             "amphiroideae", # "amphiroideae"
+                                                             "jania amphiroa", # "amphiroideae"
+                                                             "jania sp", # melhor deixar o genero mesmo
                                                              "unknown articulated coralline algae"))] <- "amphiroideae"
 bentos_long_format$scientificName[which(bentos_long_format$scientificName == "filamentous")] <- "filamentous algae"
-bentos_long_format$scientificName[which(bentos_long_format$scientificName == "green filamentous algae")] <- "filamentous algae"
+bentos_long_format$scientificName[which(bentos_long_format$scientificName == "green filamentous algae")] <- "chlorophyta" # "filamentous algae"
+
 # algae
-bentos_long_format$scientificName[which(bentos_long_format$scientificName %in% c("fleshy algae",
+bentos_long_format$scientificName[which(bentos_long_format$scientificName %in% c("fleshy algae", # usando o taxaOrGroup podemos manter nessa categoria e ficaria sem scientificName
                                                              "foliaceous algae",
                                                              "foliose",
                                                              "frondose algae", 
                                                              "unknown foliose"))] <- "foliose algae"
-bentos_long_format$scientificName[which(bentos_long_format$scientificName == "calcareous turf")] <- "calcareous articulate algae"
+bentos_long_format$scientificName[which(bentos_long_format$scientificName == "calcareous turf")] <- "corallinales" # "calcareous articulate algae"
 bentos_long_format$scientificName[which(bentos_long_format$scientificName == "corticated")] <- "corticated algae"
 bentos_long_format$scientificName[which(bentos_long_format$scientificName == "unknown corticated")] <- "corticated algae"
-bentos_long_format$scientificName[which(bentos_long_format$scientificName == "sargassum sp")] <- "leathery algae"
+bentos_long_format$scientificName[which(bentos_long_format$scientificName == "sargassum sp")] <- "sargassum" # leathery algae"
 
 unique(bentos_long_format$scientificName)[order(unique(bentos_long_format$scientificName))]
+
+
 # matching scientificNames with worms
 
 # remove plot data
@@ -320,7 +329,14 @@ worms_record <- lapply (unique(bentos_long_format$scientificName), function (i)
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 
-# valid name OBIS
+
+
+
+# valid name OBIS -> o OBIS eh soh o repositorio, o WoRMS que faz a validacao mesmo entao nao faz muito sentido
+# o termo do DwC pro scientificName apos a validacao pode ser scientificNameAccepted. Nesse caso os grupos morfo-anatomicos do bentos
+# nao vao interferir no DwC mas vao continuar lah. Apesar do termo nao estar no DwC, o proprio WoRMS usa scientificNameAccepted.
+
+# valid name WoRMS 
 bentos_long_format$scientificNameOBIS <- (df_worms_record$scientificname [match (bentos_long_format$scientificName,
                                                                    tolower (df_worms_record$scientificname))])
 
@@ -350,8 +366,8 @@ bentos_long_format$family<-(df_worms_record$family [match (bentos_long_format$sc
 
 
 
-
-
+# se formos seguir a logica do REEFSyn como guarda-chuva, temos que lembrar de inserir o BR:REEFSyn:SISBIOTA-MAR: 
+# BrazilianOceanicIslands -> temos alguns monitoramentos em ilhas costeiras
 
 
 ## substituir a ID antiga pela nova com os anos ajustados (new eventID)
@@ -423,7 +439,7 @@ colnames(bentos_long_format)[which(colnames(bentos_long_format) == "sites")] <- 
 bentos_long_format$higherGeographyID <- ifelse (bentos_long_format$locationID %in% c("rocas",
                                                                                    "noronha",
                                                                                    "trindade"),
-                                                "BrazilianIslands",
+                                                "BrazilianIslands", 
                                                 "BrazilianCoast")
 
 
