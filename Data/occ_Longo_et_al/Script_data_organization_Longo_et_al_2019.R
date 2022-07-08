@@ -296,6 +296,7 @@ worms_record <- lapply (unique(L.peixes_coord$scientificName), function (i)
   
 )
 
+
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 # match
@@ -355,6 +356,8 @@ L.peixes_coord$parentEventID <- paste (paste ("BR:SISBIOTA-MAR:",
                                        L.peixes_coord$eventYear,
                                  sep="_")
 
+
+
 # creating eventIds
 L.peixes_coord$eventID <- paste (paste ("BR:SISBIOTA-MAR:",
                                         L.peixes_coord$location,sep=""), 
@@ -362,6 +365,8 @@ L.peixes_coord$eventID <- paste (paste ("BR:SISBIOTA-MAR:",
                                  L.peixes_coord$eventYear,
                                  L.peixes_coord$video_id,
                              sep="_")
+
+
 
 # creating occurrenceIDs
 L.peixes_coord$occurrenceID <- paste (paste ("BR:SISBIOTA-MAR:",
@@ -371,6 +376,8 @@ L.peixes_coord$occurrenceID <- paste (paste ("BR:SISBIOTA-MAR:",
                              L.peixes_coord$video_id,
                              paste ("occ",seq(1,nrow(L.peixes_coord)),sep=""),
                              sep="_")
+
+
 
 # remove sites from Caribe and North America 
 L.peixes_coord<-L.peixes_coord[which(L.peixes_coord$location %in% c("north_carolina_usa",
@@ -395,6 +402,7 @@ L.peixes_coord<-L.peixes_coord[which(L.peixes_coord$location %in% c("north_carol
 
 # method
 L.peixes_coord$samplingProtocol <- "video plot"
+
 # samplingEffort per parentEventID
 table_effort <-do.call(rbind, lapply (unique(L.peixes_coord$parentEventID), function (i)
 
@@ -408,11 +416,14 @@ L.peixes_coord$samplingEffort <- table_effort [match (L.peixes_coord$parentEvent
                                                       table_effort$parentEventID),
                                 "nVideosID"]
 
+
+
 # counts don't match with those provided in the supp information of the paper
 # check here https://onlinelibrary.wiley.com/doi/abs/10.1111/geb.12806
 # # 5 to 40 in the paper (must consider that sites outside BR coast are not included here): 
 range(rowSums(table(L.peixes_coord$parentEventID,L.peixes_coord$video_id)>0,na.rm=T))
 range(L.peixes_coord$samplingEffort)
+
 # sampleSizeValue
 L.peixes_coord$sampleSizeValue <- 2*1
 # sampleSizeUnit
@@ -513,6 +524,8 @@ dados_bind <- rbind (bites,
                      size,
                      activity,
                      time)
+
+
 # measurementType
 dados_bind$measurementTypeID <- "http://vocab.nerc.ac.uk/collection/P14/current/GVAR0044/"
 
@@ -541,6 +554,7 @@ DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
                           "measurementTypeID",
                           "begginingObservationTime",
                           "endingObservationTime")]
+rownames(DF_eMOF)<-seq(1,nrow(DF_eMOF))
 
 DF_occ <- dados_bind [,c("eventID", "occurrenceID",
                          "verbatimIdentification",
@@ -551,6 +565,7 @@ DF_occ <- dados_bind [,c("eventID", "occurrenceID",
                          
                                             "recordedBy", "organismQuantityType",
                                             "basisOfRecord")]
+rownames(DF_occ)<-seq(1,nrow(DF_occ))
 
 # aggregate data by eventIDs to have event_core
 
@@ -592,9 +607,9 @@ write.table(DF_occ, file =here("DwC_output",
 write.table(DF_eMOF, file =here("DwC_output",
                                 "GLongo_spatialData",
                                 "DF_eMOF.txt"),sep=",",
-            quote = FALSE)
+            quote = F)
 
-
+length(DF_eMOF[1412,])
 
 write.table(event_core, file =here("DwC_output",
                                    "GLongo_spatialData",

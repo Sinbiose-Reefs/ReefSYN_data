@@ -161,6 +161,9 @@ bentos_long_format$eventID <- paste (bentos_long_format$Region,
                                      bentos_long_format$eventDepth,
                                      bentos_long_format$eventYear,sep=".")
 
+
+bentos_long_format[bentos_long_format$Sites == "anequim",]
+
 ## adjust missing dates following supporting information of Aued et al. 2018
 unique(bentos_long_format [which(is.na(bentos_long_format$eventYear)),"eventID"]) # check missing ones
 bentos_long_format [which(bentos_long_format$eventID == "oc_isl.noronha.conceicao.deep.NA"),"eventMonth"] <- 10
