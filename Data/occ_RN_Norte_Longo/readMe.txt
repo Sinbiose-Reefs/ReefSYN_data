@@ -1,3 +1,11 @@
+PLanilha mais atualizada:
+
+Censos_Rio do Fogo_17052022.csv
+
+contem dados até 2022
+
+
+
 Dados enviados por Guilherme Longo em 18-ago-2020
 
 
