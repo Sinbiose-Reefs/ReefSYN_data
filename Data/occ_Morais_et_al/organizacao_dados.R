@@ -74,8 +74,10 @@ lista_grupos_funcionais <- read.xlsx(
 
 
 ## correcting abbreviations 
-dados$ScientificName <- lista_sp$ScientificName [match (as.character(dados$code), lista_sp$Abbreviation)] # scientificName
-dados$Diet <- lista_dieta$DietLabel [match (as.character(dados$diet_2012), lista_dieta$Abbreviation)] # diet
+dados$namesToSearch <- lista_sp$ScientificName [match (as.character(dados$code), 
+                                                        lista_sp$Abbreviation)] # scientificName
+dados$Diet <- lista_dieta$DietLabel [match (as.character(dados$diet_2012), 
+                                            lista_dieta$Abbreviation)] # diet
 dados$FunctionalGroup <- lista_grupos_funcionais$FunctionalGroupLabel [match (as.character(dados$func_gr), 
                                                                               lista_grupos_funcionais$Abbreviation)] # functional groups
 
@@ -105,21 +107,21 @@ dados$eventDate <- gsub ("nov","11",dados$eventDate)
 dados$eventDate <- gsub ("1909","2009",dados$eventDate)
 dados$eventDate <- as.Date (dados$eventDate, format= "%d-%m-%Y") # finally transform into the format we want 
 
-### adjust year (call it eventYear, format %Y)
-dados$eventYear <- format(as.Date(dados$eventDate, format="%d-%m-%Y"),"%Y")
+### adjust year (call it year, format %Y)
+dados$year <- format(as.Date(dados$eventDate, format="%d-%m-%Y"),"%Y")
 
 ## deal with cases of missing month and day 
 # substituir os NAs pelos anos, ja que na coluna de datas originais ("verbatimDate") so tem info do ano
-dados$eventYear[which (nchar (as.character (dados$verbatimDate)) < 5 & 
+dados$year[which (nchar (as.character (dados$verbatimDate)) < 5 & 
                          is.na(dados$eventDate) == T)] <- as.character (dados$verbatimDate) [which (nchar (as.character (dados$verbatimDate)) < 5 & 
                                                                                                       is.na(dados$eventDate) == T)]
 
 
-## eventMonth, to deal with cases of missing the sampling day
-dados$eventMonth <- format (dados$eventDate,"%Y-%m")
+## month, to deal with cases of missing the sampling day
+dados$month <- format (dados$eventDate,"%Y-%m")
 
 
-## existem alguns anos com um formato inadequado, onde tem os meses de coleta
+## there is some dates with improper dates
 mes_ano <- (as.character (dados$verbatimDate) [which (nchar (as.character (dados$verbatimDate)) > 5 & is.na(as.Date (dados$eventDate)) == T)])
 mes_ano <- gsub ("_","-",mes_ano)
 mes_ano <- gsub ("mar","03",mes_ano)
@@ -142,7 +144,7 @@ mes_ano <- format(as.Date (mes_ano,format="%Y-%m-%d"), "%Y-%m")
 ## mes_ano <- format(as.Date(mes_ano, format="%Y-%m-%d"),"%Y-%m")
 
 # transformar no formato data 
-dados$eventMonth [which (nchar (as.character (dados$verbatimDate)) > 5 & is.na(dados$eventDate) == T)] <- mes_ano
+dados$month [which (nchar (as.character (dados$verbatimDate)) > 5 & is.na(dados$eventDate) == T)] <- mes_ano
 
 # barplot para saber o ano de mais coleta de dados
 # pela contagem do numero de linhas por ano
@@ -157,22 +159,25 @@ dados$eventMonth [which (nchar (as.character (dados$verbatimDate)) > 5 & is.na(d
 
 
 
-## definir se eh uma transeccao do fundo ou do raso
+## shallow and deep samples
 dados$eventDepth <- ifelse (dados$depth_m >= 8 , "deep","shallow")
 
-# ajustar os sitios de rio grande do norte, de acordo com G Longo
+# djust RNorte sites according to Guilherme Longo
 dados$locality[which( dados$locality == "rgnor_norte")] <- "rgnor_natal"
 
-# ajustar tartaruga, trindade (tb tem tartaruga em rocas)
+# adjust tartaruga, trindade (we also have "tartarugas" at "Rocas' Atoll")
 dados [which(dados$locality == "trindade" & dados$site == "tartarugas"),"site"] <- "tartarugas_trindade"
+
 
 # removing locality names from location name
 dados$site<-gsub ("arvoredo_", "",dados$site)
 
-# adjusting site names based on other datasets
 
+# adjusting site names based on other datasets
 dados$site<-(iconv(dados$site, "ASCII", "UTF-8", sub=""))
 dados$site <- tolower(dados$site)
+
+
 
 # adjust
 unique(dados$site)[order(unique(dados$site))]
@@ -180,12 +185,26 @@ dados$site[which(dados$site == "pta_agua")] <- "ponta_agua"
 dados$site[which(dados$site == "pta_leste")] <- "ponta_leste"
 dados$site[which(dados$site == "praia_porto")] <- "praia_do_porto"
 dados$site[which(dados$site == "maramut")] <- "maramuta"
+dados$site[which(dados$site == "cagarras_noronha")] <- "cagarras"
 
 unique(dados$site )[order(unique(dados$site ))]
 
 
+# adjusting colnames to match DwC
+dados$verbatimSite <- dados$locality
+dados$verbatimLocality <- dados$site
 
+# adjust
+dados$site <- dados$verbatimSite
+dados$locality <- dados$verbatimLocality
 
+# geographic location
+dados$higherGeography <- ifelse (dados$site %in% c("stpauls_rocks",
+                                                                     "rocas",
+                                                                     "noronha",
+                                                                     "trindade"),
+                                        "BrazilianOceanicIslands",
+                                        "BrazilianCoast")
 
 
 
@@ -198,29 +217,40 @@ unique(dados$site )[order(unique(dados$site ))]
 
 
 
-
 # creating parentIDs
-dados$parentEventID <- paste (paste ("BR:SISBIOTA-MAR:",
-                               dados$locality,sep=""), 
-                        dados$site, 
-                        dados$eventYear,
-                        sep="_")
+dados$parentEventID <- paste (
+                            paste ( 
+                              paste ("BR:ReefSYN:SISBIOTA-MAR-UVC:", 
+                                     dados$higherGeography,
+                                     sep=""),
+                              dados$site,sep=":"),
+                            dados$locality,
+                            dados$year,
+                            sep="_")
 
 
 # creating eventIds
-dados$eventID <- paste (paste ("BR:SISBIOTA-MAR:",
-                        dados$locality,sep=""), 
-                        dados$site, 
-                        dados$eventYear,
+dados$eventID <-  paste (
+                        paste ( 
+                          paste ("BR:ReefSYN:SISBIOTA-MAR-UVC:", 
+                                 dados$higherGeography,
+                                 sep=""),
+                          dados$site,sep=":"),
+                        dados$locality,
+                        dados$year,
                         dados$transect_id,
                         sep="_")
 
 
 # creating occurrenceIDs
-dados$occurrenceID <- paste (paste ("BR:SISBIOTA-MAR:",
-                               dados$locality,sep=""), 
-                        dados$site, 
-                        dados$eventYear,
+dados$occurrenceID <-  paste (
+                        paste ( 
+                          paste ("BR:ReefSYN:SISBIOTA-MAR-UVC:", 
+                                 dados$higherGeography,
+                                 sep=""),
+                          dados$site,sep=":"),
+                        dados$locality,
+                        dados$year,
                         dados$transect_id,
                         paste ("occ",seq(1,nrow(dados)),sep=""),
                         sep="_")
@@ -233,7 +263,8 @@ dados$occurrenceID <- paste (paste ("BR:SISBIOTA-MAR:",
 # ADJUSTING COORDINATES
 
 
-
+dados$verbatimLatitude <- dados$lat
+dados$verbatimLongitude <- dados$lon
 
 
 
@@ -259,45 +290,60 @@ dados [grep("saco_dagua",dados$site),"lon"] <- as.numeric(-48.367183)
 
 
 # verbatimIdentification
-dados$verbatimIdentification <- dados$ScientificName
+dados$verbatimIdentification <- dados$namesToSearch
 
 # replace dot by "_"
 source ("R/functions.R")
-dados$ScientificName <- firstup(gsub ("\\.","_", dados$ScientificName))
+dados$namesToSearch <- firstup(gsub ("\\.","_", dados$namesToSearch))
 
 # check taxonomic issues
-dados$ScientificName [which(dados$ScientificName == "Platybelone_argalus")] <- "Platybelone_argalus_argalus"
-dados$ScientificName [which(dados$ScientificName == "Nicholsina_usta_collettei")] <- "Nicholsina_collettei"
-dados$ScientificName [which(dados$ScientificName == "Labrisomus_kalisherae")] <- "Gobioclinus_kalisherae"
-dados$ScientificName [which(dados$ScientificName == "Eucinostomus_lefroyi")] <- "Ulaema_lefroyi"
-dados$ScientificName [which(dados$ScientificName == "Haemulon_plumieri")] <- "Haemulon_plumierii"
-dados$ScientificName [which(dados$ScientificName == "Hypanus_americana")] <- "Hypanus_americanus"
-dados$ScientificName [which(dados$ScientificName == "Dasyatis_americana")] <- "Hypanus_americanus"
-dados$ScientificName [which(dados$ScientificName == "Caranx_plumbeus")] <- "Carcharhinus_plumbeus"
-dados$ScientificName [which(dados$ScientificName == "Lutjanus_mohogani")] <- "Lutjanus_mahogani"
-dados$ScientificName [which(dados$ScientificName == "Epinephelus_niveatus")] <- "Hyporthodus_niveatus"
-dados$ScientificName [which(dados$ScientificName == "Epinephelus_cruentatus")] <- "Cephalopholis_cruentata"
-dados$ScientificName [which(dados$ScientificName == "Chilomycterus_spinosus_mauretanicus" )] <-  "Chilomycterus_spinosus"
-dados$ScientificName [which(dados$ScientificName == "Coryphopterus_spb" )] <-  "Coryphopterus_spp"
-dados$ScientificName [which(dados$ScientificName == "Dasyatis_americana" )] <-  "Hypanus americanus"
-dados$ScientificName [which(dados$ScientificName == "Diplodus_argenteus_argenteus" )] <-  "Diplodus_argenteus"
-dados$ScientificName [which(dados$ScientificName == "Emblemariopsis_signifera" )] <-  "Emblemariopsis_signifer"
-dados$ScientificName [which(dados$ScientificName == "Kyphosus_incisor" )] <-  "Kyphosus_vaigiensis"
-dados$ScientificName [which(dados$ScientificName == "Kyphosus_bigibbus" )] <-  "Kyphosus_sp"
-dados$ScientificName [which(dados$ScientificName == "Malacoctenus_sp1" )] <-  "Malacoctenus_brunoi"
-dados$ScientificName [which(dados$ScientificName == "Malacoctenus_sp2" )] <-  "Malacoctenus_lianae"
-dados$ScientificName [which(dados$ScientificName == "Malacoctenus_sp3" )] <-  "Malacoctenus lianae"
-dados$ScientificName [which(dados$ScientificName == "Nicholsina_usta_usta" )] <-  "Nicholsina_usta_usta"
-dados$ScientificName [which(dados$ScientificName == "Nicholsina_usta_collettei" )] <-  "Nicholsina_usta"
-dados$ScientificName [which(dados$ScientificName == "Anthias_salmopuntatus" )] <- "Choranthias_salmopunctatus"
-dados$ScientificName [which(dados$ScientificName == "Emblemariosis_sp" )] <- "Emblemariopsis_sp"
+dados$namesToSearch [which(dados$namesToSearch == "Platybelone_argalus")] <- "Platybelone_argalus_argalus"
+dados$namesToSearch [which(dados$namesToSearch == "Nicholsina_usta_collettei")] <- "Nicholsina_collettei"
+dados$namesToSearch [which(dados$namesToSearch == "Labrisomus_kalisherae")] <- "Gobioclinus_kalisherae"
+dados$namesToSearch [which(dados$namesToSearch == "Eucinostomus_lefroyi")] <- "Ulaema_lefroyi"
+dados$namesToSearch [which(dados$namesToSearch == "Haemulon_plumieri")] <- "Haemulon_plumierii"
+dados$namesToSearch [which(dados$namesToSearch == "Hypanus_americana")] <- "Hypanus_americanus"
+dados$namesToSearch [which(dados$namesToSearch == "Dasyatis_americana")] <- "Hypanus_americanus"
+dados$namesToSearch [which(dados$namesToSearch == "Caranx_plumbeus")] <- "Carcharhinus_plumbeus"
+dados$namesToSearch [which(dados$namesToSearch == "Carcharhinus_perezi")] <- "Carcharhinus_perezii"
+dados$namesToSearch [which(dados$namesToSearch == "Lutjanus_mohogani")] <- "Lutjanus_mahogoni"
+dados$namesToSearch [which(dados$namesToSearch == "Epinephelus_niveatus")] <- "Hyporthodus_niveatus"
+dados$namesToSearch [which(dados$namesToSearch == "Epinephelus_cruentatus")] <- "Cephalopholis_cruentata"
+dados$namesToSearch [which(dados$namesToSearch == "Chilomycterus_spinosus_mauretanicus" )] <-  "Chilomycterus_spinosus"
+dados$namesToSearch [which(dados$namesToSearch == "Coryphopterus_spb" )] <-  "Coryphopterus_spp"
+dados$namesToSearch [which(dados$namesToSearch == "Dasyatis_americana" )] <-  "Hypanus americanus"
+dados$namesToSearch [which(dados$namesToSearch == "Diplodus_argenteus_argenteus" )] <-  "Diplodus_argenteus"
+dados$namesToSearch [which(dados$namesToSearch == "Emblemariopsis_signifera" )] <-  "Emblemariopsis_signifer"
+dados$namesToSearch [which(dados$namesToSearch == "Kyphosus_incisor" )] <-  "Kyphosus_vaigiensis"
+dados$namesToSearch [which(dados$namesToSearch == "Kyphosus_bigibbus" )] <-  "Kyphosus_sp"
+dados$namesToSearch [which(dados$namesToSearch == "Malacoctenus_sp1" )] <-  "Malacoctenus_brunoi"
+dados$namesToSearch [which(dados$namesToSearch == "Malacoctenus_sp2" )] <-  "Malacoctenus_lianae"
+dados$namesToSearch [which(dados$namesToSearch == "Malacoctenus_sp3" )] <-  "Malacoctenus lianae"
+dados$namesToSearch [which(dados$namesToSearch == "Nicholsina_usta_usta" )] <-  "Nicholsina_usta_usta"
+dados$namesToSearch [which(dados$namesToSearch == "Nicholsina_usta_collettei" )] <-  "Nicholsina_usta"
+dados$namesToSearch [which(dados$namesToSearch == "Anthias_salmopuntatus" )] <- "Choranthias_salmopunctatus"
+dados$namesToSearch [which(dados$namesToSearch == "Emblemariosis_sp" )] <- "Emblemariopsis_sp"
 
 # replacing "_" by " "
-dados$ScientificName<-gsub ("_"," ",dados$ScientificName)
-dados$ScientificName <- tolower (dados$ScientificName)
+dados$namesToSearch<-gsub ("_"," ",dados$namesToSearch)
+dados$namesToSearch <- tolower (dados$namesToSearch)
+
+# non identified species
+dados$identificationQualifier <- ifelse (sapply (strsplit (dados$namesToSearch, " "), "[", 2) %in% c("sp","sp1", "sp2", "sp3"),
+                                                  "sp",
+                                                  NA)
+
+# species to search
+dados$namesToSearch [which(dados$identificationQualifier == "sp")] <- gsub (" sp*.",
+                                                                            "",
+                                                                            dados$namesToSearch [which(dados$identificationQualifier == "sp")])
+
+
+
+
 
 # matching with worms
-worms_record <- lapply (unique(dados$ScientificName), function (i) 
+worms_record <- lapply (unique(dados$namesToSearch), function (i) 
         
                         tryCatch (
                 
@@ -313,11 +359,23 @@ worms_record <- lapply (unique(dados$ScientificName), function (i)
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 # match
-dados$scientificNameOBIS<-(df_worms_record$scientificname [match (dados$ScientificName,tolower (df_worms_record$scientificname))])
-dados$scientificNameID<-(df_worms_record$lsid [match (dados$ScientificName,tolower (df_worms_record$scientificname))])
-dados$kingdom<-(df_worms_record$kingdom [match (dados$ScientificName,tolower (df_worms_record$scientificname))])
-dados$class<-(df_worms_record$class [match (dados$ScientificName,tolower (df_worms_record$scientificname))])
-dados$family<-(df_worms_record$family [match (dados$ScientificName,tolower (df_worms_record$scientificname))])
+dados$scientificName<-(df_worms_record$scientificname [match (dados$namesToSearch,
+                                                              tolower (df_worms_record$scientificname))])
+# taxon rank of the identified level
+dados$taxonRank <- (df_worms_record$rank [match (dados$namesToSearch,
+                                                 tolower (df_worms_record$scientificname))])
+# aphiaID
+dados$scientificNameID<-(df_worms_record$lsid [match (dados$namesToSearch,
+                                                      tolower (df_worms_record$scientificname))])
+# kingdom
+dados$kingdom<-(df_worms_record$kingdom [match (dados$namesToSearch,
+                                                tolower (df_worms_record$scientificname))])
+# class
+dados$class<-(df_worms_record$class [match (dados$namesToSearch,
+                                            tolower (df_worms_record$scientificname))])
+# family
+dados$family<-(df_worms_record$family [match (dados$namesToSearch,
+                                              tolower (df_worms_record$scientificname))])
 
 
 
@@ -360,7 +418,6 @@ colnames(size)[which(colnames(size) == "size_cm")] <- "measurementValue"
 
 
 
-
 # --------------------------------------------------------------------------------------
 # ADJUSTING MEASUREMENT UNCERTAINTY ON SIZE ESTIMATES
 
@@ -378,11 +435,11 @@ traits_db <- read.csv (here ("Data",
 
 traits_db$Body_size <- as.numeric(gsub (",",".", traits_db$Body_size)) # adjust variable
 # max size from Quimbayo
-size$measurementUncertainty <- traits_db[match (size$ScientificName, tolower(traits_db$Name)),"Body_size"]
+size$measurementUncertainty <- traits_db[match (size$scientificName, (traits_db$Name)),"Body_size"]
 
 # flag
 size$measurementUncertainty<-(ifelse (size$measurementValue <= size$measurementUncertainty, 
-        "smaller_equal_to_the_reported_in_Quimbayo_et_al",
+        "size_OK",
         "larger_than_reported_in_Quimbayo_et_al"
         ))
 
@@ -390,9 +447,8 @@ size$measurementUncertainty<-(ifelse (size$measurementValue <= size$measurementU
 
 # use fishbase for remaining species
 
-
-fish_to_search <- unique(size [which(size$measurementUncertainty == "larger_than_reported_in_Quimbayo_et_al"),"ScientificName"])
-fish_to_search <-firstup(fish_to_search)
+fish_to_search <- unique(size [which(size$measurementUncertainty == "larger_than_reported_in_Quimbayo_et_al"),
+                               "scientificName"])
 # search
 search_fish<-data.frame (fb_tbl("species",version = "latest") %>% 
                         mutate(sci_name = paste(Genus, Species)) %>%
@@ -403,10 +459,12 @@ search_fish<-data.frame (fb_tbl("species",version = "latest") %>%
 
 # flag based on fishbase
 subset_larger <- size[which(size$measurementUncertainty == "larger_than_reported_in_Quimbayo_et_al"),]
-subset_larger$measurementUncertainty <- (search_fish[match (subset_larger$ScientificName,tolower(search_fish$sci_name)),"Length"])
+subset_larger$measurementUncertainty <- (search_fish[match (subset_larger$scientificName,
+                                                            (search_fish$sci_name)),
+                                                     "Length"])
 # check
 subset_larger$measurementUncertainty<-(ifelse (subset_larger$measurementValue <= subset_larger$measurementUncertainty, 
-                                                                      "smaller_equal_to_the_reported_in_fishbase",
+                                                                      "size_OK",
                                                                       "larger_than_reported_in_fishbase"
 ))
 
@@ -414,8 +472,7 @@ subset_larger$measurementUncertainty<-(ifelse (subset_larger$measurementValue <=
 size[which(rownames(size) %in% rownames(subset_larger)),"measurementUncertainty"] <- subset_larger$measurementUncertainty
 
 # finally try to find NAs
-fish_to_search_NA<- unique(size[is.na(size$measurementUncertainty),"ScientificName"])
-fish_to_search_NA <-firstup(fish_to_search_NA)
+fish_to_search_NA<- unique(size[is.na(size$measurementUncertainty),"scientificName"])
 
 # search
 search_fish_NA<-data.frame (fb_tbl("species") %>% 
@@ -430,24 +487,30 @@ search_fish_NA [which(search_fish_NA$sci_name == "Prognathodes brasiliensis"), "
 
 # flag based on fishbase
 subset_NA <- size[is.na(size$measurementUncertainty),]
-subset_NA$measurementUncertainty <- (search_fish_NA[match (subset_NA$ScientificName, tolower (search_fish_NA$sci_name)),"Length"])
+subset_NA$measurementUncertainty <- (search_fish_NA[match (subset_NA$scientificName, 
+                                                           (search_fish_NA$sci_name)),"Length"])
 # Malacoctenus lianae by hand usingfishbase
-subset_NA [which(subset_NA$ScientificName == "Malacoctenus lianae"), "measurementUncertainty"] <- 4.5
+subset_NA [which(subset_NA$scientificName == "Malacoctenus lianae"), "measurementUncertainty"] <- 4.5
+subset_NA [which(subset_NA$scientificName == "Stephanolepis hispidus"), "measurementUncertainty"] <- 36.9
+subset_NA [which(subset_NA$scientificName == "Carcharhinus perezii"), "measurementUncertainty"] <- 300
 
 # check
 subset_NA$measurementUncertainty<-(ifelse (subset_NA$measurementValue <= subset_NA$measurementUncertainty, 
-                                               "smaller_equal_to_the_reported_in_fishbase",
+                                               "size_OK",
                                                "larger_than_reported_in_fishbase"
 ))
+
 # flag
 size[which(rownames(size) %in% rownames(subset_NA)),"measurementUncertainty"] <- subset_NA$measurementUncertainty
+
 
 # bind edited data
 dados_bind <- rbind (abundance,
                      size)
 
 
-
+unique(dados_bind[which(dados_bind$measurementType == "total length" & 
+                          is.na(dados_bind$measurementUncertainty)),"scientificName"])
 
 
 # -----------------------------------------------------------------------
@@ -460,24 +523,30 @@ dados_bind <- rbind (abundance,
 
 # method
 dados_bind$samplingProtocol <- "underwater visual survey - 20 x 2m"
+
 # effort
 dados_bind$samplingEffort <- 1# "one observer per transect"
+
 # sampleSizeValue (based on Minte-Vera et al. 2008 MEPS)
 dados_bind$sampleSizeValue <- 40# plotarea?radii?"
+
 # sampleSizeUnit
 dados_bind$sampleSizeUnit <- "squared meters"
+
 # recordedBy
 colnames(dados_bind)[which(colnames(dados_bind) == "observer")] <- "recordedBy"
+
 # depth
 colnames(dados_bind)[which(colnames(dados_bind) == "depth_m")] <- "minimumDepthinMeters"
 dados_bind$maximumDepthinMeters <- dados_bind$minimumDepthinMeters
-# scientificName
-colnames(dados_bind)[which(colnames(dados_bind) == "ScientificName")] <- "scientificName"
+
 # country and code
 dados_bind$Country <- "Brazil"
 dados_bind$countryCode <- "BR"
+
 # basisOfRecord
 dados_bind$basisOfRecord <- "HumanObservation"
+
 # occurrenceStatus
 dados_bind$occurrenceStatus <- "presence"
 
@@ -485,20 +554,15 @@ dados_bind$occurrenceStatus <- "presence"
 dados_bind$geodeticDatum <- "decimal degrees"
 dados_bind$decimalLatitude <- dados_bind$lat # lat
 dados_bind$decimalLongitude <- dados_bind$lon # long
-# locationID (less local)
-colnames(dados_bind)[which(colnames(dados_bind) == "locality")] <- "locationID"
-# locality (more local)
-colnames(dados_bind)[which(colnames(dados_bind) == "site")] <- "locality"
-# geographic location
-dados_bind$higherGeographyID <- ifelse (dados_bind$locationID %in% c("stpauls_rocks",
-                                                                   "rocas",
-                                                                  "noronha",
-                                                                  "trindade"),
-                                                "BrazilianIslands",
-                                                "BrazilianCoast")
 
-# adjusting site
-dados_bind$locality[which(dados_bind$locality == "cagarras_noronha")] <- "cagarras"
+
+# licence
+dados_bind$licence <- "CC BY-NC"
+# language
+dados_bind$language <- "en"
+# citation
+dados_bind$bibliographicCitation <- "Morais, R.A., Ferreira, C.E.L. and Floeter, S.R. (2017), Spatial patterns of fish standing biomass across Brazilian reefs. J Fish Biol, 91: 1642-1667. https://doi.org/10.1111/jfb.13482"
+
 
 
 
@@ -510,25 +574,33 @@ dados_bind$locality[which(dados_bind$locality == "cagarras_noronha")] <- "cagarr
 
 
 # measurement or facts
-DF_eMOF <- dados_bind [,c("eventID", "occurrenceID","verbatimIdentification",
-                          "scientificName","scientificNameID","scientificNameOBIS",
-                          "kingdom","class","family",
+DF_eMOF <- dados_bind [,c("eventID", 
+                          "occurrenceID",
+                          "verbatimIdentification",
+                          "scientificName",
+                          "scientificNameID",
+                          "taxonRank",
+                          "kingdom",
+                          "class","family",
                           "measurementValue", "measurementType","measurementUnit",
                           "measurementUncertainty")]
 
 
 # occurrence
 DF_occ <- dados_bind  [,c("eventID", "occurrenceID","basisOfRecord","verbatimIdentification",
-                          "scientificName","scientificNameID","scientificNameOBIS",
+                          "scientificName","scientificNameID","taxonRank",
                           "kingdom","class","family",
-                          "recordedBy", "organismQuantityType", "occurrenceStatus")]
+                          "recordedBy", "organismQuantityType", "occurrenceStatus",
+                          "licence",
+                          "language",
+                          "bibliographicCitation")]
 
 
 
 # aggregate data by eventIDs to have event_core
-event_core <- data.frame (group_by(dados_bind, eventID,higherGeographyID,verbatimLocality,locationID,locality) %>% 
+event_core <- data.frame (group_by(dados_bind,eventID,higherGeography,verbatimLocality,site,locality) %>% 
                                   
-                                  summarise(eventYear = mean(as.numeric(eventYear)),
+                                  summarise(year = mean(as.numeric(year)),
                                             eventDate = mean(eventDate),
                                             minimumDepthinMeters = mean(minimumDepthinMeters),
                                             maximumDepthinMeters = mean(maximumDepthinMeters),

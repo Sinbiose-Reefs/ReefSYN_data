@@ -41,17 +41,17 @@ fish_size_list <- colnames(fish_TS)[which(colnames(fish_TS) %in% colnames(fish_d
 fish_long_format <- lapply (fish_size_list, function (species)
   
     cbind (fish_df, 
-           scientificName = species,
+           namesToSearch = species,
            measurementValue = fish_TS[,which(colnames(fish_TS) == species)])
     
 )
 fish_long_format <- do.call(rbind,fish_long_format) # melt the list
 
 # verbatimIdentification 
-fish_long_format$verbatimIdentification <- fish_long_format$scientificName
+fish_long_format$verbatimIdentification <- fish_long_format$namesToSearch
 
 # separate scientificName from size class
-sp_size <- strsplit(fish_long_format$scientificName, "\\.")
+sp_size <- strsplit(fish_long_format$namesToSearch, "\\.")
 
 # some have points in incorrect places (causing length to be > 2)
 # check things to correct
@@ -76,7 +76,7 @@ corr_size [which(lapply (sp_size,length) > 2)]   <- incorrect_sp_size
 fish_long_format$sizeClass <- corr_size
 # check NAs (lack of point between sp abbreviation and size class)
 # e.g., "ABUSAX10-20"
-new_correction <- fish_long_format [is.na(fish_long_format$sizeClass),"scientificName"]
+new_correction <- fish_long_format [is.na(fish_long_format$sizeClass),"namesToSearch"]
 new_correction <- (substr(new_correction,nchar(new_correction)-4,nchar(new_correction)))
 new_correction <- gsub("OL","",new_correction)
 new_correction <- gsub("UL","",new_correction)
@@ -87,27 +87,32 @@ new_correction <- gsub("CIL","",new_correction)
 fish_long_format [is.na(fish_long_format$sizeClass),"sizeClass"] <- new_correction
   
 # now let's correct the scientificName(that still have the sizeClass)
-scientificName <- lapply (seq(1,nrow(fish_long_format)), function (i) 
+namesToSearch <- lapply (seq(1,nrow(fish_long_format)), function (i) 
   
   gsub (fish_long_format$sizeClass[i],
       "",
-      fish_long_format$scientificName[i])
+      fish_long_format$namesToSearch[i])
 )
 
 # removing special characters      
-scientificName<-((gsub("[0-9]+", "", scientificName))) # rm numbers
-scientificName<-((gsub("\\.", "", scientificName))) # rm point
-scientificName<-((gsub(">", "", scientificName))) # rm >
-scientificName<-((gsub("<", "", scientificName))) # rm <
+namesToSearch<-((gsub("[0-9]+", "", namesToSearch))) # rm numbers
+namesToSearch<-((gsub("\\.", "", namesToSearch))) # rm point
+namesToSearch<-((gsub(">", "", namesToSearch))) # rm >
+namesToSearch<-((gsub("<", "", namesToSearch))) # rm <
+
+# haemulon brasiliensis did not exist
+# halichoeres brasiliensis according to R Francini-Filho
+namesToSearch [which(namesToSearch == "HAEBRA")] <- "HALBRA"
 
 # replace in the table
-fish_long_format$scientificName <- scientificName
+fish_long_format$namesToSearch <- namesToSearch
 
 # uncertain taxonomy (CHRFLA?)
 fish_long_format$uncertainTaxonomy <- NA
-fish_long_format[grep("\\?",fish_long_format$scientificName),"uncertainTaxonomy"] <- "uncertain"
+fish_long_format[grep("\\?",fish_long_format$namesToSearch),"uncertainTaxonomy"] <- "uncertain"
 # finally rm ? from scientificName
-fish_long_format$scientificName <- gsub ("\\?","",fish_long_format$scientificName)
+fish_long_format$namesToSearch <- gsub ("\\?","",fish_long_format$namesToSearch)
+
 
 # adjusting scientific name
 fish_SN <- read.xlsx(here ("Data", 
@@ -115,23 +120,45 @@ fish_SN <- read.xlsx(here ("Data",
                            "Checking.xlsx"),sheet=1)
 
 
+
 # matching
-sn_to_replace <- fish_SN [match (fish_long_format$scientificName,fish_SN$abbreviation),"scientificName"]
+sn_to_replace <- fish_SN [match (fish_long_format$namesToSearch,
+                                 fish_SN$abbreviation),
+                          "scientificName"]
 # replace
-fish_long_format$scientificName <- sn_to_replace
+fish_long_format$namesToSearch <- sn_to_replace
 # replace "_" by " "
-fish_long_format$scientificName <- gsub ("_"," ",fish_long_format$scientificName)
+fish_long_format$namesToSearch <- gsub ("_"," ",fish_long_format$namesToSearch)
+
+
+
+# non identified species
+fish_long_format$identificationQualifier <- ifelse (sapply (strsplit (fish_long_format$namesToSearch, " "), "[", 2) %in% 
+                                                      c("sp", "sp2", "sp3", "spp"),
+                                                  "sp",
+                                                  NA)
+
+# species to search
+fish_long_format$namesToSearch [which(fish_long_format$identificationQualifier == "sp")] <- gsub (" sp*.",
+                                                                                              "",
+                                                                                              fish_long_format$namesToSearch [which(fish_long_format$identificationQualifier == "sp")])
+
+
+# few adjusts
+fish_long_format$namesToSearch[which(fish_long_format$namesToSearch == "upeneus parvos")] <- "upeneus parvus"
+
 
 
 # worms'checking
 
-worms_record <- lapply (unique(fish_long_format$scientificName), function (i) 
+worms_record <- lapply (unique(fish_long_format$namesToSearch), function (i) 
   
   tryCatch (
     
     wm_records_taxamatch(i, fuzzy = TRUE, marine_only = TRUE)[[1]],
     
     error = function (e) print(NA)
+    
     
     
   )
@@ -143,15 +170,30 @@ df_worms_record <- data.frame(do.call(rbind,worms_record))
 
 # match
 # no match
-# valid name OBIS
-fish_long_format$scientificNameOBIS <- (df_worms_record$scientificname [match (fish_long_format$scientificName,
+# valid name worms
+fish_long_format$scientificName <- (df_worms_record$scientificname [match (fish_long_format$namesToSearch,
                                                                          tolower (df_worms_record$scientificname))])
-fish_long_format$scientificNameID<-(df_worms_record$lsid [match (fish_long_format$scientificName, tolower(df_worms_record$scientificname))])
-fish_long_format$kingdom <-(df_worms_record$kingdom [match (fish_long_format$scientificName, tolower(df_worms_record$scientificname))])
-fish_long_format$class <-(df_worms_record$class [match (fish_long_format$scientificName, tolower(df_worms_record$scientificname))])
-fish_long_format$family <-(df_worms_record$family [match (fish_long_format$scientificName, tolower(df_worms_record$scientificname))])
+
+# taxon rank of the identified level
+fish_long_format$taxonRank <- (df_worms_record$rank [match (fish_long_format$namesToSearch,
+                                                            tolower (df_worms_record$scientificname))])
+
+# aphiaID
+fish_long_format$scientificNameID<-(df_worms_record$lsid [match (fish_long_format$namesToSearch, 
+                                                                 tolower(df_worms_record$scientificname))])
+
+# kingdom
+fish_long_format$kingdom <-(df_worms_record$kingdom [match (fish_long_format$namesToSearch, 
+                                                            tolower(df_worms_record$scientificname))])
+
+# class
+fish_long_format$class <-(df_worms_record$class [match (fish_long_format$namesToSearch, 
+                                                        tolower(df_worms_record$scientificname))])
 
 
+# family
+fish_long_format$family <-(df_worms_record$family [match (fish_long_format$namesToSearch, 
+                                                          tolower(df_worms_record$scientificname))])
 
 
 
@@ -196,6 +238,7 @@ occ_Francini_et_al <- read.xlsx(here("Data","occ_Francini_et_al",
                                 sheet = 1, colNames = TRUE,detectDates=F)
 
 
+
 # data from Abrolhos 2008
 occ_Francini_et_al <- occ_Francini_et_al[which(occ_Francini_et_al$REGION == "ABROLHOS"),]
 # PEST == PLEST (according to R FRANCINI)
@@ -208,6 +251,7 @@ total_sites <- total_sites[order(total_sites)]# order
 # match to have coordinates
 match_sites_coords <- occ_Francini_et_al[match (total_sites, toupper (occ_Francini_et_al$SITE)),c("REEF","SITE","LAT","LONG")]
 
+
 # sites lacking coordinates
 match_sites_coords[which(total_sites %in% match_sites_coords$SITE == F),"SITE"]<-total_sites[which(total_sites %in% match_sites_coords$SITE == F)]
 match_sites_coords[match_sites_coords$SITE == "AMP3",c("LAT", "LONG")] <- c(-16.914, -39.030)
@@ -215,8 +259,12 @@ match_sites_coords[match_sites_coords$SITE == "A3",c("LAT", "LONG")] <- c(-16.90
 match_sites_coords[match_sites_coords$SITE == "PA1",c("LAT", "LONG")] <- c(-17.699161805482,-38.942426147792)
 match_sites_coords[match_sites_coords$SITE == "PLEST",c("LAT", "LONG")] <- c(-17.783,-39.051)# parcel das paredes caravelas Bahia - google earth
 
+
+
 # matching site to have the coordinates
 coords <- (match_sites_coords [match (fish_long_format$SITE,match_sites_coords$SITE), c("REEF","SITE","LAT","LONG")])
+
+
 
 # table(coords$SITE == fish_long_format$SITE) # check matching
 fish_long_format<- cbind (fish_long_format,
@@ -233,7 +281,7 @@ fish_long_format<- cbind (fish_long_format,
 
 
 
-# adjusting site names
+# adjusting site (actually locality) names
 fish_long_format$SITE<-(iconv(fish_long_format$SITE, "ASCII", "UTF-8", sub=""))
 fish_long_format$SITE <- tolower(fish_long_format$SITE)
 unique(fish_long_format$SITE )[order(unique(fish_long_format$SITE ))]
@@ -251,13 +299,14 @@ unique(fish_long_format$SITE )[order(unique(fish_long_format$SITE ))]
 
 # geodeticDatum
 fish_long_format$geodeticDatum <- "decimal degrees"
+
 # edit colnames
 # coords
 colnames(fish_long_format)[which(colnames(fish_long_format) == "LAT")] <- "decimalLatitude"
 colnames(fish_long_format)[which(colnames(fish_long_format) == "LONG")] <- "decimalLongitude"
 
 # locationID
-colnames(fish_long_format)[which(colnames(fish_long_format) == "REEF")] <- "locationID"
+colnames(fish_long_format)[which(colnames(fish_long_format) == "REEF")] <- "site"
 
 # locality
 colnames(fish_long_format)[which(colnames(fish_long_format) == "SITE")] <- "locality"
@@ -279,9 +328,9 @@ fish_long_format$sampleSizeUnit <- "squared meters"
 # recordedBy
 colnames(fish_long_format)[which(colnames(fish_long_format) == "SAMP")] <- "recordedBy"
 # year
-colnames(fish_long_format)[which(colnames(fish_long_format) == "YEAR")] <- "eventYear"
+colnames(fish_long_format)[which(colnames(fish_long_format) == "YEAR")] <- "year"
 # date
-fish_long_format$eventDate <- fish_long_format$eventYear
+fish_long_format$eventDate <- fish_long_format$year
 
 # sample
 colnames(fish_long_format)[which(colnames(fish_long_format) == "SAMPLE")] <- "sample"
@@ -295,7 +344,7 @@ fish_long_format$countryCode <- "BR"
 # habitat
 colnames(fish_long_format)[which(colnames(fish_long_format) == "HAB")] <- "habitat"
 # geographic location
-fish_long_format$higherGeographyID <- "BrazilianCoast"
+fish_long_format$higherGeography <- "BrazilianCoast"
 # organismQuantityType
 fish_long_format$organismQuantityType <- "individuals"
 
@@ -312,29 +361,39 @@ fish_long_format$organismQuantityType <- "individuals"
 
 # creating parentEventids
 fish_long_format$parentEventID <- paste (
-  paste ("BR:Abrolhos:", 
-         fish_long_format$locationID,sep=""),
-        fish_long_format$locality,
-        fish_long_format$eventYear,
+  paste ( 
+    paste ("BR:ReefSYN:RonaldoFranciniFilho-AbrolhosBank:", 
+           fish_long_format$higherGeography,
+           sep=""),
+    fish_long_format$site,sep=":"),
+  fish_long_format$locality,
+  fish_long_format$year,
   sep="_")
-
+  
+  
 
 # creating eventids
 fish_long_format$eventID <- paste (
-  paste ("BR:Abrolhos:", 
-       fish_long_format$locationID,sep=""),
-       fish_long_format$locality,
-       fish_long_format$eventYear,
+  paste ( 
+    paste ("BR:ReefSYN:RonaldoFranciniFilho-AbrolhosBank:", 
+           fish_long_format$higherGeography,
+           sep=""),
+    fish_long_format$site,sep=":"),
+  fish_long_format$locality,
+       fish_long_format$year,
        fish_long_format$sample,
        sep="_")
 
 
 # occurrenceID
 fish_long_format$occurrenceID <- paste (
-  paste ("BR:Abrolhos:", 
-         fish_long_format$locationID,sep=""),
+  paste ( 
+    paste ("BR:ReefSYN:RonaldoFranciniFilho-AbrolhosBank:", 
+           fish_long_format$higherGeography,
+           sep=""),
+    fish_long_format$site,sep=":"),
   fish_long_format$locality,
-  fish_long_format$eventYear,
+  fish_long_format$year,
   fish_long_format$sample,
   paste ("occ",seq(1,nrow(fish_long_format)),sep=""),
   sep="_")
@@ -355,7 +414,8 @@ fish_long_format$occurrenceID <- paste (
 
 DF_eMOF <- fish_long_format [,c("eventID", "occurrenceID","verbatimIdentification",
                                 "scientificName",
-                                "scientificNameID","scientificNameOBIS",
+                                "scientificNameID",
+                                "taxonRank",
                                 "kingdom","class","family",
                                 "measurementValue", "measurementType","measurementUnit")]
 
@@ -364,15 +424,15 @@ DF_eMOF <- fish_long_format [,c("eventID", "occurrenceID","verbatimIdentificatio
 DF_occ <- fish_long_format  [,c("eventID", "occurrenceID","basisOfRecord",
                                 "verbatimIdentification","scientificName",
                                 "scientificNameID",
-                                "scientificNameOBIS",
+                                "taxonRank",
                                 "kingdom","class","family",
                                 "recordedBy", "organismQuantityType", "occurrenceStatus")]
 
 # aggregate data by eventIDs to have event_core
 
-event_core <- data.frame (group_by(fish_long_format, eventID,higherGeographyID,locationID,locality) %>% 
+event_core <- data.frame (group_by(fish_long_format, eventID,higherGeography,site,locality) %>% 
                                  
-                                 summarise(eventYear = mean(eventYear),
+                                 summarise(year = mean(year),
                                            eventDate = mean(eventDate),
                                            minimumDepthinMeters = mean(minimumDepthinMeters),
                                            maximumDepthinMeters = mean(maximumDepthinMeters),
@@ -402,30 +462,24 @@ save(output,file= here("DwC_output",
 # write to txt
 
 write.table(DF_occ, file =here("DwC_output",
-
-                                                              "RFrancini_timeSeries_abrolhos",
-
-                                                              "DF_occ_fish.txt"),sep=",",
+                               "RFrancini_timeSeries_abrolhos",
+                               "DF_occ_fish.txt"),sep=",",
 
                         quote = FALSE)
 
 
 
 write.table(DF_eMOF, file =here("DwC_output",
-
-                                                                "RFrancini_timeSeries_abrolhos",
-
-                                                                "DF_eMOF_fish.txt"),sep=",",
+                                "RFrancini_timeSeries_abrolhos",
+                                "DF_eMOF_fish.txt"),sep=",",
 
                         quote = FALSE)
 
 
 
 write.table(event_core, file =here("DwC_output",
-
-                                                                      "RFrancini_timeSeries_abrolhos",
-
-                                                                      "event_core_fish.txt"),sep=",",
+                                   "RFrancini_timeSeries_abrolhos",
+                                   "event_core_fish.txt"),sep=",",
 
                         quote = FALSE)
 

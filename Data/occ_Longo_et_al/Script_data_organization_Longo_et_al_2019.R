@@ -19,7 +19,8 @@ L.peixes <- read.csv(here("Data","occ_Longo_et_al",
 
 
 
-
+L.peixes$verbatimSite <- L.peixes$location
+L.peixes$verbatimLocality <- L.peixes$site
 
 
 
@@ -49,9 +50,6 @@ L.peixes$location [which (L.peixes$site == "saco_do_vidal")] <- "ilhasc_norte"
 L.peixes$location [which (L.peixes$site == "engenho")] <- "ilhasc_norte"
 L.peixes$location [which (L.peixes$site == "xavier")] <- "ilhasc_sul"
 
-
-# verbatimLocality
-L.peixes$verbatimLocality <- L.peixes$site
 
 ### organizar os sitios
 L.peixes$site [which(L.peixes$site == "anacris")] <- "ana_cristina"
@@ -96,16 +94,18 @@ occ_Aued_et_al <- read.xlsx(here("Data","occ_Aued_et_al",
                                  "Compiled_quadrats_allsites_Updated_ALLuza_v1.xlsx"),
                             sheet = 1, colNames = TRUE,detectDates=F)
 
+
+
+
 ## add region
-L.peixes$region <- occ_Aued_et_al$region [match(L.peixes$location, occ_Aued_et_al$locality)]
+L.peixes$region <- occ_Aued_et_al$region [match(L.peixes$location, 
+                                                occ_Aued_et_al$locality)]
 # mismatches
 L.peixes$region [which(L.peixes$site == "cabeco_do_leandro")] <- "ne_reefs"
 L.peixes$region [which(L.peixes$site == "barreirinha")] <- "ne_reefs"
 unique(L.peixes$site [is.na(L.peixes$region)])
 # check sites from Caribe and North America
-L.peixes$region [is.na(L.peixes$region)] <- "caribbean_northern_reefs"
-
-
+L.peixes$region [is.na(L.peixes$region)] <- "Caribbean_NorthAmerica"
 
 
 # -----------------------------------------------------------------------------------
@@ -115,8 +115,9 @@ L.peixes$region [is.na(L.peixes$region)] <- "caribbean_northern_reefs"
 
 
 L.peixes$eventDate <- as.Date (L.peixes$date) # date
-L.peixes$eventYear <- format(L.peixes$eventDate,"%Y")
-L.peixes$eventMonth <- format(L.peixes$eventDate,"%m")
+L.peixes$year <- format(L.peixes$eventDate,"%Y")
+L.peixes$month <- format(L.peixes$eventDate,"%m")
+L.peixes$day <- format(L.peixes$eventDate,"%d")
 
 
 
@@ -147,7 +148,7 @@ siglas_JPQ <- unlist(lapply (split_names_JPQ, function (i) paste(i[1],i[2],sep="
 L.peixes$verbatimIdentification <- L.peixes$species_code
 
 ## inserir uma tabela em Longo, com o nome completo das spp
-L.peixes$scientificName <- traits_peixes$Name [match(todas_sp_Longo,siglas_JPQ)]
+L.peixes$namesToSearch <- traits_peixes$Name [match(todas_sp_Longo,siglas_JPQ)]
 
 # encontrar quais especies estao em longo, mas nao estao em Morais
 unique (todas_sp_Longo [which(todas_sp_Longo %in% siglas_JPQ == F)])
@@ -156,51 +157,51 @@ unique (todas_sp_Longo [which(todas_sp_Longo %in% siglas_JPQ == F)])
 ## adjusting spp.
 # based on abbreviations
 
-L.peixes$scientificName [which(L.peixes$species_code == "spa_sp")] <- "Sparisoma_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "ocy_cry")] <- "Ocyurus_chrysurus"
-L.peixes$scientificName [which(L.peixes$species_code == "ni")] <- "Not_identified"
-L.peixes$scientificName [which(L.peixes$species_code == "kyp_sp")] <- "Kyphosus_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "euc_lef")] <- "Eucinostomus_lefroyi"
-L.peixes$scientificName [which(L.peixes$species_code == "lut_ale")] <- "Lutjanus_alexandrei"
-L.peixes$scientificName [which(L.peixes$species_code == "lut_sp")] <- "Lutjanus_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "aca_sp")] <- "Acanthurus_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "car_sp")] <- "Caranx_sp1"
-L.peixes$scientificName [which(L.peixes$species_code == "acanthuridae")] <- "Not_identified"
-L.peixes$scientificName [which(L.peixes$species_code == "dio_his")] <- "Diodon_hystrix"
-L.peixes$scientificName [which(L.peixes$species_code == "hal_sp")] <- "Halichoeres_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "sca_sp")] <- "Scarus_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "blenideo")] <- "Not_identified"
-L.peixes$scientificName [which(L.peixes$species_code == "das_mar")] <- "Hypanus_marianae"
-L.peixes$scientificName [which(L.peixes$species_code == "lab_sp")] <- "Labrisomus_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "mal_sp")] <- "Malacoctenus_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "bot_sp")] <- "Bothus_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "carangideo")] <- "Caranx_sp2"
-L.peixes$scientificName [which(L.peixes$species_code == "syn_sp")] <- "Synodus_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "manjuba")] <- "Anchoviella_lepidentostole"
-L.peixes$scientificName [which(L.peixes$species_code == "sphyraena_borealis?")] <- "Sphyraena_borealis"
-L.peixes$scientificName [which(L.peixes$species_code == "myc_sp")] <- "Mycteroperca_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "scomberomorus")] <- "Scomberomorus_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "sca_coel")] <- "Scarus_coelestinus"
-L.peixes$scientificName [which(L.peixes$species_code == "carangidae")] <- "Caranx_sp3"
-L.peixes$scientificName [which(L.peixes$species_code == "epi_niv")] <- "Epinephelus_niveatus"
-L.peixes$scientificName [which(L.peixes$species_code == "epi_cru")] <- "Epinephelus_cruentatus"
-L.peixes$scientificName [which(L.peixes$species_code == "neg_bre")] <- "Negaprion_brevirostris"
-L.peixes$scientificName [which(L.peixes$species_code == "gin_cir")] <- "Ginglymostoma_cirratum"
-L.peixes$scientificName [which(L.peixes$species_code == "par_sp")] <- "Parablennius_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "aet_nar")] <- "Aetobatus_narinari"             
-L.peixes$scientificName [which(L.peixes$species_code == "sco_sp")] <- "Scorpaena_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "hae_sp")] <- "Haemulon_sp"
-L.peixes$scientificName [which(L.peixes$species_code == "das_ame")] <- "Hypanus_americana"            
-L.peixes$scientificName [which(L.peixes$species_code == "sph_sp")] <- "Sphoeroides_sp"
-L.peixes$scientificName [which(L.peixes$species_code ==  "car_plu")] <- "Caranx_plumbeus"     
-L.peixes$scientificName [which(L.peixes$species_code ==  "lut_moh")] <- "Lutjanus_mohogani"             
-L.peixes$scientificName [which(L.peixes$species_code == "mir_jac")] <- "Myripristis_jacobus"
-L.peixes$scientificName [which(L.peixes$species_code == "pem_sco")] <- "Pempheris_schomburgkii"
-L.peixes$scientificName [which(L.peixes$species_code == "das_sp")] <- "Dasyatis_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "spa_sp")] <- "Sparisoma_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "ocy_cry")] <- "Ocyurus_chrysurus"
+L.peixes$namesToSearch [which(L.peixes$species_code == "ni")] <- "Not_identified"
+L.peixes$namesToSearch [which(L.peixes$species_code == "kyp_sp")] <- "Kyphosus_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "euc_lef")] <- "Eucinostomus_lefroyi"
+L.peixes$namesToSearch [which(L.peixes$species_code == "lut_ale")] <- "Lutjanus_alexandrei"
+L.peixes$namesToSearch [which(L.peixes$species_code == "lut_sp")] <- "Lutjanus_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "aca_sp")] <- "Acanthurus_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "car_sp")] <- "Caranx_sp1"
+L.peixes$namesToSearch [which(L.peixes$species_code == "acanthuridae")] <- "Not_identified"
+L.peixes$namesToSearch [which(L.peixes$species_code == "dio_his")] <- "Diodon_hystrix"
+L.peixes$namesToSearch [which(L.peixes$species_code == "hal_sp")] <- "Halichoeres_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "sca_sp")] <- "Scarus_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "blenideo")] <- "Not_identified"
+L.peixes$namesToSearch [which(L.peixes$species_code == "das_mar")] <- "Hypanus_marianae"
+L.peixes$namesToSearch [which(L.peixes$species_code == "lab_sp")] <- "Labrisomus_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "mal_sp")] <- "Malacoctenus_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "bot_sp")] <- "Bothus_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "carangideo")] <- "Caranx_sp2"
+L.peixes$namesToSearch [which(L.peixes$species_code == "syn_sp")] <- "Synodus_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "manjuba")] <- "Anchoviella_lepidentostole"
+L.peixes$namesToSearch [which(L.peixes$species_code == "sphyraena_borealis?")] <- "Sphyraena_borealis"
+L.peixes$namesToSearch [which(L.peixes$species_code == "myc_sp")] <- "Mycteroperca_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "scomberomorus")] <- "Scomberomorus_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "sca_coel")] <- "Scarus_coelestinus"
+L.peixes$namesToSearch [which(L.peixes$species_code == "carangidae")] <- "Caranx_sp3"
+L.peixes$namesToSearch [which(L.peixes$species_code == "epi_niv")] <- "Epinephelus_niveatus"
+L.peixes$namesToSearch [which(L.peixes$species_code == "epi_cru")] <- "Epinephelus_cruentatus"
+L.peixes$namesToSearch [which(L.peixes$species_code == "neg_bre")] <- "Negaprion_brevirostris"
+L.peixes$namesToSearch [which(L.peixes$species_code == "gin_cir")] <- "Ginglymostoma_cirratum"
+L.peixes$namesToSearch [which(L.peixes$species_code == "par_sp")] <- "Parablennius_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "aet_nar")] <- "Aetobatus_narinari"             
+L.peixes$namesToSearch [which(L.peixes$species_code == "sco_sp")] <- "Scorpaena_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "hae_sp")] <- "Haemulon_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code == "das_ame")] <- "Hypanus_americanus"            
+L.peixes$namesToSearch [which(L.peixes$species_code == "sph_sp")] <- "Sphoeroides_sp"
+L.peixes$namesToSearch [which(L.peixes$species_code ==  "car_plu")] <- "Carcharhinus_plumbeus"     
+L.peixes$namesToSearch [which(L.peixes$species_code ==  "lut_moh")] <- "Lutjanus_mahogoni"             
+L.peixes$namesToSearch [which(L.peixes$species_code == "mir_jac")] <- "Myripristis_jacobus"
+L.peixes$namesToSearch [which(L.peixes$species_code == "pem_sco")] <- "Pempheris_schomburgkii"
+L.peixes$namesToSearch [which(L.peixes$species_code == "das_sp")] <- "Dasyatis_sp"
 
 
 # replace space by "_"
-L.peixes$scientificName <- gsub (" ","_",L.peixes$scientificName) # mix of sep
+L.peixes$namesToSearch <- gsub (" ","_",L.peixes$namesToSearch) # mix of sep
 
 
 
@@ -218,22 +219,30 @@ L.peixes$scientificName <- gsub (" ","_",L.peixes$scientificName) # mix of sep
 coord_longo <-  read.csv(here("Data","occ_Longo_et_al","Coordinates.csv"), 
                           sep=";")
 
+
 # coordinates not in data
 match_data_coord <- (coord_longo [match(L.peixes$site, coord_longo$name_data),])
+
+
 
 # extract coordeinates
 L.peixes_coord <- cbind (L.peixes,
                   match_data_coord [,c("Long_DD", "Lat_DD")])
 
+
 # not matched
 not_matched <- L.peixes_coord [is.na(L.peixes_coord$Lat_DD),]
 
+
+
 # get from Aued et al. (same sites, different names)
-match_aued <- occ_Aued_et_al [which(occ_Aued_et_al$Sites%in% not_matched$site),]
+match_aued <- occ_Aued_et_al [which(occ_Aued_et_al$site %in% not_matched$site),]
+
+
 
 # bind coordeinates that match
-not_matched$Long_DD <- match_aued [match (not_matched$site,match_aued$Sites),"decimalLongitude"]
-not_matched$Lat_DD <- match_aued [match (not_matched$site,match_aued$Sites),"decimalLatitude"]
+not_matched$Long_DD <- match_aued [match (not_matched$site,match_aued$site),"decimalLongitude"]
+not_matched$Lat_DD <- match_aued [match (not_matched$site,match_aued$site),"decimalLatitude"]
 
 
 # bind in data of Longo
@@ -250,40 +259,56 @@ L.peixes_coord [is.na(L.peixes_coord$Long_DD),"Long_DD"] <- not_matched$Long_DD
 
 
 
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName == "Platybelone_argalus")] <- "Platybelone_argalus_argalus"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName == "Nicholsina_usta_collettei")] <- "Nicholsina_collettei"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName == "Labrisomus_kalisherae")] <- "Gobioclinus_kalisherae"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName == "Diplodus_argenteus_argenteus")] <- "Diplodus_argenteus"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName == "Eucinostomus_lefroyi")] <- "Ulaema_lefroyi"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName == "Haemulon_plumieri")] <- "Haemulon_plumierii"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName == "Hypanus_americana")] <- "Hypanus_americanus"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName == "Dasyatis_americana")] <- "Hypanus_americanus"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName == "Caranx_plumbeus")] <- "Carcharhinus_plumbeus"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName == "Lutjanus_mohogani")] <- "Lutjanus_mahogani"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName == "Epinephelus_niveatus")] <- "Hyporthodus_niveatus"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName == "Epinephelus_cruentatus")] <- "Cephalopholis_cruentata"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName ==  "Chilomycterus_spinosus_mauretanicus" )] <-  "Chilomycterus_spinosus"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName ==  "Coryphopterus_spb" )] <-  "Coryphopterus_spp"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName ==  "Dasyatis_americana" )] <-  "Hypanus americanus"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName ==  "Diplodus_argenteus_argenteus" )] <-  "Diplodus_argenteus"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName ==  "Emblemariopsis_signifera" )] <-  "Emblemariopsis_signifer"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName ==  "Kyphosus_incisor" )] <-  "Kyphosus_vaigiensis"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName ==  "Kyphosus_bigibbus" )] <-  "Kyphosus_sp"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName ==  "Malacoctenus_sp1" )] <-  "Malacoctenus_brunoi"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName ==  "Malacoctenus_sp2" )] <-  "Malacoctenus_lianae"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName ==  "Malacoctenus_sp3" )] <-  "Malacoctenus lianae"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName ==  "Nicholsina_usta_usta" )] <-  "Nicholsina_usta_usta"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName ==  "Nicholsina_usta_collettei" )] <-  "Nicholsina_usta"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName ==  "Anthias_salmopuntatus" )] <- "Choranthias_salmopunctatus"
-L.peixes_coord$scientificName [which(L.peixes_coord$scientificName ==  "Emblemariosis_sp" )] <- "Emblemariopsis_sp"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Platybelone_argalus")] <- "Platybelone_argalus_argalus"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Nicholsina_usta_collettei")] <- "Nicholsina_collettei"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Labrisomus_kalisherae")] <- "Gobioclinus_kalisherae"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Diplodus_argenteus_argenteus")] <- "Diplodus_argenteus"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Eucinostomus_lefroyi")] <- "Ulaema_lefroyi"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Haemulon_plumieri")] <- "Haemulon_plumierii"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Hypanus_americana")] <- "Hypanus_americanus"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Dasyatis_americana")] <- "Hypanus_americanus"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Caranx_plumbeus")] <- "Carcharhinus_plumbeus"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Lutjanus_mohogani")] <- "Lutjanus_mahogoni"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Epinephelus_niveatus")] <- "Hyporthodus_niveatus"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Epinephelus_cruentatus")] <- "Cephalopholis_cruentata"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Chilomycterus_spinosus_mauretanicus" )] <-  "Chilomycterus_spinosus"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Coryphopterus_spb" )] <-  "Coryphopterus_spp"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Dasyatis_americana" )] <-  "Hypanus americanus"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Diplodus_argenteus_argenteus" )] <-  "Diplodus_argenteus"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Emblemariopsis_signifera" )] <-  "Emblemariopsis_signifer"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Kyphosus_incisor" )] <-  "Kyphosus_vaigiensis"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Kyphosus_bigibbus" )] <-  "Kyphosus_sp"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Malacoctenus_sp1" )] <-  "Malacoctenus_brunoi"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Malacoctenus_sp2" )] <-  "Malacoctenus_lianae"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Malacoctenus_sp3" )] <-  "Malacoctenus lianae"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Nicholsina_usta_usta" )] <-  "Nicholsina_usta_usta"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Nicholsina_usta_collettei" )] <-  "Nicholsina_usta"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Anthias_salmopuntatus" )] <- "Choranthias_salmopunctatus"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Emblemariosis_sp" )] <- "Emblemariopsis_sp"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Caranx2" )] <- "Caranx_sp2"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch ==  "Caranx3" )] <- "Caranx_sp3"
+
 
 # and finally replace "_" by " "
-L.peixes_coord$scientificName <- gsub ("_"," ",L.peixes$scientificName)
-L.peixes_coord$scientificName <- tolower (L.peixes_coord$scientificName)
+L.peixes_coord$namesToSearch <- gsub ("_"," ",L.peixes$namesToSearch)
+L.peixes_coord$namesToSearch <- tolower (L.peixes_coord$namesToSearch)
+
+# non identified species
+L.peixes_coord$identificationQualifier <- ifelse (sapply (strsplit (L.peixes_coord$namesToSearch, " "), "[", 2) %in% c("sp","sp1", "sp2", "sp3"),
+                                              "sp",
+                                              NA)
+
+# species to search
+L.peixes_coord$namesToSearch [which(L.peixes_coord$identificationQualifier == "sp")] <- gsub (" sp*.",
+                                                                                          "",
+                                                                                          L.peixes_coord$namesToSearch [which(L.peixes_coord$identificationQualifier == "sp")])
+
+
+
 
 
 # matching with worms
-worms_record <- lapply (unique(L.peixes_coord$scientificName), function (i) 
+worms_record <- lapply (unique(L.peixes_coord$namesToSearch), function (i) 
   
   tryCatch (
     
@@ -297,15 +322,18 @@ worms_record <- lapply (unique(L.peixes_coord$scientificName), function (i)
 )
 
 
+
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
-# match
-L.peixes_coord$scientificNameOBIS<-(df_worms_record$scientificname [match (L.peixes_coord$scientificName, tolower(df_worms_record$scientificname))])
-L.peixes_coord$scientificNameID<-(df_worms_record$lsid [match (L.peixes_coord$scientificName, tolower(df_worms_record$scientificname))])
-L.peixes_coord$kingdom<-(df_worms_record$kingdom [match (L.peixes_coord$scientificName,tolower(df_worms_record$scientificname))])
-L.peixes_coord$class<-(df_worms_record$class [match (L.peixes_coord$scientificName,tolower(df_worms_record$scientificname))])
-L.peixes_coord$family<-(df_worms_record$family [match (L.peixes_coord$scientificName,tolower(df_worms_record$scientificname))])
 
+# match
+L.peixes_coord$scientificName<-(df_worms_record$scientificname [match (L.peixes_coord$namesToSearch, tolower(df_worms_record$scientificname))])
+# taxon rank of the identified level
+L.peixes_coord$taxonRank <- (df_worms_record$rank [match (L.peixes_coord$namesToSearch,tolower (df_worms_record$scientificname))])
+L.peixes_coord$scientificNameID<-(df_worms_record$lsid [match (L.peixes_coord$namesToSearch, tolower(df_worms_record$scientificname))])
+L.peixes_coord$kingdom<-(df_worms_record$kingdom [match (L.peixes_coord$namesToSearch,tolower(df_worms_record$scientificname))])
+L.peixes_coord$class<-(df_worms_record$class [match (L.peixes_coord$namesToSearch,tolower(df_worms_record$scientificname))])
+L.peixes_coord$family<-(df_worms_record$family [match (L.peixes_coord$namesToSearch,tolower(df_worms_record$scientificname))])
 
 
 
@@ -331,13 +359,37 @@ L.peixes_coord <- cbind (L.peixes_coord,
 
 # set years in missing data (rocas 2012)
 # check here https://onlinelibrary.wiley.com/doi/abs/10.1111/geb.12806
-L.peixes_coord [which(L.peixes_coord$location == "rocas"),"eventYear"] <- "2012"
-L.peixes_coord [which(L.peixes_coord$location == "rocas"),"eventMonth"] <- "01"
+L.peixes_coord [which(L.peixes_coord$location == "rocas"),"year"] <- "2012"
+L.peixes_coord [which(L.peixes_coord$location == "rocas"),"month"] <- "01"
 # NA in barra da gale (2012)
-L.peixes_coord [which(L.peixes_coord$site == "barra_da_gale"),"eventYear"]  <- "2012"
+L.peixes_coord [which(L.peixes_coord$site == "barra_da_gale"),"year"]  <- "2012"
 
 
 
+
+# geographic location
+L.peixes_coord$higherGeography <- ifelse (L.peixes_coord$location %in% c("rocas",
+                                                                         "noronha",
+                                                                         "trindade"),
+                                          "BrazilianOceanicIslands",
+                                          ifelse (L.peixes_coord$location %in% c("north_carolina_usa",
+                                                                                 "georgia_usa",
+                                                                                 "central_florida",
+                                                                                 "florida_keys",
+                                                                                 "mexico",
+                                                                                 "belize",
+                                                                                 "curacao"),
+                                                  "Caribbean_NorthAmerica",
+                                                  "BrazilianCoast"))
+
+# check
+unique(L.peixes_coord$site [which(L.peixes_coord$higherGeography == "Caribbean_NorthAmerica")])
+unique(L.peixes_coord$site [which(L.peixes_coord$higherGeography == "BrazilianOceanicIslands")])
+
+
+# adjusting sites and localities
+L.peixes_coord$locality  <- L.peixes_coord$site
+L.peixes_coord$site <- L.peixes_coord$location
 
 
 # -----------------------------------------------------------------------------------
@@ -346,47 +398,46 @@ L.peixes_coord [which(L.peixes_coord$site == "barra_da_gale"),"eventYear"]  <- "
 
 
 
-
-
-
-# creating parentIDs
-L.peixes_coord$parentEventID <- paste (paste ("BR:SISBIOTA-MAR:",
-                                              L.peixes_coord$location,sep=""), 
-                                       L.peixes_coord$site, 
-                                       L.peixes_coord$eventYear,
-                                 sep="_")
+L.peixes_coord$parentEventID <- paste (
+  paste ( 
+    paste ("BR:ReefSYN:SISBIOTA-MAR-video-plots:", 
+           L.peixes_coord$higherGeography,
+           sep=""),
+    L.peixes_coord$site,sep=":"),
+  L.peixes_coord$locality,
+  L.peixes_coord$year,
+  sep="_")
 
 
 
 # creating eventIds
-L.peixes_coord$eventID <- paste (paste ("BR:SISBIOTA-MAR:",
-                                        L.peixes_coord$location,sep=""), 
-                                 L.peixes_coord$site, 
-                                 L.peixes_coord$eventYear,
+L.peixes_coord$eventID <- paste (
+                                paste ( 
+                                  paste ("BR:ReefSYN:SISBIOTA-MAR-video-plots:", 
+                                         L.peixes_coord$higherGeography,
+                                         sep=""),
+                                  L.peixes_coord$site,sep=":"),
+                                L.peixes_coord$locality,
+                                L.peixes_coord$year,
                                  L.peixes_coord$video_id,
                              sep="_")
 
 
 
+
 # creating occurrenceIDs
-L.peixes_coord$occurrenceID <- paste (paste ("BR:SISBIOTA-MAR:",
-                                    L.peixes_coord$location,sep=""), 
-                             L.peixes_coord$site, 
-                             L.peixes_coord$eventYear,
+L.peixes_coord$occurrenceID <- paste (
+                              paste ( 
+                                paste ("BR:ReefSYN:SISBIOTA-MAR-video-plots:", 
+                                       L.peixes_coord$higherGeography,
+                                       sep=""),
+                                L.peixes_coord$site,sep=":"),
+                              L.peixes_coord$locality,
+                              L.peixes_coord$year,
                              L.peixes_coord$video_id,
                              paste ("occ",seq(1,nrow(L.peixes_coord)),sep=""),
                              sep="_")
 
-
-
-# remove sites from Caribe and North America 
-L.peixes_coord<-L.peixes_coord[which(L.peixes_coord$location %in% c("north_carolina_usa",
-                                                                    "georgia_usa",
-                                                                    "central_florida",
-                                                                    "florida_keys",
-                                                                    "mexico",
-                                                                    "belize",            
-                                                                    "curacao") == F),]
 
 
 
@@ -420,7 +471,6 @@ L.peixes_coord$samplingEffort <- table_effort [match (L.peixes_coord$parentEvent
 
 # counts don't match with those provided in the supp information of the paper
 # check here https://onlinelibrary.wiley.com/doi/abs/10.1111/geb.12806
-# # 5 to 40 in the paper (must consider that sites outside BR coast are not included here): 
 range(rowSums(table(L.peixes_coord$parentEventID,L.peixes_coord$video_id)>0,na.rm=T))
 range(L.peixes_coord$samplingEffort)
 
@@ -431,25 +481,21 @@ L.peixes_coord$sampleSizeUnit <- "squared meters"
 # country and code
 L.peixes_coord$Country <- "Brazil"
 L.peixes_coord$countryCode <- "BR"
+
 # basisOfRecord
 L.peixes_coord$basisOfRecord <- "HumanObservation"
+
 # occurrenceStatus
 L.peixes_coord$occurrenceStatus <- "presence"
+
 # geodeticDatum
 L.peixes_coord$geodeticDatum <- "decimal degrees"
-# geographic location
-L.peixes_coord$higherGeographyID <- ifelse (L.peixes_coord$location %in% c("rocas",
-                                                                            "noronha",
-                                                                            "trindade"),
-                                                "BrazilianIslands",
-                                                "BrazilianCoast")
+
 
 # recordedBy
 colnames(L.peixes_coord)[which(colnames(L.peixes_coord) == "diver")] <- "recordedBy"
 colnames(L.peixes_coord)[which(colnames(L.peixes_coord) == "Long_DD")] <- "decimalLongitude"
 colnames(L.peixes_coord)[which(colnames(L.peixes_coord) == "Lat_DD")] <- "decimalLatitude"
-colnames(L.peixes_coord)[which(colnames(L.peixes_coord) == "location")] <- "locationID"
-colnames(L.peixes_coord)[which(colnames(L.peixes_coord) == "site")] <- "locality"
 colnames(L.peixes_coord)[which(colnames(L.peixes_coord) == "depth_m")] <- "minimumDepthinMeters"
 L.peixes_coord$maximumDepthinMeters <- L.peixes_coord$minimumDepthinMeters
 colnames(L.peixes_coord)[which(colnames(L.peixes_coord) == "beginning_time")] <- "begginingObservationTime"
@@ -544,23 +590,27 @@ dados_bind$measurementTypeID <- "http://vocab.nerc.ac.uk/collection/P14/current/
 
 
 
-DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
+DF_eMOF <- dados_bind [,c("eventID", 
+                          "occurrenceID",
                           "verbatimIdentification",
                           "scientificName",
                           "scientificNameID",
-                          "scientificNameOBIS",
-                          "kingdom","class","family",
+                          "taxonRank",
+                          "kingdom",
+                          "class",
+                          "family",
                           "measurementValue", "measurementType","measurementUnit",
                           "measurementTypeID",
                           "begginingObservationTime",
                           "endingObservationTime")]
 rownames(DF_eMOF)<-seq(1,nrow(DF_eMOF))
 
-DF_occ <- dados_bind [,c("eventID", "occurrenceID",
+DF_occ <- dados_bind [,c("eventID", 
+                         "occurrenceID",
                          "verbatimIdentification",
                          "scientificName",
                          "scientificNameID",
-                         "scientificNameOBIS",
+                         "taxonRank",
                          "kingdom","class","family",
                          
                                             "recordedBy", "organismQuantityType",
@@ -569,9 +619,9 @@ rownames(DF_occ)<-seq(1,nrow(DF_occ))
 
 # aggregate data by eventIDs to have event_core
 
-event_core <- data.frame (group_by(dados_bind, eventID,higherGeographyID,verbatimLocality,locationID,locality) %>% 
+event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,verbatimLocality,site,locality) %>% 
                             
-                            summarise(eventYear = mean(as.numeric(eventYear)),
+                            summarise(year = mean(as.numeric(year)),
                                       eventDate = mean(eventDate),
                                       minimumDepthinMeters = mean(minimumDepthinMeters),
                                       maximumDepthinMeters = mean(maximumDepthinMeters),
@@ -595,24 +645,22 @@ output <- list (DF_occ = DF_occ,
                 event_core=event_core)
 
 
+
 # save
 # txt format
 write.table(DF_occ, file =here("DwC_output",
                                "GLongo_spatialData",
-                               "DF_occ.txt"),sep=",",
-            quote = FALSE)
+                               "DF_occ.txt"),sep=",")
 
 
 
 write.table(DF_eMOF, file =here("DwC_output",
                                 "GLongo_spatialData",
-                                "DF_eMOF.txt"),sep=",",
-            quote = F)
+                                "DF_eMOF.txt"),sep=",")
 
-length(DF_eMOF[1412,])
+#length(DF_eMOF[1412,])
 
 write.table(event_core, file =here("DwC_output",
                                    "GLongo_spatialData",
-                                   "event_core.txt"),sep=",",
-            quote = FALSE)
+                                   "event_core.txt"),sep=",")
 

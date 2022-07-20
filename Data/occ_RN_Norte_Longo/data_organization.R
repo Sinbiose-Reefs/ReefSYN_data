@@ -13,24 +13,25 @@ require(here); require(openxlsx); require(dplyr); require(reshape); require(worr
 
 # Ross, Longo et al. (RN fish)
 occ_Ross_et_al <- read.xlsx(here("Data","occ_RN_Norte_Longo",
-                                 "Censos_peixes_RN.xlsx"),
+                                 "Censos_Rio do Fogo_17052022.xlsx"),
                             sheet = 1, colNames = TRUE,
                             detectDates=F)
 
+# remove spaces
+occ_Ross_et_al$spp<- gsub (" ", "", occ_Ross_et_al$spp)
+
 # second sheet, species names
 sp_Ross_et_al <- read.xlsx(here("Data","occ_RN_Norte_Longo",
-                                "Censos_peixes_RN.xlsx"),
+                                "Censos_Rio do Fogo_17052022.xlsx"),
                            sheet = 2, colNames = TRUE,detectDates=T)
 
 # match these last two
-occ_Ross_et_al$scientificName <- sp_Ross_et_al [match (occ_Ross_et_al$spp, 
+occ_Ross_et_al$namesToSearch <- sp_Ross_et_al [match (occ_Ross_et_al$spp, 
                                                        sp_Ross_et_al$code),"spp"]
   
 
-
-
-# remove 2016 data from Rio Grande do Norte dataset (only Scaridae were collected according to info from Natalia Roos)
-# occ_Ross_et_al <- occ_Ross_et_al [which(occ_Ross_et_al$year == "2017"),]
+unique(occ_Ross_et_al[is.na(occ_Ross_et_al$namesToSearch),"spp"])
+unique(occ_Ross_et_al[is.na(occ_Ross_et_al$namesToSearch),"obs"])
 
 
 
@@ -48,47 +49,62 @@ occ_Ross_et_al$scientificName <- sp_Ross_et_al [match (occ_Ross_et_al$spp,
 occ_Ross_et_al$latDec <- gsub ("'"," ",gsub ("''","",gsub ("°"," ",occ_Ross_et_al$lat)))
 occ_Ross_et_al$longDec <- gsub ("'"," ",gsub ("''","",gsub ("°"," ",occ_Ross_et_al$long)))
 
+
 # transform
 occ_Ross_et_al$decimalLatitude <- angle2dec(occ_Ross_et_al$latDec)*-1 # below Equator
 occ_Ross_et_al$decimalLongitude <- angle2dec(occ_Ross_et_al$longDec)*-1 # west of Greenwich
+
 
 # resolve NA taking the coordinate from the previous record (is the same)
 occ_Ross_et_al [which(is.na(occ_Ross_et_al$longitude)),"decimalLongitude"] <- occ_Ross_et_al [which(is.na(occ_Ross_et_al$decimalLongitude))-1,"decimalLongitude"]
 
 
+
 # verbatimIdentification
-occ_Ross_et_al$verbatimIdentification <- occ_Ross_et_al$scientificName
+occ_Ross_et_al$verbatimIdentification <- occ_Ross_et_al$namesToSearch
+
 # taxonomic issues
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Platybelone argalus")] <- "Platybelone argalus argalus"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Nicholsina usta collettei")] <- "Nicholsina collettei"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Labrisomus kalisherae")] <- "Gobioclinus kalisherae"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Diplodus argenteus argenteus")] <- "Diplodus argenteus"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Eucinostomus lefroyi")] <- "Ulaema lefroyi"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Haemulon plumieri")] <- "Haemulon plumierii"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Hypanus americana")] <- "Hypanus americanus"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Dasyatis americana")] <- "Hypanus americanus"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Caranx plumbeus")] <- "Carcharhinus plumbeus"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Lutjanus mohogani")] <- "Lutjanus mahogani"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Epinephelus niveatus")] <- "Hyporthodus niveatus"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Epinephelus cruentatus")] <- "Cephalopholis cruentata"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Chilomycterus_spinosus_mauretanicus" )] <-  "Chilomycterus spinosus"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Coryphopterus_spb" )] <-  "Coryphopterus spp"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Dasyatis_americana" )] <-  "Hypanus americanus"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Diplodus_argenteus_argenteus" )] <-  "Diplodus argenteus"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Emblemariopsis_signifera" )] <-  "Emblemariopsis signifer"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Kyphosus_incisor" )] <-  "Kyphosus vaigiensis"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Kyphosus_bigibbus" )] <-  "Kyphosus sp"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Nicholsina_usta_usta" )] <-  "Nicholsina usta usta"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Nicholsina_usta_collettei" )] <-  "Nicholsina usta"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Anthias_salmopuntatus" )] <- "Choranthias salmopunctatus"
-occ_Ross_et_al$scientificName [which(occ_Ross_et_al$scientificName == "Emblemariosis_sp" )] <- "Emblemariopsis sp"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Platybelone argalus")] <- "Platybelone argalus argalus"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Nicholsina usta collettei")] <- "Nicholsina collettei"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Labrisomus kalisherae")] <- "Gobioclinus kalisherae"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Diplodus argenteus argenteus")] <- "Diplodus argenteus"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Eucinostomus lefroyi")] <- "Ulaema lefroyi"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Haemulon plumieri")] <- "Haemulon plumierii"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Hypanus americana")] <- "Hypanus americanus"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Dasyatis americana")] <- "Hypanus americanus"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Caranx plumbeus")] <- "Carcharhinus plumbeus"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Lutjanus mohogani")] <- "Lutjanus mahogoni"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Epinephelus niveatus")] <- "Hyporthodus niveatus"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Epinephelus cruentatus")] <- "Cephalopholis cruentata"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Chilomycterus_spinosus_mauretanicus" )] <-  "Chilomycterus spinosus"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Coryphopterus spb" )] <-  "Coryphopterus spp"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Dasyatis americana" )] <-  "Hypanus americanus"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Diplodus argenteus argenteus" )] <-  "Diplodus argenteus"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Emblemariopsis signifera" )] <-  "Emblemariopsis signifer"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Kyphosus incisor" )] <-  "Kyphosus vaigiensis"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Kyphosus bigibbus" )] <-  "Kyphosus sp"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Nicholsina usta usta" )] <-  "Nicholsina usta usta"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Nicholsina usta collettei" )] <-  "Nicholsina usta"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Anthias salmopuntatus" )] <- "Choranthias salmopunctatus"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Emblemariosis sp" )] <- "Emblemariopsis sp"
 # tolower
-occ_Ross_et_al$scientificName <- tolower(occ_Ross_et_al$scientificName)
+occ_Ross_et_al$namesToSearch <- tolower(occ_Ross_et_al$namesToSearch)
+
+
+# genera level
+occ_Ross_et_al$identificationQualifier <- ifelse (sapply (strsplit (occ_Ross_et_al$namesToSearch, " "), "[", 2) %in% c("sp","sp1", "sp2", "sp3"),
+                                         "sp",
+                                         NA)
+
+# species to search
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$identificationQualifier == "sp")] <- gsub (" sp",
+                                                                            "",
+                                                                            occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$identificationQualifier == "sp")])
 
 
 # check spp names
 # matching with worms
-worms_record <- lapply (unique(occ_Ross_et_al$scientificName), function (i) 
+worms_record <- lapply (unique(occ_Ross_et_al$namesToSearch), function (i) 
   
   tryCatch (
     
@@ -104,11 +120,23 @@ worms_record <- lapply (unique(occ_Ross_et_al$scientificName), function (i)
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 # match
-occ_Ross_et_al$scientificNameOBIS<-(df_worms_record$scientificname [match (occ_Ross_et_al$scientificName,tolower (df_worms_record$scientificname))])
-occ_Ross_et_al$scientificNameID<-(df_worms_record$lsid [match (occ_Ross_et_al$scientificName,tolower (df_worms_record$scientificname))])
-occ_Ross_et_al$kingdom<-(df_worms_record$kingdom [match (occ_Ross_et_al$scientificName,tolower (df_worms_record$scientificname))])
-occ_Ross_et_al$class<-(df_worms_record$class [match (occ_Ross_et_al$scientificName,tolower (df_worms_record$scientificname))])
-occ_Ross_et_al$family<-(df_worms_record$family [match (occ_Ross_et_al$scientificName,tolower (df_worms_record$scientificname))])
+occ_Ross_et_al$scientificName<-(df_worms_record$scientificname [match (occ_Ross_et_al$namesToSearch,
+                                                                       tolower (df_worms_record$scientificname))])
+# taxon rank of the identified level
+occ_Ross_et_al$taxonRank <- (df_worms_record$rank [match (occ_Ross_et_al$namesToSearch,
+                                                        tolower (df_worms_record$scientificname))])
+# aphiID
+occ_Ross_et_al$scientificNameID<-(df_worms_record$lsid [match (occ_Ross_et_al$namesToSearch,
+                                                               tolower (df_worms_record$scientificname))])
+# kingdom
+occ_Ross_et_al$kingdom<-(df_worms_record$kingdom [match (occ_Ross_et_al$namesToSearch,
+                                                         tolower (df_worms_record$scientificname))])
+# class
+occ_Ross_et_al$class<-(df_worms_record$class [match (occ_Ross_et_al$namesToSearch,
+                                                     tolower (df_worms_record$scientificname))])
+# family
+occ_Ross_et_al$family<-(df_worms_record$family [match (occ_Ross_et_al$namesToSearch,
+                                                       tolower (df_worms_record$scientificname))])
 
 
 
@@ -121,21 +149,22 @@ occ_Ross_et_al$family<-(df_worms_record$family [match (occ_Ross_et_al$scientific
 
 
 
-# create events 
-occ_Ross_et_al$eventYear <-occ_Ross_et_al$year # year
-occ_Ross_et_al$eventMonth <- occ_Ross_et_al$month  # mont
-occ_Ross_et_al$eventMonth <- ifelse(nchar(occ_Ross_et_al$eventMonth) == 1, # adjust format
-       paste ("0", occ_Ross_et_al$eventMonth,sep=""),
-       occ_Ross_et_al$eventMonth)
-occ_Ross_et_al$eventDay <- occ_Ross_et_al$day# day
-occ_Ross_et_al$eventDay <- ifelse(nchar(occ_Ross_et_al$eventDay) == 1, # adjust format
-                                    paste ("0", occ_Ross_et_al$eventDay,sep=""),
-                                  occ_Ross_et_al$eventDay)
+# edit dates
+# month
+occ_Ross_et_al$verbatimMonth <- occ_Ross_et_al$month  # month
+occ_Ross_et_al$month <- ifelse(nchar(occ_Ross_et_al$month) == 1, # adjust format
+       paste ("0", occ_Ross_et_al$month,sep=""),
+       occ_Ross_et_al$month)
+# day
+occ_Ross_et_al$verbatimDay <- occ_Ross_et_al$day  # month
+occ_Ross_et_al$day <- ifelse(nchar(occ_Ross_et_al$day) == 1, # adjust format
+                                    paste ("0", occ_Ross_et_al$day,sep=""),
+                                  occ_Ross_et_al$day)
 
 # as date
-occ_Ross_et_al$eventDate <- as.Date (paste(occ_Ross_et_al$eventYear,
-                                    occ_Ross_et_al$eventMonth,
-                                    occ_Ross_et_al$eventDay,
+occ_Ross_et_al$eventDate <- as.Date (paste(occ_Ross_et_al$year,
+                                    occ_Ross_et_al$month,
+                                    occ_Ross_et_al$day,
                                     sep="-"))
 
 
@@ -154,46 +183,30 @@ occ_Ross_et_al$eventDate <- as.Date (paste(occ_Ross_et_al$eventYear,
 
 # region (unique is NE)
 occ_Ross_et_al$region <- "ne_reefs" # lower Geo ID?
+# sites& localities
+occ_Ross_et_al$verbatimSite <- (occ_Ross_et_al$locality)
+occ_Ross_et_al$verbatimLocality <- (occ_Ross_et_al$site)
 
-# locality
-# according to Aued & Morais
-occ_Ross_et_al$regionalization <- occ_Ross_et_al$local
-occ_Ross_et_al$regionalization [which(occ_Ross_et_al$regionalization == "pirangi")] <- "rgnor_sul"
-occ_Ross_et_al$regionalization [which(occ_Ross_et_al$regionalization == "riodofogo")] <- "rgnor_parrachos"
-occ_Ross_et_al$regionalization [which(occ_Ross_et_al$regionalization == "baiaformosa")] <- "rgnor_sul"
-occ_Ross_et_al$regionalization [which(occ_Ross_et_al$regionalization == "diogolopes")] <- "rgnor_set"
-occ_Ross_et_al$regionalization [which(occ_Ross_et_al$regionalization == "caicaradonorte")] <- "rgnor_set"
-occ_Ross_et_al$regionalization [which(occ_Ross_et_al$regionalization == "portodomangue")] <- "rgnor_set"
-occ_Ross_et_al$regionalization [which(occ_Ross_et_al$regionalization == "natal")] <- "rgnor_natal"
-
-# fixing locals(reefs)
-occ_Ross_et_al$locationID <- occ_Ross_et_al$local
-occ_Ross_et_al$locationID [which(occ_Ross_et_al$locationID == "riodofogo")] <- "parrachos_de_rio_do_fogo"
-
-# verbatimLocality
-
-occ_Ross_et_al$verbatimLocality <- occ_Ross_et_al$sitename
-
-# sitename = locality
-occ_Ross_et_al$locality <- occ_Ross_et_al$sitename
-# adjusting site names
-occ_Ross_et_al$locality<-(iconv(occ_Ross_et_al$locality, "ASCII", "UTF-8", sub=""))
-occ_Ross_et_al$locality <- tolower(occ_Ross_et_al$locality)
-# adjust
-unique(occ_Ross_et_al$locality)[order(unique(occ_Ross_et_al$locality))]
-occ_Ross_et_al$locality[which(occ_Ross_et_al$locality == "batentedasagulhas")] <- "batente_das_agulhas"
-occ_Ross_et_al$locality[which(occ_Ross_et_al$locality == "mestrevicente")] <- "mestre_vicente"
-unique(occ_Ross_et_al$locality )[order(unique(occ_Ross_et_al$locality ))]
-
+# sites
+occ_Ross_et_al$site <- "parrachos_de_rio_do_fogo"
+occ_Ross_et_al$locality <- occ_Ross_et_al$verbatimLocality
 
 # event depth
 occ_Ross_et_al$minimumDepthInMeters <- occ_Ross_et_al$depth
 occ_Ross_et_al$maximumDepthInMeters <-occ_Ross_et_al$minimumDepthInMeters 
 
+# geography
+occ_Ross_et_al$higherGeography <- "BrazilianCoast"
 
-
-
-
+# licence
+occ_Ross_et_al$licence <- "CC BY-NC"
+# language
+occ_Ross_et_al$language <- "en"
+# citation
+occ_Ross_et_al$bibliographicCitation <- "Roos NC, Pennino MG, Carvalho AR, Longo GO (2019) Drivers of abundance and biomass of Brazilian parrotfishes. Mar Ecol Prog Ser 623:117-130. https://doi.org/10.3354/meps13005"
+# eventRemarks
+occ_Ross_et_al$eventRemarks <- ifelse (occ_Ross_et_al$year == "2016", "Only Scarini and Acanthuridae were sampled",
+        NA)
 
 # ----------------------------------------------------------------------
 # CREATING IDS AND CREATING DWC DESCRIPTORS
@@ -203,13 +216,15 @@ occ_Ross_et_al$maximumDepthInMeters <-occ_Ross_et_al$minimumDepthInMeters
 
 
 
-
 ## occID for the dataset
 occ_Ross_et_al$occurrenceID <- paste (
-                               paste ("BR:RioGrandeDoNorte:", 
-                                     occ_Ross_et_al$locationID,sep=""),
-                               occ_Ross_et_al$locality, # check
-                               occ_Ross_et_al$eventYear,
+                                paste ( 
+                                  paste ("BR:ReefSYN:RioGrandeDoNorte_fish_monitoring:", 
+                                         occ_Ross_et_al$higherGeography,
+                                         sep=""),
+                                  occ_Ross_et_al$site,sep=":"),
+                                occ_Ross_et_al$locality,
+                                occ_Ross_et_al$year,
                                occ_Ross_et_al$transectidtot,
                               paste ("occ",seq(1,nrow(occ_Ross_et_al)),sep=""),
                               sep="_")
@@ -218,10 +233,13 @@ occ_Ross_et_al$occurrenceID <- paste (
 
 ## fazer eventID para este estudo
 occ_Ross_et_al$eventID <- paste (
-                              paste ("BR:RioGrandeDoNorte:", 
-                                     occ_Ross_et_al$locationID,sep=""),
+                              paste ( 
+                                paste ("BR:ReefSYN:RioGrandeDoNorte_fish_monitoring:", 
+                                       occ_Ross_et_al$higherGeography,
+                                       sep=""),
+                                occ_Ross_et_al$site,sep=":"),
                               occ_Ross_et_al$locality,
-                              occ_Ross_et_al$eventYear,
+                              occ_Ross_et_al$year,
                               occ_Ross_et_al$transectidtot,
                               sep="_")
 
@@ -229,11 +247,15 @@ occ_Ross_et_al$eventID <- paste (
 
 ## fazer parentID para este estudo
 occ_Ross_et_al$parentEventID <- paste (
-                                    paste ("BR:RioGrandeDoNorte:", 
-                                           occ_Ross_et_al$locationID,sep=""),
-                                            occ_Ross_et_al$locality,
-                                    occ_Ross_et_al$eventYear,
-                                    sep="_")
+                                  paste ( 
+                                    paste ("BR:ReefSYN:RioGrandeDoNorte_fish_monitoring:", 
+                                           occ_Ross_et_al$higherGeography,
+                                           sep=""),
+                                    occ_Ross_et_al$site,sep=":"),
+                                  occ_Ross_et_al$locality,
+                                  occ_Ross_et_al$year,
+                                  sep="_")
+
                                   
 
 
@@ -241,35 +263,44 @@ occ_Ross_et_al$parentEventID <- paste (
 # country and code
 occ_Ross_et_al$Country <- "Brazil"
 occ_Ross_et_al$countryCode <- "BR"
+
 # basisOfRecord
 occ_Ross_et_al$basisOfRecord <- "HumanObservation"
+
 # occurrenceStatus
 occ_Ross_et_al$occurrenceStatus <- "presence"
-# organismQuantityType
-occ_Ross_et_al$organismQuantityType <- "Relative cover"
+
 # geodeticDatum
 occ_Ross_et_al$geodeticDatum <- "decimal degrees"
-# geographic location
-occ_Ross_et_al$higherGeographyID <- "BrazilianCoast"
+
 # method
 occ_Ross_et_al$samplingProtocol <- "underwater visual survey - 20 x 2m"
+
 # effort
 ## check roos et al. 2020/2019
 occ_Ross_et_al$samplingEffort <- 1
+
 # sampleSizeValue
 occ_Ross_et_al$sampleSizeValue <- 40# plotarea?radii?"
+
 # sampleSizeUnit
 occ_Ross_et_al$sampleSizeUnit <- "squared meters"
+
 # recordedBy
 colnames(occ_Ross_et_al)[which(colnames(occ_Ross_et_al) == "coletor")] <- "recordedBy"
+
 # separate size from abundance (counts)
 abundance <- occ_Ross_et_al[,which(colnames(occ_Ross_et_al) != "size")] # abundance
+
 # measurementType
 abundance$measurementType <- "abundance"
+
 # organismQuantityType
 abundance$organismQuantityType <- "abundance"
+
 # measurementUnit
 abundance$measurementUnit <- "individuals"
+
 # measurementValue
 colnames(abundance)[which(colnames(abundance) == "abundance")] <- "measurementValue"
 
@@ -283,6 +314,8 @@ size$organismQuantityType <- "total length"
 size$measurementUnit <- "cm"
 # measurementValue
 colnames(size)[which(colnames(size) == "size")] <- "measurementValue"
+
+
 
 # bind edited data
 dados_bind <- rbind (abundance,
@@ -301,20 +334,37 @@ dados_bind <- rbind (abundance,
 
 
 
-DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
+DF_eMOF <- dados_bind [,c("eventID", 
+                          "occurrenceID",
                           "verbatimIdentification",
-                          "scientificName","scientificNameID",
-                          "scientificNameOBIS",
-                          "kingdom","class","family",
-                          "measurementValue", "measurementType","measurementUnit")]
+                          "scientificName",
+                          "scientificNameID",
+                          "taxonRank",
+                          "kingdom",
+                          "class",
+                          "family",
+                          "measurementValue", 
+                          "measurementType",
+                          "measurementUnit")]
 
 
-DF_occ <- dados_bind [,c("eventID", "occurrenceID","basisOfRecord",
+DF_occ <- dados_bind [,c("eventID", 
+                         "occurrenceID",
+                         "basisOfRecord",
                          "verbatimIdentification",
-                         "scientificName","scientificNameID",
-                         "scientificNameOBIS",
-                         "kingdom","class","family",
-                         "recordedBy", "organismQuantityType", "occurrenceStatus")]
+                         "scientificName",
+                         "scientificNameID",
+                         "taxonRank",
+                         "kingdom",
+                         "class",
+                         "family",
+                         "recordedBy", 
+                         "organismQuantityType", 
+                         "occurrenceStatus",
+                         "licence",
+                         "language",
+                         "bibliographicCitation",
+                         "eventRemarks")]
 
 
 
@@ -323,9 +373,9 @@ DF_occ <- dados_bind [,c("eventID", "occurrenceID","basisOfRecord",
 # do the lines have the same information? (check this by calculating the sd of depth)
 # sd(fish_long_format[which(fish_long_format$eventID == unique_eventIDs[100]),"depthInMeters"])
 
-event_core <- data.frame (group_by(dados_bind, eventID,higherGeographyID,locationID,verbatimLocality,locality) %>% 
+event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,site,verbatimLocality,locality) %>% 
                             
-                            summarise(eventYear = mean(eventYear),
+                            summarise(year = mean(year),
                                       eventDate = mean(eventDate),
                                       minimumDepthInMeters = mean(minimumDepthInMeters),
                                       maximumDepthInMeters = mean(maximumDepthInMeters),
@@ -421,90 +471,105 @@ occ_Ross_et_al_benthos$decimalLongitude <- angle2dec(occ_Ross_et_al_benthos$deci
 occ_Ross_et_al_benthos$verbatimIdentification <- occ_Ross_et_al_benthos$sppName
 
 # replace space by "_"
-colnames(occ_Ross_et_al_benthos)[which(colnames(occ_Ross_et_al_benthos) == "sppName")] <- "scientificName"
-occ_Ross_et_al_benthos$scientificName  <-  (gsub("\\."," ",occ_Ross_et_al_benthos$scientificName ))
-occ_Ross_et_al_benthos$scientificName  <- (iconv(occ_Ross_et_al_benthos$scientificName , "ASCII", "UTF-8", sub=""))
-occ_Ross_et_al_benthos$scientificName <- tolower(occ_Ross_et_al_benthos$scientificName)
-
-
-# adjust names
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "turf")] <-"filamentous algae"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "cca")] <-"crustose coralline algae"
+occ_Ross_et_al_benthos$taxonOrGroup <- occ_Ross_et_al_benthos$verbatimIdentification
+occ_Ross_et_al_benthos$taxonOrGroup  <-  (gsub("\\."," ",occ_Ross_et_al_benthos$taxonOrGroup ))
+occ_Ross_et_al_benthos$taxonOrGroup  <- (iconv(occ_Ross_et_al_benthos$taxonOrGroup , "ASCII", "UTF-8", sub=""))
+occ_Ross_et_al_benthos$taxonOrGroup <- tolower(occ_Ross_et_al_benthos$taxonOrGroup)
 
 
 # adjust based on knowledge of Cesar Cordeiro
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "aiolochoria crassa")] <- "aiolochroia crassa"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "meandrina braziliensis")] <- "meandrina brasiliensis"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "millepora")] <- "millepora sp"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "montastrea cavernosa")] <- "montastraea cavernosa"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "mussismilia")] <- "mussismilia spp"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "neospongodes atlbntica")] <- "neospongodes atlantica"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "siderastrea spp ")] <- "siderastrea spp"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "siderastrea")] <- "siderastrea spp"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "siderastrea sp")] <- "siderastrea spp"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "ventricaria ventricosa")] <- "valonia ventricosa"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "zooanthus sociatus")] <- "zoanthus sociatus"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "zoanthid")] <- "zoantharia"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "zoanthus sp ")] <- "zoantharia"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "palythoa")] <- "palythoa sp "
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "padina")] <- "padina sp"
+
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "ventricaria ventricosa")] <- "valonia ventricosa"
 
 # broader groups
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "leathery")] <- "leathery algae"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "spirobidae - polycchaete")] <- "spirorbidae"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "briozoa")] <- "bryozoa"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "bryozoan")] <- "bryozoa"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "hidrozoan")] <- "hydrozoa"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "outro hydrozoa")] <- "hydrozoa"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "poliqueta")] <- "polychaeta"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "polichaeta")] <- "polychaeta"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName %in% c("ascidea colonial" ,                  
-                                                             "ascidian",
-                                                             "outra ascidia"))] <- "ascidiacea"
-# octocoral and anthozoa
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "outro anthozoa")] <- "anthozoa"
-occ_Ross_et_al_benthos$scientificName[grep("octocoral",occ_Ross_et_al_benthos$scientificName)] <- "alcyonaria"
-# sponge
-occ_Ross_et_al_benthos$scientificName[grep("sponge",occ_Ross_et_al_benthos$scientificName)] <- "porifera"
-# echinorms
-occ_Ross_et_al_benthos$scientificName[grep("ourigo",occ_Ross_et_al_benthos$scientificName)] <- "echinoidea" # ourico (ourigo deviaod à conversao pra encoding utf 8)
-occ_Ross_et_al_benthos$scientificName[grep("sea urchin",occ_Ross_et_al_benthos$scientificName)] <- "echinoidea"
-occ_Ross_et_al_benthos$scientificName[grep("outro echinoderma",occ_Ross_et_al_benthos$scientificName)] <- "echinodermata"
-occ_Ross_et_al_benthos$scientificName[grep("crinside",occ_Ross_et_al_benthos$scientificName)] <- "crinoidea"# crinoidea (crinside deviaod à conversao pra encoding utf 8)
-occ_Ross_et_al_benthos$scientificName[grep("estrela",occ_Ross_et_al_benthos$scientificName)] <- "asteroidea"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "anemona")] <- "actiniaria"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "leathery")] <- "leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "spirobidae - polycchaete")] <- "spirorbinae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "briozoa")] <- "bryozoa"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "bryozoan")] <- "bryozoa"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "hidrozoan")] <- "hydrozoa"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "outro hydrozoa")] <- "hydrozoa"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "poliqueta")] <- "polychaeta"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "polichaeta")] <- "polychaeta"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup %in% c("ascidea colonial" ,                  
+                                                                             "ascidian",
+                                                                             "outra ascidia"))] <- "ascidiacea"
 
-# cca and caa
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "crostose coralline algae")] <- "crustose coralline algae"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "cianobacterias")] <- "cyanobacteria"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName %in% c("amphiroa", 
-                                                             "amphiroa sp", 
-                                                             "amphiroideae", 
-                                                             "jania amphiroa", 
-                                                             "jania sp",
-                                                             "unknown articulated coralline algae"))] <- "amphiroideae"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "filamentous")] <- "filamentous algae"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "green filamentous algae")] <- "filamentous algae"
+# octocoral and anthozoa
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "outro anthozoa")] <- "anthozoa"
+occ_Ross_et_al_benthos$taxonOrGroup[grep("octocoral",occ_Ross_et_al_benthos$taxonOrGroup)] <- "octocorallia" # "alcyonaria" nao eh aceito
+# sponge
+occ_Ross_et_al_benthos$taxonOrGroup[grep("sponge",occ_Ross_et_al_benthos$taxonOrGroup)] <- "porifera"
+# echinoderms
+occ_Ross_et_al_benthos$taxonOrGroup[grep("ourigo",occ_Ross_et_al_benthos$taxonOrGroup)] <- "echinoidea" # ourico (ourigo deviaod à conversao pra encoding utf 8)
+occ_Ross_et_al_benthos$taxonOrGroup[grep("sea urchin",occ_Ross_et_al_benthos$taxonOrGroup)] <- "echinoidea"
+occ_Ross_et_al_benthos$taxonOrGroup[grep("outro echinoderma",occ_Ross_et_al_benthos$taxonOrGroup)] <- "echinodermata"
+occ_Ross_et_al_benthos$taxonOrGroup[grep("crinside",occ_Ross_et_al_benthos$taxonOrGroup)] <- "crinoidea"# crinoidea (crinside deviaod à conversao pra encoding utf 8)
+occ_Ross_et_al_benthos$taxonOrGroup[grep("estrela",occ_Ross_et_al_benthos$taxonOrGroup)] <- "asteroidea"
+
+
+### melhor nao indicar grupo morfo-anatomico (MAG) como taxonOrGroup. Esse MAG nao tem compativel pra inseir no DwC/OBIS
+### Vou indicar o nivel taxonomico compativel com o que tiver e o resto deixamos como estava 
+### Os grupos morfo-anatomicos podem ser adicionados com merge de tabela referencia depois
+
+# cca and caa 
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "turf")] <-"filamentous algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "cca")] <- "corallinales" # "crustose coralline algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "cianobacterias")] <- "cyanobacteria"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup %in% c("amphiroideae", # "amphiroideae"
+                                                                             "jania amphiroa", # "amphiroideae"
+                                                                             "unknown articulated coralline algae"))] <- "amphiroideae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "filamentous")] <- "filamentous algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "green filamentous algae")] <- "chlorophyta" # "filamentous algae"
 
 # algae
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName %in% c("fleshy algae",
-                                                             "foliaceous algae",
-                                                             "foliose",
-                                                             "frondose algae", 
-                                                             "unknown foliose"))] <- "foliose algae"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "calcareous turf")] <- "calcareous articulate algae"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "corticated")] <- "corticated algae"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "unknown corticated")] <- "corticated algae"
-occ_Ross_et_al_benthos$scientificName[which(occ_Ross_et_al_benthos$scientificName == "sargassum sp")] <- "leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup %in% c("fleshy algae", # usando o taxaOrGroup podemos manter nessa categoria e ficaria sem scientificName
+                                                                             "foliaceous algae",
+                                                                             "foliose",
+                                                                             "frondose algae", 
+                                                                             "unknown foliose"))] <- "foliose algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "calcareous turf")] <- "corallinales" # "calcareous articulate algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "corticated")] <- "corticated algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "unknown corticated")] <- "corticated algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "sargassum sp")] <- "sargassum" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "jania sp")] <- "jania" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "amphiroa sp")] <- "amphiroa" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "schizoporella sp")] <- "schizoporella" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "siderastrea spp")] <- "siderastrea" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "mussismilia spp")] <- "mussismilia" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "millepora sp")] <- "millepora" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "laurencia sp")] <- "laurencia" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "digenia sp")] <- "digenia" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "digenia sp ")] <- "digenia" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "galaxaura sp")] <- "galaxaura" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "agaricia sp")] <- "agaricia" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "codium spp")] <- "codium" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "porites sp")] <- "porites" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "padina sp")] <- "padina" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "leptogorgia sp")] <- "leptogorgia" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "chaetomorpha sp")] <- "chaetomorpha" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "caulerpa sp")] <- "caulerpa" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "dictyota sp")] <- "dictyota" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "parazoanthus cf axinellae")] <- "parazoanthus" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "siderastrea sp")] <- "siderastrea" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "pseudosuberites sp ")] <- "pseudosuberites" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "ulva sp")] <- "ulva" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "dictyopteris sp")] <- "dictyopteris" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "millepora brasiliensis")] <- "millepora braziliensis" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "aiolochoria crassa")] <- "aiolochroia crassa" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "zooanthus sociatus")] <- "zoanthus sociatus" # leathery algae"
+occ_Ross_et_al_benthos$taxonOrGroup[which(occ_Ross_et_al_benthos$taxonOrGroup == "amphimedon aff  compressa")] <- "amphimedon" # leathery algae"
+
 
 # check unique taxa
-unique(occ_Ross_et_al_benthos$scientificName)[order(unique(occ_Ross_et_al_benthos$scientificName))]
+unique(occ_Ross_et_al_benthos$taxonOrGroup)[order(unique(occ_Ross_et_al_benthos$taxonOrGroup))]
 
 # remove plot data
-occ_Ross_et_al_benthos <-occ_Ross_et_al_benthos[which(occ_Ross_et_al_benthos$scientificName %in% c("tape","sand","shadow","rock", "rodolith", 
+occ_Ross_et_al_benthos <-occ_Ross_et_al_benthos[which(occ_Ross_et_al_benthos$taxonOrGroup %in% c("tape","sand","shadow","rock", "rodolith", 
                                                                                                    "unknown" ,"unknown algae") != T),]
 
 # matching with worms
-worms_record <- lapply (unique(occ_Ross_et_al_benthos$scientificName), function (i) 
+worms_record <- lapply (unique(occ_Ross_et_al_benthos$taxonOrGroup), function (i) 
   
   tryCatch (
     
@@ -517,15 +582,25 @@ worms_record <- lapply (unique(occ_Ross_et_al_benthos$scientificName), function 
   
 )
 
-# two rows
+# melt
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 # match
-occ_Ross_et_al_benthos$scientificNameOBIS<-(df_worms_record$scientificname [match (occ_Ross_et_al_benthos$scientificName,tolower (df_worms_record$scientificname))])
-occ_Ross_et_al_benthos$scientificNameID<-(df_worms_record$lsid [match (occ_Ross_et_al_benthos$scientificName,tolower (df_worms_record$scientificname))])
-occ_Ross_et_al_benthos$kingdom<-(df_worms_record$kingdom [match (occ_Ross_et_al_benthos$scientificName,tolower(df_worms_record$scientificname))])
-occ_Ross_et_al_benthos$class<-(df_worms_record$class [match (occ_Ross_et_al_benthos$scientificName,tolower(df_worms_record$scientificname))])
-occ_Ross_et_al_benthos$family<-(df_worms_record$family [match (occ_Ross_et_al_benthos$scientificName,tolower(df_worms_record$scientificname))])
+# sp
+occ_Ross_et_al_benthos$scientificName<-(df_worms_record$scientificname [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower (df_worms_record$scientificname))])
+# aphiaID
+occ_Ross_et_al_benthos$scientificNameID<-(df_worms_record$lsid [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower (df_worms_record$scientificname))])
+# taxon rank of the identified level
+occ_Ross_et_al_benthos$taxonRank <- (df_worms_record$rank [match (occ_Ross_et_al_benthos$taxonOrGroup,
+                                                                 tolower (df_worms_record$scientificname))])
+# kingdom
+occ_Ross_et_al_benthos$kingdom<-(df_worms_record$kingdom [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower(df_worms_record$scientificname))])
+# class
+occ_Ross_et_al_benthos$class<-(df_worms_record$class [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower(df_worms_record$scientificname))])
+# family
+occ_Ross_et_al_benthos$family<-(df_worms_record$family [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower(df_worms_record$scientificname))])
 
+
+unique(occ_Ross_et_al_benthos[is.na(occ_Ross_et_al_benthos$scientificName),"taxonOrGroup"])
 
 
 
@@ -540,12 +615,13 @@ occ_Ross_et_al_benthos$family<-(df_worms_record$family [match (occ_Ross_et_al_be
 # create events (based on fish data)
 occ_Ross_et_al_benthos <- cbind (occ_Ross_et_al_benthos, 
         occ_Ross_et_al [match (occ_Ross_et_al_benthos$sitecode, occ_Ross_et_al$sitecode), 
-                        c("eventYear","eventMonth", "eventDay"),])
+                        c("year","month", "day"),])
+
 
 # as date
-occ_Ross_et_al_benthos$eventDate <- as.Date (paste(occ_Ross_et_al_benthos$eventYear,
-                                                   occ_Ross_et_al_benthos$eventMonth,
-                                                   occ_Ross_et_al_benthos$eventDay,
+occ_Ross_et_al_benthos$eventDate <- as.Date (paste(occ_Ross_et_al_benthos$year,
+                                                   occ_Ross_et_al_benthos$month,
+                                                   occ_Ross_et_al_benthos$day,
                                            sep="-"))
 
 
@@ -562,60 +638,68 @@ occ_Ross_et_al_benthos$region <- "ne_reefs"
 
 # locality
 # according to Aued & Morais
-occ_Ross_et_al_benthos$locationID <- occ_Ross_et_al_benthos$local
+occ_Ross_et_al_benthos$site <- occ_Ross_et_al_benthos$local
+
 # adjust natal (NA)
-occ_Ross_et_al_benthos$locationID[is.na(occ_Ross_et_al_benthos$locationID)] <- "NA"
+occ_Ross_et_al_benthos$site[is.na(occ_Ross_et_al_benthos$site)] <- "NA"
 # adjust other
-occ_Ross_et_al_benthos$locationID [which(occ_Ross_et_al_benthos$locationID == "PI")] <- "pirangi"
-occ_Ross_et_al_benthos$locationID [which(occ_Ross_et_al_benthos$locationID == "RF")] <- "parrachos_de_rio_do_fogo"
-occ_Ross_et_al_benthos$locationID [which(occ_Ross_et_al_benthos$locationID == "BF")] <- "baiaformosa"
-occ_Ross_et_al_benthos$locationID [which(occ_Ross_et_al_benthos$locationID == "DL")] <- "diogolopes"
-occ_Ross_et_al_benthos$locationID [which(occ_Ross_et_al_benthos$locationID == "CN")] <- "caicaradonorte"
-occ_Ross_et_al_benthos$locationID [which(occ_Ross_et_al_benthos$locationID == "PM")] <- "portodomangue"
-occ_Ross_et_al_benthos$locationID [which(occ_Ross_et_al_benthos$locationID == "NA")] <- "natal"
+occ_Ross_et_al_benthos$site [which(occ_Ross_et_al_benthos$site == "PI")] <- "pirangi"
+occ_Ross_et_al_benthos$site [which(occ_Ross_et_al_benthos$site == "RF")] <- "parrachos_de_rio_do_fogo"
+occ_Ross_et_al_benthos$site [which(occ_Ross_et_al_benthos$site == "BF")] <- "baiaformosa"
+occ_Ross_et_al_benthos$site [which(occ_Ross_et_al_benthos$site == "DL")] <- "diogolopes"
+occ_Ross_et_al_benthos$site [which(occ_Ross_et_al_benthos$site == "CN")] <- "caicaradonorte"
+occ_Ross_et_al_benthos$site [which(occ_Ross_et_al_benthos$site == "PM")] <- "portodomangue"
+occ_Ross_et_al_benthos$site [which(occ_Ross_et_al_benthos$site == "NA")] <- "natal"
 
 
 # verbatimLocality
-occ_Ross_et_al_benthos$verbatimLocality <- occ_Ross_et_al_benthos$site
-
-
-# reef (location ID)
-occ_Ross_et_al_benthos$locality <- occ_Ross_et_al_benthos$site
-occ_Ross_et_al_benthos$locality[which(occ_Ross_et_al_benthos$locality == "batentedasagulhas")] <- "batente_das_agulhas"
-occ_Ross_et_al_benthos$locality[which(occ_Ross_et_al_benthos$locality == "mestrevicente")] <- "mestre_vicente"
-
+occ_Ross_et_al_benthos$verbatimLocality <- occ_Ross_et_al_benthos$sitecode
+# reef (locality)
+occ_Ross_et_al_benthos$locality <- occ_Ross_et_al_benthos$sitecode
 unique(occ_Ross_et_al_benthos$locality)[order(unique(occ_Ross_et_al_benthos$locality))]
 
 # event depth
 occ_Ross_et_al_benthos$minimumDepthInMeters <- occ_Ross_et_al_benthos$depth
 occ_Ross_et_al_benthos$maximumDepthInMeters <- occ_Ross_et_al_benthos$minimumDepthInMeters
 
+# geography
+occ_Ross_et_al_benthos$higherGeography <- "BrazilianCoast"
+
 ## fazer occID para este estudo
 occ_Ross_et_al_benthos$occurrenceID <- paste (
-  paste ("BR:RioGrandeDoNorte:", 
-         occ_Ross_et_al_benthos$locationID,sep=""),
-          occ_Ross_et_al_benthos$locality, # check
-          occ_Ross_et_al_benthos$eventYear,
+  paste ( 
+    paste ("BR:ReefSYN:RioGrandeDoNorte_benthos_monitoring:", 
+           occ_Ross_et_al_benthos$higherGeography,
+           sep=""),
+    occ_Ross_et_al_benthos$site,sep=":"),
+  occ_Ross_et_al_benthos$locality,
+  occ_Ross_et_al_benthos$year,
           occ_Ross_et_al_benthos$transect,
         paste ("occ",seq(1,nrow(occ_Ross_et_al_benthos)),sep=""),
   sep="_")
 
 ## fazer eventID para este estudo
 occ_Ross_et_al_benthos$eventID <- paste (
-  paste ("BR:RioGrandeDoNorte:", 
-         occ_Ross_et_al_benthos$locationID,sep=""),
-        occ_Ross_et_al_benthos$locality,
-        occ_Ross_et_al_benthos$eventYear,
+  paste ( 
+    paste ("BR:ReefSYN:RioGrandeDoNorte_benthos_monitoring:", 
+           occ_Ross_et_al_benthos$higherGeography,
+           sep=""),
+    occ_Ross_et_al_benthos$site,sep=":"),
+  occ_Ross_et_al_benthos$locality,
+  occ_Ross_et_al_benthos$year,
         occ_Ross_et_al_benthos$transect,
   sep="_")
 
 
 ## fazer parentID para este estudo
 occ_Ross_et_al_benthos$parentEventID <- paste (
-  paste ("BR:RioGrandeDoNorte:", 
-         occ_Ross_et_al_benthos$locationID,sep=""),
-        occ_Ross_et_al_benthos$locality,
-        occ_Ross_et_al_benthos$eventYear,
+  paste ( 
+    paste ("BR:ReefSYN:RioGrandeDoNorte_benthos_monitoring:", 
+           occ_Ross_et_al_benthos$higherGeography,
+           sep=""),
+    occ_Ross_et_al_benthos$site,sep=":"),
+  occ_Ross_et_al_benthos$locality,
+  occ_Ross_et_al_benthos$year,
   sep="_")
 
 
@@ -632,8 +716,6 @@ occ_Ross_et_al_benthos$basisOfRecord <- "HumanObservation"
 occ_Ross_et_al_benthos$occurrenceStatus <- "presence"
 # geodeticDatum
 occ_Ross_et_al_benthos$geodeticDatum <- "decimal degrees"
-# higherGeograpyhID
-occ_Ross_et_al_benthos$higherGeographyID <- "BrazilianCoast"
 # method
 occ_Ross_et_al_benthos$samplingProtocol <- "photoquadrats"
 # effort
@@ -652,6 +734,13 @@ occ_Ross_et_al_benthos$measurementType <- "Percentage cover"
 # measurementUnit
 occ_Ross_et_al_benthos$measurementUnit <- "dimensionless"
 
+# licence
+occ_Ross_et_al_benthos$licence <- "CC BY-NC"
+# language
+occ_Ross_et_al_benthos$language <- "en"
+# citation
+occ_Ross_et_al_benthos$bibliographicCitation <- "Roos NC, Pennino MG, Carvalho AR, Longo GO (2019) Drivers of abundance and biomass of Brazilian parrotfishes. Mar Ecol Prog Ser 623:117-130. https://doi.org/10.3354/meps13005"
+
 
 
 
@@ -663,28 +752,44 @@ occ_Ross_et_al_benthos$measurementUnit <- "dimensionless"
 
 
 
-DF_eMOF <- occ_Ross_et_al_benthos [,c("eventID", "occurrenceID",
+DF_eMOF <- occ_Ross_et_al_benthos [,c("eventID", 
+                                      "occurrenceID",
                                       "verbatimIdentification",
-                                      "scientificName","scientificNameID",
-                                      "scientificNameOBIS",
-                                      "kingdom","class","family",
-                                      "measurementValue", "measurementType","measurementUnit")]
+                                      "scientificName",
+                                      "scientificNameID",
+                                      "taxonRank",
+                                      "kingdom",
+                                      "class",
+                                      "family",
+                                      "measurementValue",
+                                      "measurementType",
+                                      "measurementUnit")]
 
 
 
-DF_occ <- occ_Ross_et_al_benthos [,c("eventID", "occurrenceID","basisOfRecord",
+DF_occ <- occ_Ross_et_al_benthos [,c("eventID", 
+                                     "occurrenceID",
+                                     "basisOfRecord",
                                      "verbatimIdentification",
-                                     "scientificName","scientificNameID",
-                                     "scientificNameOBIS",
-                                     "kingdom","class","family",
-                                     "recordedBy", "organismQuantityType", "occurrenceStatus")]
+                                     "scientificName",
+                                     "scientificNameID",
+                                     "taxonRank",
+                                     "kingdom",
+                                     "class",
+                                     "family",
+                                     "recordedBy", 
+                                     "organismQuantityType",
+                                     "occurrenceStatus",
+                                     "licence",
+                                     "language",
+                                     "bibliographicCitation")]
 
 # aggregate data by eventIDs to have event_core
 # do the lines have the same information? (check this by calculating the sd of depth)
 # sd(fish_long_format[which(fish_long_format$eventID == unique_eventIDs[100]),"depthInMeters"])
 #event_core <- aggregate (minimumDepthInMeters ~ parentEventID + eventID +
-#                           higherGeographyID+locationID +locality + 
-#                           eventDate+ eventYear+
+#                           higherGeographyID+site +locality + 
+#                           eventDate+ year+
 #                           minimumDepthInMeters+maximumDepthInMeters+
 #                           samplingProtocol+samplingEffort+sampleSizeValue+
 #                           decimalLongitude+decimalLatitude+
@@ -693,9 +798,9 @@ DF_occ <- occ_Ross_et_al_benthos [,c("eventID", "occurrenceID","basisOfRecord",
 #                         data = occ_Ross_et_al_benthos,
 #                         FUN = mean)
 #
-event_core <- data.frame (group_by(occ_Ross_et_al_benthos, eventID,higherGeographyID,locationID,verbatimLocality, locality) %>% 
+event_core <- data.frame (group_by(occ_Ross_et_al_benthos, eventID,higherGeography,site,verbatimLocality, locality) %>% 
                             
-                            summarise(eventYear = mean(eventYear),
+                            summarise(year = mean(year),
                                       eventDate = mean(eventDate),
                                       minimumDepthInMeters = mean(minimumDepthInMeters),
                                       maximumDepthInMeters = mean(maximumDepthInMeters),

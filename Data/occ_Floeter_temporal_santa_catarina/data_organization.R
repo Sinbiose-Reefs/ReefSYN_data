@@ -1,4 +1,6 @@
+
 # load Floeter et al. data
+
 # SC time series
 require(here); require(openxlsx); require(worrms); require(dplyr)
 
@@ -87,33 +89,32 @@ dados_bind$decimalLatitude <- as.numeric((dados_bind$decimalLatitude))
 
 
 
-
-
 # scientificName
 colnames(dados_bind)[which(colnames(dados_bind) == "species")] <- "scientificName"
 # locality
-colnames(dados_bind)[which(colnames(dados_bind) == "location")] <- "locationID"
 colnames(dados_bind)[which(colnames(dados_bind) == "site")] <- "locality"
-# year
-colnames(dados_bind)[which(colnames(dados_bind) == "year")] <- "eventYear"
-# eventDate
-dados_bind$eventMonth <- (dados_bind$month)
-dados_bind$eventMonth [which(dados_bind$eventMonth == "december")] <- 12
-dados_bind$eventMonth [which(dados_bind$eventMonth == "april")] <- 04
-dados_bind$eventMonth [which(dados_bind$eventMonth == "march")] <- 03
-dados_bind$eventMonth [which(dados_bind$eventMonth == "january")] <- 01
-dados_bind$eventMonth [which(dados_bind$eventMonth == "february")] <- 02
-dados_bind$eventMonth [which(dados_bind$eventMonth == "november")] <- 11
-dados_bind$eventMonth [which(dados_bind$eventMonth == "may")] <- 05
-dados_bind$eventMonth [which(dados_bind$eventMonth == "july")] <- 07
-dados_bind$eventMonth [which(dados_bind$eventMonth == "august")] <- 08
-dados_bind$eventMonth [which(dados_bind$eventMonth == "september")] <- 09
-dados_bind$eventMonth [which(dados_bind$eventMonth == "october")] <- 10
+# more general == site
+colnames(dados_bind)[which(colnames(dados_bind) == "location")] <- "site"
 
-# date
-dados_bind$eventDate <- as.Date (paste(dados_bind$eventYear, 
-               dados_bind$eventMonth,
+# editing month
+dados_bind$month [which(dados_bind$month == "december")] <- 12
+dados_bind$month [which(dados_bind$month == "april")] <- 04
+dados_bind$month [which(dados_bind$month == "march")] <- 03
+dados_bind$month [which(dados_bind$month == "january")] <- 01
+dados_bind$month [which(dados_bind$month == "february")] <- 02
+dados_bind$month [which(dados_bind$month == "november")] <- 11
+dados_bind$month [which(dados_bind$month == "may")] <- 05
+dados_bind$month [which(dados_bind$month == "july")] <- 07
+dados_bind$month [which(dados_bind$month == "august")] <- 08
+dados_bind$month [which(dados_bind$month == "september")] <- 09
+dados_bind$month [which(dados_bind$month == "october")] <- 10
+
+# eventDate
+dados_bind$eventDate <- as.Date (paste(dados_bind$year, 
+               dados_bind$month,
                dados_bind$day,sep="-"))
+
+
 
 # country and code
 dados_bind$Country <- "Brazil"
@@ -123,7 +124,7 @@ dados_bind$basisOfRecord <- "HumanObservation"
 # geodeticDatum
 dados_bind$geodeticDatum <- "decimal degrees"
 # geographic location
-dados_bind$higherGeographyID <- "BrazilianCoast"
+dados_bind$higherGeography <- "BrazilianCoast"
 
 
 
@@ -158,11 +159,27 @@ unique(dados_bind$locality )[order(unique(dados_bind$locality ))]
 # ADJUSTING SCIENTIFIC NAME
 
 
-dados_bind$scientificName <- gsub ("_", " ", dados_bind$scientificName)
 
+# replace "_"
+dados_bind$verbatimIdentification <- gsub ("_", " ", dados_bind$scientificName)
+dados_bind$species_to_search <- gsub ("_", " ", dados_bind$scientificName)
+
+
+# solve a couple of problems in identification
+dados_bind$species_to_search [grep ("decapteru macarellus", dados_bind$species_to_search)] <- "decapterus macarellus"
+
+# non identified species
+dados_bind$identificationQualifier <- ifelse (sapply (strsplit (dados_bind$verbatimIdentification, " "), "[[", 2) == "sp",
+        "sp",
+        NA)
+
+# species to search
+dados_bind$species_to_search [which(dados_bind$identificationQualifier == "sp")] <- gsub (" sp",
+                                                                                          "",
+                                                                                          dados_bind$species_to_search [which(dados_bind$identificationQualifier == "sp")])
 
 # matching with worms
-worms_record <- lapply (unique(dados_bind$scientificName), function (i) 
+worms_record <- lapply (unique(dados_bind$species_to_search), function (i) 
   
   tryCatch (
     
@@ -180,26 +197,27 @@ worms_record <- lapply (unique(dados_bind$scientificName), function (i)
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 
-# match
-dados_bind$verbatimIdentification <- dados_bind$scientificName
 
-# valid name OBIS
-dados_bind$scientificNameOBIS <- (df_worms_record$scientificname [match (dados_bind$scientificName,
-                                                                   tolower (df_worms_record$scientificname))])
+# valid name WORMS
+dados_bind$scientificName <- (df_worms_record$scientificname [match (dados_bind$species_to_search,
+                                                      tolower (df_worms_record$scientificname))])
 # id
-dados_bind$scientificNameID<-(df_worms_record$lsid [match (dados_bind$scientificName,
-                                                           tolower (df_worms_record$scientificname))])
+dados_bind$scientificNameID<-(df_worms_record$lsid [match (dados_bind$species_to_search,
+                                                      tolower (df_worms_record$scientificname))])
+
+# taxon rank of the identified level
+dados_bind$taxonRank <- (df_worms_record$rank [match (dados_bind$species_to_search,
+                                                      tolower (df_worms_record$scientificname))])
+
 # kingdom
-dados_bind$kingdom <-(df_worms_record$kingdom [match (dados_bind$scientificName,
+dados_bind$kingdom <-(df_worms_record$kingdom [match (dados_bind$species_to_search,
                                                       tolower (df_worms_record$scientificname))])
 # class
-dados_bind$class<-(df_worms_record$class [match (dados_bind$scientificName,
+dados_bind$class<-(df_worms_record$class [match (dados_bind$species_to_search,
                                                  tolower(df_worms_record$scientificname))])
 # family
-dados_bind$family<-(df_worms_record$family [match (dados_bind$scientificName,
+dados_bind$family<-(df_worms_record$family [match (dados_bind$species_to_search,
                                                    tolower(df_worms_record$scientificname))])
-
-
 
 
 
@@ -215,19 +233,23 @@ dados_bind$family<-(df_worms_record$family [match (dados_bind$scientificName,
 
 # IDs
 # creating parentIDs
-dados_bind$parentEventID <- paste (paste ("BR:SC_TIME_SERIES:",
-                                          dados_bind$locationID,sep=""), 
+dados_bind$parentEventID <- paste (paste (paste ("BR:ReefSYN:SC-TIME-SERIES:", 
+                                                 dados_bind$higherGeography,
+                                                 sep=""),
+                                          dados_bind$site,sep=":"), 
                                            dados_bind$locality, 
-                                          dados_bind$eventYear,
+                                          dados_bind$year,
                               sep="_")
 
 
 
 # creating eventIds
-dados_bind$eventID <- paste (paste ("BR:SC_TIME_SERIES-MAR:",
-                                    dados_bind$locationID,sep=""), 
+dados_bind$eventID <- paste (paste (paste ("BR:ReefSYN:SC-TIME-SERIES:", 
+                                           dados_bind$higherGeography,
+                                           sep=""),
+                                    dados_bind$site,sep=":"),  
                                     dados_bind$locality, 
-                                    dados_bind$eventYear,
+                                    dados_bind$year,
                                     substr (dados_bind$transect_id,6,nchar(dados_bind$transect_id)),
                         sep="_")
 
@@ -235,15 +257,24 @@ dados_bind$eventID <- paste (paste ("BR:SC_TIME_SERIES-MAR:",
 
 
 # creating occurrenceIDs
-dados_bind$occurrenceID <- paste (paste ("BR:SC_TIME_SERIES-MAR:",
-                                         dados_bind$locationID,sep=""), 
+dados_bind$occurrenceID <- paste (paste (paste ("BR:ReefSYN:SC-TIME-SERIES:", 
+                                                dados_bind$higherGeography,
+                                                sep=""),
+                                         dados_bind$site,sep=":"),  
                                   dados_bind$locality, 
-                                  dados_bind$eventYear,
+                                  dados_bind$year,
                                   substr (dados_bind$transect_id,6,nchar(dados_bind$transect_id)),
                              paste ("occ",seq(1,nrow(dados_bind)),sep=""),
                              sep="_")
 
 
+
+
+# licence
+dados_bind$licence <- "CC BY-NC"
+
+# language
+dados_bind$language <- "en"
 
 
 
@@ -259,26 +290,41 @@ dados_bind$occurrenceID <- paste (paste ("BR:SC_TIME_SERIES-MAR:",
 
 
 DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
-                          "verbatimIdentification","scientificName",
-                          "scientificNameID","scientificNameOBIS",
-                          "kingdom","class","family",
-                          "measurementValue", "measurementType","measurementUnit")]
+                          "verbatimIdentification",
+                          "scientificNameID",
+                          "scientificName",
+                          "taxonRank",
+                          "kingdom",
+                          "class",
+                          "family",
+                          "measurementValue", 
+                          "measurementType",
+                          "measurementUnit")]
 
 
 
-DF_occ <- dados_bind [,c("eventID", "occurrenceID","basisOfRecord",
-                         "verbatimIdentification","scientificName",
-                         "scientificNameID","scientificNameOBIS",
-                         "kingdom","class","family",
-                         "recordedBy", "organismQuantityType", "occurrenceStatus")]
+DF_occ <- dados_bind [,c("eventID", 
+                         "occurrenceID",
+                         "basisOfRecord",
+                         "verbatimIdentification",
+                         "scientificNameID",
+                         "scientificName",
+                         "taxonRank",
+                         "kingdom",
+                         "class","family",
+                         "recordedBy",
+                         "organismQuantityType", 
+                         "occurrenceStatus",
+                         "licence",
+                         "language")]
 
 
 
 # aggregate data by eventIDs to have event_core
 
-event_core <- data.frame (group_by(dados_bind, eventID,higherGeographyID,locationID,verbatimLocality,locality) %>% 
+event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,site,verbatimLocality,locality) %>% 
                             
-                            summarise(eventYear = mean(eventYear),
+                            summarise(year = mean(year),
                                       eventDate = mean(eventDate),
                                       minimumDepthinMeters = mean(minimumDepthinMeters),
                                       maximumDepthinMeters = mean(maximumDepthinMeters),

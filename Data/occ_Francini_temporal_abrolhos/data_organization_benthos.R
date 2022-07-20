@@ -46,7 +46,7 @@ benthos_long_format <- do.call(rbind,benthos_long_format) # melt the list
 # corrections
 # point into site
 colnames(benthos_long_format) <- c("locality","site","habitat","depthInMeters",            
-                                   "eventDate" , "scientificName","measurementValue")
+                                   "eventDate" , "taxonOrGroup","measurementValue")
 
 
 
@@ -61,18 +61,20 @@ colnames(benthos_long_format) <- c("locality","site","habitat","depthInMeters",
 
 
 
-benthos_long_format$verbatimIdentification <- benthos_long_format$scientificName
+benthos_long_format$verbatimIdentification <- benthos_long_format$taxonOrGroup
+
+
 # correcting scientificName (names based on Aued et al. 2019)
-benthos_long_format$scientificName[which(benthos_long_format$scientificName == "ACA")]  <- "calcareous articulate algae"
-benthos_long_format$scientificName[which(benthos_long_format$scientificName == "AFI")]  <- "filamentous algae"
-benthos_long_format$scientificName[which(benthos_long_format$scientificName == "AFRO")]  <- "frondose algae"
-benthos_long_format$scientificName[which(benthos_long_format$scientificName == "CV")]  <- "scleractinia"
-benthos_long_format$scientificName[which(benthos_long_format$scientificName == "SPJA")]  <- "porifera"
-benthos_long_format$scientificName[which(benthos_long_format$scientificName == "MI")]  <- "millepora sp"
-benthos_long_format$scientificName[which(benthos_long_format$scientificName == "OCTO")]  <- "alcyonaria"
-benthos_long_format$scientificName[which(benthos_long_format$scientificName == "OÇO")]  <- "echinoidea"
-benthos_long_format$scientificName[which(benthos_long_format$scientificName == "ZO")]  <- "zoantharia"
-benthos_long_format$scientificName[which(benthos_long_format$scientificName == "CV+MI")]  <- "scleractinia"
+benthos_long_format$taxonOrGroup[which(benthos_long_format$taxonOrGroup == "ACA")]  <- "calcareous articulate algae"
+benthos_long_format$taxonOrGroup[which(benthos_long_format$taxonOrGroup == "AFI")]  <- "filamentous algae"
+benthos_long_format$taxonOrGroup[which(benthos_long_format$taxonOrGroup == "AFRO")]  <- "frondose algae"
+benthos_long_format$taxonOrGroup[which(benthos_long_format$taxonOrGroup == "CV")]  <- "scleractinia"
+benthos_long_format$taxonOrGroup[which(benthos_long_format$taxonOrGroup == "SPJA")]  <- "porifera"
+benthos_long_format$taxonOrGroup[which(benthos_long_format$taxonOrGroup == "MI")]  <- "millepora"
+benthos_long_format$taxonOrGroup[which(benthos_long_format$taxonOrGroup == "OCTO")]  <- "octocorallia" # "alcyonaria" nao eh aceito
+benthos_long_format$taxonOrGroup[which(benthos_long_format$taxonOrGroup == "OÇO")]  <- "echinoidea"
+benthos_long_format$taxonOrGroup[which(benthos_long_format$taxonOrGroup == "ZO")]  <- "zoantharia"
+benthos_long_format$taxonOrGroup[which(benthos_long_format$taxonOrGroup == "CV+MI")]  <- "scleractinia"
 
 
 
@@ -81,7 +83,7 @@ benthos_long_format$scientificName[which(benthos_long_format$scientificName == "
 # adjusting spp names
 # matching with worms
 
-worms_record <- lapply (unique(benthos_long_format$scientificName), function (i) 
+worms_record <- lapply (unique(benthos_long_format$taxonOrGroup), function (i) 
   
   tryCatch (
     
@@ -102,12 +104,30 @@ df_worms_record <- data.frame(do.call(rbind,worms_record))
 # df_worms_record[which(df_worms_record$match_type == "near_1"),]
 # match
 # no match
-# valid name OBIS
-benthos_long_format$scientificNameOBIS<-(df_worms_record$scientificname [match (benthos_long_format$scientificName, tolower(df_worms_record$scientificname))])
-benthos_long_format$scientificNameID<-(df_worms_record$lsid [match (benthos_long_format$scientificName, tolower(df_worms_record$scientificname))])
-benthos_long_format$kingdom <-(df_worms_record$kingdom [match (benthos_long_format$scientificName,tolower (df_worms_record$scientificname))])
-benthos_long_format$class <-(df_worms_record$class [match (benthos_long_format$scientificName,tolower (df_worms_record$scientificname))])
-benthos_long_format$family <-(df_worms_record$family [match (benthos_long_format$scientificName,tolower (df_worms_record$scientificname))])
+# valid name worms
+benthos_long_format$scientificName<-(df_worms_record$scientificname [match (benthos_long_format$taxonOrGroup, 
+                                                                            tolower(df_worms_record$scientificname))])
+
+
+# rank
+benthos_long_format$taxonRank<-(df_worms_record$rank [match (benthos_long_format$taxonOrGroup,
+                                                            tolower(df_worms_record$scientificname))])
+
+# ID
+benthos_long_format$scientificNameID<-(df_worms_record$lsid [match (benthos_long_format$taxonOrGroup,
+                                                                    tolower(df_worms_record$scientificname))])
+
+# kingdom
+benthos_long_format$kingdom <-(df_worms_record$kingdom [match (benthos_long_format$taxonOrGroup,
+                                                               tolower (df_worms_record$scientificname))])
+
+# class
+benthos_long_format$class <-(df_worms_record$class [match (benthos_long_format$taxonOrGroup,
+                                                           tolower (df_worms_record$scientificname))])
+
+# family
+benthos_long_format$family <-(df_worms_record$family [match (benthos_long_format$taxonOrGroup,
+                                                             tolower (df_worms_record$scientificname))])
 
 
 
@@ -122,20 +142,30 @@ benthos_long_format$family <-(df_worms_record$family [match (benthos_long_format
 benthos_long_format$habitat[which(benthos_long_format$habitat == "TP")] <- "pinnacles_top"
 benthos_long_format$habitat[which(benthos_long_format$habitat == "PA")] <- "pinnacles_wall"
 
+# geographic location
+benthos_long_format$higherGeography <- "BrazilianCoast"
+
 
 # creating parentEventids
 benthos_long_format$parentEventID <- paste (
-  paste ("BR:Abrolhos:", 
-         benthos_long_format$locality,sep=""),
+  paste ( 
+    paste ("BR:ReefSYN:RonaldoFranciniFilho-AbrolhosBank:", 
+           benthos_long_format$higherGeography,
+           sep=""),
+    benthos_long_format$locality,sep=":"),
+  benthos_long_format$site,
   benthos_long_format$eventDate,
-  sep="_")
+  sep = "_")
 
 
 
 # creating eventids
 benthos_long_format$eventID <- paste (
-  paste ("BR:Abrolhos:", 
-         benthos_long_format$locality,sep=""),
+  paste ( 
+    paste ("BR:ReefSYN:RonaldoFranciniFilho-AbrolhosBank:", 
+           benthos_long_format$higherGeography,
+           sep=""),
+    benthos_long_format$locality,sep=":"),
   benthos_long_format$site,
   benthos_long_format$eventDate,
   
@@ -143,46 +173,67 @@ benthos_long_format$eventID <- paste (
 
 
 
+
 # occurrenceID
 benthos_long_format$occurrenceID <- paste (
-  paste ("BR:Abrolhos:", 
-         benthos_long_format$locality,sep=""),
+  paste ( 
+    paste ("BR:ReefSYN:RonaldoFranciniFilho-AbrolhosBank:", 
+           benthos_long_format$higherGeography,
+           sep=""),
+    benthos_long_format$locality,sep=":"),
   benthos_long_format$site,
   benthos_long_format$eventDate,
   paste ("occ",seq(1,nrow(benthos_long_format)),sep=""),
   sep="_")
 
 
-# eventYear
-benthos_long_format$eventYear<-benthos_long_format$eventDate
+
+# year
+benthos_long_format$year<- benthos_long_format$eventDate
+
 # method
 benthos_long_format$samplingProtocol <- "point-intercept  lines"
+
 # samplingEffort
 benthos_long_format$samplingEffort <- 4 # four lines
+
 # sampleSizeValue
 benthos_long_format$sampleSizeValue <- 10 # length of each line
+
 # sampleSizeUnit
 benthos_long_format$sampleSizeUnit <- "meters"
+
 # country and code
 benthos_long_format$Country <- "Brazil"
 benthos_long_format$countryCode <- "BR"
+
 # basisOfRecord
 benthos_long_format$basisOfRecord <- "HumanObservation"
+
 # occurrenceStatus
 benthos_long_format$occurrenceStatus <- "presence"
+
 # organismQuantityType
 benthos_long_format$organismQuantityType <- "Percentage cover"
+
 # measurementType
 benthos_long_format$measurementType <- "Percentage cover"
+
 # measurementUnit
 benthos_long_format$measurementUnit <- "dimensionless"
+
 # recordedBy
 benthos_long_format$recordedBy <- "Ronaldo Francini-Filho"
-# geographic location
-benthos_long_format$higherGeographyID <- "BrazilianCoast"
-# locationID and locality
-colnames(benthos_long_format)[which(colnames(benthos_long_format) == "locality")] <- "locationID"
-colnames(benthos_long_format)[which(colnames(benthos_long_format) == "site")] <- "locality"
+
+# site and locality
+benthos_long_format$verbatimSite <- benthos_long_format$site # point number
+benthos_long_format$verbatimLocality <- benthos_long_format$locality
+
+# chance names (site and locality are not correct -- the converse)
+benthos_long_format$site <- benthos_long_format$verbatimLocality
+benthos_long_format$locality <- benthos_long_format$verbatimSite
+
+
 
 # depth
 # set min and max
@@ -191,7 +242,15 @@ benthos_long_format$maximumDepthinMeters <- benthos_long_format$minimumDepthinMe
 
 
 
+# licence
+benthos_long_format$licence <- "CC BY-NC"
 
+# language
+benthos_long_format$language <- "en"
+
+# citation
+benthos_long_format$bibliographicCitation <- "Francini-Filho RB, Coni EOC, Meirelles PM, Amado-Filho GM, Thompson FL, et al. (2013) Dynamics of Coral Reef Benthic Assemblages of the Abrolhos
+Bank, Eastern Brazil: Inferences on Natural and Anthropogenic Drivers. PLoS ONE 8(1): e54260. doi:10.1371/journal.pone.0054260"
 
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -214,6 +273,7 @@ occ_Francini_et_al <- read.xlsx(here("Data","occ_Francini_et_al",
 
 # data from Abrolhos 2008
 occ_Francini_et_al <- occ_Francini_et_al[which(occ_Francini_et_al$REGION == "ABROLHOS"),]
+
 # which sites from occ_Francini_et_al are in fish_long_format
 total_sites <- unique(c(occ_Francini_et_al$SITE, toupper (benthos_long_format$locality)))
 total_sites <- total_sites[order(total_sites)]# order
@@ -228,6 +288,7 @@ match_sites_coords <- occ_Francini_et_al[match (total_sites, toupper (occ_Franci
 # sites lacking coordinates
 match_sites_coords[which(total_sites %in% match_sites_coords$SITE == F),"SITE"]<-total_sites[which(total_sites %in% match_sites_coords$SITE == F)]
 
+# adjusting coordinates (based on information provided by RF-Filho)
 match_sites_coords[match_sites_coords$SITE == "AMP3",c("LAT", "LONG")] <- c(-16.914, -39.030)
 match_sites_coords[match_sites_coords$SITE == "A3",c("LAT", "LONG")] <- c(-16.903, -39.031)
 match_sites_coords[match_sites_coords$SITE == "PA1",c("LAT", "LONG")] <- c(-17.699161805482,-38.942426147792)#
@@ -239,6 +300,7 @@ match_sites_coords[match_sites_coords$SITE == "PA1",c("LAT", "LONG")] <- c(-17.6
 
 # matching site to have the coordinates
 coords <- (match_sites_coords [match (benthos_long_format$locality,match_sites_coords$SITE), c("REEF","SITE","LAT","LONG")])
+
 
 # table(coords$SITE == fish_long_format$SITE) # check matching
 benthos_long_format<- cbind (benthos_long_format,
@@ -253,7 +315,7 @@ colnames(benthos_long_format)[which(colnames(benthos_long_format) %in% c("LAT", 
 
 
 # sites to lower
-benthos_long_format$locationID <- tolower (benthos_long_format$locationID)
+benthos_long_format$site <- tolower (benthos_long_format$site)
 benthos_long_format$locality <- tolower (benthos_long_format$locality)
 
 
@@ -269,24 +331,38 @@ benthos_long_format$locality <- tolower (benthos_long_format$locality)
 
 
 
-DF_eMOF <- benthos_long_format [,c("eventID", "occurrenceID","verbatimIdentification",
-                                   "scientificName","scientificNameID","scientificNameOBIS",
-                                   "kingdom","class","family",
-                                   "measurementValue", "measurementType","measurementUnit")]
+DF_eMOF <- benthos_long_format [,c("eventID", 
+                                   "occurrenceID",
+                                   "verbatimIdentification",
+                                   "scientificName",
+                                   "taxonRank",
+                                   "scientificNameID",
+                                   "kingdom",
+                                   "class",
+                                   "family",
+                                   "measurementValue", 
+                                   "measurementType",
+                                   "measurementUnit")]
 
 DF_occ <- benthos_long_format [,c("eventID", "occurrenceID","basisOfRecord",
                                   "verbatimIdentification",
-                                  "scientificName","scientificNameID","scientificNameOBIS",
+                                  "scientificName",
+                                  "taxonRank",
+                                  "scientificNameID",
                                   "kingdom","class","family",
-                                  "recordedBy", "organismQuantityType", "occurrenceStatus")]
+                                  "recordedBy", 
+                                  "organismQuantityType", 
+                                  "occurrenceStatus",
+                                  "licence",
+                                  "language")]
 
 
 # aggregate data by eventIDs to have event_core
 # do the lines have the same information? (check this by calculating the sd of depth)
 # sd(fish_long_format[which(fish_long_format$eventID == unique_eventIDs[100]),"depthInMeters"])
-event_core <- data.frame (group_by(benthos_long_format, eventID,higherGeographyID,locationID,locality) %>% 
+event_core <- data.frame (group_by(benthos_long_format, eventID,higherGeography,site,locality) %>% 
                             
-                            summarise(eventYear = mean(eventYear),
+                            summarise(year = mean(year),
                                       eventDate = mean(eventDate),
                                       minimumDepthinMeters = mean(minimumDepthinMeters),
                                       maximumDepthinMeters = mean(maximumDepthinMeters),
@@ -324,14 +400,18 @@ benthos_TS_2006 <- read.xlsx(here ("Data",
                                    "occ_Francini_temporal_abrolhos",
                                    "#####TEMPORAL BENTHOS ABROLHOS 2006-2014.xlsx"))
 
+
 # cols of data information
 data_info <-  c("REEF","SITE","HAB","REGION","YEAR", "quad", "FIX.QUAD")
+
 
 # data frame with data information
 benthos_df_2006 <- benthos_TS_2006[,data_info]
 
+
 # list of fish and size
 benthos_df_list <- colnames(benthos_TS_2006)[which(colnames(benthos_TS_2006) %in% colnames(benthos_df_2006) == F)]
+
 
 # separate and bind with data information
 # long format
@@ -343,12 +423,14 @@ benthos_long_format_2006 <- lapply (benthos_df_list, function (species)
   
 )
 
+
 benthos_long_format_2006 <- do.call(rbind,benthos_long_format_2006) # melt the list
 
+
 # corrections
-colnames(benthos_long_format_2006) <- c("locationID","locality","habitat","region",            
+colnames(benthos_long_format_2006) <- c("site","locality","habitat","region",            
                                         "eventDate" , "quadrat","quadratID",
-                                        "scientificName","measurementValue")
+                                        "taxonOrGroup","measurementValue")
 
 
 
@@ -361,112 +443,133 @@ colnames(benthos_long_format_2006) <- c("locationID","locality","habitat","regio
 
 
 
-benthos_long_format_2006$verbatimIdentification <- benthos_long_format_2006$scientificName
+benthos_long_format_2006$verbatimIdentification <- benthos_long_format_2006$taxonOrGroup
+
 # correcting scientific name  (names based on Aued et al. 2019)
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "CYANO")]  <- "cyanobacteria"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "CCA")]  <- "crustose coralline algae"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "CAA")]  <- "calcareous articulate algae"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "TURF")]  <- "filamentous algae"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "fire-coral")]  <- "millepora alcicornis"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "CYANO.+.TURF")]  <- "cianobacterias calcareous turf"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "HALIMEDA")]  <- "halimeda"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "FLESHY.ALGAE")]  <- "foliose algae"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "OTHER.ORGANISMS")]  <- "other organisms"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "SPONGE")]  <- "porifera"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "CYANO")]  <- "cyanobacteria"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "CCA")]  <- "crustose coralline algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "CAA")]  <- "calcareous articulate algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "TURF")]  <- "filamentous algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "fire-coral")]  <- "millepora alcicornis"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "CYANO.+.TURF")]  <- "cianobacterias calcareous turf"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "HALIMEDA")]  <- "halimeda"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "FLESHY.ALGAE")]  <- "foliose algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "OTHER.ORGANISMS")]  <- "other organisms"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "SPONGE")]  <- "porifera"
 
 
 # adjusting spp names
-benthos_long_format_2006$scientificName <-  (gsub("\\."," ",benthos_long_format_2006$scientificName))
-benthos_long_format_2006$scientificName <-(iconv(benthos_long_format_2006$scientificName, "UTF-8", "ASCII//TRANSLIT", sub=""))
-benthos_long_format_2006$scientificName <- tolower(benthos_long_format_2006$scientificName)
 
-
-# the group "cianobacterias calcareous turf" from Francini et al. (time series) divided into 2 groups
-cianobacterias_calcareous_turf <- benthos_long_format_2006[which(benthos_long_format_2006$scientificName == "cianobacterias calcareous turf"),]
-cianobacterias_calcareous_turf$scientificName[which(cianobacterias_calcareous_turf$scientificName == "cianobacterias calcareous turf")] <- "cyanobacteria" # transform the other
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "cianobacterias calcareous turf")] <- "filamentous algae"
-benthos_long_format_2006<-rbind (benthos_long_format_2006, cianobacterias_calcareous_turf) # bind one new group
+benthos_long_format_2006$taxonOrGroup <-  (gsub("\\."," ",benthos_long_format_2006$taxonOrGroup)) # replace dot by space
+benthos_long_format_2006$taxonOrGroup <-(iconv(benthos_long_format_2006$taxonOrGroup, "ASCII", "UTF-8", sub="")) # encoding
+benthos_long_format_2006$taxonOrGroup <- tolower(benthos_long_format_2006$taxonOrGroup) # lower case
 
 
 
 
 # adjust based on knowledge of Cesar Cordeiro
-unique(benthos_long_format_2006$scientificName)[order(unique(benthos_long_format_2006$scientificName))]
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "aiolochoria crassa")] <- "aiolochroia crassa"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "meandrina braziliensis")] <- "meandrina brasiliensis"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "millepora")] <- "millepora sp"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "montastrea cavernosa")] <- "montastraea cavernosa"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "mussismilia")] <- "mussismilia spp"
-benthos_long_format_2006$scientificName[grep("neospongodes atl*", benthos_long_format_2006$scientificName)] <- "neospongodes atlantica"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "siderastrea spp ")] <- "siderastrea spp"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "siderastrea")] <- "siderastrea spp"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "siderastrea sp")] <- "siderastrea spp"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "ventricaria ventricosa")] <- "valonia ventricosa"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "zooanthus sociatus")] <- "zoanthus sociatus"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "zoanthid")] <- "zoantharia"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "zoanthus sp ")] <- "zoantharia"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "palythoa")] <- "palythoa sp "
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "padina")] <- "padina sp"
+
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "ventricaria ventricosa")] <- "valonia ventricosa"
 
 # broader groups
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "leathery")] <- "leathery algae"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "spirobidae - polycchaete")] <- "spirorbidae"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "briozoa")] <- "bryozoa"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "bryozoan")] <- "bryozoa"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "hidrozoan")] <- "hydrozoa"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "outro hydrozoa")] <- "hydrozoa"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "poliqueta")] <- "polychaeta"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "polichaeta")] <- "polychaeta"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName %in% c("ascidea colonial" ,                  
-                                                                                 "ascidian",
-                                                                                 "outra ascidia"))] <- "ascidiacea"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "anemona")] <- "actiniaria"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "leathery")] <- "leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "spirobidae - polycchaete")] <- "spirorbinae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "briozoa")] <- "bryozoa"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "bryozoan")] <- "bryozoa"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "hidrozoan")] <- "hydrozoa"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "outro hydrozoa")] <- "hydrozoa"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "poliqueta")] <- "polychaeta"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "polichaeta")] <- "polychaeta"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup %in% c("ascidea colonial" ,                  
+                                                                             "ascidian",
+                                                                             "outra ascidia"))] <- "ascidiacea"
+
 # octocoral and anthozoa
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "outro anthozoa")] <- "anthozoa"
-benthos_long_format_2006$scientificName[grep("octocoral",benthos_long_format_2006$scientificName)] <- "alcyonaria"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "outro anthozoa")] <- "anthozoa"
+benthos_long_format_2006$taxonOrGroup[grep("octocoral",benthos_long_format_2006$taxonOrGroup)] <- "octocorallia" # "alcyonaria" nao eh aceito
 # sponge
-benthos_long_format_2006$scientificName[grep("sponge",benthos_long_format_2006$scientificName)] <- "porifera"
+benthos_long_format_2006$taxonOrGroup[grep("sponge",benthos_long_format_2006$taxonOrGroup)] <- "porifera"
 # echinoderms
-benthos_long_format_2006$scientificName[grep("ourigo",benthos_long_format_2006$scientificName)] <- "echinoidea" # ourico (ourigo deviaod à conversao pra encoding utf 8)
-benthos_long_format_2006$scientificName[grep("sea urchin",benthos_long_format_2006$scientificName)] <- "echinoidea"
-benthos_long_format_2006$scientificName[grep("outro echinoderma",benthos_long_format_2006$scientificName)] <- "echinodermata"
-benthos_long_format_2006$scientificName[grep("crinside",benthos_long_format_2006$scientificName)] <- "crinoidea"# crinoidea (crinside deviaod à conversao pra encoding utf 8)
-benthos_long_format_2006$scientificName[grep("estrela",benthos_long_format_2006$scientificName)] <- "asteroidea"
+benthos_long_format_2006$taxonOrGroup[grep("ourigo",benthos_long_format_2006$taxonOrGroup)] <- "echinoidea" # ourico (ourigo deviaod à conversao pra encoding utf 8)
+benthos_long_format_2006$taxonOrGroup[grep("sea urchin",benthos_long_format_2006$taxonOrGroup)] <- "echinoidea"
+benthos_long_format_2006$taxonOrGroup[grep("outro echinoderma",benthos_long_format_2006$taxonOrGroup)] <- "echinodermata"
+benthos_long_format_2006$taxonOrGroup[grep("crinside",benthos_long_format_2006$taxonOrGroup)] <- "crinoidea"# crinoidea (crinside deviaod à conversao pra encoding utf 8)
+benthos_long_format_2006$taxonOrGroup[grep("estrela",benthos_long_format_2006$taxonOrGroup)] <- "asteroidea"
 
-# cca and caa
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "crostose coralline algae")] <- "crustose coralline algae"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "cianobacterias")] <- "cyanobacteria"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName %in% c("amphiroa", 
-                                                                                 "amphiroa sp", 
-                                                                                 "amphiroideae", 
-                                                                                 "jania amphiroa", 
-                                                                                 "jania sp",
-                                                                                 "unknown articulated coralline algae"))] <- "amphiroideae"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "filamentous")] <- "filamentous algae"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "green filamentous algae")] <- "filamentous algae"
+
+### melhor nao indicar grupo morfo-anatomico (MAG) como taxonOrGroup. Esse MAG nao tem compativel pra inseir no DwC/OBIS
+### Vou indicar o nivel taxonomico compativel com o que tiver e o resto deixamos como estava 
+### Os grupos morfo-anatomicos podem ser adicionados com merge de tabela referencia depois
+
+# cca and caa 
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "crostose coralline algae")] <- "corallinales" # "crustose coralline algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "cianobacterias")] <- "cyanobacteria"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup %in% c("amphiroideae", # "amphiroideae"
+                                                                             "jania amphiroa", # "amphiroideae"
+                                                                             "unknown articulated coralline algae"))] <- "amphiroideae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "filamentous")] <- "filamentous algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "green filamentous algae")] <- "chlorophyta" # "filamentous algae"
+
 # algae
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName %in% c("fleshy algae",
-                                                                                 "foliaceous algae",
-                                                                                 "foliose",
-                                                                                 "frondose algae", 
-                                                                                 "unknown foliose"))] <- "foliose algae"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "calcareous turf")] <- "calcareous articulate algae"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "corticated")] <- "corticated algae"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "unknown corticated")] <- "corticated algae"
-benthos_long_format_2006$scientificName[which(benthos_long_format_2006$scientificName == "sargassum sp")] <- "leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup %in% c("fleshy algae", # usando o taxaOrGroup podemos manter nessa categoria e ficaria sem scientificName
+                                                                             "foliaceous algae",
+                                                                             "foliose",
+                                                                             "frondose algae", 
+                                                                             "unknown foliose"))] <- "foliose algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "calcareous turf")] <- "corallinales" # "calcareous articulate algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "corticated")] <- "corticated algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "unknown corticated")] <- "corticated algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "sargassum sp")] <- "sargassum" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "jania sp")] <- "jania" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "amphiroa sp")] <- "amphiroa" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "schizoporella sp")] <- "schizoporella" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "siderastrea spp")] <- "siderastrea" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "siderastrea spp ")] <- "siderastrea" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "mussismilia spp")] <- "mussismilia" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "millepora sp")] <- "millepora" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "laurencia sp")] <- "laurencia" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "digenia sp")] <- "digenia" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "digenia sp ")] <- "digenia" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "galaxaura sp")] <- "galaxaura" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "agaricia sp")] <- "agaricia" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "codium spp")] <- "codium" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "porites sp")] <- "porites" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "padina sp")] <- "padina" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "leptogorgia sp")] <- "leptogorgia" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "chaetomorpha sp")] <- "chaetomorpha" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "caulerpa sp")] <- "caulerpa" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "dictyota sp")] <- "dictyota" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "parazoanthus cf axinellae")] <- "parazoanthus" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "zoanthus sp ")] <- "zoanthus" # leathery algae"
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "palythoa sp ")] <- "palythoa" # leathery algae"
+
+# neospogondes
+benthos_long_format_2006$taxonOrGroup[grep("neospongodes", benthos_long_format_2006$taxonOrGroup)] <- "neospongodes atlantica" # leathery algae"
 
 
-# check names
-unique(benthos_long_format_2006$scientificName)[order(unique(benthos_long_format_2006$scientificName))]
+# the group "cianobacterias calcareous turf" from Francini et al. (time series) divided into 2 groups
+cianobacterias_calcareous_turf <- benthos_long_format_2006[which(benthos_long_format_2006$taxonOrGroup == "cianobacterias calcareous turf"),]
+cianobacterias_calcareous_turf$taxonOrGroup[which(cianobacterias_calcareous_turf$taxonOrGroup == "cianobacterias calcareous turf")] <- "cyanobacteria" # transform the other
+benthos_long_format_2006$taxonOrGroup[which(benthos_long_format_2006$taxonOrGroup == "cianobacterias calcareous turf")] <- "filamentous algae"
+benthos_long_format_2006<-rbind (benthos_long_format_2006, cianobacterias_calcareous_turf) # bind one new group
+
+
+
+
+unique(benthos_long_format_2006$taxonOrGroup)[order(unique(benthos_long_format_2006$taxonOrGroup))]
+
+
 
 
 # remove plot data
-benthos_long_format_2006<-benthos_long_format_2006 [which(benthos_long_format_2006$scientificName %in% 
+benthos_long_format_2006<-benthos_long_format_2006 [which(benthos_long_format_2006$taxonOrGroup %in% 
                                                             c("sand","rock") != T),]
 
 
 
 # matching with worms
-worms_record <- lapply (unique(benthos_long_format_2006$scientificName), function (i) 
+worms_record <- lapply (unique(benthos_long_format_2006$taxonOrGroup), function (i) 
   
   tryCatch (
     
@@ -482,14 +585,34 @@ worms_record <- lapply (unique(benthos_long_format_2006$scientificName), functio
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 
+
 # df_worms_record[which(df_worms_record$match_type == "near_1"),]
 # match
 # no match
-benthos_long_format_2006$scientificNameOBIS<-(df_worms_record$scientificname [match (benthos_long_format_2006$scientificName, tolower(df_worms_record$scientificname))])
-benthos_long_format_2006$scientificNameID<-(df_worms_record$lsid [match (benthos_long_format_2006$scientificName, tolower(df_worms_record$scientificname))])
-benthos_long_format_2006$kingdom <-(df_worms_record$kingdom [match (benthos_long_format_2006$scientificName, tolower(df_worms_record$scientificname))])
-benthos_long_format_2006$class <-(df_worms_record$class [match (benthos_long_format_2006$scientificName, tolower(df_worms_record$scientificname))])
-benthos_long_format_2006$family <-(df_worms_record$family [match (benthos_long_format_2006$scientificName, tolower(df_worms_record$scientificname))])
+benthos_long_format_2006$scientificName<-(df_worms_record$scientificname [match (benthos_long_format_2006$taxonOrGroup, 
+                                                                                     tolower(df_worms_record$scientificname))])
+
+# rank
+benthos_long_format_2006$taxonRank<-(df_worms_record$rank [match (benthos_long_format_2006$taxonOrGroup, 
+                                                                         tolower(df_worms_record$scientificname))])
+
+
+# ID
+benthos_long_format_2006$scientificNameID<-(df_worms_record$lsid [match (benthos_long_format_2006$taxonOrGroup, 
+                                                                         tolower(df_worms_record$scientificname))])
+
+# kingdom
+benthos_long_format_2006$kingdom <-(df_worms_record$kingdom [match (benthos_long_format_2006$taxonOrGroup, 
+                                                                    tolower(df_worms_record$scientificname))])
+
+
+# class
+benthos_long_format_2006$class <-(df_worms_record$class [match (benthos_long_format_2006$taxonOrGroup, 
+                                                                tolower(df_worms_record$scientificname))])
+
+# family
+benthos_long_format_2006$family <-(df_worms_record$family [match (benthos_long_format_2006$taxonOrGroup, 
+                                                                  tolower(df_worms_record$scientificname))])
 
 
 
@@ -500,14 +623,19 @@ benthos_long_format_2006$family <-(df_worms_record$family [match (benthos_long_f
 
 
 
+# geographic location
+benthos_long_format_2006$higherGeography <- "BrazilianCoast"
 
 
 
 
 # creating parentEventids
 benthos_long_format_2006$parentEventID <- paste (
-  paste ("BR:Abrolhos:", 
-         benthos_long_format_2006$locationID,sep=""),
+  paste ( 
+    paste ("BR:ReefSYN:RonaldoFranciniFilho-AbrolhosBank:", 
+           benthos_long_format_2006$higherGeography,
+           sep=""),
+    benthos_long_format_2006$site,sep=":"),
   benthos_long_format_2006$locality,
   benthos_long_format_2006$eventDate,
   sep="_")
@@ -516,8 +644,11 @@ benthos_long_format_2006$parentEventID <- paste (
 
 # creating eventids
 benthos_long_format_2006$eventID <- paste (
-  paste ("BR:Abrolhos:", 
-         benthos_long_format_2006$locationID,sep=""),
+  paste ( 
+    paste ("BR:ReefSYN:RonaldoFranciniFilho-AbrolhosBank:", 
+           benthos_long_format_2006$higherGeography,
+           sep=""),
+    benthos_long_format_2006$site,sep=":"),
   benthos_long_format_2006$locality,
   benthos_long_format_2006$eventDate,
   benthos_long_format_2006$quadrat,
@@ -528,8 +659,11 @@ benthos_long_format_2006$eventID <- paste (
 
 # occurrenceID
 benthos_long_format_2006$occurrenceID <- paste (
-  paste ("BR:Abrolhos:", 
-         benthos_long_format_2006$locationID,sep=""),
+  paste ( 
+    paste ("BR:ReefSYN:RonaldoFranciniFilho-AbrolhosBank:", 
+           benthos_long_format_2006$higherGeography,
+           sep=""),
+    benthos_long_format_2006$site,sep=":"),
   benthos_long_format_2006$locality,
   benthos_long_format_2006$eventDate,
   benthos_long_format_2006$quadrat,
@@ -540,35 +674,46 @@ benthos_long_format_2006$occurrenceID <- paste (
 
 
 
-# eventYear
-benthos_long_format_2006$eventYear<-benthos_long_format_2006$eventDate
+# year
+benthos_long_format_2006$year<-benthos_long_format_2006$eventDate
+
 # method
 benthos_long_format_2006$samplingProtocol <- "fixed photo-quadrats"
+
 # samplingEffort
 benthos_long_format_2006$samplingEffort <- 10 # 10 qudrats, 15 images per quadrat
+
 # sampleSizeValue
 benthos_long_format_2006$sampleSizeValue <- 0.7
+
 # sampleSizeUnit
 benthos_long_format_2006$sampleSizeUnit <- "squared meters"
+
 # country and code
 benthos_long_format_2006$Country <- "Brazil"
 benthos_long_format_2006$countryCode <- "BR"
+
 # basisOfRecord
 benthos_long_format_2006$basisOfRecord <- "HumanObservation"
+
 # occurrenceStatus
 benthos_long_format_2006$occurrenceStatus <- "presence"
+
 # organismQuantityType
 benthos_long_format_2006$organismQuantityType <- "Percentage cover"
+
 # measurementType
 benthos_long_format_2006$measurementType <- "Percentage cover"
+
 # measurementUnit
 benthos_long_format_2006$measurementUnit <- "dimensionless"
+
 # recordedBy
 benthos_long_format_2006$recordedBy <- "Ronaldo Francini-Filho"
+
 # no depth data
 benthos_long_format_2006$depthInMeters <- NA
-# geographic location
-benthos_long_format_2006$higherGeographyID <- "BrazilianCoast"
+
 # adjusting habitat (based on Francini-Filho et al. 2013)
 benthos_long_format_2006$habitat[which(benthos_long_format_2006$habitat == "TP")] <- "pinnacles_top"
 benthos_long_format_2006$habitat[which(benthos_long_format_2006$habitat == "PA")] <- "pinnacles_wall"
@@ -599,8 +744,19 @@ colnames(benthos_long_format_2006)[which(colnames(benthos_long_format_2006) %in%
 
 
 # tolower sites
-benthos_long_format_2006$locationID<- tolower (benthos_long_format_2006$locationID)
+benthos_long_format_2006$site<- tolower (benthos_long_format_2006$site)
 benthos_long_format_2006$locality<- tolower (benthos_long_format_2006$locality)
+
+
+
+# licence
+benthos_long_format_2006$licence <- "CC BY-NC"
+# language
+benthos_long_format_2006$language <- "en"
+
+# citation
+benthos_long_format_2006$bibliographicCitation <- "Francini-Filho RB, Coni EOC, Meirelles PM, Amado-Filho GM, Thompson FL, et al. (2013) Dynamics of Coral Reef Benthic Assemblages of the Abrolhos
+Bank, Eastern Brazil: Inferences on Natural and Anthropogenic Drivers. PLoS ONE 8(1): e54260. doi:10.1371/journal.pone.0054260"
 
 
 
@@ -615,21 +771,27 @@ benthos_long_format_2006$locality<- tolower (benthos_long_format_2006$locality)
 
 DF_eMOF_2006 <- benthos_long_format_2006 [,c("eventID", "occurrenceID",
                                              "verbatimIdentification",
-                                             "scientificName","scientificNameID","scientificNameOBIS",
+                                             "scientificName",
+                                             "scientificNameID",
+                                             "taxonRank",
                                              "kingdom","class","family",
                                              "measurementValue", "measurementType","measurementUnit")]
 
 DF_occ_2006 <- benthos_long_format_2006 [,c("eventID", "occurrenceID","basisOfRecord",
                                             "verbatimIdentification",
-                                            "scientificName","scientificNameID","scientificNameOBIS",
+                                            "scientificName",
+                                            "taxonRank",
+                                            "scientificNameID",
                                             "kingdom","class","family",
-                                            "recordedBy", "organismQuantityType", "occurrenceStatus")]
+                                            "recordedBy", "organismQuantityType", "occurrenceStatus",
+                                            "licence",
+                                            "language")]
 
 
 # aggregate data by eventIDs to have event_core
-event_core_2006 <- data.frame (group_by(benthos_long_format_2006, eventID,higherGeographyID,locationID,locality) %>% 
+event_core_2006 <- data.frame (group_by(benthos_long_format_2006, eventID,higherGeography,site,locality) %>% 
                             
-                            summarise(eventYear = mean(eventYear),
+                            summarise(year = mean(year),
                                       eventDate = mean(eventDate),
                                       minimumDepthinMeters = mean(minimumDepthinMeters),
                                       maximumDepthinMeters = mean(maximumDepthinMeters),
