@@ -3,7 +3,7 @@ Group (ReefSYN)
 ================
 ReefSYN, Luza, AL, Cordeiro, CAMM, …, Ferreira, CEL, Mendes, T.,
 Francini-Filho, RB, Longo, GO, Floeter, SR, Bender, MG
-2022/05/05
+2022/07/07
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
@@ -34,11 +34,11 @@ drivers of reef diversity and supplying of ecological services in
 Brazil*. More information about our group can be found at
 <https://reefsyn.weebly.com/home-us.html>.
 
-<img src="README_files/figure-gfm/unnamed-chunk-1-1.png" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-1-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
 Fig. 1: Institutions and research topics explored by the ReefSYN team
 members.
 
-# Paper section 2: Spatial distribution of data gathered by the ReefSYN Working Group
+# Paper section 2: Spatial distribution of spatial and temporal data gathered by the ReefSYN Working Group
 
 Natural to ecological synthesis is the use of big data (both in terms of
 amount of data and heterogeneity on data). To achieve our objective, we
@@ -56,25 +56,25 @@ Eastern Pacific fishes (Quimbayo et al., 2021). Below we present the map
 with the spatial distribution of localities included in fish and benthic
 datasets.
 
-![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- --> Fig. 2:
-Spatial distribution of sampling sites of benthos (right) and fish
-(left) per dataset.
+<img src="README_files/figure-gfm/unnamed-chunk-2-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
+Fig. 2: Spatial distribution of sampling sites of benthos (right) and
+fish (left) per dataset.
 
 # Paper section 3: Temporal trends on data acquisition
 
 The number of eventIDs per Dataset (five independent Datasets)
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- --> Fig. 3: The
-number of sampling events accumulated over time. One sampling event
-consist, for example, on one transect deployed into a locality. The
-vertical segments depict the year in which data included in each Dataset
-started to be collected. The horizontal bars depict the formal funding
-as follows: dark gray bar: Sisbiota, CNPq; light gray bar: PELD, CNPq;
-green bar: ReefSYN, Sinbiose CNPq.
+<img src="README_files/figure-gfm/unnamed-chunk-3-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
+Fig. 3: The number of sampling events accumulated over time. One
+sampling event consist, for example, on one transect deployed into a
+locality. The vertical segments depict the year in which data included
+in each Dataset started to be collected. The horizontal bars depict the
+formal funding as follows: dark gray bar: Sisbiota, CNPq; light gray
+bar: PELD, CNPq; green bar: ReefSYN, Sinbiose CNPq.
 
 # Paper section 4: Temporal trends on the number of species
 
-![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+<img src="README_files/figure-gfm/unnamed-chunk-4-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
 
 # Paper section 5: Brief description of each data set
 
