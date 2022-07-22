@@ -1047,6 +1047,14 @@ occ_Ross_et_al_benthos <- cbind (occ_Ross_et_al_benthos,
         occ_Ross_et_al [match (occ_Ross_et_al_benthos$sitecode, occ_Ross_et_al$sitecode), 
                         c("year","month", "day"),])
 
+# imputing NAs
+row_to_start <- min(as.numeric(rownames(occ_Ross_et_al_benthos[which(occ_Ross_et_al_benthos$year == "2017"),])))
+occ_Ross_et_al_benthos[1:row_to_start-1,"year"] <- "2016"
+occ_Ross_et_al_benthos[row_to_start: nrow(occ_Ross_et_al_benthos),"year"] <- "2017"
+# adjust year
+occ_Ross_et_al_benthos$year <- as.numeric (occ_Ross_et_al_benthos$year)
+
+# table((occ_Ross_et_al_benthos$year))
 
 # as date
 occ_Ross_et_al_benthos$eventDate <- as.Date (paste(occ_Ross_et_al_benthos$year,
@@ -1243,10 +1251,6 @@ event_core <- data.frame (group_by(occ_Ross_et_al_benthos, eventID,higherGeograp
                                       Country = unique(Country),
                                       countryCode = unique(countryCode))
 )
-# make a list with files in DwC
-output <- list (DF_occ = DF_occ,
-                DF_eMOF = DF_eMOF,
-                event_core=event_core)
 # save
 write.csv(DF_occ, file =here("DwC_output",
                                "GLongo_NRoss_spatialData",
