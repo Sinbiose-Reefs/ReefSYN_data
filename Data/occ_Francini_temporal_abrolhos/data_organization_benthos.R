@@ -828,16 +828,13 @@ output <- list (DF_occ = DF_occ,
 # write to txt format
 
 
-write.table(DF_occ, file =here("DwC_output",
+write.csv(DF_occ, file =here("DwC_output",
                                "RFrancini_timeSeries_abrolhos",
-                               "DF_occ_benthos.txt"),sep=",",
-            quote = FALSE)
-write.table(DF_eMOF, file =here("DwC_output",
+                               "DF_occ_benthos.csv"))
+write.csv(DF_eMOF, file =here("DwC_output",
                                 "RFrancini_timeSeries_abrolhos",
-                                "DF_eMOF_benthos.txt"),sep=",",
-            quote = FALSE)
+                                "DF_eMOF_benthos.csv"))
 
-write.table(event_core, file =here("DwC_output",
+write.csv(event_core, file =here("DwC_output",
                                    "RFrancini_timeSeries_abrolhos",
-                                   "event_core_benthos.txt"),sep=",",
-            quote = FALSE)
+                                   "event_core_benthos.csv"))

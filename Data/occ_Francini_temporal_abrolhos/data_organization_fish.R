@@ -455,33 +455,24 @@ output <- list (DF_occ = DF_occ,
                 DF_eMOF = DF_eMOF,
                 event_core=event_core)
 
-save(output,file= here("DwC_output",
-                       "RFrancini_timeSeries_abrolhos",
-                       "output_dwc.RData"))
 
 # write to txt
 
-write.table(DF_occ, file =here("DwC_output",
+write.csv(DF_occ, file =here("DwC_output",
                                "RFrancini_timeSeries_abrolhos",
-                               "DF_occ_fish.txt"),sep=",",
-
-                        quote = FALSE)
+                               "DF_occ_fish.csv"))
 
 
 
-write.table(DF_eMOF, file =here("DwC_output",
+write.csv(DF_eMOF, file =here("DwC_output",
                                 "RFrancini_timeSeries_abrolhos",
-                                "DF_eMOF_fish.txt"),sep=",",
-
-                        quote = FALSE)
+                                "DF_eMOF_fish.csv"))
 
 
 
-write.table(event_core, file =here("DwC_output",
+write.csv(event_core, file =here("DwC_output",
                                    "RFrancini_timeSeries_abrolhos",
-                                   "event_core_fish.txt"),sep=",",
-
-                        quote = FALSE)
+                                   "event_core_fish.csv"))
 
 
 

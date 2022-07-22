@@ -582,16 +582,13 @@ output <- list (DF_occ = DF_occ,
 
 # save
 # txt format
-write.table(DF_occ, file =here("DwC_output",
+write.csv(DF_occ, file =here("DwC_output",
                                "AAued_spatialData",
-                               "DF_occ.txt"),sep=",",
-            quote = FALSE)
-write.table(DF_eMOF, file =here("DwC_output",
+                               "DF_occ.csv"))
+write.csv(DF_eMOF, file =here("DwC_output",
                                 "AAued_spatialData",
-                                "DF_eMOF.txt"),sep=",",
-            quote = FALSE)
-write.table(event_core, file =here("DwC_output",
+                                "DF_eMOF.csv"))
+write.csv(event_core, file =here("DwC_output",
                                    "AAued_spatialData",
-                                   "event_core.txt"),sep=",",
-            quote = FALSE)
+                                   "event_core.csv"))
 

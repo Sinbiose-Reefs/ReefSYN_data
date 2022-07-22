@@ -224,32 +224,48 @@ coord_longo <-  read.csv(here("Data","occ_Longo_et_al","Coordinates.csv"),
 match_data_coord <- (coord_longo [match(L.peixes$site, coord_longo$name_data),])
 
 
-
-# extract coordeinates
+# extract coordinates
 L.peixes_coord <- cbind (L.peixes,
                   match_data_coord [,c("Long_DD", "Lat_DD")])
 
 
 # not matched
-not_matched <- L.peixes_coord [is.na(L.peixes_coord$Lat_DD),]
+not_matched <- unique(L.peixes_coord [is.na(L.peixes_coord$Lat_DD),"verbatimLocality"])
 
+# the mean coordinates of oostpunt
+L.peixes_coord[grep("oost", L.peixes_coord$site),"Lat_DD"] <- apply (coord_longo [grep ("Oos",coord_longo$Site),c("Lat_DD", "Long_DD")],2,mean)[1]
+L.peixes_coord[grep("oost", L.peixes_coord$site),"Long_DD"] <- apply (coord_longo [grep ("Oos",coord_longo$Site),c("Lat_DD", "Long_DD")],2,mean)[2]
+L.peixes_coord[grep("oost", L.peixes_coord$site),c("Lat_DD","Long_DD")]
+# the value for station rock
+L.peixes_coord[grep("station", L.peixes_coord$site),"Lat_DD"] <- coord_longo [grep ("Station",coord_longo$Site),c("Lat_DD", "Long_DD")][1]
+L.peixes_coord[grep("station", L.peixes_coord$site),"Long_DD"] <- coord_longo [grep ("Station",coord_longo$Site),c("Lat_DD", "Long_DD")][2]
 
 
 # get from Aued et al. (same sites, different names)
-match_aued <- occ_Aued_et_al [which(occ_Aued_et_al$site %in% not_matched$site),]
+match_aued <- occ_Aued_et_al [which(occ_Aued_et_al$site %in% not_matched),]
+match_aued <- aggregate (match_aued, by=list(match_aued$site),FUN=mean)[,c("Group.1", "decimalLatitude", "decimalLongitude")]
 
-
-
-# bind coordeinates that match
-not_matched$Long_DD <- match_aued [match (not_matched$site,match_aued$site),"decimalLongitude"]
-not_matched$Lat_DD <- match_aued [match (not_matched$site,match_aued$site),"decimalLatitude"]
+# bind coordinates that matched
+L.peixes_coord [which(L.peixes_coord$site %in% match_aued$Group.1[1]),c("Lat_DD", "Long_DD")] <- match_aued[1,c("decimalLatitude","decimalLongitude")]
+L.peixes_coord [which(L.peixes_coord$site %in% match_aued$Group.1[2]),c("Lat_DD", "Long_DD")] <- match_aued[2,c("decimalLatitude","decimalLongitude")]
 
 
 # bind in data of Longo
-
-L.peixes_coord [is.na(L.peixes_coord$Lat_DD),"Lat_DD"] <- not_matched$Lat_DD 
-L.peixes_coord [is.na(L.peixes_coord$Long_DD),"Long_DD"] <- not_matched$Long_DD
-
+# saco do vidal (coordinates from Morais et al. 2017)
+L.peixes_coord[which(L.peixes_coord$site == "saco_do_vidal"),"Lat_DD"] <- -27.298217
+L.peixes_coord[which(L.peixes_coord$site == "saco_do_vidal"),"Long_DD"] <- -48.361041
+# ilha do meio (coordinates from Morais et al. 2017)
+L.peixes_coord[which(L.peixes_coord$site == "ilha_do_meio"),"Lat_DD"] <- -8.761792
+L.peixes_coord[which(L.peixes_coord$site == "ilha_do_meio"),"Long_DD"] <- -35.087711
+# saco_dagua (coordinates from Morais et al. 2017)
+L.peixes_coord[which(L.peixes_coord$site == "saco_dagua"),"Lat_DD"] <- -27.277044
+L.peixes_coord[which(L.peixes_coord$site == "saco_dagua"),"Long_DD"] <- -48.368482
+# engenho (coordinates from Morais et al. 2017)
+L.peixes_coord[which(L.peixes_coord$site == "engenho"),"Lat_DD"] <- -27.290608
+L.peixes_coord[which(L.peixes_coord$site == "engenho"),"Long_DD"] <- -48.367013
+# engenho (coordinates from Morais et al. 2017)
+L.peixes_coord[which(L.peixes_coord$site == "baia_da_tartaruga"),"Lat_DD"] <- -27.290608
+L.peixes_coord[which(L.peixes_coord$site == "baia_da_tartaruga"),"Long_DD"] <- -48.363806
 
 
 
@@ -478,9 +494,23 @@ range(L.peixes_coord$samplingEffort)
 L.peixes_coord$sampleSizeValue <- 2*1
 # sampleSizeUnit
 L.peixes_coord$sampleSizeUnit <- "squared meters"
+
 # country and code
-L.peixes_coord$Country <- "Brazil"
-L.peixes_coord$countryCode <- "BR"
+L.peixes_coord$Country <- NA
+USA_sites <- c("station_rock","sw","sr","ms","bp", "l4","fs15","fs17","bl","cm","sf","a51","cr","mo","pr")
+mexico_sites <- c("moc", "jar", "bar", "sab", "cha","par")
+belize_sites <- c("cbc1","cbsw", "cbc3","cbc4","cur")
+curacao_sites <- c("oostpunt","oo1","oo2", "snake_bay", "water_factory", "west_punt","marie_pumpoin")
+
+# define countries
+L.peixes_coord [which(L.peixes_coord$locality %in% USA_sites),"Country"] <- "United States"
+L.peixes_coord [which(L.peixes_coord$locality %in% mexico_sites),"Country"] <- "Mexico"
+L.peixes_coord [which(L.peixes_coord$locality %in% belize_sites),"Country"] <- "Belize"
+L.peixes_coord [which(L.peixes_coord$locality %in% curacao_sites),"Country"] <- "Curacao"
+L.peixes_coord [is.na(L.peixes_coord$Country),"Country"]<-"Brazil"
+# check
+# table(L.peixes_coord$Country, L.peixes_coord$site)
+
 
 # basisOfRecord
 L.peixes_coord$basisOfRecord <- "HumanObservation"
@@ -603,6 +633,7 @@ DF_eMOF <- dados_bind [,c("eventID",
                           "measurementTypeID",
                           "begginingObservationTime",
                           "endingObservationTime")]
+
 rownames(DF_eMOF)<-seq(1,nrow(DF_eMOF))
 
 DF_occ <- dados_bind [,c("eventID", 
@@ -631,8 +662,7 @@ event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,verbatimL
                                       decimalLongitude = mean(decimalLongitude),
                                       decimalLatitude = mean(decimalLatitude),
                                       geodeticDatum = unique(geodeticDatum),
-                                      Country = unique(Country),
-                                      countryCode = unique(countryCode))
+                                      Country = unique(Country))
 )
 
 
@@ -648,19 +678,13 @@ output <- list (DF_occ = DF_occ,
 
 # save
 # txt format
-write.table(DF_occ, file =here("DwC_output",
+write.csv(DF_occ, file =here("DwC_output",
                                "GLongo_spatialData",
-                               "DF_occ.txt"),sep=",")
-
-
-
-write.table(DF_eMOF, file =here("DwC_output",
+                               "DF_occ.csv"))
+write.csv(DF_eMOF, file =here("DwC_output",
                                 "GLongo_spatialData",
-                                "DF_eMOF.txt"),sep=",")
-
-#length(DF_eMOF[1412,])
-
-write.table(event_core, file =here("DwC_output",
+                                "DF_eMOF.csv"))
+write.csv(event_core, file =here("DwC_output",
                                    "GLongo_spatialData",
-                                   "event_core.txt"),sep=",")
+                                   "event_core.csv"))
 
