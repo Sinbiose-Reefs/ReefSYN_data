@@ -27,12 +27,13 @@ the ReefSYN–Reef Synthesis Working Group–the only group working with
 marine ecosystems (particularly coral and rocky reefs of the Brazilian
 marine biogeographical province (Spalding et al. 2007)).
 
-The ReefSYN is a team of researchers from several countries and
-institutions, interested in several dimensions of reef biodiversity, and
-on associated ecosystem services (Fig. 1). Our team is specially engaged
-in achieving a common objective: *To provide a synthesis about patterns
-and drivers of reef diversity and supplying of ecological services in
-Brazil*. More information about our group can be found at
+The ReefSYN is a team of 20 young and senior researchers, and 2
+post-doctoral researchers, from several countries and institutions,
+interested in several dimensions of reef biodiversity, and on associated
+ecosystem services (Fig. 1). Our team is specially engaged in achieving
+a common objective: *To provide a synthesis about patterns and drivers
+of reef diversity and supplying of ecological services in Brazil*. More
+information about our group can be found at
 <https://reefsyn.weebly.com/home-us.html>.
 
 <img src="README_files/figure-gfm/unnamed-chunk-1-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
@@ -76,7 +77,32 @@ that i) there were an abrupt increase in the number of eventIDs after
 Sisbiota-Mar, PELD ILOC) gather data from past expeditions (i.e., prior
 to the grant).
 
-<img src="README_files/figure-gfm/unnamed-chunk-3-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
+The number of sampling events per dataset is as follows for benthos:
+
+| samplingProtocol        | eventIDs | Dataset           |
+|:------------------------|---------:|:------------------|
+| Photoquadrats           |      345 | Sisbiota-Mar      |
+| Photoquadrats           |      285 | RN monitoring     |
+| Photoquadrats 50 X 50cm |     2748 | PELD ILOC         |
+| Photoquadrats           |       24 | Coastal snapshots |
+| Point-intercept lines   |      649 | Abrolhos Bank     |
+| Fixed photo-quadrats    |      649 | Abrolhos Bank     |
+
+And for fish
+
+| samplingProtocol                   | eventIDs | Dataset            |
+|:-----------------------------------|---------:|:-------------------|
+| Underwater visual survey - 20 x 2m |      800 | RN monitoring      |
+| Video plot                         |      378 | Sisbiota-Mar (VP)  |
+| Underwater Visual Survey - 20 x 2m |     3480 | PELD ILOC          |
+| Stationary visual census - 4 x 2m  |     6422 | Abrolhos Bank      |
+| Underwater visual survey - 20 x 2m |     2146 | Arraial do Cabo    |
+| Underwater visual survey - 20 x 2m |     4570 | Sisbiota-Mar (UVC) |
+| Underwater visual survey - 20 x 2m |     1897 | Santa Catarina     |
+
+The number of sampling events is distributed in time as follows:
+
+<img src="README_files/figure-gfm/unnamed-chunk-5-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
 Fig. 3: The number of sampling events accumulated over time for benthos
 (top) and fish (bottom). One sampling event consist, for example, on one
 transect deployed into a locality. The vertical segments depict the year
@@ -97,7 +123,7 @@ over time. In contrast, for benthos, there were several years of
 constancy interspaced by years of abrupt increase in the number of
 species (Fig. 4).
 
-<img src="README_files/figure-gfm/unnamed-chunk-4-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-6-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
 Fig. 4: Trends in the number of scientific names accumulated over time
 for benthos (top) and fish (bottom). The vertical segments depict the
 year in which data included in each Dataset started to be collected. The

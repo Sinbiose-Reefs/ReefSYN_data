@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The leveraging of ecological synthesis has two main reasons: ecology is entering in the age of big data (Wuerst et al. 2020, GEB) and applying the principles of open science (UNESCO 2020). We are now experiencing a transition from isolated research, with data stored in the drawer, to a global research network with data stored in public repositories available to be used to leverage further research (Reich et al. 2011). Brazil just started to go in this direction, with recent initiatives such as the LattesData (CNPq) and the Brazilian Institute of Synthesis (Sinbiose, see <http://www.sinbiose.cnpq.br/web/sinbiose/home>), both comprising pioneer initiatives in South America in terms of data storage capability and application of open-science principles (UNESCO 2020). There are seven working groups funded by the Sinbiose institute, being the ReefSYN--Reef Synthesis Working Group--the only group working with marine ecosystems (particularly coral and rocky reefs of the Brazilian marine biogeographical province (Spalding et al. 2007)).
 
-The ReefSYN is a team of researchers from several countries and institutions, interested in several dimensions of reef biodiversity, and on associated ecosystem services (Fig. 1). Our team is specially engaged in achieving a common objective: *To provide a synthesis about patterns and drivers of reef diversity and supplying of ecological services in Brazil*. More information about our group can be found at <https://reefsyn.weebly.com/home-us.html>.
+The ReefSYN is a team of 20 young and senior  researchers, and 2 post-doctoral researchers, from several countries and institutions, interested in several dimensions of reef biodiversity, and on associated ecosystem services (Fig. 1). Our team is specially engaged in achieving a common objective: *To provide a synthesis about patterns and drivers of reef diversity and supplying of ecological services in Brazil*. More information about our group can be found at <https://reefsyn.weebly.com/home-us.html>.
 
 
 ```{r, echo = F, fig.height=6.5,fig.width=6.5,fig.margin=F,fig.align="center", message=F,warning=F,out.width="100%",out.height="100%"}
@@ -55,12 +55,14 @@ titulo_ingles <- as.character (researcher_data$titulo_ingles [which(researcher_d
 freq_texto_wc <-  function_freq_texto_wc (titulo_ingles)
 
 par(mfrow=c(1,2),mar=rep(0, 4))
+
 ## inst
 wordcloud(words = institution$inst, freq = institution$freq.Freq,
           min.freq = 1,scale=c(4, .2),
           max.words=50, 
           random.order=FALSE, rot.per=0.15, 
           colors=brewer.pal(8, "Dark2"))
+
 
 # tit english
 wordcloud(words = freq_texto_wc$word, 
@@ -252,7 +254,58 @@ Fig. 2: Spatial distribution of sampling sites of benthos (right) and fish (left
 
 The dataset presented here reunite information from several independent efforts to characterize the marine biodiversity of the Brazilian province (Fig. 3). In terms of the cumulative efforts, in terms of the cumulative number of eventIDs across the datasets over time, We can see that i) there were an abrupt increase in the number of eventIDs after 2013, mainly for benthos (probably leveraged by the Sisbiota-Mar project (CNPq)), and ii) that the data included in several initiatives (e.g., Sisbiota-Mar, PELD ILOC) gather data from past expeditions (i.e., prior to the grant).
 
+The number of sampling events per dataset is as follows for benthos:
+
+
+```{r, echo = F, results='asis'}
+
+# the number of sampling events per dataset
+
+table_description_data_benthos <- lapply (list_benthos, function (i)
+  
+    data.frame (samplingProtocol = unique(i$samplingProtocol),
+                eventIDs = length(i$samplingProtocol),
+                Dataset = unique(i$Dataset))
+)
+# melt
+table_description_data_benthos<-do.call(rbind,table_description_data_benthos)
+table_description_data_benthos$samplingProtocol<-firstup(table_description_data_benthos$samplingProtocol)
+
+# fish
+
+table_description_data_fish <- lapply (list_fish, function (i)
+  
+    data.frame (samplingProtocol = unique(i$samplingProtocol),
+                eventIDs = length(i$samplingProtocol),
+                Dataset = unique(i$Dataset))
+)
+# melt
+table_description_data_fish<-do.call(rbind,table_description_data_fish)
+table_description_data_fish$samplingProtocol<-firstup(table_description_data_fish$samplingProtocol)
+
+kable (table_description_data_benthos)
+
+
+```
+
+
+And for fish
+
+
+
+```{r, echo = F, results='asis'}
+
+kable (table_description_data_fish)
+
+```
+
+
+
+The number of sampling events is distributed in time as follows:
+
+
 ```{r, echo = F, fig.height=5,fig.width=8,message=F, warning=F,fig.align= "center",out.width="100%",out.height="100%"}
+
 
 # benthos
 # number of eventIDs (rows per year)
@@ -367,7 +420,6 @@ grid.arrange (trend_benthos_annotate,
               trend_fish_annotate,
               nrow=2,
               left = "Cumulative number of sampling events (eventIDs)") 
-
 
 
 
