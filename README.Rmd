@@ -2,7 +2,7 @@
 title:  "Project **Brazilian Reefs in the Anthropocene**, Reef Synthesis Working Group  (ReefSYN)"
 author: "ReefSYN, Luza, AL, Cordeiro, CAMM, ..., Aued, AW, Ferreira, CEL, Mendes, T., Roos, N, Longo, GO, Francini-Filho, RB, Floeter, SR, Bender, MG"
 date: "2022/07/07"
-output: github_document
+output: pdf_document
 ---
 
 
@@ -89,7 +89,6 @@ Natural to ecological synthesis is the use of big data (both in terms of amount 
 
 # load Datasets
 # benthos
-
 ds1<- read.csv (here("DwC_output","AAued_spatialData", "event_core.csv"))
 ds2<- read.csv (here("DwC_output","GLongo_NRoss_spatialData", "event_core_benthos.csv"))
 ds3<- read.table (here("DwC_output","PELD_iloc_benthos", "event_core.txt"),h=T,sep=",")
@@ -100,7 +99,6 @@ ds4<- read.csv (here("DwC_output","RFrancini_spatialData", "event_core.csv"))
 ds5<- read.csv (here("DwC_output","RFrancini_timeSeries_abrolhos","event_core_benthos.csv"))
 
 # fish
-
 ds6<- read.csv (here("DwC_output","GLongo_NRoss_spatialData", "event_core_fish.csv"))
 ds7<- read.csv (here("DwC_output","GLongo_spatialData", "event_core.csv"))
 ds8<- read.table (here("DwC_output","PELD_iloc_fish", "event_core.txt"),h=T, sep= ";")
@@ -112,7 +110,6 @@ ds9<- read.csv (here("DwC_output","RFrancini_timeSeries_abrolhos","event_core_fi
 ds10<- read.csv (here("DwC_output","RJ_time_series", "event_core.csv"))
 ds11<- read.csv (here("DwC_output","RMorais_spatialData", "event_core.csv"))
 ds12<- read.csv (here("DwC_output","SC_time_series", "event_core.csv"))
-
 
 
 # list of sites with sampling of benthic communities
@@ -267,10 +264,11 @@ table_description_data_benthos <- lapply (list_benthos, function (i)
                 eventIDs = length(i$samplingProtocol),
                 Dataset = unique(i$Dataset))
 )
+
 # melt
 table_description_data_benthos<-do.call(rbind,table_description_data_benthos)
 table_description_data_benthos$samplingProtocol<-firstup(table_description_data_benthos$samplingProtocol)
-
+#sum(table_description_data_benthos$eventIDs)
 # fish
 
 table_description_data_fish <- lapply (list_fish, function (i)
@@ -282,6 +280,8 @@ table_description_data_fish <- lapply (list_fish, function (i)
 # melt
 table_description_data_fish<-do.call(rbind,table_description_data_fish)
 table_description_data_fish$samplingProtocol<-firstup(table_description_data_fish$samplingProtocol)
+# totals
+# sum(table_description_data_fish$eventIDs)
 
 kable (table_description_data_benthos)
 
