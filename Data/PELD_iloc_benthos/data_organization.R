@@ -33,7 +33,7 @@ benthos_event_core <-  read.csv(here ("Data",
 
 
 # identify these sites are in the islands
-benthos_event_core$higherGeographyID <- "BrazilianIslands"
+benthos_event_core$higherGeography <- "BrazilianIslands"
 # tartarugas in Trindade & Rocas
 benthos_event_core[grep ("Trindade_Tartarugas",benthos_event_core$eventID),"locality"] <- "tartarugas_trindade"
 benthos_event_core$locality<-gsub ("praia_do_", "",benthos_event_core$locality)

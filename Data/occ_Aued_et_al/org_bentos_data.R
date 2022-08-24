@@ -502,10 +502,10 @@ bentos_long_format$geodeticDatum <- "decimal degrees"
 # range of 1-7 m, and 8-15 meters
 bentos_long_format$minimumDepthinMeters <- NA
 bentos_long_format$maximumDepthinMeters <- NA
-bentos_long_format$minimumDepthinMeters[which(bentos_long_format$eventDepth == "shallow")] <- 1
-bentos_long_format$maximumDepthinMeters[which(bentos_long_format$eventDepth == "shallow")] <- 7
-bentos_long_format$minimumDepthinMeters[which(bentos_long_format$eventDepth == "deep")] <- 8
-bentos_long_format$maximumDepthinMeters[which(bentos_long_format$eventDepth == "deep")] <- 15
+bentos_long_format$minimumDepthinMeters[which(bentos_long_format$eventDepth %in% c("1-7m", "4-7m"))] <- 1
+bentos_long_format$maximumDepthinMeters[which(bentos_long_format$eventDepth %in% c("1-7m", "4-7m"))] <- 7
+bentos_long_format$minimumDepthinMeters[which(bentos_long_format$eventDepth %in% c("8-15m", "8-12m"))] <- 8
+bentos_long_format$maximumDepthinMeters[which(bentos_long_format$eventDepth %in% c("8-15m", "8-12m"))] <- 15
 
 
 # habitat
@@ -575,13 +575,9 @@ event_core <- data.frame (group_by(bentos_long_format, eventID,higherGeography,s
                                       Country = unique(Country),
                                       countryCode = unique(countryCode))
 )
-# make a list with files in DwC
-output <- list (DF_occ = DF_occ,
-                DF_eMOF = DF_eMOF,
-                event_core=event_core)
 
 # save
-# txt format
+# csv format
 write.csv(DF_occ, file =here("DwC_output",
                                "AAued_spatialData",
                                "DF_occ.csv"))

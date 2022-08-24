@@ -27,3 +27,22 @@ require(RColorBrewer)
 library(knitr)    # For knitting document and include_graphics function
 library(png)      # For grabbing the dimensions of png files
 
+
+# load packages (NOAA data)
+library(readr)
+library(rerddap)
+require(parallel)
+library(lubridate)
+library(dplyr)
+library(flexdashboard)
+library(reshape2)
+library(leaflet)
+library(ggplot2)
+library(vegan)
+library(xts)
+library(dygraphs)
+library(plotly)
+library(mapdata)
+library(RColorBrewer)
+palette(brewer.pal(8, "Set2"))
+

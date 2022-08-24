@@ -14,7 +14,7 @@ array_into_long_format <- function (array_data, group,db) {
       
       tryCatch (
         
-        data.frame ("occasions" = names(array_data[i,,t,k])[ which(is.na(array_data[i,,t,k]) == F)],
+        data.frame ("occasions" = dimnames (array_data)[2][[1]][which(is.na(array_data[i,,t,k]) == F)],
                     "detection" = array_data[i,,t,k][ which(is.na(array_data[i,,t,k]) == F)],
                     "site" = dimnames(array_data)[[1]][i],
                     "year" = dimnames(array_data)[[3]][t],
@@ -36,7 +36,9 @@ array_into_long_format <- function (array_data, group,db) {
     
     df_long <- lapply (df_long, function (k)
       
-      k[unlist(lapply (k,ncol))!= 1])
+      k[unlist(lapply (k,ncol))!= 1]
+      
+      )
     
     # melt within site
     # bind years of each site

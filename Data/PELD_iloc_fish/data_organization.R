@@ -35,7 +35,7 @@ fish_event_core <-  read.csv(here ("Data",
 
 
 # identify these sites are in the islands
-fish_event_core$higherGeographyID <- "BrazilianIslands"
+fish_event_core$higherGeography <- "BrazilianIslands"
 # tartarugas in Trindade & Rocas
 fish_event_core[grep ("Trindade_Tartarugas",fish_event_core$eventID),"locality"] <- "tartarugas_trindade"
 fish_event_core$locality<-tolower(iconv(fish_event_core$locality, "UTF-8", "ASCII//TRANSLIT", sub=""))

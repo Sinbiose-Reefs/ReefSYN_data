@@ -17,14 +17,17 @@ occ_Ross_et_al <- read.xlsx(here("Data","occ_RN_Norte_Longo",
                             sheet = 1, colNames = TRUE,
                             detectDates=F)
 
+
 # second sheet, species names
 sp_Ross_et_al <- read.xlsx(here("Data","occ_RN_Norte_Longo",
                                 "Censos_peixes_RN.xlsx"),
                            sheet = 2, colNames = TRUE,detectDates=T)
 
+
 # match these last two
 occ_Ross_et_al$scientificName <- sp_Ross_et_al [match (occ_Ross_et_al$spp, 
                                                        sp_Ross_et_al$code),"spp"]
+
 
 
 
@@ -59,6 +62,7 @@ occ_Ross_et_al [which(is.na(occ_Ross_et_al$longitude)),"decimalLongitude"] <- oc
 # verbatimIdentification
 occ_Ross_et_al$namesToSearch <- occ_Ross_et_al$scientificName
 occ_Ross_et_al$verbatimIdentification <- occ_Ross_et_al$namesToSearch
+
 
 # taxonomic issues
 occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Platybelone argalus")] <- "Platybelone argalus argalus"
@@ -118,6 +122,7 @@ worms_record <- lapply (unique(occ_Ross_et_al$namesToSearch), function (i)
 
 # melt
 df_worms_record <- data.frame(do.call(rbind,worms_record))
+
 # match
 occ_Ross_et_al$scientificName<-(df_worms_record$scientificname [match (occ_Ross_et_al$namesToSearch,
                                                                                  tolower (df_worms_record$scientificname))])
@@ -457,7 +462,7 @@ unique(occ_Ross_et_al_parrachos[is.na(occ_Ross_et_al_parrachos$namesToSearch),"o
 # ADJUSTING COORDINATES AND SPECIES
 
 
-
+unique(occ_Ross_et_al_parrachos[is.na(occ_Ross_et_al_parrachos$lat),("site")])
 
 
 ## transform 'dd mm ss' coordinates into decimal degrees

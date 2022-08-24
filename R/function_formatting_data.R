@@ -784,7 +784,7 @@ formatting_fish_data_SC <- function (data,years) {
   occasions <- lapply (years, function (year)
     lapply (sites, function (site)
       
-      length(unique(data [which(data$eventYear == year & 
+      length(unique(data [which(data$year == year & 
                                 data$locality == site),"eventID"])
       )))
   
@@ -802,9 +802,9 @@ formatting_fish_data_SC <- function (data,years) {
               value = "measurementValue",
               na.rm=T,
               fun.aggregate = sum,
-              data = data[which(data$scientificName == species & 
-                                  data$eventYear == year & 
-                                  data$locality == site),]) 
+              data = data[which(data$scientificName %in% species & 
+                                  data$year %in% year & 
+                                  data$locality %in% site),]) 
       )
     )
   )
@@ -867,7 +867,7 @@ formatting_fish_data_SC <- function (data,years) {
       cast (formula = locality ~ eventID,
             value = "measurementValue",
             fun.aggregate = sum,
-            data = data[which(data$eventYear == year & 
+            data = data[which(data$year == year & 
                                 data$locality == site),]) 
     )
   )
