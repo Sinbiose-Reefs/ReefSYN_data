@@ -14,7 +14,7 @@ Floeter, SR, Bender, MG
 
 The leveraging of ecological synthesis has two main reasons: ecology is
 both entering in the age of big data (Wüest et al. 2020) and applying
-the principles of open science (UNESCO 2020). We are now experiencing a
+the principles of open science (UNESCO 2021). We are now experiencing a
 transition from isolated research, with data stored in the drawer, to a
 global research network with data stored in public repositories
 available to be used for leveraging further research (Reichman et
@@ -318,6 +318,9 @@ Bioregionalization of Coastal and Shelf Areas, BioScience, Volume 57,
 Issue 7, July 2007, Pages 573–583, <https://doi.org/10.1641/B570707>
 Reichman OJ, Jones MB, Schildhauer MP. Challenges and opportunities of
 open data in ecology. Science. 2011 Feb 11;331(6018):703-5. doi:
-10.1126/science.1197962. PMID: 21311007. Wüest, RO, Zimmermann, NE,
-Zurell, D, et al. Macroecology in the age of Big Data – Where to go from
-here? J Biogeogr. 2020; 47: 1– 12. <https://doi.org/10.1111/jbi.13633>
+10.1126/science.1197962. PMID: 21311007. UNESCO, 2021. UNESCO
+Recommendation on Open Science. Available at:
+<https://unesdoc.unesco.org/ark:/48223/pf0000379949>. 34 pages Wüest,
+RO, Zimmermann, NE, Zurell, D, et al. Macroecology in the age of Big
+Data – Where to go from here? J Biogeogr. 2020; 47: 1– 12.
+<https://doi.org/10.1111/jbi.13633>
