@@ -98,26 +98,26 @@ shown in Tables 1 and 2.
 
 Table 1: number of sampling events of benthos sampling, per dataset.
 
-| samplingProtocol        | eventIDs | Dataset           |
-|:------------------------|---------:|:------------------|
-| Photoquadrats           |      345 | Sisbiota-Mar      |
-| Photoquadrats           |      285 | RN monitoring     |
-| Photoquadrats 50 X 50cm |     2748 | PELD ILOC         |
-| Photoquadrats           |       24 | Coastal snapshots |
-| Point-intercept lines   |      649 | Abrolhos Bank     |
-| Fixed photo-quadrats    |      649 | Abrolhos Bank     |
+| samplingProtocol        | eventIDs.Var1           | eventIDs.Freq | Dataset           |
+|:------------------------|:------------------------|--------------:|:------------------|
+| Photoquadrats           | photoquadrats           |           345 | Sisbiota-Mar      |
+| Photoquadrats           | photoquadrats           |           285 | RN monitoring     |
+| Photoquadrats 50 X 50cm | Photoquadrats 50 X 50cm |          2748 | PELD ILOC         |
+| Photoquadrats           | photoquadrats           |            24 | Coastal snapshots |
+| Point-intercept lines   | fixed photo-quadrats    |           595 | Abrolhos Bank     |
+| Fixed photo-quadrats    | point-intercept lines   |            54 | Abrolhos Bank     |
 
 Table 2: number of sampling events of fish sampling, per dataset.
 
-| samplingProtocol                   | eventIDs | Dataset            |
-|:-----------------------------------|---------:|:-------------------|
-| Underwater visual survey - 20 x 2m |      820 | RN monitoring      |
-| Video plot                         |      378 | Sisbiota-Mar (VP)  |
-| Underwater Visual Survey - 20 x 2m |     3480 | PELD ILOC          |
-| Stationary visual census - 4 x 2m  |     6422 | Abrolhos Bank      |
-| Underwater visual survey - 20 x 2m |     2146 | Arraial do Cabo    |
-| Underwater visual survey - 20 x 2m |     4570 | Sisbiota-Mar (UVC) |
-| Underwater visual survey - 20 x 2m |     1897 | Santa Catarina     |
+| samplingProtocol                   | eventIDs.Var1                      | eventIDs.Freq | Dataset            |
+|:-----------------------------------|:-----------------------------------|--------------:|:-------------------|
+| Underwater visual survey - 20 x 2m | underwater visual survey - 20 x 2m |           820 | RN monitoring      |
+| Video plot                         | video plot                         |           378 | Sisbiota-Mar (VP)  |
+| Underwater Visual Survey - 20 x 2m | Underwater Visual Survey - 20 x 2m |          3480 | PELD ILOC          |
+| Stationary visual census - 4 x 2m  | stationary visual census - 4 x 2m  |          6422 | Abrolhos Bank      |
+| Underwater visual survey - 20 x 2m | underwater visual survey - 20 x 2m |          2146 | Arraial do Cabo    |
+| Underwater visual survey - 20 x 2m | underwater visual survey - 20 x 2m |          4570 | Sisbiota-Mar (UVC) |
+| Underwater visual survey - 20 x 2m | underwater visual survey - 20 x 2m |          1897 | Santa Catarina     |
 
 The number of sampling events grew over time, with a notable increase
 after 2012-2013. Discuss ….

@@ -265,7 +265,7 @@ Table 1: number of sampling events of benthos sampling, per dataset.
 table_description_data_benthos <- lapply (list_benthos, function (i)
   
     data.frame (samplingProtocol = unique(i$samplingProtocol),
-                eventIDs = length(i$samplingProtocol),
+                eventIDs = table(i$samplingProtocol),
                 Dataset = unique(i$Dataset))
 )
 
@@ -278,7 +278,7 @@ table_description_data_benthos$samplingProtocol<-firstup(table_description_data_
 table_description_data_fish <- lapply (list_fish, function (i)
   
     data.frame (samplingProtocol = unique(i$samplingProtocol),
-                eventIDs = length(i$samplingProtocol),
+                eventIDs = table(i$samplingProtocol),
                 Dataset = unique(i$Dataset))
 )
 # melt
