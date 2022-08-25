@@ -434,7 +434,7 @@ event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,site,verb
 
 # Ross, Longo et al. (RN fish)
 occ_Ross_et_al_parrachos <- read.xlsx(here("Data","occ_RN_Norte_Longo",
-                                 "Censos_Rio do Fogo_17052022.xlsx"),
+                                 "Censos_Rio do Fogo_10082022.xlsx"),
                             sheet = 1, colNames = TRUE,
                             detectDates=F)
 
@@ -467,17 +467,23 @@ unique(occ_Ross_et_al_parrachos[is.na(occ_Ross_et_al_parrachos$lat),("site")])
 
 ## transform 'dd mm ss' coordinates into decimal degrees
 # adjust
-occ_Ross_et_al_parrachos$latDec <- gsub ("'"," ",gsub ("''","",gsub ("°"," ",occ_Ross_et_al_parrachos$lat)))
-occ_Ross_et_al_parrachos$longDec <- gsub ("'"," ",gsub ("''","",gsub ("°"," ",occ_Ross_et_al_parrachos$long)))
+occ_Ross_et_al_parrachos$latDec <- gsub ("\"", "",gsub ("º", " ", gsub ("'"," ",gsub ("''","",gsub ("°"," ",occ_Ross_et_al_parrachos$lat)))))
+occ_Ross_et_al_parrachos$longDec <- gsub ("\"", "",gsub ("º", " ", gsub ("'"," ",gsub ("''","",gsub ("°"," ",occ_Ross_et_al_parrachos$long)))))
+
+# occ_Ross_et_al_parrachos$latDec[is.na(occ_Ross_et_al_parrachos$decimalLatitude)]
+# removing the additional space 
+occ_Ross_et_al_parrachos$longDec[is.na(occ_Ross_et_al_parrachos$decimalLongitude)] <- substr(occ_Ross_et_al_parrachos$longDec[is.na(occ_Ross_et_al_parrachos$decimalLongitude)],
+                                                                                             2,nchar(occ_Ross_et_al_parrachos$longDec[is.na(occ_Ross_et_al_parrachos$decimalLongitude)]))
+
 
 
 # transform
 occ_Ross_et_al_parrachos$decimalLatitude <- angle2dec(occ_Ross_et_al_parrachos$latDec)*-1 # below Equator
 occ_Ross_et_al_parrachos$decimalLongitude <- angle2dec(occ_Ross_et_al_parrachos$longDec)*-1 # west of Greenwich
+# check if coordinates are ok
+# unique(occ_Ross_et_al_parrachos$site[is.na(occ_Ross_et_al_parrachos$decimalLatitude)])
+# unique(occ_Ross_et_al_parrachos$site[is.na(occ_Ross_et_al_parrachos$decimalLongitude)])
 
-
-# resolve NA taking the coordinate from the previous record (is the same)
-occ_Ross_et_al_parrachos [which(is.na(occ_Ross_et_al_parrachos$longitude)),"decimalLongitude"] <- occ_Ross_et_al_parrachos [which(is.na(occ_Ross_et_al_parrachos$decimalLongitude))-1,"decimalLongitude"]
 
 
 
