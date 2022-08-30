@@ -263,15 +263,28 @@ L.peixes_coord[which(L.peixes_coord$site == "saco_dagua"),"Long_DD"] <- -48.3684
 # engenho (coordinates from Morais et al. 2017)
 L.peixes_coord[which(L.peixes_coord$site == "engenho"),"Lat_DD"] <- -27.290608
 L.peixes_coord[which(L.peixes_coord$site == "engenho"),"Long_DD"] <- -48.367013
-# engenho (coordinates from Morais et al. 2017)
+# bt (coordinates from Morais et al. 2017)
 L.peixes_coord[which(L.peixes_coord$site == "baia_da_tartaruga"),"Lat_DD"] <- -27.290608
 L.peixes_coord[which(L.peixes_coord$site == "baia_da_tartaruga"),"Long_DD"] <- -48.363806
-
-
+# marie_pumpoin  (coordinates from GO LONGO) 
+L.peixes_coord[which(L.peixes_coord$site == "marie_pumpoin"),"Lat_DD"] <- 12.033333
+L.peixes_coord[which(L.peixes_coord$site == "marie_pumpoin"),"Long_DD"] <- -68.8 
+# barra da gale (coordinates from GO LONGO)
+L.peixes_coord[which(L.peixes_coord$site == "barra_da_gale"),"Lat_DD"] <- -9.0327
+L.peixes_coord[which(L.peixes_coord$site == "barra_da_gale"),"Long_DD"] <- -35.1927
+# igrejinha é = perua preta -> -35.0887	-8.7252
+L.peixes_coord[which(L.peixes_coord$site == "igrejinha"),"site"] <- "perua_preta"
+# perua preta (antes igraeginha)
+L.peixes_coord[which(L.peixes_coord$site == "perua_preta"),"Lat_DD"] <- -8.7252
+L.peixes_coord[which(L.peixes_coord$site == "perua_preta"),"Long_DD"] <- -35.0887
+# pirambu
+coord_to_convert <- c("08 45 31.65", "35 5 8.01")
+coord_to_convert<-angle2dec(coord_to_convert)*-1
+L.peixes_coord[which(L.peixes_coord$site == "pirambu"),"Lat_DD"] <- coord_to_convert[1]
+L.peixes_coord[which(L.peixes_coord$site == "pirambu"),"Long_DD"] <- coord_to_convert[2]
 
 # ---------------------------------------------------------------------
 # further check taxonomic issues (mostly taxonomic updates)
-
 
 
 
