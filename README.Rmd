@@ -18,10 +18,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Paper section 1: Ecological Synthesis, and who are we?
 
-The leveraging of ecological synthesis has two main reasons: ecology is both entering in the age of big data (Wüest et al. 2020) and applying the principles of open science (UNESCO 2021). We are now experiencing a transition from isolated research, with data stored in the drawer, to a global research network with data stored in public repositories available to be used for leveraging further research (Reichman et al. 2011). Brazil just started to track this trend. The 'Sinbiose', the Brazilian Institute of Synthesis in Biodiversity and Ecosystem Services (Sinbiose, see <http://www.sinbiose.cnpq.br/web/sinbiose/home>), comprises a pioneer initiative within Latin America in terms of ecological synthesis and application of open-science principles (UNESCO 2020). There are seven working groups funded by the Sinbiose institute, being the ReefSYN--**ReefSYN Working Group**  
---the only group working with marine ecosystems (particularly coral and rocky reefs of the Brazilian marine biogeographical province (Spalding et al. 2007)).
+The leveraging of ecological synthesis has two main reasons: ecology is both entering in the age of big data (Wüest et al. 2020) and applying the principles of open science (UNESCO 2021). We are now experiencing a transition from isolated research, with data stored in the drawer, to a global research network with data stored in public repositories available to be used for leveraging further research (Reichman et al. 2011). Brazil have just started to track this trend. The 'Sinbiose', the Brazilian Institute of Synthesis in Biodiversity and Ecosystem Services (see <http://www.sinbiose.cnpq.br/web/sinbiose/home>), comprises a pioneer initiative within Latin America in terms of ecological synthesis and application of open-science principles (UNESCO 2020). There::here are seven working groups funded by the Sinbiose institute, being the ReefSYN--**ReefSYN Working Group**  
+--the only group working with marine ecosystems (particularly biogenic and rocky reefs of the Brazilian marine biogeographical province (Spalding et al. 2007)).
 
-The ReefSYN is a team of 22 researchers (20 early-career and senior researchers, supported by two post-doctoral researchers) from several countries and institutions  (Fig. 1). Up to this date, most members of this team performed research in isolation, each one covering a specific dimension of reef biodiversity (Fig. 1). By getting funding and support from the Sinbiose we have now the chance to make data synthesis and bring together different research expertise/fields/perspectives to engange into a common objective: *Provide a synthesis about patterns and drivers of reef diversity and provision of ecological services in Brazil*. More information about our group can be found at <https://reefsyn.weebly.com/home-us.html>.
+The ReefSYN is composed of a team with 22 researchers (20 early-career and senior researchers, assisted by two post-doctoral researchers) from several countries and institutions  (Fig. 1). Up to this date, most team members performed research in isolation, each one covering a specific dimension of reef biodiversity (Fig. 1). By getting funding and support from the Sinbiose we have now the chance to make data synthesis and bring together different research expertise/fields/perspectives to engage into a common objective: *Provide a synthesis about patterns and drivers of reef diversity and ecological services provision  in Brazil*. More information about our group can be found at <https://reefsyn.weebly.com/home-us.html>.
 
 
 ```{r, echo = F, fig.height=6.5,fig.width=6.5,fig.margin=F,fig.align="center", message=F,warning=F,out.width="100%",out.height="100%"}
@@ -36,7 +36,7 @@ source("R/functions.R")
 
 
 # open researcher data
-researcher_data <- read.xlsx(here("Data","researcher_data","PLANILHA_CONSOLIDADA.xlsx"),sheet = 1, colNames = TRUE,detectDates=F)
+researcher_data <- read.xlsx(here::here("Data","researcher_data","PLANILHA_CONSOLIDADA.xlsx"), sheet = 1, colNames = TRUE, detectDates=F)
 # formatting data
 researcher_data$objetivos <- as.character (researcher_data$objetivos)
 researcher_data$titulo_portugues <- as.character (researcher_data$titulo_portugues)
@@ -58,7 +58,7 @@ freq_texto_wc <-  function_freq_texto_wc (titulo_ingles)
 par(mfrow=c(1,2),mar=rep(0, 4))
 
 ## inst
-wordcloud(words = institution$inst, freq = institution$freq.Freq,
+wordcloud2::wordcloud(words = institution$inst, freq = institution$freq.Freq,
           min.freq = 1,scale=c(4, .2),
           max.words=50, 
           random.order=FALSE, rot.per=0.15, 
@@ -66,7 +66,7 @@ wordcloud(words = institution$inst, freq = institution$freq.Freq,
 
 
 # tit english
-wordcloud(words = freq_texto_wc$word, 
+wordcloud2::wordcloud(words = freq_texto_wc$word, 
           freq = freq_texto_wc$freq.Freq,
           min.freq = 2,scale=c(4, .2),
           max.words=max(freq_texto_wc$freq.Freq)+3, 
@@ -78,40 +78,38 @@ wordcloud(words = freq_texto_wc$word,
 ```
 Fig. 1: Institutions and research topics explored by the ReefSYN team members.
 
-# Paper section 2: Spatial and temporal distribution of data gathered by the ReefSYN Working Group
+# Paper section 2: Spatial and temporal distribution of data gathere::hered by the ReefSYN Working Group
 
-Over time (since 2001 actually), this team of researchers gathered data of fish and benthic organisms (e.g., algae, corals) in different localities scattered throughout the Brazilian coast and oceanic islands. By standardizing these data to a common, globally accepted standard--the Darwin Core Standard--it would be possible to integrate data and make data synthesis to answer more ambitious questions about the functioning of Brazilian reef ecosystems, as well quantify, given the distribution of data in space and time, the influence of humans on reef biodiversity and ecosystem services. Below, we make a spatial mapping of our data, and show how the accumulation of sample and taxonomic information in time and space proceeded.
+Over time (since 2001 actually), this team of researchers gathere::hered data of fish and benthic organisms (e.g., algae, corals) in different localities scattered throughout the Brazilian coast and oceanic islands. By standardizing these data to a common, globally accepted standard --the Darwin Core Standard-- it would be possible to integrate data and make data synthesis to answer more ambitious questions about the functioning of Brazilian reef ecosystems, as well quantify, given the distribution of data in space and time, the influence of humans on reef biodiversity and ecosystem services. Below, we make a spatial mapping of our data, and show how the accumulation of sample and taxonomic information in time and space proceeded.
 
-Natural to ecological synthesis is the use of big data (both in terms of data amount and heterogeneity) (Wüest et al. 2020). To achieve our objective, we are analyzing data from almost 400 unique localities distributed throughout the Brazilian coast and oceanic islands. Our data embrace a notable latitudinal range, from 0.91 to -27.6 latitude degrees, and cover a significant portion of the Atlantic Ocean. In these localities, we gathered and standardized both already published and yet unpublished data of fish and benthic communities to create this large database under the curatorship of the ReefSYN Working Group. In brief, all these data came from geographically replicated, large-scale research programs conducted over the last decades in Brazil (SISBOTA-MAR, PELD-ILOC, Abrolhos Bank monitoring) and from novel initiatives such as the monitoring of reef fish and benthos of Rio Grande do Norte. Below we present the map with the spatial distribution of localities aggregated across datasets, for fish and benthic organisms (see legend, Fig. 2). 
-
-
+Natural to ecological synthesis is the use of big data (both in terms of data amount and heterogeneity) (Wüest et al. 2020). To achieve our objective, we are analyzing data from almost 400 unique localities distributed throughout the Brazilian coast and oceanic islands. Our data embraces a notable latitudinal range, from 0.91N to 27.6S latitude degrees, and cover a significant portion of the Atlantic Ocean. In these localities, we gathere::hered and standardized both already published and yet unpublished data of fish and benthic communities to create this large database under the curatorship of the ReefSYN Working Group. In brief, all these data came from geographically replicated, large-scale research programs conducted over the last decades in Brazil (SISBOTA-MAR, PELD-ILOC, Abrolhos Bank monitoring) and from novel initiatives such as the monitoring of reef fish and benthos of Rio Grande do Norte. Below we present the map with the spatial distribution of localities aggregated across datasets, for fish and benthic organisms (see legend, Fig. 2). 
 
 
-```{r, echo = F, fig.height=5,fig.width=8,message=F, warning=F, fig.align= "center",out.width="100%",out.height="100%"}
+```{r, echo = F, fig.height=5, fig.width=8, message=F, warning=F, fig.align= "center", out.width="100%", out.height="100%"}
 
 # load Datasets
 # benthos
-ds1<- read.csv (here("DwC_output","AAued_spatialData", "event_core.csv"))
-ds2<- read.csv (here("DwC_output","GLongo_NRoss_spatialData", "event_core_benthos.csv"))
-ds3<- read.table (here("DwC_output","PELD_iloc_benthos", "event_core.txt"),h=T,sep=",")
+ds1<- read.csv (here::here("DwC_output", "AAued_spatialData", "event_core.csv"))
+ds2<- read.csv (here::here("DwC_output", "GLongo_NRoss_spatialData", "event_core_benthos.csv"))
+ds3<- read.table (here::here("DwC_output","PELD_iloc_benthos", "event_core.txt"),h=T,sep=",")
 colnames(ds3)[which(colnames(ds3) == "island")] <- "site"
 colnames(ds3)[which(colnames(ds3) == "eventYear")] <- "year"
 ds3$higherGeography <- "BrazilianOceanicIslands"
-ds4<- read.csv (here("DwC_output","RFrancini_spatialData", "event_core.csv"))
-ds5<- read.csv (here("DwC_output","RFrancini_timeSeries_abrolhos","event_core_benthos.csv"))
+ds4<- read.csv (here::here("DwC_output","RFrancini_spatialData", "event_core.csv"))
+ds5<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","event_core_benthos.csv"))
 
 # fish
-ds6<- read.csv (here("DwC_output","GLongo_NRoss_spatialData", "event_core_fish.csv"))
-ds7<- read.csv (here("DwC_output","GLongo_spatialData", "event_core.csv"))
-ds8<- read.table (here("DwC_output","PELD_iloc_fish", "event_core.txt"),h=T, sep= ";")
+ds6<- read.csv (here::here("DwC_output","GLongo_NRoss_spatialData", "event_core_fish.csv"))
+ds7<- read.csv (here::here("DwC_output","GLongo_spatialData", "event_core.csv"))
+ds8<- read.table (here::here("DwC_output","PELD_iloc_fish", "event_core.txt"),h=T, sep= ";")
 colnames(ds8)[which(colnames(ds8) == "island")] <- "site"
 colnames(ds8)[which(colnames(ds8) == "eventYear")] <- "year" # 
 ds8 <- ds8 [which(ds8$site != "Ascension"),] # removing Ascension
 ds8$higherGeography <- "BrazilianOceanicIslands"
-ds9<- read.csv (here("DwC_output","RFrancini_timeSeries_abrolhos","event_core_fish.csv"))
-ds10<- read.csv (here("DwC_output","RJ_time_series", "event_core.csv"))
-ds11<- read.csv (here("DwC_output","RMorais_spatialData", "event_core.csv"))
-ds12<- read.csv (here("DwC_output","SC_time_series", "event_core.csv"))
+ds9<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","event_core_fish.csv"))
+ds10<- read.csv (here::here("DwC_output","RJ_time_series", "event_core.csv"))
+ds11<- read.csv (here::here("DwC_output","RMorais_spatialData", "event_core.csv"))
+ds12<- read.csv (here::here("DwC_output","SC_time_series", "event_core.csv"))
 
 
 # list of sites with sampling of benthic communities
@@ -128,17 +126,17 @@ require(dplyr)
 coords <- lapply (list_benthos, function (i) 
   
   
-  dplyr::group_by(i,Dataset,higherGeography, site, locality) %>% 
+  dplyr::group_by(i, Dataset, higherGeography, site, locality) %>% 
   
-                    summarise(decimalLatitude = mean( decimalLatitude),
-                            decimalLongitude = mean( decimalLongitude)) %>% 
+                    summarise(decimalLatitude = mean(decimalLatitude),
+                            decimalLongitude = mean(decimalLongitude)) %>% 
     
-                  select (higherGeography,site, locality,
-                          decimalLatitude,decimalLongitude)
+                  select (higherGeography, site, locality,
+                          decimalLatitude, decimalLongitude)
 )
 
 # melt
-coords <- do.call(rbind,coords)
+coords <- do.call(rbind, coords)
 
 
 # map
@@ -251,7 +249,7 @@ Fig. 2: Spatial distribution of sampling sites of benthos (right) and fish (left
 
 # Paper section 3: Temporal trends on data acquisition
 
-The dataset presented here reunite information from several independent and geographically replicated efforts to characterize the marine biodiversity of the Brazilian province in space and time (Fig. 3). In terms of the cumulative number of eventIDs (i.e. information associated with an Event of sampling (something that occurs at a place and time), Darwin Core Task Group (2009)) across the datasets over time, We can see that i) there were an abrupt increase in the number of eventIDs after 2013, mainly for benthos (probably leveraged by the Sisbiota-Mar project (CNPq)), and ii) that the data included in several initiatives (e.g., Sisbiota-Mar, PELD ILOC) gather data from past expeditions (i.e., prior to the grant).
+The dataset presented here::here reunite information from several independent and geographically replicated efforts to characterize the marine biodiversity of the Brazilian province in space and time (Fig. 3). In terms of the cumulative number of eventIDs (i.e. information associated with an Event of sampling (something that occurs at a place and time), Darwin Core Task Group (2009)) across the datasets over time, We can see that i) there::here were an abrupt increase in the number of eventIDs after 2013, mainly for benthos (probably leveraged by the Sisbiota-Mar project (CNPq)), and ii) that the data included in several initiatives (e.g., Sisbiota-Mar, PELD ILOC) gather data from past expeditions (i.e., prior to the grant).
 
 The number of sampling events per dataset, for benthos and fish, are shown in Tables 1 and 2.
 
@@ -433,42 +431,42 @@ Fig. 3: The number of sampling events accumulated over time for benthos (top) an
 
 # Paper section 4: Temporal trends on the number of species
 
-It is also natural that the cumulative sampling effort over time produce more scientific knowledge regarding the number of identified species/taxa. Here, we counted the cumulative number of scientific names/taxon names (after a checking with the WORMS database, using the R package "worrms"). As can be seen in Fig. 4, there was a nearly constant increase in the number of fish scientific names over time. In contrast, for benthos, there were several years of constancy amid years of abrupt increase in the number of identified taxa (Fig. 4).
+It is also natural that the cumulative sampling effort over time produce more scientific knowledge regarding the number of identified species/taxa. here::here, we counted the cumulative number of scientific names/taxon names (after a checking with the WORMS database, using the R package "worrms"). As can be seen in Fig. 4, there::here was a nearly constant increase in the number of fish scientific names over time. In contrast, for benthos, there::here were several years of constancy amid years of abrupt increase in the number of identified taxa (Fig. 4).
 
 ```{r, echo = F, fig.height=5,fig.width=8,message=F, warning=F, fig.align= "center",out.width="100%",out.height="100%"}
 
 # load Datasets
 # benthos
-ds1_occ<- read.csv (here("DwC_output","AAued_spatialData", "DF_occ.csv"))
+ds1_occ<- read.csv (here::here("DwC_output","AAued_spatialData", "DF_occ.csv"))
 ds1_occ$year<- ds1 [match (ds1_occ$eventID, ds1$eventID), "year"]
-ds2_occ<- read.csv (here("DwC_output","GLongo_NRoss_spatialData", "DF_occ_benthos.csv"))
+ds2_occ<- read.csv (here::here("DwC_output","GLongo_NRoss_spatialData", "DF_occ_benthos.csv"))
 ds2_occ$year<- ds2 [match (ds2_occ$eventID, ds2$eventID), "year"]
-ds3_occ<- read.table (here("DwC_output","PELD_iloc_benthos", "DF_occ.txt"),sep = ",",h=T)
+ds3_occ<- read.table (here::here("DwC_output","PELD_iloc_benthos", "DF_occ.txt"),sep = ",",h=T)
 ds3_occ$year<- ds3 [match (ds3_occ$eventID, ds3$eventID), "year"]
 colnames(ds3_occ)[which(colnames(ds3_occ) == "island")] <- "site"
 colnames(ds3_occ)[which(colnames(ds3_occ) == "eventYear")] <- "year"
 ds3_occ$higherGeography <- "BrazilianOceanicIslands"
-ds4_occ<- read.csv (here("DwC_output","RFrancini_spatialData", "DF_occ.csv"))
+ds4_occ<- read.csv (here::here("DwC_output","RFrancini_spatialData", "DF_occ.csv"))
 ds4_occ$year<- ds4 [match (ds4_occ$eventID, ds4$eventID), "year"]
-ds5_occ<- read.csv (here("DwC_output","RFrancini_timeSeries_abrolhos","DF_occ_benthos.csv"))
+ds5_occ<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","DF_occ_benthos.csv"))
 ds5_occ$year<- ds5 [match (ds5_occ$eventID, ds5$eventID), "year"]
 
 # fish
 
-ds6_occ<- read.csv (here("DwC_output","GLongo_NRoss_spatialData", "DF_occ_fish.csv"))
+ds6_occ<- read.csv (here::here("DwC_output","GLongo_NRoss_spatialData", "DF_occ_fish.csv"))
 ds6_occ$year<- ds6 [match (ds6_occ$eventID, ds6$eventID), "year"]
-ds7_occ<- read.csv (here("DwC_output","GLongo_spatialData", "DF_occ.csv"))
+ds7_occ<- read.csv (here::here("DwC_output","GLongo_spatialData", "DF_occ.csv"))
 ds7_occ$year<- ds7 [match (ds7_occ$eventID, ds7$eventID), "year"]
-ds8_occ<- read.table (here("DwC_output","PELD_iloc_fish", "DF_occ.txt"),h=T, sep = ";")
+ds8_occ<- read.table (here::here("DwC_output","PELD_iloc_fish", "DF_occ.txt"),h=T, sep = ";")
 ds8_occ$higherGeography <- "BrazilianOceanicIslands"
 ds8_occ$year<- ds8 [match (ds8_occ$eventID, ds8$eventID), "year"]
-ds9_occ<- read.csv (here("DwC_output","RFrancini_timeSeries_abrolhos","DF_occ_fish.csv"))
+ds9_occ<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","DF_occ_fish.csv"))
 ds9_occ$year<- ds9 [match (ds9_occ$eventID, ds9$eventID), "year"]
-ds10_occ<- read.csv (here("DwC_output","RJ_time_series", "DF_occ.csv"))
+ds10_occ<- read.csv (here::here("DwC_output","RJ_time_series", "DF_occ.csv"))
 ds10_occ$year<- ds10 [match (ds10_occ$eventID, ds10$eventID), "year"]
-ds11_occ<- read.csv (here("DwC_output","RMorais_spatialData", "DF_occ.csv"))
+ds11_occ<- read.csv (here::here("DwC_output","RMorais_spatialData", "DF_occ.csv"))
 ds11_occ$year<- ds11 [match (ds11_occ$eventID, ds11$eventID), "year"]
-ds12_occ<- read.csv (here("DwC_output","SC_time_series", "DF_occ.csv"))
+ds12_occ<- read.csv (here::here("DwC_output","SC_time_series", "DF_occ.csv"))
 ds12_occ$year<- ds12 [match (ds12_occ$eventID, ds12$eventID), "year"]
 
 
@@ -710,7 +708,7 @@ Spatial polygons of all Brazilian Protected Areas (in land and sea). These spati
 
 
 ## How can you access these data?
-These data are published under CC BY-NC licence. "Policy of data sharing and use" can be found in the ReefSYN Organization in Github (available [here](https://github.com/Sinbiose-Reefs/reefsyn_site/blob/master/DataPolicy_SINBIOSE.pdf)). Data embargo goes up to **January 2024**, one year after the end of ReefSYN funding.
+These data are published under CC BY-NC licence. "Policy of data sharing and use" can be found in the ReefSYN Organization in Github (available [here::here](https://github.com/Sinbiose-Reefs/reefsyn_site/blob/master/DataPolicy_SINBIOSE.pdf)). Data embargo goes up to **January 2024**, one year after the end of ReefSYN funding.
 
 ### Funding
 This project is funded by the Brazilian Biodiversity Synthesis Center - [SINBIOSE](http://www.sinbiose.cnpq.br/web/sinbiose) (CNPq #442417/2019-5, funding to MGB). The center is part of the National Council for Scientific and Technological Development (*Conselho Nacional de Desenvolvimento Científico e Tecnológico*, CNPq).Researchers from the "Brazilian Marine Biodiversity Research Network – SISBIOTA-Mar" (CNPq #563276/2010-0 and FAPESC #6308/2011-8 to SRF) and ‘‘Programa de Monitoramento de Longa Duração das Comunidades Recifais de Ilhas Oceânicas – PELD ILOC’’ (CNPq 441241/2016-6, to CELF), initiatives that collected and shared their data sets used in this research. ALL acknowledge the funding of CNPq (#164240/2021-7, #151228/2021-3, #152410/2020-1). GOL is grateful to a research productivity scholarship provided by the Brazilian National Council for Scientific and Technological Development (CNPq; 310517/2019-2) and Serrapilheira Institute (Grant No. Serra-1708-15364) for continued research support. 
@@ -721,4 +719,4 @@ Darwin Core Task Group. 2009. Darwin Core. Biodiversity Information Standards (T
 Mark D. Spalding, Helen E. Fox, Gerald R. Allen, Nick Davidson, Zach A. Ferdaña, Max Finlayson, Benjamin S. Halpern, Miguel A. Jorge, Al Lombana, Sara A. Lourie, Kirsten D. Martin, Edmund McManus, Jennifer Molnar, Cheri A. Recchia, James Robertson, Marine Ecoregions of the World: A Bioregionalization of Coastal and Shelf Areas, BioScience, Volume 57, Issue 7, July 2007, Pages 573–583, https://doi.org/10.1641/B570707
 Reichman OJ, Jones MB, Schildhauer MP. Challenges and opportunities of open data in ecology. Science. 2011 Feb 11;331(6018):703-5. doi: 10.1126/science.1197962. PMID: 21311007.
 UNESCO, 2021. UNESCO Recommendation on Open Science. Available at: https://unesdoc.unesco.org/ark:/48223/pf0000379949. 34 pages
-Wüest, RO, Zimmermann, NE, Zurell, D, et al. Macroecology in the age of Big Data – Where to go from here? J Biogeogr. 2020; 47: 1– 12. https://doi.org/10.1111/jbi.13633
+Wüest, RO, Zimmermann, NE, Zurell, D, et al. Macroecology in the age of Big Data – Where::here to go from here::here? J Biogeogr. 2020; 47: 1– 12. https://doi.org/10.1111/jbi.13633
