@@ -5,14 +5,13 @@ require(here); require(dplyr); require(worrms); require (reshape)
 
 ## load benthic dataset from Aued et al. 2018 (PloSOne)
 
-bentos_amostras <- read.csv (here ("Data","occ_Aued_et_al",
+bentos_amostras <- read.csv (here ("Data", "occ_Aued_et_al",
                                    "compiled_quadrats_allsites.csv"),
-                             h=T,fill=T)
+                             h=T, fill=T)
 
 # ALLuza modified in excel because it was too difficult to separate events from video ids
-bentos_variaveis <- read.csv (here("Data","occ_Aued_et_al",
-                                   "Modified_compiled_quadrats_allsites.csv"), 
-                            h=T,fill=T)
+bentos_variaveis <- openxlsx::read.xlsx((here("Data", "occ_Aued_et_al",
+                                   "Compiled_quadrats_allsites_Updated_ALLuza_v1.xlsx")))
 
 
 
@@ -28,7 +27,7 @@ bentos_variaveis <- read.csv (here("Data","occ_Aued_et_al",
 
 # transforming data into long format
 # 8 = the first col with taxon data in the original data of Aued et al.
-bentos_long_format <- lapply (seq(8,ncol(bentos_amostras)), function (i) {
+bentos_long_format <- lapply (seq(8, ncol(bentos_amostras)), function (i) {
   
   subset_data <- bentos_variaveis [,c(1:13)] ## sampling descriptors
   
@@ -41,7 +40,7 @@ bentos_long_format <- lapply (seq(8,ncol(bentos_amostras)), function (i) {
 }
 )
 bentos_long_format <- do.call (rbind, bentos_long_format) # melt the list
-bentos_long_format <- bentos_long_format [,-grep("variable",colnames(bentos_long_format))] # rm the just created col
+bentos_long_format <- bentos_long_format [, -grep("variable", colnames(bentos_long_format))] # rm the just created col
 
 # verbatim dates
 bentos_long_format$verbatimEventDate <- bentos_long_format$Data
