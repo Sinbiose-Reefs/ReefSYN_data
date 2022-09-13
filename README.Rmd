@@ -15,7 +15,6 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 # Paper section 1: Ecological Synthesis, and who are we?
 
 The leveraging of ecological synthesis has two main reasons: ecology is both entering in the age of big data (Wüest et al. 2020) and applying the principles of open science (UNESCO 2021). We are now experiencing a transition from isolated research, with data stored in the drawer, to a global research network with data stored in public repositories available to be used for leveraging further research (Reichman et al. 2011). Brazil just started to track this trend. The 'Sinbiose', the Brazilian Institute of Synthesis in Biodiversity and Ecosystem Services (Sinbiose, see <http://www.sinbiose.cnpq.br/web/sinbiose/home>), comprises a pioneer initiative within Latin America in terms of ecological synthesis and application of open-science principles (UNESCO 2020). There are seven working groups funded by the Sinbiose institute, being the ReefSYN--**ReefSYN Working Group**  
