@@ -45,4 +45,8 @@ library(plotly)
 library(mapdata)
 library(RColorBrewer)
 palette(brewer.pal(8, "Set2"))
+library(tidyr)
+library(dplyr)
+require(reshape2)
+require(magrittr)
 

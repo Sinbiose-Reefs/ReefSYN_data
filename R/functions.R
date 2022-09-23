@@ -5,6 +5,18 @@ firstup <- function(x) {
   x
 }
 
+
+
+# function of binomial smooth
+# function from here
+# https://ggplot2.tidyverse.org/reference/geom_smooth.html
+
+poisson_smooth <- function(...) {
+  geom_smooth(method = "glm", method.args = list(family = "binomial"), ...)
+}
+
+
+
 # transform coordinates
 # from here https://stackoverflow.com/questions/14404596/converting-geo-coordinates-from-degree-to-decimal
 angle2dec <- function(angle) {
