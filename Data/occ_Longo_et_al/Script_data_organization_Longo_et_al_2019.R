@@ -13,6 +13,9 @@ L.peixes <- read.csv(here("Data","occ_Longo_et_al",
 
 
 
+unique(L.peixes [which(L.peixes$species_code == "cha_oce"), "diver"])
+unique(L.peixes [which(L.peixes$species_code == "cha_oce"), "diver"])
+
 
 # -----------------------------------------------------------------------------------
 # ADJUSTING SITE NAMES
@@ -204,7 +207,8 @@ L.peixes$namesToSearch [which(L.peixes$species_code == "das_sp")] <- "Dasyatis_s
 L.peixes$namesToSearch <- gsub (" ","_",L.peixes$namesToSearch) # mix of sep
 
 
-
+# wrong matching
+L.peixes$namesToSearch [which(L.peixes$namesToSearch  == "Chaenopsis_ocellata")] <- "Chaetodon_ocellatus"
 
 
 
