@@ -55,20 +55,20 @@ freq_texto_wc <-  function_freq_texto_wc (titulo_ingles)
 par(mfrow=c(1,2),mar=rep(0, 4))
 
 ## inst
-wordcloud2::wordcloud(words = institution$inst, freq = institution$freq.Freq,
+wordcloud(words = institution$inst, freq = institution$freq.Freq,
           min.freq = 1,scale=c(4, .2),
           max.words=50, 
           random.order=FALSE, rot.per=0.15, 
-          colors=brewer.pal(8, "Dark2"))
+          colors = RColorBrewer::brewer.pal(8, "Dark2"))
 
 
 # tit english
-wordcloud2::wordcloud(words = freq_texto_wc$word, 
+wordcloud(words = freq_texto_wc$word, 
           freq = freq_texto_wc$freq.Freq,
           min.freq = 2,scale=c(4, .2),
           max.words=max(freq_texto_wc$freq.Freq)+3, 
           random.order=FALSE, rot.per=0.15, 
-          colors=brewer.pal(8, "Dark2"))
+          colors = RColorBrewer::brewer.pal(8, "Dark2"))
 
 
 
@@ -119,7 +119,6 @@ list_benthos <- list(data.frame (ds1, Dataset= "Sisbiota-Mar"),
 
 
 # agggregate and get coordinates for each site
-require(dplyr)
 coords <- lapply (list_benthos, function (i) 
   
   
@@ -199,7 +198,7 @@ list_fish <- list(data.frame (ds6, Dataset = "RN monitoring"),
 coords_fish <- lapply (list_fish, function (i) 
   
   
-  group_by(i,Dataset, higherGeography, site, locality) %>% 
+  group_by(i, Dataset, higherGeography, site, locality) %>% 
   
                     summarise(decimalLatitude = mean( decimalLatitude,na.rm=T),
                             decimalLongitude = mean( decimalLongitude,na.rm=T)) %>% 
@@ -213,7 +212,7 @@ coords_fish <- do.call(rbind,coords_fish)
 
 
 # map
-wm_data_fish <- wm +  geom_point(data = coords_fish, aes(x = decimalLongitude, 
+wm_data_fish <- wm + geom_point(data = data.frame(coords_fish), aes(x = decimalLongitude, 
                                                          y = decimalLatitude,
                                                          col = Dataset,
                                                          fill=Dataset), 
@@ -232,9 +231,8 @@ wm_data_fish <- wm +  geom_point(data = coords_fish, aes(x = decimalLongitude,
   ggtitle (paste ("Data of fish commnities", "n=", nrow(coords_fish), sep=" ")) +
   guides(colour = guide_legend(override.aes = list(alpha=1))) 
 
-
-grid.arrange(wm_data,
-             wm_data_fish,ncol=2)
+library(patchwork)
+wm_data + wm_data_fish
 
 ```
 Fig. 2: Spatial distribution of sampling sites of benthos (right) and fish (left) per dataset.
@@ -251,6 +249,7 @@ Table 1: number of sampling events of benthos sampling, per dataset.
 
 ```{r, echo = F, results='asis'}
 
+## Benthos
 # the number of sampling events per dataset
 
 table_description_data_benthos <- lapply (list_benthos, function (i)
@@ -261,25 +260,18 @@ table_description_data_benthos <- lapply (list_benthos, function (i)
 )
 
 # melt
-table_description_data_benthos<-do.call(rbind,table_description_data_benthos)
-table_description_data_benthos$samplingProtocol<-firstup(table_description_data_benthos$samplingProtocol)
+table_description_data_benthos <- do.call(rbind,table_description_data_benthos)
+table_description_data_benthos$samplingProtocol <- firstup(table_description_data_benthos$samplingProtocol)
 #sum(table_description_data_benthos$eventIDs)
-# fish
 
-table_description_data_fish <- lapply (list_fish, function (i)
-  
-    data.frame (samplingProtocol = unique(i$samplingProtocol),
-                eventIDs = table(i$samplingProtocol),
-                Dataset = unique(i$Dataset))
-)
-# melt
-table_description_data_fish<-do.call(rbind,table_description_data_fish)
-table_description_data_fish$samplingProtocol<-firstup(table_description_data_fish$samplingProtocol)
-# totals
-# sum(table_description_data_fish$eventIDs)
+table_description_data_benthos %>% 
+  mutate(samplingProtocol = recode(samplingProtocol, "Photoquadrats" = "Photoquadrats (50 X 50cm)",
+                                   "Point-intercept  lines" = "Point-intercept lines")) %>% 
+  dplyr::rename("Sampling Protocol" = "samplingProtocol",
+                "samples (n)" = "eventIDs.Freq") %>% 
+  kable()
 
-kable (table_description_data_benthos)
-
+## IDENTIFICAR QUAL A MEDIDA E DIMENSOES DAS AMOSTRAS EM CADA DATASET
 
 ```
 
@@ -289,7 +281,36 @@ Table 2: number of sampling events of fish sampling, per dataset.
 
 ```{r, echo = F, results='asis'}
 
-kable (table_description_data_fish)
+
+## Fish
+# the number of sampling events per dataset
+
+table_description_data_fish <- lapply (list_fish, function (i)
+  
+    data.frame (samplingProtocol = unique(i$samplingProtocol),
+                eventIDs = table(i$samplingProtocol),
+                Dataset = unique(i$Dataset))
+)
+
+# melt
+table_description_data_fish <- do.call(rbind,table_description_data_fish)
+table_description_data_fish$samplingProtocol <- firstup(table_description_data_fish$samplingProtocol)
+
+# totals
+# sum(table_description_data_fish$eventIDs)
+
+table_description_data_fish %>% 
+  mutate(samplingProtocol = recode(samplingProtocol, "Underwater visual survey - 20 x 2m" = "Underwater visual survey",
+                                   "Underwater Visual Survey - 20 x 2m" = "Underwater visual survey",
+                                   "Stationary visual census - 4 x 2m" = "Stationary visual census"),
+         eventIDs.Var1 = recode(eventIDs.Var1, "underwater visual survey - 20 x 2m" = "20 x 2m",
+                                "Underwater Visual Survey - 20 x 2m" = "20 x 2m",
+                                "stationary visual census - 4 x 2m" = "4 x 2m",
+                                "video plot" = "10min - 2 x 1m")) %>% 
+  dplyr::rename("Sampling Protocol" = "samplingProtocol",
+                "samples (n)" = "eventIDs.Freq",
+                "replicate size" = "eventIDs.Var1") %>% 
+  kable()
 
 ```
 
@@ -401,10 +422,9 @@ trend_fish_annotate <- trend_fish + geom_text_repel(data = begin_data_fish, aes 
                                                   box.padding=0) + 
   geom_segment(data = begin_data_fish, 
                aes(x = min_year, y = 0, xend = min_year, yend = 10000)) +
-   geom_segment(aes(x = 2011, y = -400, xend = 2014, yend = -400),size=3,col="gray30")+
+  geom_segment(aes(x = 2011, y = -400, xend = 2014, yend = -400),size=3,col="gray30")+
   geom_segment(aes(x = 2013, y = 500, xend = 2022, yend = 500),size=3,col="gray60")+
   geom_segment(aes(x = 2020, y = 1300, xend = 2022, yend = 1300),size=3,col="#5A8F7B")+
-  
   scale_y_reverse()
 
 
@@ -431,11 +451,14 @@ ds1_occ<- read.csv (here::here("DwC_output","AAued_spatialData", "DF_occ.csv"))
 ds1_occ$year<- ds1 [match (ds1_occ$eventID, ds1$eventID), "year"]
 ds2_occ<- read.csv (here::here("DwC_output","GLongo_NRoss_spatialData", "DF_occ_benthos.csv"))
 ds2_occ$year<- ds2 [match (ds2_occ$eventID, ds2$eventID), "year"]
-ds3_occ<- read.table (here::here("DwC_output","PELD_iloc_benthos", "DF_occ.txt"),sep = ",",h=T)
-ds3_occ$year<- ds3 [match (ds3_occ$eventID, ds3$eventID), "year"]
+
+ds3_occ<- read.table (here::here("DwC_output","PELD_iloc_benthos", "DF_occ.txt"), sep = ",",h=T) # no meu pc, sep = ";"
+ds3_occ$year<- ds3 [match (ds3_occ$eventID, ds3$eventID), "year"] 
+## PROBLEMA -> eventID ESTA COM FORMATO ERRADO (PARTES REPETIDAS, ex. BR:PELD-ILOC:Noronha_Ponta_da_Sapata_2017_noronhaponta_da_sapata2017fundoT1Q7PS_2017_FUNDO_T1_Q7)
 colnames(ds3_occ)[which(colnames(ds3_occ) == "island")] <- "site"
 colnames(ds3_occ)[which(colnames(ds3_occ) == "eventYear")] <- "year"
 ds3_occ$higherGeography <- "BrazilianOceanicIslands"
+
 ds4_occ<- read.csv (here::here("DwC_output","RFrancini_spatialData", "DF_occ.csv"))
 ds4_occ$year<- ds4 [match (ds4_occ$eventID, ds4$eventID), "year"]
 ds5_occ<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","DF_occ_benthos.csv"))
@@ -447,7 +470,7 @@ ds6_occ<- read.csv (here::here("DwC_output","GLongo_NRoss_spatialData", "DF_occ_
 ds6_occ$year<- ds6 [match (ds6_occ$eventID, ds6$eventID), "year"]
 ds7_occ<- read.csv (here::here("DwC_output","GLongo_spatialData", "DF_occ.csv"))
 ds7_occ$year<- ds7 [match (ds7_occ$eventID, ds7$eventID), "year"]
-ds8_occ<- read.table (here::here("DwC_output","PELD_iloc_fish", "DF_occ.txt"),h=T, sep = ";")
+ds8_occ<- read.table (here::here("DwC_output","PELD_iloc_fish", "DF_occ.txt"), h=T, sep = ";")
 ds8_occ$higherGeography <- "BrazilianOceanicIslands"
 ds8_occ$year<- ds8 [match (ds8_occ$eventID, ds8$eventID), "year"]
 ds9_occ<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","DF_occ_fish.csv"))
@@ -462,8 +485,8 @@ ds12_occ$year<- ds12 [match (ds12_occ$eventID, ds12$eventID), "year"]
 
 
 # list of sites with sampling of benthic communities
-list_occ_benthos <- list(data.frame (ds1_occ, Dataset= "Sisbiota-Mar"),
-                     data.frame (ds2_occ, Dataset="RN monitoring"),
+list_occ_benthos <- list(data.frame (ds1_occ, Dataset = "Sisbiota-Mar"),
+                     data.frame (ds2_occ, Dataset = "RN monitoring"),
                      data.frame (ds3_occ, Dataset ="PELD ILOC"),
                      data.frame (ds4_occ, Dataset = "Coastal snapshots"),
                      data.frame (ds5_occ, Dataset = "Abrolhos Bank")
@@ -487,24 +510,21 @@ list_occ_fish <- list(data.frame (ds6_occ, Dataset = "RN monitoring"),
 
 
 ## project richness
+
 # benthos
 # number of spp year (rows per year)
-library(tidyr)
-library(dplyr)
-require(reshape2)
-require(magrittr)
 
-spp_year <- do.call(rbind ,
+spp_year <- do.call(rbind,
                     
                     lapply (list_occ_benthos, function (i)  
                       
                     
-                        i %>% select (year,scientificName,Dataset) # interesting columns
+                        i %>% select (year, scientificName, Dataset) # interesting columns
   
                               
                        )) %>% 
   
-                dcast (formula = year  ~scientificName, # table
+                dcast (formula = year ~ scientificName, # table
                                   drop=T) %>%
                         
                   
@@ -542,12 +562,12 @@ spp_year_fish <- do.call(rbind ,
                     lapply (list_occ_fish, function (i)  
                       
                     
-                        i %>% select (year,scientificName,Dataset) # interesting columns
+                        i %>% select (year, scientificName, Dataset) # interesting columns
   
                               
                        )) %>% 
   
-                dcast (formula = year  ~scientificName, # table
+                dcast (formula = year ~ scientificName, # table
                                   drop=T)# %>%
                         
                   
@@ -571,9 +591,9 @@ acc_time_fish <- lapply (seq (2,nrow(spp_year_fish)), function (i){
         sum_sp <- sum (agg_data>0)
         sum_sp
 })
-acc_time_fish<- c(agg_data_year1_fish, unlist(acc_time_fish))
+acc_time_fish <- c(agg_data_year1_fish, unlist(acc_time_fish))
 acc_time_fish <- data.frame(SR = acc_time_fish, 
-           year = seq (2000,2022))
+           year = seq (2000, 2022))
 #acc_time_fish$year <- as.Date(as.character(acc_time_fish$year), format = "%Y")
 
 
@@ -604,7 +624,7 @@ trend_benthos_SR <- ggplot (data = acc_time,
   geom_segment(aes(x = 2020, y = 12, xend = 2022, yend = 12),size=3,col="#5A8F7B")
 
 # fish
-trend_fish_SR <- ggplot (data = acc_time_fish, aes (x=year,y=SR)) + 
+trend_fish_SR <- ggplot (data = acc_time_fish, aes (x=year, y=SR)) + 
   geom_area(alpha=0.5, fill = "#6CC4A1", col = "gray30",size=2) + 
   theme(plot.background = element_rect("#EBEBEB"),
         panel.background = element_blank(),
@@ -642,18 +662,22 @@ Fig. 4: Trends in the number of scientific names accumulated over time for benth
 
 # Paper section 5: Brief description of each data set
 
+RESUMIR EM UMA TABELA COM NÚMERO DE SITES E AMOSTRAS, E COBERTURA TEMPORAL POR SITE
+
 ## Spatial data (snapshots)
 ### Fish communities from the Brazilian province (Sisbiota-Mar (UVC), Figs. 2 and 3)
-This dataset, used by Morais et al. (2017), includes fish counts and size estimates in 4,570 transects distributed over 137 localities in 20 different sites spanning from 0 to 27°S latitude degrees (including oceanic islands). The method used to sample fish was underwater visual census (UVC). Sampling descriptors include *Observer ID*, *site depth*, and *date*. The geographical information (coordinates) is indicated here at the site level (i.e., represents a set of replicates of transects in a given time and place).
+This dataset, used by Morais et al. (2017), includes fish counts and size estimates in 4,570 transects distributed over 137 localities in 20 different sites spanning from 0° to 27°S latitude degrees (including oceanic islands). Sampling descriptors include *Observer ID*, *site depth*, and *date*. The geographical information (coordinates) is indicated here at the site level (i.e., represents a set of replicates of transects in a given time and place).
+The method used to sample fish was underwater visual census (UVC) with 20 × 2m in dimension, and samples were obtained in the austral summer from 2007 to 2011. Strip transects performed by free or scuba diving, during which the diver unwound a tape while identifying, counting and estimating the total length (LT, cm) of non-cryptic fishes >10 cm. And, while retracting the tape, following the same procedure for benthic-associated non-cryptic fishes <10 cm and cryptic species (see Morais et al. 2017 for more details). 
 
 ### Benthic communities from the Brazilian province (Sisbiota-Mar, Figs. 2 and 3)
-This dataset, used by Aued et al. (2018) --data also published at [DRYAD](https://doi.org/10.5061/dryad.f5s90), includes site-level cover information of ~100 benthic taxa from 3,855 photoquadrats deployed in 40 localities from 15 different sites, spanning 0 to 27°S latitude degrees. The sampling sites indicated here are the same from Morais et al. (2017). Benthic organisms were identified at the lowest possible taxonomic level (i.e., morphotype, species, order) according to constraints related to image identification. Sampling descriptors include *photoquadrat ID*, *site depth*, *date* or *year* and, for some samples, *observer ID*. The geographical information is indicated at the site level.
+This dataset, used by Aued et al. (2018) -- data also published at [DRYAD](https://doi.org/10.5061/dryad.f5s90), includes site-level cover information of ~100 benthic taxa from 3,855 photoquadrats deployed in 40 localities from 15 different sites, spanning 0° to 27°S latitude degrees. The sampling sites indicated here are the same in Morais et al. (2017). Six to twenty 2m2 horizontal surfaces of reef area on each depth strata were haphazardly selected for taking photoquadrats (25 x 25 cm) and
+characterized the benthic community. Each 2m2 area was set, at least, 2 meters apart from each other and considered as independent sample units. Benthic organisms were identified at the lowest possible taxonomic level (i.e., morphotype, species, order) according to constraints related to image identification. Sampling descriptors include *photoquadrat ID*, *site depth*, *date* or *year* and, for some samples, *observer ID*. The geographical information is indicated at the site level.
 
 ### Benthic communities from the Brazilian province (Coastal snapshots, Figs. 2 and 3)
 This dataset was compiled by Erika Santana, Anaíde Aued, and Ronaldo Francini-Filho, and consists of data on benthic organisms sampled in photoquadrats deployed in several sites disposed along the coast and oceanic islands. This dataset is complimentary to the dataset of Aued et al. (2018). Benthic organisms were identified at different taxonomic levels (morphotype, species, order). The dataset originally had environmental descriptors such as *site depth*, *month* and *year*, which were adequate here using DwC standards. 
 
 ### Trophic interactions along the Western Atlantic (Sisbiota-Mar(VP), Figs. 2 and 3)
-This dataset, used by Longo et al. (2019), includes records of feeding behavior of fish over the benthic community, as well interactions among fish. These data were obtained with 1,133 unique videoplots deployed in 70 localities from 17 different sites spanning 61 degrees of latitute, from 34°N to 27°S. Sampling descriptors include *recording time*, *date*, *depth*, and *observed ID*.
+This dataset, used by Longo et al. (2019), includes records of feeding behavior of fish over the benthic community, as well interactions among fish. These data were obtained with 1,133 unique videoplots deployed in 70 localities from 17 different sites spanning 61 degrees of latitude, from 34°N to 27°S. Sampling descriptors include *recording time*, *date*, *depth*, and *observed ID*. At each site, static videos were replicated at 2 × 1 m areas positioned haphazardly on the reefs, with 5–10 m between replicates. Feeding pressure was estimated as the product of the number of bites taken and the body mass (in kilograms) of the fish, accounting for body size variation. Individual biomass was obtained through length–weight relationships from the literature (Froese & Pauly, 2016).
 
 ## Time Series
 ### Benthic communities from oceanic islands (PELD-ILOC, Figs. 2 and 3)
@@ -666,7 +690,7 @@ Dataset of fish recorded in the four oceanic islands of Brazil: Fernando de Noro
 Data collected by Guilherme Longo and Natália Roos in Rio Grande do Norte. Data of fishes and benthos were collected in the same spatial unit. Within a transect of 20m2 used to register fishes, they also deployed 10 photoquadrats to register benthic organisms. These data were used in a publication by Natalia Roos [Roos et al. 2019](https://www.int-res.com/prepress/m13005.html). Data have been collected anually since 2016.
 
 ### Fish communities from Santa Catarina (Santa Catarina, Figs. 2 and 3)
-The data was collected by the LBMM team (), from 2007 to 2021. Dataser includes fish species, size and abundance recorded at 40m2 (20x2m) belt-transects in nine sites along the Santa Catarina state coastal area. 
+The data was collected by the [LBMM team](https://lbmm.ufsc.br/), from 2007 to 2021. Dataset includes fish species, size and abundance recorded at 40m2 (20x2m) belt-transects in nine sites along the Santa Catarina state coastal area. 
 
 ### Fish communities from Arraial do Cabo, Rio de Janeiro (Arraial do Cabo, Figs. 2 and 3)
 Data from Carlos EL Ferreira and Thiago C. Mendes. Data collected from xxx to xxxx.
