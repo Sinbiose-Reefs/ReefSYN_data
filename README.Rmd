@@ -663,6 +663,7 @@ Fig. 4: Trends in the number of scientific names accumulated over time for benth
 
 *ADD LIST OF SPECIES AND TAXONOMICAL CLASSIFICATION*
 
+*QA SECTION*
 
 # Paper section 5: Brief description of each data set
 
