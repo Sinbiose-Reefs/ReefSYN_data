@@ -320,7 +320,7 @@ fish_long_format$samplingProtocol <- "stationary visual census - 4 x 2m"
 # effort
 fish_long_format$samplingEffort <- 1 # "one observer per point"
 
-# sampleSizeValue (based on Minte-Vera et al. 2008 MEPS)
+# sampleSizeValue (based on Minte-Vera et al. 2008 MEPS, https://www.int-res.com/abstracts/meps/v367/p283-293/)
 fish_long_format$sampleSizeValue <- pi*(4^2)# plotarea?radii?"
 
 # sampleSizeUnit (based on Minte-Vera et al. 2008 MEPS)
