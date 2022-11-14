@@ -17,10 +17,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1. Introduction (topic: Ecological Synthesis, and who are we?)
 
+<<<<<<< HEAD
 The recent rise of ecological synthesis has two main reasons: ecology is both entering in the age of big data (Michener & Jones 2012), and is increasingly applying the principles of open science (UNESCO 2021, Reichman et al. 2011). We are now experiencing a transition from isolated research, with data stored in the drawer, to a global research network with data stored in public repositories available to be used for leveraging further research (Reichman et al. 2011). Brazil have just started to track this trend. The 'Sinbiose', the Center for Synthesis in Biodiversity and Ecosystem Services (see <http://www.sinbiose.cnpq.br/web/sinbiose/home>), comprises a pioneer initiative within Latin America in terms of ecological synthesis and application of open-science principles (Luza et al., in prep.). There are seven working groups funded by the SinBiose, from which the ReefSYN--**ReefSYN Working Group**
 -- is the unique group working with marine ecosystems, particularly those biogenic and rocky reefs of the Brazilian marine biogeographical province (Briggs 1974)).
 
 The ReefSYN is composed of a team with 22 researchers (20 early-career and senior researchers, assisted by two post-doctoral researchers) from several countries and institutions  (Fig. 1). Up to this date, most team members performed research in isolation, each one covering a specific dimension of reef biodiversity (Fig. 1). By getting funding and support from the Sinbiose we have now the chance to gather existing data, make data synthesis, and bring together different research expertise/fields/perspectives to engage into a common objective with large societal implications: *Provide a synthesis about patterns and drivers of reef diversity and ecological services provision  in Brazil*. More information about our group can be found at <https://reefsyn.weebly.com/home-us.html>.
+=======
+The leveraging of ecological synthesis has two main reasons: ecology is both entering in the age of big data (Wüest et al. 2020) and applying the principles of open science (UNESCO 2021). We are now experiencing a transition from isolated research, with data stored locally, to a global research network with data stored in public repositories available to be used for fuelling further research (Reichman et al. 2011). Brazil have just started to track this trend. The 'Sinbiose', the Brazilian Institute of Synthesis in Biodiversity and Ecosystem Services (see <http://www.sinbiose.cnpq.br/web/sinbiose/home>), comprises a pioneer initiative within Latin America in terms of ecological synthesis and application of open-science principles (UNESCO 2020). There are seven working groups funded by the Sinbiose institute, being the ReefSYN--**ReefSYN Working Group**  
+--the only group working with marine ecosystems (particularly biogenic and rocky reefs of the Brazilian marine biogeographical province (Spalding et al. 2007)).
+
+The ReefSYN is composed of a team with 22 researchers (20 early-career and senior researchers, assisted by two post-doctoral researchers) from several countries and institutions  (Fig. 1). Up to this date, most team members performed research in isolation, each one covering a specific dimension of reef biodiversity (Fig. 1). By getting funding and support from the Sinbiose we have now the chance to make data synthesis and bring together different research expertise and perspectives to engage into a common objective: *Provide a synthesis about patterns and drivers of reef diversity and ecological services provision  in Brazil*. More information about our group can be found at <https://reefsyn.weebly.com/home-us.html>.
+>>>>>>> 1be1df3a3ae18b0f6b1460e17a3561ec65ba3b01
 
 By standardizing these data to a common, globally accepted standard --the Darwin Core Standard-- it would be possible to integrate data and make data synthesis to answer ambitious questions about the functioning of Brazilian reef ecosystems, as well quantify, given the distribution of data in space and time, the influence of humans on reef biodiversity and ecosystem services. To this end, we bring this datapaper showing how the data gathered by ReefSYN is organized, and leave it available to other users.
 
@@ -32,8 +39,6 @@ By standardizing these data to a common, globally accepted standard --the Darwin
 
 source("R/packages.R")
 source("R/functions.R")
-
-
 
 # open researcher data
 researcher_data <- read.xlsx(here::here("Data","researcher_data","PLANILHA_CONSOLIDADA.xlsx"), sheet = 1, colNames = TRUE, detectDates=F)
@@ -58,26 +63,35 @@ freq_texto_wc <-  function_freq_texto_wc (titulo_ingles)
 par(mfrow=c(1,2),mar=rep(0, 4))
 
 ## inst
+<<<<<<< HEAD
 wordcloud::wordcloud(words = institution$inst, freq = institution$freq.Freq,
+=======
+wordcloud(words = institution$inst, freq = institution$freq.Freq,
+>>>>>>> 1be1df3a3ae18b0f6b1460e17a3561ec65ba3b01
           min.freq = 1,scale=c(4, .2),
           max.words=50, 
           random.order=FALSE, rot.per=0.15, 
-          colors=brewer.pal(8, "Dark2"))
+          colors = RColorBrewer::brewer.pal(8, "Dark2"))
 
 
 # tit english
+<<<<<<< HEAD
 wordcloud::wordcloud(words = freq_texto_wc$word, 
+=======
+wordcloud(words = freq_texto_wc$word, 
+>>>>>>> 1be1df3a3ae18b0f6b1460e17a3561ec65ba3b01
           freq = freq_texto_wc$freq.Freq,
           min.freq = 2,scale=c(4, .2),
           max.words=max(freq_texto_wc$freq.Freq)+3, 
           random.order=FALSE, rot.per=0.15, 
-          colors=brewer.pal(8, "Dark2"))
+          colors = RColorBrewer::brewer.pal(8, "Dark2"))
 
 
 
 ```
 Fig. 1: Institutions and research topics explored by the ReefSYN team members.
 
+<<<<<<< HEAD
 
 ## 2. Methodology
 
@@ -90,6 +104,13 @@ The Brazilian marine biogeographical province (Briggs, 1974; Floeter et al., 200
 The sampling effort was not evenly distributed in time. Indeed, since 2001, the number of samples increased considerably over time, as well the number of sampled taxa (Fig. 2). Notably, the cumulative number of eventIDs (i.e. information associated with an event of sampling (something that occurs at a place and time), Darwin Core Task Group (2009)) across the datasets over time show that i) there was an abrupt increase in the number of eventIDs after 2013, mainly for benthos (probably leveraged by the Sisbiota-Mar project (CNPq)), ii) large projects such as Sisbiota-Mar and PELD ILOC have already made an effort to gather data from previous initiatives (Krajewksi & Floeter 2011), iii) there was a nearly constant increase in the number of fish scientific names over time. For benthos, in contrast, there were years of constancy amid years of abrupt increase in the number of identified taxa (Figs. 3 and 4).
 
 
+=======
+# Paper section 2: Spatial and temporal distribution of data gathered by the ReefSYN Working Group
+
+Over time (since 2001 actually), this team of researchers gathered data on fish and benthic organisms (e.g., algae, corals) in different localities scattered throughout the Brazilian coast and oceanic islands. By standardizing these data to a common, globally accepted standard --the Darwin Core Standard-- it would be possible to integrate data and make data synthesis to answer more ambitious questions about the functioning of Brazilian reef ecosystems, as well quantify, given the distribution of data in space and time, the influence of humans on reef biodiversity and ecosystem services. Below, we make a spatial mapping of our data and show how the accumulation of sample and taxonomic information in time and space proceeded.
+
+The use of big data is natural to ecological synthesis, considering data amount and heterogeneity (Wüest et al. 2020). To achieve our objective, we are analyzing data from almost 400 unique localities distributed throughout the Brazilian coast and oceanic islands. Our data embraces a notable latitudinal range, from 0.91N to 27.6S latitude degrees, and cover a significant portion of the Atlantic Ocean. In these localities, we gathered and standardized both already published and unpublished data on fish and benthic communities to create this large database under the curatorship of the ReefSYN Working Group. In brief, all these data came from geographically replicated, large-scale research programs conducted over the last decades in Brazil (SISBOTA-MAR, PELD-ILOC, Abrolhos Bank monitoring) and from novel initiatives such as the monitoring of reef fish and benthos of Rio Grande do Norte state. Below we present the map with the spatial distribution of localities aggregated across datasets, for fish and benthic organisms (see legend, Fig. 2). 
+>>>>>>> 1be1df3a3ae18b0f6b1460e17a3561ec65ba3b01
 
 
 ```{r, echo = F, fig.height=5, fig.width=8, message=F, warning=F, fig.align= "center", out.width="100%", out.height="100%"}
@@ -210,7 +231,7 @@ list_fish <- list(data.frame (ds11, Dataset = "I"),
 coords_fish <- lapply (list_fish, function (i) 
   
   
-  group_by(i,Dataset, higherGeography, site, locality) %>% 
+  group_by(i, Dataset, higherGeography, site, locality) %>% 
   
                     summarise(decimalLatitude = mean( decimalLatitude,na.rm=T),
                             decimalLongitude = mean( decimalLongitude,na.rm=T)) %>% 
@@ -224,7 +245,7 @@ coords_fish <- do.call(rbind,coords_fish)
 
 
 # map
-wm_data_fish <- wm +  geom_point(data = coords_fish, aes(x = decimalLongitude, 
+wm_data_fish <- wm + geom_point(data = data.frame(coords_fish), aes(x = decimalLongitude, 
                                                          y = decimalLatitude,
                                                          col = Dataset,
                                                          fill=Dataset), 
@@ -243,20 +264,35 @@ wm_data_fish <- wm +  geom_point(data = coords_fish, aes(x = decimalLongitude,
   ggtitle (paste ("Data of fish commnities", "n=", nrow(coords_fish), sep=" ")) +
   guides(colour = guide_legend(override.aes = list(alpha=1))) 
 
+<<<<<<< HEAD
 
 grid.arrange(wm_data,
              wm_data_fish,ncol=2)
 
 
+=======
+library(patchwork)
+wm_data + wm_data_fish
+>>>>>>> 1be1df3a3ae18b0f6b1460e17a3561ec65ba3b01
 
 ```
 Fig. 2: Spatial distribution of sampling sites of fish (left) and benthos (right) per dataset.
 
 
+<<<<<<< HEAD
 Table 1: Description of reef benthic datasets.
+=======
+The dataset presented here reunites information from several independent and geographically replicated efforts to characterize the marine biodiversity of the Brazilian province in space and time (Fig. 3). In terms of the cumulative number of eventIDs (i.e. information associated with an Event of sampling - something that occurs at a place and time - sensu Darwin Core Task Group (2009)) across the datasets over time, we can see that i) there was an abrupt increase in the number of eventIDs after 2013, mainly for benthos (probably leveraged by the Sisbiota-Mar project (CNPq)), and ii) the data included several initiatives (e.g., Sisbiota-Mar, PELD ILOC) from past expeditions (i.e., prior to the first conjunct grant).
+
+The number of sampling events per dataset, for benthos and fish, are shown in Tables 1 and 2, respectively.
+
+
+Table 1: number of sampling events of benthos sampling, per dataset.
+>>>>>>> 1be1df3a3ae18b0f6b1460e17a3561ec65ba3b01
 
 ```{r, echo = F, results='asis'}
 
+## Benthos
 # the number of sampling events per dataset
 
 table_description_data_benthos <- lapply (list_benthos, function (i)
@@ -278,6 +314,7 @@ table_description_data_benthos <- lapply (list_benthos, function (i)
 )
 
 # melt
+<<<<<<< HEAD
 table_description_data_benthos<-do.call(rbind,table_description_data_benthos)
 #sum(table_description_data_benthos$eventIDs)
 # fish
@@ -314,7 +351,20 @@ kable (table_description_data_benthos, col.names = c("Sampling Protocol",
                                                      "Longitudinal range",
                                                      "Years"),
        align="c")
+=======
+table_description_data_benthos <- do.call(rbind,table_description_data_benthos)
+table_description_data_benthos$samplingProtocol <- firstup(table_description_data_benthos$samplingProtocol)
+#sum(table_description_data_benthos$eventIDs)
 
+table_description_data_benthos %>% 
+  mutate(samplingProtocol = recode(samplingProtocol, "Photoquadrats" = "Photoquadrats (50 X 50cm)",
+                                   "Point-intercept  lines" = "Point-intercept lines")) %>% 
+  dplyr::rename("Sampling Protocol" = "samplingProtocol",
+                "samples (n)" = "eventIDs.Freq") %>% 
+  kable()
+>>>>>>> 1be1df3a3ae18b0f6b1460e17a3561ec65ba3b01
+
+## IDENTIFICAR QUAL A MEDIDA E DIMENSOES DAS AMOSTRAS EM CADA DATASET
 
 ```
 
@@ -322,9 +372,9 @@ kable (table_description_data_benthos, col.names = c("Sampling Protocol",
 
 Table 2: Description of reef fish datasets.
 
-
 ```{r, echo = F, results='asis'}
 
+<<<<<<< HEAD
 kable (table_description_data_fish, col.names = c("Sampling Protocol",
                                                      "Number of samples",
                                                      "Dataset Name",
@@ -335,11 +385,47 @@ kable (table_description_data_fish, col.names = c("Sampling Protocol",
                                                      "Longitudinal range",
                                                   "Years"),
        align="c")
+=======
+>>>>>>> 1be1df3a3ae18b0f6b1460e17a3561ec65ba3b01
+
+## Fish
+# the number of sampling events per dataset
+
+table_description_data_fish <- lapply (list_fish, function (i)
+  
+    data.frame (samplingProtocol = unique(i$samplingProtocol),
+                eventIDs = table(i$samplingProtocol),
+                Dataset = unique(i$Dataset))
+)
+
+# melt
+table_description_data_fish <- do.call(rbind,table_description_data_fish)
+table_description_data_fish$samplingProtocol <- firstup(table_description_data_fish$samplingProtocol)
+
+# totals
+# sum(table_description_data_fish$eventIDs)
+
+table_description_data_fish %>% 
+  mutate(samplingProtocol = recode(samplingProtocol, "Underwater visual survey - 20 x 2m" = "Underwater visual survey",
+                                   "Underwater Visual Survey - 20 x 2m" = "Underwater visual survey",
+                                   "Stationary visual census - 4 x 2m" = "Stationary visual census"),
+         eventIDs.Var1 = recode(eventIDs.Var1, "underwater visual survey - 20 x 2m" = "20 x 2m",
+                                "Underwater Visual Survey - 20 x 2m" = "20 x 2m",
+                                "stationary visual census - 4 x 2m" = "4 x 2m",
+                                "video plot" = "10min - 2 x 1m")) %>% 
+  dplyr::rename("Sampling Protocol" = "samplingProtocol",
+                "samples (n)" = "eventIDs.Freq",
+                "replicate size" = "eventIDs.Var1") %>% 
+  kable()
 
 ```
 
+<<<<<<< HEAD
+=======
 
+The number of sampling events grew over time, with a notable increase after 2012-2013, which is associated with the consolidation of the Sisbiota-Mar network, the increase in network members, and the total amount of financial support derived from network cooperative efforts. As an example, the inclusion of the ProspeqMar project, which has bioprospection and holobiotic investigation objectives, had an important contribution to the network from 2013 onwards.
 
+>>>>>>> 1be1df3a3ae18b0f6b1460e17a3561ec65ba3b01
 ```{r, echo = F, fig.height=5,fig.width=8,message=F, warning=F,fig.align= "center",out.width="100%",out.height="100%"}
 
 
@@ -445,10 +531,9 @@ trend_fish_annotate <- trend_fish + geom_text_repel(data = begin_data_fish, aes 
                                                   box.padding=0) + 
   geom_segment(data = begin_data_fish, 
                aes(x = min_year, y = 0, xend = min_year, yend = 10000)) +
-   geom_segment(aes(x = 2011, y = -400, xend = 2014, yend = -400),size=3,col="gray30")+
+  geom_segment(aes(x = 2011, y = -400, xend = 2014, yend = -400),size=3,col="gray30")+
   geom_segment(aes(x = 2013, y = 500, xend = 2022, yend = 500),size=3,col="gray60")+
   geom_segment(aes(x = 2020, y = 1300, xend = 2022, yend = 1300),size=3,col="#5A8F7B")+
-  
   scale_y_reverse()
 
 
@@ -460,10 +545,14 @@ grid.arrange (trend_benthos_annotate,
 
 
 ```
-Fig. 3: The number of sampling events accumulated over time for benthos (top) and fish (bottom). One sampling event consist, for example, on one transect deployed into a locality. The vertical segments depict the year in which data included in each Dataset started to be collected. The horizontal bars depict the formal funding as follows: dark gray bar: Sisbiota, CNPq; light gray bar: PELD, CNPq; green bar: ReefSYN, Sinbiose CNPq. 
+Fig. 3: The number of sampling events accumulated over time for benthos (top) and fish (bottom). One sampling event consist, for example, on one transect deployed into a locality. The vertical segments indicate the year in which data included in each dataset started to be collected. The horizontal bars depict the formal funding as follows: dark gray bar: Sisbiota, CNPq; light gray bar: PELD, CNPq; green bar: ReefSYN, Sinbiose CNPq. 
 
 
 
+<<<<<<< HEAD
+=======
+It is also natural that the cumulative sampling effort over time produces more scientific knowledge regarding the number of identified species or taxa. Here, we counted the cumulative number of scientific names or taxon names (after checking with the WORMS database, using the R package "worrms"). As indicated in Fig. 4, there was a nearly constant increase in the number of fish scientific names over time. In contrast, for benthos, there were sudden increases in the number of identified taxa over years (Fig. 4).
+>>>>>>> 1be1df3a3ae18b0f6b1460e17a3561ec65ba3b01
 
 ```{r, echo = F, fig.height=5,fig.width=8,message=F, warning=F, fig.align= "center",out.width="100%",out.height="100%"}
 
@@ -473,11 +562,14 @@ ds1_occ<- read.csv (here::here("DwC_output","AAued_spatialData", "DF_occ.csv"))
 ds1_occ$year<- ds1 [match (ds1_occ$eventID, ds1$eventID), "year"]
 ds2_occ<- read.csv (here::here("DwC_output","GLongo_NRoss_spatialData", "DF_occ_benthos.csv"))
 ds2_occ$year<- ds2 [match (ds2_occ$eventID, ds2$eventID), "year"]
-ds3_occ<- read.table (here::here("DwC_output","PELD_iloc_benthos", "DF_occ.txt"),sep = ",",h=T)
-ds3_occ$year<- ds3 [match (ds3_occ$eventID, ds3$eventID), "year"]
+
+ds3_occ<- read.table (here::here("DwC_output","PELD_iloc_benthos", "DF_occ.txt"), sep = ",",h=T) # no meu pc, sep = ";"
+ds3_occ$year<- ds3 [match (ds3_occ$eventID, ds3$eventID), "year"] 
+## PROBLEMA -> eventID ESTA COM FORMATO ERRADO (PARTES REPETIDAS, ex. BR:PELD-ILOC:Noronha_Ponta_da_Sapata_2017_noronhaponta_da_sapata2017fundoT1Q7PS_2017_FUNDO_T1_Q7)
 colnames(ds3_occ)[which(colnames(ds3_occ) == "island")] <- "site"
 colnames(ds3_occ)[which(colnames(ds3_occ) == "eventYear")] <- "year"
 ds3_occ$higherGeography <- "BrazilianOceanicIslands"
+
 ds4_occ<- read.csv (here::here("DwC_output","RFrancini_spatialData", "DF_occ.csv"))
 ds4_occ$year<- ds4 [match (ds4_occ$eventID, ds4$eventID), "year"]
 ds5_occ<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","DF_occ_benthos.csv"))
@@ -489,7 +581,7 @@ ds6_occ<- read.csv (here::here("DwC_output","GLongo_NRoss_spatialData", "DF_occ_
 ds6_occ$year<- ds6 [match (ds6_occ$eventID, ds6$eventID), "year"]
 ds7_occ<- read.csv (here::here("DwC_output","GLongo_spatialData", "DF_occ.csv"))
 ds7_occ$year<- ds7 [match (ds7_occ$eventID, ds7$eventID), "year"]
-ds8_occ<- read.table (here::here("DwC_output","PELD_iloc_fish", "DF_occ.txt"),h=T, sep = ";")
+ds8_occ<- read.table (here::here("DwC_output","PELD_iloc_fish", "DF_occ.txt"), h=T, sep = ";")
 ds8_occ$higherGeography <- "BrazilianOceanicIslands"
 ds8_occ$year<- ds8 [match (ds8_occ$eventID, ds8$eventID), "year"]
 ds9_occ<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","DF_occ_fish.csv"))
@@ -504,11 +596,19 @@ ds12_occ$year<- ds12 [match (ds12_occ$eventID, ds12$eventID), "year"]
 
 
 # list of sites with sampling of benthic communities
+<<<<<<< HEAD
 list_occ_benthos <- list(data.frame (ds1_occ, Dataset= "I"),
                      data.frame (ds4_occ, Dataset = "II"),
                      data.frame (ds3_occ, Dataset ="III"),
                      data.frame (ds2_occ, Dataset="IV"),
                      data.frame (ds5_occ, Dataset = "V")
+=======
+list_occ_benthos <- list(data.frame (ds1_occ, Dataset = "Sisbiota-Mar"),
+                     data.frame (ds2_occ, Dataset = "RN monitoring"),
+                     data.frame (ds3_occ, Dataset ="PELD ILOC"),
+                     data.frame (ds4_occ, Dataset = "Coastal snapshots"),
+                     data.frame (ds5_occ, Dataset = "Abrolhos Bank")
+>>>>>>> 1be1df3a3ae18b0f6b1460e17a3561ec65ba3b01
                      )
 
 
@@ -530,24 +630,21 @@ list_occ_fish <- list(data.frame (ds11_occ, Dataset = "I"),
 
 
 ## project richness
+
 # benthos
 # number of spp year (rows per year)
-library(tidyr)
-library(dplyr)
-require(reshape2)
-require(magrittr)
 
-spp_year <- do.call(rbind ,
+spp_year <- do.call(rbind,
                     
                     lapply (list_occ_benthos, function (i)  
                       
                     
-                        i %>% select (year,scientificName,Dataset) # interesting columns
+                        i %>% select (year, scientificName, Dataset) # interesting columns
   
                               
                        )) %>% 
   
-                dcast (formula = year  ~scientificName, # table
+                dcast (formula = year ~ scientificName, # table
                                   drop=T) %>%
                         
                   
@@ -585,12 +682,12 @@ spp_year_fish <- do.call(rbind ,
                     lapply (list_occ_fish, function (i)  
                       
                     
-                        i %>% select (year,scientificName,Dataset) # interesting columns
+                        i %>% select (year, scientificName, Dataset) # interesting columns
   
                               
                        )) %>% 
   
-                dcast (formula = year  ~scientificName, # table
+                dcast (formula = year ~ scientificName, # table
                                   drop=T)# %>%
                         
                   
@@ -614,9 +711,9 @@ acc_time_fish <- lapply (seq (2,nrow(spp_year_fish)), function (i){
         sum_sp <- sum (agg_data>0)
         sum_sp
 })
-acc_time_fish<- c(agg_data_year1_fish, unlist(acc_time_fish))
+acc_time_fish <- c(agg_data_year1_fish, unlist(acc_time_fish))
 acc_time_fish <- data.frame(SR = acc_time_fish, 
-           year = seq (2000,2022))
+           year = seq (2000, 2022))
 #acc_time_fish$year <- as.Date(as.character(acc_time_fish$year), format = "%Y")
 
 
@@ -647,7 +744,7 @@ trend_benthos_SR <- ggplot (data = acc_time,
   geom_segment(aes(x = 2020, y = 12, xend = 2022, yend = 12),size=3,col="#5A8F7B")
 
 # fish
-trend_fish_SR <- ggplot (data = acc_time_fish, aes (x=year,y=SR)) + 
+trend_fish_SR <- ggplot (data = acc_time_fish, aes (x=year, y=SR)) + 
   geom_area(alpha=0.5, fill = "#6CC4A1", col = "gray30",size=2) + 
   theme(plot.background = element_rect("#EBEBEB"),
         panel.background = element_blank(),
@@ -658,7 +755,7 @@ trend_fish_SR <- ggplot (data = acc_time_fish, aes (x=year,y=SR)) +
         panel.grid = element_blank()) + 
   xlab ("") + ylab ("") +
   
-  scale_y_reverse() + 
+  scale_y_reverse() + # talvez seja melhor manter a escala normal
   # projects
   geom_text_repel(data = begin_data_fish, aes (x= min_year, y = 300,
                                                   label = Dataset,
@@ -680,6 +777,7 @@ grid.arrange(trend_benthos_SR,
              nrow=2,
               left = "Cumulative number of scientificNames")
 
+<<<<<<< HEAD
 
 
 
@@ -918,6 +1016,54 @@ Orders:
 Families: `r knitr::combine_words(unique(list_occ_fish[[6]]$family), and = "")`
 
 *Taxa in the dataset (per identification level/at the identification level)*
+=======
+```
+Fig. 4: Trends in the number of scientific names accumulated over time for benthos (top) and fish (bottom). The vertical segments depict the year in which data included in each Dataset started to be collected. The horizontal bars depict the formal funding as follows: dark gray bar: Sisbiota, CNPq; light gray bar: PELD, CNPq; green bar: ReefSYN, Sinbiose CNPq. 
+
+
+*ADD LIST OF SPECIES AND TAXONOMICAL CLASSIFICATION*
+
+*QA SECTION*
+
+# Paper section 5: Brief description of each data set
+
+*RESUMIR EM UMA TABELA COM NÚMERO DE SITES E AMOSTRAS, E COBERTURA TEMPORAL POR SITE*
+
+## Spatial data (snapshots)
+### Fish communities from the Brazilian province (Sisbiota-Mar (UVC), Figs. 2 and 3)
+This dataset, used by Morais et al. (2017), includes fish counts and size estimates in 4,570 transects distributed over 137 localities in 20 different sites spanning from 0° to 27°S latitude degrees (including oceanic islands). Sampling descriptors include *Observer ID*, *site depth*, and *date*. The geographical information (coordinates) is indicated here at the site level (i.e., represents a set of replicates of transects in a given time and place).
+The method used to sample fish was underwater visual census (UVC) with 20 × 2m in dimension, and samples were obtained in the austral summer from 2007 to 2011. Strip transects performed by free or scuba diving, during which the diver unwound a tape while identifying, counting and estimating the total length (LT, cm) of non-cryptic fishes >10 cm. And, while retracting the tape, following the same procedure for benthic-associated non-cryptic fishes <10 cm and cryptic species (see Morais et al. 2017 for more details). 
+
+### Benthic communities from the Brazilian province (Sisbiota-Mar, Figs. 2 and 3)
+This dataset, used by Aued et al. (2018) -- data also published at [DRYAD](https://doi.org/10.5061/dryad.f5s90), includes site-level cover information of ~100 benthic taxa from 3,855 photoquadrats deployed in 40 localities from 15 different sites, spanning 0° to 27°S latitude degrees. The sampling sites indicated here are the same in Morais et al. (2017). Six to twenty 2m2 horizontal surfaces of reef area on each depth strata were haphazardly selected for taking photoquadrats (25 x 25 cm) and
+characterized the benthic community. Each 2m2 area was set, at least, 2 meters apart from each other and considered as independent sample units. Benthic organisms were identified at the lowest possible taxonomic level (i.e., morphotype, species, order) according to constraints related to image identification. Sampling descriptors include *photoquadrat ID*, *site depth*, *date* or *year* and, for some samples, *observer ID*. The geographical information is indicated at the site level.
+
+### Benthic communities from the Brazilian province (Coastal snapshots, Figs. 2 and 3)
+This dataset was compiled by Erika Santana, Anaíde Aued, and Ronaldo Francini-Filho, and consists of data on benthic organisms sampled in photoquadrats deployed in several sites disposed along the coast and oceanic islands. This dataset is complimentary to the dataset of Aued et al. (2018). Benthic organisms were identified at different taxonomic levels (morphotype, species, order). The dataset originally had environmental descriptors such as *site depth*, *month* and *year*, which were adequate here using DwC standards. 
+
+### Trophic interactions along the Western Atlantic (Sisbiota-Mar(VP), Figs. 2 and 3)
+This dataset, used by Longo et al. (2019), includes records of feeding behavior of fish over the benthic community, as well interactions among fish. These data were obtained with 1,133 unique videoplots deployed in 70 localities from 17 different sites spanning 61 degrees of latitude, from 34°N to 27°S. Sampling descriptors include *recording time*, *date*, *depth*, and *observed ID*. At each site, static videos were replicated at 2 × 1 m areas positioned haphazardly on the reefs, with 5–10 m between replicates. Feeding pressure was estimated as the product of the number of bites taken and the body mass (in kilograms) of the fish, accounting for body size variation. Individual biomass was obtained through length–weight relationships from the literature (Froese & Pauly, 2016).
+
+## Time Series
+### Benthic communities from oceanic islands (PELD-ILOC, Figs. 2 and 3)
+Dataset of benthic communities recorded in the four oceanic islands of Brazil: Fernando de Noronha Archipelago, Rocas' Atoll, Trindade Island and Martiz Vaz Archipelago, and Saint Peter and Saint Paul's Archipelago. Data were collected from 2013 to 2022, organized by Thiago Silveira and Cesar Cordeiro (PELD-ILOC team) and is curated by Dr. Cesar Cordeiro. These data were generated by the team of [PELD ILOC project](http://peldiloc.sites.ufsc.br/), and is still being sampled anually. As the images from 2020 to 2022 are still under analysis, these data were not included here. The method for registering the benthic community included three to six fixed transects (20 m) parallel to the coastline placed at 2 m intervals. Ten to 11 (50 × 50 cm) photoquadrats were taken at each transect in each year and locality from 2013 to 2019. Following the imaging register, image processing was done using the Coral Point Count with Excel extensions software (CPCe v. 4.1) (Kohler and Gill, 2006). This stage consisted on the identification of major taxonomic, morpho-anatomical benthic groups and the estimation of their relative cover in samples. Software analysis were performed by overlaying 50 random points on each image and identifying the organisms immediately below each point details (details in Zamoner et al. 2021).
+
+### Fish communities from oceanic islands (PELD-ILOC, Figs. 2 and 3)
+Dataset of fish recorded in the four oceanic islands of Brazil: Fernando de Noronha Archipelago, Rocas' Atoll, Trindade Island and Martiz Vaz Archipelago, and Saint Peter and Saint Paul's Archipelago. Data were collected from 2013 to 2019, organized by Juan Quimbayo, Thiago Silveira and Cesar Cordeiro (PELD-ILOC team) and is curated by Dr. Cesar Cordeiro. The method used to sample fish was the underwater visual census (UVC). These data were generated by the team of [PELD ILOC project](http://peldiloc.sites.ufsc.br/) applying the same UVS protocol (20 x 2m strip transect) described above and used by Morais et al. (2017). Transects were laid at different depths at 5m intervals according to local maximum depths, ranging from 3 to 25m deep.
+
+### Fish and benthic communities from Rio Grande do Norte (RN monitoring, Figs. 2 and 3)
+Data collected by Guilherme Longo and Natália Roos in Rio Grande do Norte. Data of fishes and benthos were collected in the same spatial unit, within a transect of 20m2 used to register fishes, they also deployed 10 photoquadrats to register benthic organisms. These data were used in a publication by Natalia Roos [Roos et al. 2019](https://www.int-res.com/prepress/m13005.html). Data have been collected anually since 2016, at depths ranging from 1 to 28 m according to local depth.
+
+### Fish communities from Santa Catarina (Santa Catarina, Figs. 2 and 3)
+The data was collected annualy by the [LBMM team](https://lbmm.ufsc.br/), from 2007 to 2021. Dataset includes fish species, size and abundance recorded at 40m2 (20x2m) belt-transects in nine sites along the Santa Catarina state coastal area. Transects were laid at different depths at, approximately, 5m intervals according to local maximum depths, ranging from 1 to 25m deep.
+
+### Fish communities from Arraial do Cabo, Rio de Janeiro (Arraial do Cabo, Figs. 2 and 3)
+The data was collected by the [LECAR team](https://www.lecar.uff.br/) from 2003 to 2021, but were annually collected only from 2014 to 2021 at four of the 21 sites monitored. All other sites were sampled opportunistically. Dataset includes fish species, size and abundance recorded at 40m2 (20x2m) belt-transects in rocky reefs in Arraial do Cabo, Rio de Janeiro. Transects were laid at different depths at, approximately, 5m intervals according to local maximum depths, ranging from 1 to 25m deep. Samples include data from two distinct oceanographic domains present locally, one under strong influence of seasonal upwelling, and another with indirect influence of the upwelling.
+
+### Fish assemblages and benthic communities from Abrolhos Bank (Abrolhos Bank, Figs. 2 and 3)
+Fish assemblage data from the Abrolhos Bank was collected by Ronaldo Francini-Filho from 2001 to 2014. The dataset here include samples of five sites and 28 localities nested within sites but not evenly distributed (see table Xs for details). The variables in this dataset are related to the description of fishes identification and abundance, measured at stationary visual censuses (4 x 2 m, XX min). Depth of sampling varied among sites and ranged between 2 and 15m.
+Benthic communities assessments were completed at the same sites, localities and depths of fish stationary censuses, using either point-intersect technique (four 10m-transects in each depth and locality) or photoquadrats (10 quadrats, 0.7m2).
+>>>>>>> 1be1df3a3ae18b0f6b1460e17a3561ec65ba3b01
 
 Family: `r list_taxa_show[[6]][[5]]` 
 
@@ -929,11 +1075,19 @@ Subspecies: `r list_taxa_show[[6]][[4]]`
 
 
 
+<<<<<<< HEAD
 Dataset VII
 
 *Taxonomic ranks*
 
 Kingdom: `r unique(list_occ_fish[[7]]$kingdom)`
+=======
+### Brazilian Protected Areas
+Spatial polygons of all Brazilian Protected Areas (in land and sea). These spatial data were shared by Rafael Magris (ICMBio), and are available at ICMBio homepage [link](https://www.gov.br/icmbio/pt-br/servicos/geoprocessamento/mapa-tematico-e-dados-geoestatisticos-das-unidades-de-conservacao-federais).
+
+## How can you access these data?
+These data are published under CC BY-NC licence. "Policy of data sharing and use" can be found in the ReefSYN Organization in Github (available [here](https://github.com/Sinbiose-Reefs/reefsyn_site/blob/master/DataPolicy_SINBIOSE.pdf)). Data embargo goes up to **January 2024**, one year after the end of ReefSYN funding.
+>>>>>>> 1be1df3a3ae18b0f6b1460e17a3561ec65ba3b01
 
 Phylum: Chordata
 
@@ -1158,5 +1312,10 @@ Michener WK, Jones MB. Ecoinformatics: supporting ecology as a data-intensive sc
 Reichman OJ, Jones MB, Schildhauer MP. Challenges and opportunities of open data in ecology. Science. 2011 Feb 11;331(6018):703-5. doi: 10.1126/science.1197962. PMID: 21311007.
 
 UNESCO, 2021. UNESCO Recommendation on Open Science. Available at: https://unesdoc.unesco.org/ark:/48223/pf0000379949. 34 pages
+<<<<<<< HEAD
 
 Krajewski, J.P., Floeter, S.R. Reef fish community structure of the Fernando de Noronha Archipelago (Equatorial Western Atlantic): the influence of exposure and benthic composition. Environ Biol Fish 92, 25 (2011). https://doi.org/10.1007/s10641-011-9813-3
+=======
+Wüest, RO, Zimmermann, NE, Zurell, D, et al. Macroecology in the age of Big Data – Where to go from here? J Biogeogr. 2020; 47: 1– 12. https://doi.org/10.1111/jbi.13633
+Zamoner JB, Aued AW, Macedo-Soares LCP, Picolotto VAP, Garcia CAE and Segal B (2021) Integrating Oceanographic Data and Benthic Community Structure Temporal Series to Assess the Dynamics of a Marginal Reef. Front. Mar. Sci. 8: 762453 https://doi.org/10.3389/fmars.2021.762453
+>>>>>>> 1be1df3a3ae18b0f6b1460e17a3561ec65ba3b01
