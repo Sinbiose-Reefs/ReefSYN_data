@@ -1,9 +1,9 @@
-## pacotes para abrir dados
+## packages to load data
 library(here)
 library(openxlsx)
 library(tidyverse)
 
-## pacotes para mapas
+## packages to map
 library(rnaturalearth)
 library(rnaturalearthdata)
 library(gridExtra)

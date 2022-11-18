@@ -10,24 +10,24 @@ Floeter, SR, Bender, MG
 <!-- badges: start -->
 <!-- badges: end -->
 
-## 1. Introduction (topic: Ecological Synthesis, and who are we?)
+# 1 Introduction
 
 The recent rise of ecological synthesis has two main reasons: ecology is
 both entering in the age of big data (Michener & Jones 2012), and is
 increasingly applying the principles of open science (UNESCO 2021,
 Reichman et al. 2011). We are now experiencing a transition from
-isolated research, with data stored in the drawer, to a global research
+isolated research, with data stored locally, to a global research
 network with data stored in public repositories available to be used for
-leveraging further research (Reichman et al. 2011). Brazil have just
+fueling further research (Reichman et al. 2011). Brazil have just
 started to track this trend. The ‘Sinbiose’, the Center for Synthesis in
 Biodiversity and Ecosystem Services (see
 <http://www.sinbiose.cnpq.br/web/sinbiose/home>), comprises a pioneer
 initiative within Latin America in terms of ecological synthesis and
 application of open-science principles (Luza et al., in prep.). There
-are seven working groups funded by the SinBiose, from which the
-ReefSYN–**ReefSYN Working Group** – is the unique group working with
-marine ecosystems, particularly those biogenic and rocky reefs of the
-Brazilian marine biogeographical province (Briggs 1974)).
+are seven working groups funded by the SinBiose, from which the ReefSYN
+–**ReefSYN Working Group**– is the unique group working with marine
+ecosystems, particularly those biogenic and rocky reefs of the Brazilian
+marine biogeographical province (Briggs 1974)).
 
 The ReefSYN is composed of a team with 22 researchers (20 early-career
 and senior researchers, assisted by two post-doctoral researchers) from
@@ -35,11 +35,11 @@ several countries and institutions (Fig. 1). Up to this date, most team
 members performed research in isolation, each one covering a specific
 dimension of reef biodiversity (Fig. 1). By getting funding and support
 from the Sinbiose we have now the chance to gather existing data, make
-data synthesis, and bring together different research
-expertise/fields/perspectives to engage into a common objective with
-large societal implications: *Provide a synthesis about patterns and
-drivers of reef diversity and ecological services provision in Brazil*.
-More information about our group can be found at
+data synthesis, and bring together different research expertise and
+perspectives to engage into a common objective with large societal
+implications: *Provide a synthesis about patterns and drivers of reef
+diversity and ecological services provision in Brazil*. More information
+about our group can be found at
 <https://reefsyn.weebly.com/home-us.html>.
 
 By standardizing these data to a common, globally accepted standard –the
@@ -47,26 +47,24 @@ Darwin Core Standard– it would be possible to integrate data and make
 data synthesis to answer ambitious questions about the functioning of
 Brazilian reef ecosystems, as well quantify, given the distribution of
 data in space and time, the influence of humans on reef biodiversity and
-ecosystem services. To this end, we bring this datapaper showing how the
-data gathered by ReefSYN is organized, and leave it available to other
-users.
+ecosystem services.
 
-<img src="README_files/figure-gfm/unnamed-chunk-1-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
+<img src="README_files/figure-gfm/unnamed-chunk-1-1.png" width="50%" height="50%" style="display: block; margin: auto;" />
 Fig. 1: Institutions and research topics explored by the ReefSYN team
 members.
 
-## 2. Methodology
+# 2 Methodology
 
-# 2.1 Geographic and temporal coverage (Topic: Spatial and temporal distribution of data)
+## 2.1 Geographical and temporal coverage
 
-From 2001 up to 2020, several of the components of ReefSYN gathered data
-of fish and benthic organisms (e.g., algae, corals) in more than 400
-sites distributed throughout the Brazilian coast and oceanic islands
-(Fig. 2, Tables 1 and 2). All these data came from geographically
-replicated, large-scale research programs conducted over the last
-decades in Brazil (SISBOTA-MAR, PELD-ILOC, Abrolhos Bank monitoring) and
-from novel initiatives such as the monitoring of reef fish and benthos
-of Rio Grande do Norte (e.g., Ross et al. 2019).
+From 2001 up to 2020, data holders gathered data on fish and benthic
+organisms (e.g., algae, corals) in more than 400 sites distributed
+throughout the Brazilian coast and oceanic islands (Fig. 2, Tables 1 and
+2). All these data came from geographically replicated, large-scale
+research programs conducted over the last decades in Brazil
+(SISBOTA-MAR, PELD-ILOC, Abrolhos Bank monitoring) and from novel
+initiatives such as the monitoring of reef fish and benthos of Rio
+Grande do Norte (e.g., Ross et al. 2019).
 
 The Brazilian marine biogeographical province (Briggs, 1974; Floeter et
 al., 2008; Pinheiro et al., 2018), located in Southwestern Atlantic,
@@ -88,52 +86,72 @@ whereas turbid-water reef communities occur throughout the coast
 (Santana et al. 2023).
 
 The sampling effort was not evenly distributed in time. Indeed, since
-2001, the number of samples increased considerably over time, as well
-the number of sampled taxa (Fig. 2). Notably, the cumulative number of
-eventIDs (i.e. information associated with an event of sampling
-(something that occurs at a place and time), Darwin Core Task Group
-(2009)) across the datasets over time show that i) there was an abrupt
-increase in the number of eventIDs after 2013, mainly for benthos
-(probably leveraged by the Sisbiota-Mar project (CNPq)), ii) large
-projects such as Sisbiota-Mar and PELD ILOC have already made an effort
-to gather data from previous initiatives (Krajewksi & Floeter 2011),
-iii) there was a nearly constant increase in the number of fish
-scientific names over time. For benthos, in contrast, there were years
-of constancy amid years of abrupt increase in the number of identified
-taxa (Figs. 3 and 4).
+2001, the number of samples grew over time, as well the number of
+sampled taxa (Fig. 2). There was a notable increase in sampling effort
+after 2012-2013, which is associated with the consolidation of the
+Sisbiota-Mar network, the increase in network members, and the total
+amount of financial support derived from network cooperative efforts. As
+an example, the inclusion of the ProspeqMar project, which has
+bioprospection and holobiotic investigation objectives, had an important
+contribution to the network from 2013 onwards.
+
+Notably, the cumulative number of eventIDs (i.e. information associated
+with an event of sampling (something that occurs at a place and time),
+Darwin Core Task Group (2009)) across the datasets over time show that
+i) there was an abrupt increase in the number of eventIDs after 2013,
+mainly for benthos (probably leveraged by the Sisbiota-Mar project
+(CNPq)), ii) large projects such as Sisbiota-Mar and PELD ILOC have
+already made an effort to gather data from previous initiatives
+(Krajewksi & Floeter 2011), iii) there was a nearly constant increase in
+the number of fish scientific names over time. For benthos, in contrast,
+there were years of constancy amid years of abrupt increase in the
+number of identified taxa (Figs. 3 and 4).
 
 <img src="README_files/figure-gfm/unnamed-chunk-2-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
 Fig. 2: Spatial distribution of sampling sites of fish (left) and
 benthos (right) per dataset.
 
-Table 1: Description of reef benthic datasets.
+## 2.2 Data description
 
-|    Sampling Protocol    | Number of samples | Dataset Name |   Scale    | Sample size (m2) | Number of sites | Latitudinal range | Longitudinal range |   Years   |
-|:-----------------------:|:-----------------:|:------------:|:----------:|:----------------:|:---------------:|:-----------------:|:------------------:|:---------:|
-|      photoquadrats      |        345        |      I       | Plot/point |     0.062500     |       15        |   -27.6, -0.87    |   -48.39, -29.31   | 2010-2014 |
-|      photoquadrats      |        24         |      II      | Plot/point |     0.495000     |        7        |   -24.29, 0.92    |   -46.18, -28.86   | 2008-2018 |
-| Photoquadrats 50 X 50cm |       2748        |     III      | Plot/point |     0.250000     |        4        |   -20.52, 0.92    |   -33.82, -29.32   | 2013-2019 |
-|      photoquadrats      |        285        |      IV      | Plot/point |    10.000000     |        7        |   -6.38, -4.75    |   -36.69, -34.93   | 2016-2017 |
-|  fixed photo-quadrats   |        595        |      V       | Plot/point |     1.473806     |        7        |  -17.98, -16.89   |   -39.15, -38.66   | 2003-2014 |
-|  point-intercept lines  |        54         |      V       | Plot/point |     1.473806     |        7        |  -17.98, -16.89   |   -39.15, -38.66   | 2003-2014 |
+The datasets described here represent different efforts to gather data
+on reef fish and benthos along the Brazilian biogeographical province.
+We hereby present 12 datasets of reef fish (n=7) and benthos (n=5).
+Three out of seven fish datasets are time series, whereas two out of
+five benthic datasetse are time series (Tables 1 and 2). The remaining
+datasets are spatial snapshots (only one visit to a site) whose data
+were collected over many years.
+
+Table 1: number of sampling events of benthos sampling, per dataset.
+
+| Dataset |   Sampling Protocol   | Samples (n) |   Scale    | Sampling area (m2) | Number of sites |    Latitude    |   Longitude    |   Years   |
+|:-------:|:---------------------:|:-----------:|:----------:|:------------------:|:---------------:|:--------------:|:--------------:|:---------:|
+|    I    |     Photoquadrats     |     345     | Plot/point |        0.06        |       15        |  -27.6, -0.87  | -48.39, -29.31 | 2010-2014 |
+|   II    |     Photoquadrats     |     24      | Plot/point |        0.50        |        7        |  -24.29, 0.92  | -46.18, -28.86 | 2008-2018 |
+|   III   |     Photoquadrats     |    2748     | Plot/point |        0.25        |        4        |  -20.52, 0.92  | -33.82, -29.32 | 2013-2019 |
+|   IV    |     Photoquadrats     |     285     | Plot/point |       10.00        |        7        |  -6.38, -4.75  | -36.69, -34.93 | 2016-2017 |
+|    V    |     Photoquadrats     |     595     | Plot/point |        1.47        |        7        | -17.98, -16.89 | -39.15, -38.66 | 2003-2014 |
+|    V    | Point-intercept lines |     54      | Plot/point |        1.47        |        7        | -17.98, -16.89 | -39.15, -38.66 | 2003-2014 |
 
 Table 2: Description of reef fish datasets.
 
-|         Sampling Protocol          | Number of samples | Dataset Name |     Scale     | Sample size (m2) | Number of sites | Latitudinal range | Longitudinal range |   Years   |
-|:----------------------------------:|:-----------------:|:------------:|:-------------:|:----------------:|:---------------:|:-----------------:|:------------------:|:---------:|
-| underwater visual survey - 20 x 2m |       4570        |      I       | Transect/plot |     40.00000     |       20        |   -27.85, 0.92    |   -48.52, -28.86   | 2001-2015 |
-|             video plot             |        378        |      II      | Transect/plot |     2.00000      |       19        |   -27.6, 34.42    |   -87.26, -34.04   | 2009-2014 |
-| Underwater Visual Survey - 20 x 2m |       3480        |     III      | Transect/plot |     40.00000     |        4        |   -20.53, 0.97    |   -33.82, -28.86   | 2006-2019 |
-| underwater visual survey - 20 x 2m |        820        |      IV      | Transect/plot |     40.00000     |        7        |   -6.38, -4.72    |   -36.7, -34.93    | 2016-2022 |
-| underwater visual survey - 20 x 2m |       1897        |      V       | Transect/plot |     40.00000     |        9        |  -27.84, -27.12   |   -48.53, -48.33   | 2007-2021 |
-| underwater visual survey - 20 x 2m |       2146        |      VI      | Transect/plot |     40.00000     |        1        |  -23.01, -22.96   |   -42.04, -41.98   | 2003-2021 |
-| stationary visual census - 4 x 2m  |       6422        |     VII      | Transect/plot |     50.26548     |        5        |    -18, -16.89    |   -39.15, -38.65   | 2001-2014 |
+| Dataset |    Sampling Protocol     | Samples (n) |     Scale     | Sampling area (m2) | Number of sites |    Latitude    |   Longitude    |   Years   |
+|:-------:|:------------------------:|:-----------:|:-------------:|:------------------:|:---------------:|:--------------:|:--------------:|:---------:|
+|    I    | Underwater visual survey |    4570     | Transect/plot |      40.00000      |       20        |  -27.85, 0.92  | -48.52, -28.86 | 2001-2015 |
+|   II    |       Video plots        |     378     | Transect/plot |      2.00000       |       19        |  -27.6, 34.42  | -87.26, -34.04 | 2009-2014 |
+|   III   | Underwater visual survey |    3480     | Transect/plot |      40.00000      |        4        |  -20.53, 0.97  | -33.82, -28.86 | 2006-2019 |
+|   IV    | Underwater visual survey |     820     | Transect/plot |      40.00000      |        7        |  -6.38, -4.72  | -36.7, -34.93  | 2016-2022 |
+|    V    | Underwater visual survey |    1897     | Transect/plot |      40.00000      |        9        | -27.84, -27.12 | -48.53, -48.33 | 2007-2021 |
+|   VI    | Underwater visual survey |    2146     | Transect/plot |      40.00000      |        1        | -23.01, -22.96 | -42.04, -41.98 | 2003-2021 |
+|   VII   | Stationary visual survey |    6422     | Transect/plot |      50.26548      |        5        |  -18, -16.89   | -39.15, -38.65 | 2001-2014 |
+
+<!-- badges: start -->
+<!-- badges: end -->
 
 <img src="README_files/figure-gfm/unnamed-chunk-5-1.png" width="100%" height="100%" style="display: block; margin: auto;" />
 Fig. 3: The number of sampling events accumulated over time for benthos
 (top) and fish (bottom). One sampling event consist, for example, on one
-transect deployed into a locality. The vertical segments depict the year
-in which data included in each Dataset started to be collected. The
+transect deployed into a locality. The vertical segments indicate the
+year in which data included in each dataset started to be collected. The
 horizontal bars depict the formal funding as follows: dark gray bar:
 Sisbiota, CNPq; light gray bar: PELD, CNPq; green bar: ReefSYN, Sinbiose
 CNPq.
@@ -146,26 +164,166 @@ horizontal bars depict the formal funding as follows: dark gray bar:
 Sisbiota, CNPq; light gray bar: PELD, CNPq; green bar: ReefSYN, Sinbiose
 CNPq.
 
-# Quality assurance/quality control procedures
+# 2.3 Data sources and sampling protocol
 
-We used the following procedures:
+## 2.3.1 Reef fish datasets
 
--   The name of all taxa were checked against the WoRMS database, using
-    the R package “worrms” (World Register of Marine Species (WoRMS,
-    2022)).
--   Samples were always collected by researchers or trained students.
--   Sampling methods are widely used and accepted by researchers.
--   Data were checked by two data managers (A.L. Luza, C. Cordeiro) and
-    questions were sent to data holders whenever necessary.
--   All data were organized, standardized and processed using the R
-    Programming Environment (R Core Team, 2022).
--   R routines (scripts) are available at GitHub, together with raw
-    data. \_ This paper’s draft was written in RMarkdown to ensure
-    consistency between the data being presented, the data analysis, and
-    the output (figures, tables).
--   Were Softwares used to identify benthos always the same?
+### 2.3.1.1 Dataset I: Fish communities from the Brazilian province
 
-## Data management and standardization
+This dataset, used by Morais et al. (2017), includes fish counts and
+size estimates in 4,570 transects distributed over 137 localities in 20
+different sites spanning from 0° to 27°S latitude degrees (including
+oceanic islands). Sampling descriptors include *Observer ID*, *site
+depth*, and *date*. The geographical information (coordinates) is
+indicated here at the site level (i.e., represents a set of replicates
+of transects in a given time and place). The method used to sample fish
+was underwater visual census (UVC) with 20 × 2m in dimension, and
+samples were obtained in the austral summer from 2007 to 2011. Strip
+transects performed by free or scuba diving, during which the diver
+unwound a tape while identifying, counting and estimating the total
+length (LT, cm) of non-cryptic fishes \>10 cm. And, while retracting the
+tape, following the same procedure for benthic-associated non-cryptic
+fishes \<10 cm and cryptic species (see Morais et al. 2017 for more
+details). The dataset also include data from Krajewski & Floeter (2011).
+
+### 2.3.1.2 Dataset II: Trophic interactions along the Western Atlantic
+
+This dataset, used by Longo et al. (2019), includes records of feeding
+behavior of fish over the benthic community, as well interactions among
+fish. These data were obtained with 1,133 unique videoplots deployed in
+70 localities from 17 different sites spanning 61 degrees of latitude,
+from 34°N to 27°S. Sampling descriptors include *recording time*,
+*date*, *depth*, and *observed ID*. At each site, static videos were
+replicated at 2 × 1 m areas positioned haphazardly on the reefs, with
+5–10 m between replicates. Feeding pressure was estimated as the product
+of the number of bites taken and the body mass (in kilograms) of the
+fish, accounting for body size variation. Individual biomass was
+obtained through length–weight relationships from the literature (Froese
+& Pauly, 2016).
+
+### 2.3.1.3 Dataset III: Oceanic islands’ monitoring/time series
+
+Dataset of fish recorded in the four oceanic islands of Brazil: Fernando
+de Noronha Archipelago, Rocas’ Atoll, Trindade Island and Martiz Vaz
+Archipelago, and Saint Peter and Saint Paul’s Archipelago. Data were
+collected from 2013 to 2019, organized by Juan Quimbayo, Thiago Silveira
+and Cesar Cordeiro (PELD-ILOC team) and is curated by Dr. Cesar
+Cordeiro. The method used to sample fish was the underwater visual
+census (UVC). These data were generated by the team of [PELD ILOC
+project](http://peldiloc.sites.ufsc.br/) applying the same UVS protocol
+(20 x 2m strip transect) described above and used by Morais et
+al. (2017). Transects were laid at different depths at 5m intervals
+according to local maximum depths, ranging from 3 to 25m deep.
+
+### 2.3.1.4 Dataset IV: Rio Grande do Norte monitoring/time series
+
+Data collected by Guilherme Longo and Natália Roos in Rio Grande do
+Norte. Data of fishes and benthos were collected in the same spatial
+unit. within a transect of 20m2 used to record fishes, they also
+deployed 10 photoquadrats to register benthic organisms. These data were
+used in a publication by Natalia Roos [Roos et
+al. 2019](https://www.int-res.com/prepress/m13005.html). Data have been
+collected yearly since 2016, at depths ranging from 1 to 28 m according
+to local depth.
+
+### 2.3.1.5 Dataset V: Santa Catarina monitoring/time series
+
+The data was collected yearly by the [LBMM team](https://lbmm.ufsc.br/),
+from 2007 to 2021. Dataset includes fish species, size and abundance
+recorded at 40m2 (20x2m) belt-transects in nine sites along the Santa
+Catarina state coastal area. Transects were laid at different depths at,
+approximately, 5m intervals according to local maximum depths, ranging
+from 1 to 25m deep.
+
+### 2.3.1.6 Dataset VI: Arraial do Cabo (Rio de Janeiro) monitoring/time series
+
+The data was collected by the [LECAR team](https://www.lecar.uff.br/)
+from 2003 to 2021, but were annually collected only from 2014 to 2021 at
+four of the 21 sites monitored. All other sites were sampled
+opportunistically. Dataset includes fish species, size and abundance
+recorded at 40m2 (20x2m) belt-transects in rocky reefs in Arraial do
+Cabo, Rio de Janeiro. Transects were laid at different depths at,
+approximately, 5m intervals according to local maximum depths, ranging
+from 1 to 25m deep. Samples include data from two distinct oceanographic
+domains present locally, one under strong influence of seasonal
+upwelling, and another with indirect influence of the upwelling.
+
+### 2.3.1.6 Dataset VII: Abrolhos Bank monitoring/time series
+
+Fish assemblage data from the Abrolhos Bank was collected by Ronaldo
+Francini-Filho from 2001 to 2014. The dataset here include samples of
+five sites and 28 localities nested within sites but not evenly
+distributed (see table Xs for details). The variables in this dataset
+are related to the description of fishes identification and abundance,
+measured at stationary visual censuses (4 x 2 m, XX min). Depth of
+sampling varied among sites and ranged between 2 and 15m. Benthic
+communities assessments were completed at the same sites, localities and
+depths of fish stationary censuses, using either point-intersect
+technique (four 10m-transects in each depth and locality) or
+photoquadrats (10 quadrats, 0.7m2).
+
+## 2.3.2 Benthic datasets
+
+### 2.3.2.1 Dataset I: Benthic communities from the Brazilian province
+
+This dataset, used by Aued et al. (2018) – data also published at
+[DRYAD](https://doi.org/10.5061/dryad.f5s90), includes site-level cover
+information of \~100 benthic taxa from 3,855 photoquadrats deployed in
+40 localities from 15 different sites, spanning 0° to 27°S latitude
+degrees. The sampling sites indicated here are the same from Morais et
+al. (2017). Benthic organisms were identified at the lowest possible
+taxonomic level (i.e., morphotype, species, order) according to
+constraints related to image identification. Sampling descriptors
+include *photoquadrat ID*, *site depth*, *date* or *year* and, for some
+samples, *observer ID*. The geographical information is indicated at the
+site level. Six to twenty 2m2 horizontal surfaces of reef area on each
+depth strata were haphazardly selected for taking photoquadrats (25 x 25
+cm) and characterized the benthic community. Each 2m2 area was set, at
+least, 2 meters apart from each other and considered as independent
+sample units.
+
+### 2.3.2.2 Dataset II: Benthic communities from the Brazilian province
+
+This dataset was compiled by Erika Santana, Anaíde Aued, and Ronaldo
+Francini-Filho, and consists of data on benthic organisms sampled in
+photoquadrats deployed in several sites disposed along the coast and
+oceanic islands. This dataset is complimentary to the dataset of Aued et
+al. (2018). Benthic organisms were identified at different taxonomic
+levels (morphotype, species, order). The dataset originally had
+environmental descriptors such as *site depth*, *month* and *year*,
+which were adequate here using DwC standards.
+
+### 2.3.2.3 Dataset III: Benthic communities’ monitoring/time series from oceanic islands
+
+Dataset of benthic communities recorded in the four oceanic islands of
+Brazil: Fernando de Noronha Archipelago, Rocas’ Atoll, Trindade Island
+and Martiz Vaz Archipelago, and Saint Peter and Saint Paul’s
+Archipelago. Data were collected from 2013 to 2022, organized by Thiago
+Silveira and Cesar Cordeiro (PELD-ILOC team) and is curated by Dr. Cesar
+Cordeiro. These data were generated by the team of [PELD ILOC
+project](http://peldiloc.sites.ufsc.br/), and is still being sampled
+anually. As the images from 2020 to 2022 are still under analysis, these
+data were not included here. The method for registering the benthic
+community included three to six fixed transects (20 m) parallel to the
+coastline placed at 2 m intervals. Ten to 11 (50 × 50 cm) photoquadrats
+were taken at each transect in each year and locality from 2013 to 2019.
+Following the imaging register, image processing was done using the
+Coral Point Count with Excel extensions software (CPCe v. 4.1) (Kohler
+and Gill, 2006). This stage consisted on the identification of major
+taxonomic, morpho-anatomical benthic groups and the estimation of their
+relative cover in samples. Software analysis were performed by
+overlaying 50 random points on each image and identifying the organisms
+immediately below each point details (details in Zamoner et al. 2021).
+
+### 2.3.2.4 Dataset IV: Benthic communities from Rio Grande do Norte
+
+See 2.3.1.4
+
+### 2.3.2.5 Dataset V: Benthic communities’ monitoring in Abrolhos Bank
+
+Detail…
+
+# 2.4 Data management and standardization
 
 We strive to standardize data and follow the FAIR principles of data
 science – i.e. data should be “findable”, “accessible”, “interoperable”,
@@ -173,7 +331,7 @@ and “reusable” (Wilkinson et al., 2016). Data holders supplied their
 datasets to the database manager in digital format (e.g., spreadsheets,
 csv files).
 
-## Data structure
+# 2.5 Data structure
 
 All datasets are available as a Darwin Core Archive (DwC-A), and all
 fields were named compliant with Darwin Core (DwC) standards (TDWG,
@@ -181,7 +339,50 @@ fields were named compliant with Darwin Core (DwC) standards (TDWG,
 (taxonomic data), and extended measurement or fact (environmental
 variables and taxa counts or cover) (Fig. 5).
 
-## Taxonomic coverage
+<img src="DwC_output/dataStructure.png" width="50%" height="50%" style="display: block; margin: auto;" />
+Fig. 5: ReefSYN data structure following the Darwin Core Standard.
+Dataset codes in Tables 1 and 2.
+
+# 2.6 Quality assurance/quality control procedures
+
+-   The name of all taxa were checked against the WoRMS database, using
+    the R package “worrms” (World Register of Marine Species (WoRMS,
+    2022)).
+
+-   Samples were always collected by researchers or trained students.
+
+-   Sampling methods are worldwide/widely used and accepted.
+
+-   Data were checked by two data managers (A.L. Luza, C. Cordeiro) and
+    questions were sent to data holders whenever necessary. The data
+    holders are listed in Author contributions’ section. Overal, main
+    inconsistencies found in the datasets were about 1) region names; 2)
+    locality names; 3) site names; 4) different IDs of unique sampling
+    events; 5) format of sampling data, month and year; 6) lack of
+    geographical information; 7) incorrect writing of species names; 8)
+    the identity of the most basic sampling unit (e.g., one video plot,
+    photoquadrat) was not readily available.
+
+-   Data holders shared Microsoft Excel spreadsheets (“.csv”, “.xlsx”),
+    often containing data in a wide format. Most data were transformed
+    into a long format, organized, standardized (using Darwin Core
+    Standards) and processed using the R Programming Environment (R Core
+    Team, 2022). Some modifications that could not be easily done in R,
+    regarding the splitting of the sample IDs, were done in the software
+    Microsoft Excel. It consisted in dealing with eventIDs separated by
+    different separators (“\_“,”.”, …) and we used Excel to have more
+    control on what information to get.
+
+-   R routines (scripts) are available at GitHub, together with the raw
+    data.
+
+\_ This paper’s draft was written in RMarkdown to ensure consistency
+between the data being presented, the data analysis, and the output
+(tables, figures (except Fig. 5)).
+
+-   Were softwares used to identify benthos always the same?
+
+# 2.7 Taxonomic coverage
 
 General taxonomic coverage description: The five benthic datasets
 comprise the description of the occurrence of 185 taxa from 58 families,
@@ -190,9 +391,9 @@ The seven fish datasets comprise the description of the occurrence of
 567 taxa from 68 families and 2 classes, being them Actinopteri,
 Elasmobranchii.
 
-# Taxonomic coverage per dataset
+# 2.8 Taxonomic coverage per dataset
 
-# Fish
+## 2.8.1 Fish
 
 Dataset I
 
@@ -785,7 +986,7 @@ intermedius, Thalassoma noronhanum, Upeneus parvus
 
 Subspecies:
 
-# Benthos
+## 2.8.2 Benthos
 
 Dataset I
 
@@ -1034,7 +1235,7 @@ braziliensis, Mussismilia harttii, Mussismilia hispida, Neospongodes
 atlantica, Phyllogorgia dilatata, Plexaurella grandiflora, Plexaurella
 regia, Porites astreoides, Porites branneri
 
-# Data availability
+# 3 Data availability
 
 These data are published under CC BY-NC licence. “Policy of data sharing
 and use” can be found in the ReefSYN Organization in Github (available
@@ -1042,7 +1243,28 @@ and use” can be found in the ReefSYN Organization in Github (available
 Data embargo goes up to **January 2024**, one year after the end of
 ReefSYN funding.
 
-## Acknowledgements
+# 4 Potential use and conclusions
+
+# Author contributions
+
+ALL and CAAMC organized the data. Data holders: CAMM Cordeiro, AW Aued,
+CEL Ferreira, T Mendes, N Roos, GO Longo, RB Francini-Filho, SR Floeter.
+
+# Competing interests
+
+The authors have no competing interest to declare.
+
+# Disclaimer
+
+Embargo for fish dataset V (Arraial do Cabo, RJ)
+
+# Acknowledgements
+
+Students and researchers that collected the data. ReefSYN was supported
+by the Center for Synthesis in Biodiversity and Ecosystem Services
+\[SinBiose\] (CNPq). Thiago Silveira (PELD-ILOC team)
+
+# Financial support
 
 This project is funded by the Center for Synthesis in Biodiversity and
 Ecosystem Services [SinBiose](http://www.sinbiose.cnpq.br/web/sinbiose)
@@ -1060,7 +1282,7 @@ provided by the Brazilian National Council for Scientific and
 Technological Development (CNPq; 310517/2019-2) and Serrapilheira
 Institute (Grant No. Serra-1708-15364) for continued research support.
 
-### References
+# References
 
 Briggs, J.C. (1974). Marine zoogeography. McGraw-Hill, New York.
 
@@ -1077,8 +1299,14 @@ open data in ecology. Science. 2011 Feb 11;331(6018):703-5. doi:
 
 UNESCO, 2021. UNESCO Recommendation on Open Science. Available at:
 <https://unesdoc.unesco.org/ark:/48223/pf0000379949>. 34 pages
+\<\<\<\<\<\<\< HEAD
 
 Krajewski, J.P., Floeter, S.R. Reef fish community structure of the
 Fernando de Noronha Archipelago (Equatorial Western Atlantic): the
 influence of exposure and benthic composition. Environ Biol Fish 92, 25
 (2011). <https://doi.org/10.1007/s10641-011-9813-3>
+
+Zamoner JB, Aued AW, Macedo-Soares LCP, Picolotto VAP, Garcia CAE and
+Segal B (2021) Integrating Oceanographic Data and Benthic Community
+Structure Temporal Series to Assess the Dynamics of a Marginal Reef.
+Front. Mar. Sci. 8: 762453 <https://doi.org/10.3389/fmars.2021.762453>
