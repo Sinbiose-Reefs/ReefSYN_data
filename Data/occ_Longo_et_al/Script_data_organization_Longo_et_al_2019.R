@@ -360,12 +360,14 @@ worms_record <- lapply (unique(L.peixes_coord$namesToSearch), function (i)
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 
 # match
-L.peixes_coord$scientificName<-(df_worms_record$scientificname [match (L.peixes_coord$namesToSearch, tolower(df_worms_record$scientificname))])
+L.peixes_coord$scientificNameAccepted<-(df_worms_record$scientificname [match (L.peixes_coord$namesToSearch, tolower(df_worms_record$scientificname))])
 # taxon rank of the identified level
 L.peixes_coord$taxonRank <- (df_worms_record$rank [match (L.peixes_coord$namesToSearch,tolower (df_worms_record$scientificname))])
 L.peixes_coord$scientificNameID<-(df_worms_record$lsid [match (L.peixes_coord$namesToSearch, tolower(df_worms_record$scientificname))])
 L.peixes_coord$kingdom<-(df_worms_record$kingdom [match (L.peixes_coord$namesToSearch,tolower(df_worms_record$scientificname))])
+L.peixes_coord$phylum<-(df_worms_record$phylum [match (L.peixes_coord$namesToSearch,tolower(df_worms_record$scientificname))])
 L.peixes_coord$class<-(df_worms_record$class [match (L.peixes_coord$namesToSearch,tolower(df_worms_record$scientificname))])
+L.peixes_coord$order<-(df_worms_record$order [match (L.peixes_coord$namesToSearch,tolower(df_worms_record$scientificname))])
 L.peixes_coord$family<-(df_worms_record$family [match (L.peixes_coord$namesToSearch,tolower(df_worms_record$scientificname))])
 
 
@@ -639,14 +641,9 @@ dados_bind$measurementTypeID <- "http://vocab.nerc.ac.uk/collection/P14/current/
 
 DF_eMOF <- dados_bind [,c("eventID", 
                           "occurrenceID",
-                          "verbatimIdentification",
-                          "scientificName",
-                          "scientificNameID",
-                          "taxonRank",
-                          "kingdom",
-                          "class",
-                          "family",
-                          "measurementValue", "measurementType","measurementUnit",
+                          "measurementValue", 
+                          "measurementType",
+                          "measurementUnit",
                           "measurementTypeID",
                           "begginingObservationTime",
                           "endingObservationTime")]
@@ -656,13 +653,17 @@ rownames(DF_eMOF)<-seq(1,nrow(DF_eMOF))
 DF_occ <- dados_bind [,c("eventID", 
                          "occurrenceID",
                          "verbatimIdentification",
-                         "scientificName",
+                         "scientificNameAccepted",
                          "scientificNameID",
                          "taxonRank",
-                         "kingdom","class","family",
-                         
-                                            "recordedBy", "organismQuantityType",
-                                            "basisOfRecord")]
+                         "kingdom",
+                         "phylum",
+                         "class",
+                         "order",
+                         "family",
+                         "recordedBy", 
+                         "organismQuantityType",
+                         "basisOfRecord")]
 rownames(DF_occ)<-seq(1,nrow(DF_occ))
 
 # aggregate data by eventIDs to have event_core

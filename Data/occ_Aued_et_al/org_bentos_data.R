@@ -43,10 +43,10 @@ bentos_long_format <- do.call (rbind, bentos_long_format) # melt the list
 bentos_long_format <- bentos_long_format [, -grep("variable", colnames(bentos_long_format))] # rm the just created col
 
 # verbatim dates
-bentos_long_format$verbatimEventDate <- bentos_long_format$Data
+bentos_long_format$verbatimEventDate <- bentos_long_format$data
 
 ## adjusting dates
-bentos_long_format$Data <- as.character(bentos_long_format$Data)
+bentos_long_format$Data <- as.character(bentos_long_format$data)
 
 ## set "2010" for missing dates (check again with Anaide)
 novas_datas <- ifelse (nchar (bentos_long_format$Data) > 1  & nchar (bentos_long_format$Data) < 6,
@@ -68,8 +68,23 @@ bentos_long_format$year <- format(as.Date(novas_datas, format="%Y-%m-%d"),"%Y")
 # bentos_long_format$year [which(bentos_long_format$year == "1999")] <- "NA"
 #plot(bentos_long_format$Lon , bentos_long_format$Lat,xlim=c(-70,10))
 
+bentos_long_format [is.na(bentos_long_format$year),]
 
 
+# fill the year with remaining data
+
+require(dplyr)
+year_to_input <- bentos_long_format %>% 
+  
+  group_by(locality) %>%
+  
+  summarise (year = min(as.numeric(year),na.rm=T))
+
+# match
+year_to_input_match <- year_to_input$year [match (bentos_long_format [is.na(bentos_long_format$year),"locality"],
+       year_to_input$locality)]
+
+bentos_long_format [is.na(bentos_long_format$year),"year"] <- year_to_input_match
 
 
 # ----------------------------------------------------------------------------------------------
@@ -81,17 +96,17 @@ bentos_long_format$year <- format(as.Date(novas_datas, format="%Y-%m-%d"),"%Y")
 
 
 ## define whether samples were in deep or shallow
-bentos_long_format$verbatimDepth <- bentos_long_format$Depth.1
+bentos_long_format$verbatimDepth <- bentos_long_format$modifiedDepth
 
 # adjusting depth
-bentos_long_format$eventDepth <- as.factor(bentos_long_format$Depth.1) # modified to intervals
+bentos_long_format$eventDepth <- as.factor(bentos_long_format$modifiedDepth) # modified to intervals
 levels (bentos_long_format$eventDepth) [which(levels (bentos_long_format$eventDepth) == "1-7m")] <- "shallow"
 levels (bentos_long_format$eventDepth) [which(levels (bentos_long_format$eventDepth) == "4-7m")] <- "shallow"
 levels (bentos_long_format$eventDepth) [which(levels (bentos_long_format$eventDepth) == "8-12m")] <- "deep"
 levels (bentos_long_format$eventDepth) [which(levels (bentos_long_format$eventDepth) == "8-15m")] <- "deep"
 
 ## define whether samples were in oceanic islands,  Southeastern or Northeastern regions
-bentos_long_format$Region <- as.factor (bentos_long_format$Locality)
+bentos_long_format$Region <- as.factor (bentos_long_format$locality)
 levels (bentos_long_format$Region)[which(levels (bentos_long_format$Region) %in% c("noronha","rocas","trindade"))] <- "oc_isl"
 # nao tem sao pedro e sao paulo EM RELACAO A MORAIS ET AL. 2017
 levels (bentos_long_format$Region)[which(levels (bentos_long_format$Region) == "abrolhos")] <- "ne_reefs"
@@ -112,15 +127,13 @@ levels (bentos_long_format$Region)[which(levels (bentos_long_format$Region) == "
 
 ## adjust site names (following Morais et al. 2017)
 # verbatimLocality
-bentos_long_format$verbatimLocality <- bentos_long_format$Sites
+bentos_long_format$verbatimLocality <- bentos_long_format$site
 
 # to lower 
-bentos_long_format$Sites <- tolower (bentos_long_format$Sites)
-bentos_long_format$Sites[which((bentos_long_format$Sites) == "farrilhoes")] <- "farilhoes"
-bentos_long_format$Sites[which( (bentos_long_format$Sites) == "orelha")] <- "orelhas"
+bentos_long_format$Sites <- tolower (bentos_long_format$site)
 
 # ajustar os sitios de rio grande do norte, de acordo com G Longo
-bentos_long_format$Locality[which(bentos_long_format$Locality == "rgnor_norte")] <- "rgnor_natal"
+bentos_long_format$locality[which(bentos_long_format$locality == "rgnor_norte")] <- "rgnor_natal"
 
 # tartaruras in rocas and trindade (only rocas in this dataset)
 # unique(bentos_long_format [which(bentos_long_format$Locality == "trindade"),"Sites"])
@@ -139,14 +152,14 @@ bentos_long_format$Sites<-gsub ("_noronha", "",bentos_long_format$Sites)
 
 
 # verbatimLatitude and Longitude!
-bentos_long_format$verbatimLatitude <- bentos_long_format$Lat
-bentos_long_format$verbatimLongitude <- bentos_long_format$Lon
+#bentos_long_format$verbatimLatitude <- bentos_long_format$Lat
+#bentos_long_format$verbatimLongitude <- bentos_long_format$Lon
 
 ## coordinates to spatial points
 # adjusting longitude of one coordinate on land
 ## "saco dagua" which falls within the continent
-bentos_long_format [grep("saco_dagua",bentos_long_format$Sites),"Lat"] <- as.numeric(-27.274033)
-bentos_long_format [grep("saco_dagua",bentos_long_format$Sites),"Lon"] <- as.numeric(-48.367183)
+bentos_long_format [grep("saco_dagua",bentos_long_format$Sites),"decimalLatitude"] <- as.numeric(-27.274033)
+bentos_long_format [grep("saco_dagua",bentos_long_format$Sites),"decimalLongitude"] <- as.numeric(-48.367183)
 
 
 
@@ -164,73 +177,20 @@ bentos_long_format [grep("saco_dagua",bentos_long_format$Sites),"Lon"] <- as.num
 
 ### define an ID for each event (first try to define one)
 bentos_long_format$eventID <- paste (bentos_long_format$Region,
-                                     bentos_long_format$Locality,
+                                     bentos_long_format$locality,
                                      bentos_long_format$Sites,
                                      bentos_long_format$eventDepth,
                                      bentos_long_format$year,sep=".")
-# bentos_long_format[bentos_long_format$Sites == "anequim",]
 
-## adjust missing dates following supporting information of Aued et al. 2018
-unique(bentos_long_format [which(is.na(bentos_long_format$year)),"eventID"]) # check missing ones
-bentos_long_format [which(bentos_long_format$eventID == "oc_isl.noronha.conceicao.deep.NA"),"month"] <- 10
-bentos_long_format [which(bentos_long_format$eventID == "oc_isl.noronha.conceicao.deep.NA"),"year"] <- 2011
-bentos_long_format [which(bentos_long_format$eventID == "oc_isl.noronha.conceicao.shallow.NA"),"month"] <- 10
-bentos_long_format [which(bentos_long_format$eventID == "oc_isl.noronha.conceicao.shallow.NA"),"year"] <- 2011
-bentos_long_format [which(bentos_long_format$eventID == "ne_reefs.rgnor_natal.pedra_do_silva.deep.NA"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "ne_reefs.rgnor_natal.pedra_do_silva.deep.NA"),"year"] <- 2013
-bentos_long_format [which(bentos_long_format$eventID == "ne_reefs.btds_santos.farol_da_barra.shallow.NA"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "ne_reefs.btds_santos.farol_da_barra.shallow.NA"),"year"] <- 2012
-
-## replace 1999 by the correct year following Aued et al. 2018
-# unique(bentos_long_format [which(bentos_long_format$year == "1999"),"eventID"]) ## conferir os NAs
-bentos_long_format [which(bentos_long_format$eventID == "ne_reefs.abrolhos.portinho_norte.shallow.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "ne_reefs.abrolhos.portinho_norte.shallow.1999"),"year"] <- 2010
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.ilhabela.ilha_das_cabras.shallow.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.ilhabela.ilha_das_cabras.shallow.1999"),"year"] <- 2013
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.ilhabela.ilha_das_cabras.deep.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.ilhabela.ilha_das_cabras.deep.1999"),"year"] <- 2013
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.alcatrazes.portinho_sudoeste.shallow.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.alcatrazes.portinho_sudoeste.shallow.1999"),"year"] <- 2013
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.alcatrazes.portinho_sudoeste.deep.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.alcatrazes.portinho_sudoeste.deep.1999"),"year"] <- 2013
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.ilhabela.saco_do_diogo.shallow.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.ilhabela.saco_do_diogo.shallow.1999"),"year"] <- 2013
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.ilhabela.saco_do_diogo.deep.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.ilhabela.saco_do_diogo.deep.1999"),"year"] <- 2013
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.ilhabela.saco_do_sombrio.deep.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.ilhabela.saco_do_sombrio.deep.1999"),"year"] <- 2013
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.ilhabela.saco_do_sombrio.shallow.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.ilhabela.saco_do_sombrio.shallow.1999"),"year"] <- 2013
-bentos_long_format [which(bentos_long_format$eventID == "oc_isl.rocas.ancoras.shallow.1999"),"month"] <- 01
-bentos_long_format [which(bentos_long_format$eventID == "oc_isl.rocas.ancoras.shallow.1999"),"year"] <- 2012
-bentos_long_format [which(bentos_long_format$eventID == "oc_isl.rocas.podes_crer.shallow.1999"),"month"] <- 01
-bentos_long_format [which(bentos_long_format$eventID == "oc_isl.rocas.podes_crer.shallow.1999"),"year"] <- 2012
-bentos_long_format [which(bentos_long_format$eventID == "oc_isl.rocas.piscina_das_rocas.shallow.1999"),"month"] <- 01
-bentos_long_format [which(bentos_long_format$eventID == "oc_isl.rocas.piscina_das_rocas.shallow.1999"),"year"] <- 2012
-bentos_long_format [which(bentos_long_format$eventID == "oc_isl.rocas.salao.deep.1999"),"month"] <- 01
-bentos_long_format [which(bentos_long_format$eventID == "oc_isl.rocas.salao.deep.1999"),"year"] <- 2012
-bentos_long_format [which(bentos_long_format$eventID == "oc_isl.rocas.tartarugas.shallow.1999"),"month"] <- 01
-bentos_long_format [which(bentos_long_format$eventID == "oc_isl.rocas.tartarugas.shallow.1999"),"year"] <- 2012
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.arraial.anequim.shallow.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.arraial.anequim.shallow.1999"),"year"] <- 2011
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.arraial.anequim.deep.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.arraial.anequim.deep.1999"),"year"] <- 2011
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.arraial.cardeiros.deep.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.arraial.cardeiros.deep.1999"),"year"] <- 2011
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.arraial.cardeiros.shallow.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.arraial.cardeiros.shallow.1999"),"year"] <- 2011
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.arraial.porcos_oeste.shallow.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.arraial.porcos_oeste.shallow.1999"),"year"] <- 2011
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.arraial.porcos_oeste.deep.1999"),"month"] <- 03
-bentos_long_format [which(bentos_long_format$eventID == "se_reefs.arraial.porcos_oeste.deep.1999"),"year"] <- 2011
 
 # change colnames
 colnames(bentos_long_format) <- c("verbatimSamples", "modifiedSamples", "depth","data",
                                   "recordedBy", "device", "photoquadrat", 
-                                  "locality", "sites", "reefType","decimalLongitude", "decimalLatitude",
+                                  "locality", "verbatimSite", "reefType","decimalLongitude", "decimalLatitude",
                                   "modifiedDepth", "verbatimIdentification", "measurementValue",
-                                  "verbatimEventDate","eventDate", "day", "month", "year","eventDepth", "verbatimDepth", "region",
-                                  "verbatimLocality", "verbatimLatitude" , "verbatimLongitude",
+                                  "verbatimEventDate","data","eventDate", "day", "month", "year","verbatimDepth", 
+                                  "eventDepth", "region",
+                                  "verbatimLocality", "Sites" ,
                                   "eventID")
 
 
@@ -372,6 +332,10 @@ df_worms_record <- data.frame(do.call(rbind,worms_record))
 bentos_long_format$scientificName <- (df_worms_record$scientificname [match (bentos_long_format$taxonOrGroup,
                                                                    tolower (df_worms_record$scientificname))])
 
+# valid name WoRMS 
+bentos_long_format$scientificNameAccepted <- (df_worms_record$scientificname [match (bentos_long_format$taxonOrGroup,
+                                                                             tolower (df_worms_record$scientificname))])
+
 # taxon rank of the identified level
 bentos_long_format$taxonRank <- (df_worms_record$rank [match (bentos_long_format$taxonOrGroup,
                                                               tolower (df_worms_record$scientificname))])
@@ -384,9 +348,19 @@ bentos_long_format$scientificNameID<-(df_worms_record$lsid [match (bentos_long_f
 # kingdom
 bentos_long_format$kingdom<-(df_worms_record$kingdom [match (bentos_long_format$taxonOrGroup,
                                                              tolower (df_worms_record$scientificname))])
+
+# phylum
+bentos_long_format$phylum <-(df_worms_record$phylum [match (bentos_long_format$taxonOrGroup,
+                                                             tolower (df_worms_record$scientificname))])
+
 # class
 bentos_long_format$class<-(df_worms_record$class [match (bentos_long_format$taxonOrGroup,
                                                          tolower (df_worms_record$scientificname))])
+
+# order
+bentos_long_format$order <-(df_worms_record$order [match (bentos_long_format$taxonOrGroup,
+                                                           tolower (df_worms_record$scientificname))])
+
 # family
 bentos_long_format$family<-(df_worms_record$family [match (bentos_long_format$taxonOrGroup,
                                                            tolower (df_worms_record$scientificname))])
@@ -415,7 +389,7 @@ colnames(bentos_long_format)[which(colnames(bentos_long_format) == "locality")] 
 
 
 # locality (more local)
-colnames(bentos_long_format)[which(colnames(bentos_long_format) == "sites")] <- "locality"
+colnames(bentos_long_format)[which(colnames(bentos_long_format) == "Sites")] <- "locality"
 
 
 
@@ -501,10 +475,10 @@ bentos_long_format$geodeticDatum <- "decimal degrees"
 # range of 1-7 m, and 8-15 meters
 bentos_long_format$minimumDepthinMeters <- NA
 bentos_long_format$maximumDepthinMeters <- NA
-bentos_long_format$minimumDepthinMeters[which(bentos_long_format$eventDepth %in% c("1-7m", "4-7m"))] <- 1
-bentos_long_format$maximumDepthinMeters[which(bentos_long_format$eventDepth %in% c("1-7m", "4-7m"))] <- 7
-bentos_long_format$minimumDepthinMeters[which(bentos_long_format$eventDepth %in% c("8-15m", "8-12m"))] <- 8
-bentos_long_format$maximumDepthinMeters[which(bentos_long_format$eventDepth %in% c("8-15m", "8-12m"))] <- 15
+bentos_long_format$minimumDepthinMeters[which(bentos_long_format$eventDepth %in% c("shallow"))] <- 1
+bentos_long_format$maximumDepthinMeters[which(bentos_long_format$eventDepth %in% c("shallow"))] <- 7
+bentos_long_format$minimumDepthinMeters[which(bentos_long_format$eventDepth %in% c("deep"))] <- 8
+bentos_long_format$maximumDepthinMeters[which(bentos_long_format$eventDepth %in% c("deep"))] <- 15
 
 
 # habitat
@@ -531,14 +505,8 @@ bentos_long_format$bibliographicCitation <- "Aued, Anaide Wrublevski et al. (201
 
 # Formatted according to DwC
 # measurement or facts
-DF_eMOF <- bentos_long_format [,c("eventID", "occurrenceID",
-                                  "verbatimIdentification",
-                                  "scientificNameID",
-                                  "scientificName",
-                                  "taxonRank",
-                                  "kingdom",
-                                  "class",
-                                  "family",
+DF_eMOF <- bentos_long_format [,c("eventID", 
+                                  "occurrenceID",
                                   "measurementValue", 
                                   "measurementType",
                                   "measurementUnit")]
@@ -548,9 +516,14 @@ DF_occ <- bentos_long_format [,c("eventID", "occurrenceID",
                                  "basisOfRecord",
                                  "verbatimIdentification",
                                  "scientificNameID",
-                                 "scientificName",
+                                 "taxonOrGroup",
+                                 "scientificNameAccepted",
                                  "taxonRank",
-                                 "kingdom","class","family",
+                                 "kingdom",
+                                 "phylum",
+                                 "class",
+                                 "order",
+                                 "family",
                                  "recordedBy", "organismQuantityType",
                                  "occurrenceStatus",
                                  "licence",
@@ -559,7 +532,7 @@ DF_occ <- bentos_long_format [,c("eventID", "occurrenceID",
                                  )]
 
 # aggregate data by eventIDs to have event_core
-event_core <- data.frame (group_by(bentos_long_format, eventID,higherGeography,site,verbatimLocality,locality) %>% 
+event_core <- data.frame (group_by(bentos_long_format[,-4], eventID,higherGeography,site,verbatimLocality,locality) %>% 
                             
                             summarise(year = mean(as.numeric(year)),
                                       eventDate = mean(eventDate),

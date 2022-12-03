@@ -105,7 +105,7 @@ df_worms_record <- data.frame(do.call(rbind,worms_record))
 # match
 # no match
 # valid name worms
-benthos_long_format$scientificName<-(df_worms_record$scientificname [match (benthos_long_format$taxonOrGroup, 
+benthos_long_format$scientificNameAccepted<-(df_worms_record$scientificname [match (benthos_long_format$taxonOrGroup, 
                                                                             tolower(df_worms_record$scientificname))])
 
 
@@ -120,9 +120,15 @@ benthos_long_format$scientificNameID<-(df_worms_record$lsid [match (benthos_long
 # kingdom
 benthos_long_format$kingdom <-(df_worms_record$kingdom [match (benthos_long_format$taxonOrGroup,
                                                                tolower (df_worms_record$scientificname))])
+# phylum
+benthos_long_format$phylum <-(df_worms_record$phylum [match (benthos_long_format$taxonOrGroup,
+                                                               tolower (df_worms_record$scientificname))])
 
 # class
 benthos_long_format$class <-(df_worms_record$class [match (benthos_long_format$taxonOrGroup,
+                                                           tolower (df_worms_record$scientificname))])
+# order
+benthos_long_format$order <-(df_worms_record$order [match (benthos_long_format$taxonOrGroup,
                                                            tolower (df_worms_record$scientificname))])
 
 # family
@@ -333,23 +339,21 @@ benthos_long_format$locality <- tolower (benthos_long_format$locality)
 
 DF_eMOF <- benthos_long_format [,c("eventID", 
                                    "occurrenceID",
-                                   "verbatimIdentification",
-                                   "scientificName",
-                                   "taxonRank",
-                                   "scientificNameID",
-                                   "kingdom",
-                                   "class",
-                                   "family",
                                    "measurementValue", 
                                    "measurementType",
                                    "measurementUnit")]
 
 DF_occ <- benthos_long_format [,c("eventID", "occurrenceID","basisOfRecord",
                                   "verbatimIdentification",
-                                  "scientificName",
+                                  "scientificNameAccepted",
+                                  "taxonOrGroup",
                                   "taxonRank",
                                   "scientificNameID",
-                                  "kingdom","class","family",
+                                  "kingdom",
+                                  "phylum",
+                                  "class",
+                                  "order",
+                                  "family",
                                   "recordedBy", 
                                   "organismQuantityType", 
                                   "occurrenceStatus",
@@ -589,7 +593,7 @@ df_worms_record <- data.frame(do.call(rbind,worms_record))
 # df_worms_record[which(df_worms_record$match_type == "near_1"),]
 # match
 # no match
-benthos_long_format_2006$scientificName<-(df_worms_record$scientificname [match (benthos_long_format_2006$taxonOrGroup, 
+benthos_long_format_2006$scientificNameAccepted<-(df_worms_record$scientificname [match (benthos_long_format_2006$taxonOrGroup, 
                                                                                      tolower(df_worms_record$scientificname))])
 
 # rank
@@ -605,9 +609,15 @@ benthos_long_format_2006$scientificNameID<-(df_worms_record$lsid [match (benthos
 benthos_long_format_2006$kingdom <-(df_worms_record$kingdom [match (benthos_long_format_2006$taxonOrGroup, 
                                                                     tolower(df_worms_record$scientificname))])
 
+# phylum
+benthos_long_format_2006$phylum <-(df_worms_record$phylum [match (benthos_long_format_2006$taxonOrGroup, 
+                                                                    tolower(df_worms_record$scientificname))])
 
 # class
 benthos_long_format_2006$class <-(df_worms_record$class [match (benthos_long_format_2006$taxonOrGroup, 
+                                                                tolower(df_worms_record$scientificname))])
+# order
+benthos_long_format_2006$order <-(df_worms_record$order [match (benthos_long_format_2006$taxonOrGroup, 
                                                                 tolower(df_worms_record$scientificname))])
 
 # family
@@ -769,20 +779,26 @@ Bank, Eastern Brazil: Inferences on Natural and Anthropogenic Drivers. PLoS ONE 
 
 
 
-DF_eMOF_2006 <- benthos_long_format_2006 [,c("eventID", "occurrenceID",
-                                             "verbatimIdentification",
-                                             "scientificName",
-                                             "scientificNameID",
-                                             "taxonRank",
-                                             "kingdom","class","family",
-                                             "measurementValue", "measurementType","measurementUnit")]
+DF_eMOF_2006 <- benthos_long_format_2006 [,c("eventID", 
+                                             "occurrenceID",
+                                             
+                                             "measurementValue", 
+                                             "measurementType",
+                                             "measurementUnit")]
 
-DF_occ_2006 <- benthos_long_format_2006 [,c("eventID", "occurrenceID","basisOfRecord",
+DF_occ_2006 <- benthos_long_format_2006 [,c("eventID", 
+                                            "occurrenceID",
+                                            "basisOfRecord",
                                             "verbatimIdentification",
-                                            "scientificName",
+                                            "scientificNameAccepted",
+                                            "taxonOrGroup",
                                             "taxonRank",
                                             "scientificNameID",
-                                            "kingdom","class","family",
+                                            "kingdom",
+                                            "phylum",
+                                            "class",
+                                            "order",
+                                            "family",
                                             "recordedBy", "organismQuantityType", "occurrenceStatus",
                                             "licence",
                                             "language")]

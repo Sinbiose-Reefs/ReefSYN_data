@@ -35,7 +35,7 @@ fish_event_core <-  read.csv(here ("Data",
 
 
 # identify these sites are in the islands
-fish_event_core$higherGeography <- "BrazilianIslands"
+fish_event_core$higherGeography <- "BrazilianOceanicIslands"
 # tartarugas in Trindade & Rocas
 fish_event_core[grep ("Trindade_Tartarugas",fish_event_core$eventID),"locality"] <- "tartarugas_trindade"
 fish_event_core$locality<-tolower(iconv(fish_event_core$locality, "UTF-8", "ASCII//TRANSLIT", sub=""))
@@ -59,6 +59,66 @@ fish_DF_occ2 <- read.csv(here ("Data",
 # --------------------------
 # ADJUSTING SCIENTIFIC NAMES
 fish_DF_occ2$scientificName <- tolower (fish_DF_occ2$scientificName)
+
+
+# checking
+
+
+# match with worms
+worms_record <- lapply (unique(fish_DF_occ2$scientificName), function (i) 
+  
+  tryCatch (
+    
+    wm_records_taxamatch(i, fuzzy = TRUE, marine_only = TRUE)[[1]],
+    
+    error = function (e) print(NA)
+    
+    
+  )
+  
+)
+
+
+# two rows
+df_worms_record <- data.frame(do.call(rbind,worms_record))
+
+
+
+
+
+# valid name WoRMS 
+fish_DF_occ2$scientificNameAccepted <- (df_worms_record$scientificname [match (fish_DF_occ2$scientificName,
+                                                                                  tolower (df_worms_record$scientificname))])
+
+# taxon rank of the identified level
+fish_DF_occ2$taxonRank <- (df_worms_record$rank [match (fish_DF_occ2$scientificName,
+                                                           tolower (df_worms_record$scientificname))])
+
+
+# match & bind
+# or taxonID
+fish_DF_occ2$scientificNameID<-(df_worms_record$lsid [match (fish_DF_occ2$scientificName,
+                                                                tolower (df_worms_record$scientificname))])
+# kingdom
+fish_DF_occ2$kingdom<-(df_worms_record$kingdom [match (fish_DF_occ2$scientificName,
+                                                          tolower (df_worms_record$scientificname))])
+
+# phylum
+fish_DF_occ2$phylum <-(df_worms_record$phylum [match (fish_DF_occ2$scientificName,
+                                                         tolower (df_worms_record$scientificname))])
+
+# class
+fish_DF_occ2$class<-(df_worms_record$class [match (fish_DF_occ2$scientificName,
+                                                      tolower (df_worms_record$scientificname))])
+
+# order
+fish_DF_occ2$order <-(df_worms_record$order [match (fish_DF_occ2$scientificName,
+                                                       tolower (df_worms_record$scientificname))])
+
+# family
+fish_DF_occ2$family<-(df_worms_record$family [match (fish_DF_occ2$scientificName,
+                                                        tolower (df_worms_record$scientificname))])
+
 
 
 

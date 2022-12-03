@@ -216,7 +216,7 @@ df_worms_record <- data.frame(do.call(rbind,worms_record))
 
 # match
 # scientific name
-francini_bind_data$scientificName<-(df_worms_record$scientificname [match (francini_bind_data$taxonOrGroup,
+francini_bind_data$scientificNameAccepted<-(df_worms_record$scientificname [match (francini_bind_data$taxonOrGroup,
                                                                                tolower (df_worms_record$scientificname))])
 
 # taxon rank of the identified level
@@ -233,9 +233,19 @@ francini_bind_data$scientificNameID<-(df_worms_record$lsid [match (francini_bind
 francini_bind_data$kingdom<-(df_worms_record$kingdom [match (francini_bind_data$taxonOrGroup,
                                                              tolower (df_worms_record$scientificname))])
 
+# phylum
+francini_bind_data$phylum<-(df_worms_record$phylum [match (francini_bind_data$taxonOrGroup,
+                                                             tolower (df_worms_record$scientificname))])
+
+
 # class
 francini_bind_data$class<-(df_worms_record$class [match (francini_bind_data$taxonOrGroup,
                                                          tolower (df_worms_record$scientificname))])
+
+# order
+francini_bind_data$order <-(df_worms_record$order [match (francini_bind_data$taxonOrGroup,
+                                                         tolower (df_worms_record$scientificname))])
+
 # family
 francini_bind_data$family<-(df_worms_record$family [match (francini_bind_data$taxonOrGroup,
                                                            tolower (df_worms_record$scientificname))])
@@ -507,18 +517,18 @@ francini_bind_data$language <- "en"
 
 # Formatted according to DwC
 DF_eMOF <- francini_bind_data [,c("eventID", "occurrenceID",
-                                  "verbatimIdentification",
-                                  "scientificNameID",
-                                  "scientificName",
-                                  "taxonRank",
-                                  "kingdom","class","family",
                                   "measurementValue", "measurementType","measurementUnit")]
 
 DF_occ <- francini_bind_data [,c("eventID", "occurrenceID","basisOfRecord",
                                  "scientificNameID",
-                                 "scientificName",
+                                 "scientificNameAccepted",
+                                 "taxonOrGroup",
                                  "taxonRank",
-                                 "kingdom","class","family",
+                                 "kingdom",
+                                 "phylum",
+                                 "class",
+                                 "order",
+                                 "family",
                                  "recordedBy", "organismQuantityType", "occurrenceStatus",
                                  "licence",
                                  "language")]
@@ -560,4 +570,4 @@ write.csv(DF_eMOF, file =here("DwC_output",
 write.csv(event_core, file =here("DwC_output",
                                    "RFrancini_spatialData",
                                    "event_core.csv"))
-
+rm(list=ls())

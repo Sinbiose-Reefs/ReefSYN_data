@@ -171,7 +171,7 @@ df_worms_record <- data.frame(do.call(rbind,worms_record))
 # match
 # no match
 # valid name worms
-fish_long_format$scientificName <- (df_worms_record$scientificname [match (fish_long_format$namesToSearch,
+fish_long_format$scientificNameAccepted <- (df_worms_record$scientificname [match (fish_long_format$namesToSearch,
                                                                          tolower (df_worms_record$scientificname))])
 
 # taxon rank of the identified level
@@ -186,10 +186,17 @@ fish_long_format$scientificNameID<-(df_worms_record$lsid [match (fish_long_forma
 fish_long_format$kingdom <-(df_worms_record$kingdom [match (fish_long_format$namesToSearch, 
                                                             tolower(df_worms_record$scientificname))])
 
+# phylum
+fish_long_format$phylum <-(df_worms_record$phylum [match (fish_long_format$namesToSearch, 
+                                                            tolower(df_worms_record$scientificname))])
+
 # class
 fish_long_format$class <-(df_worms_record$class [match (fish_long_format$namesToSearch, 
                                                         tolower(df_worms_record$scientificname))])
 
+# order
+fish_long_format$order <-(df_worms_record$order [match (fish_long_format$namesToSearch, 
+                                                        tolower(df_worms_record$scientificname))])
 
 # family
 fish_long_format$family <-(df_worms_record$family [match (fish_long_format$namesToSearch, 
@@ -316,12 +323,12 @@ fish_long_format$measurementType <- "abundance"
 # measurementUnit
 fish_long_format$measurementUnit <- "individuals"
 # method
-fish_long_format$samplingProtocol <- "stationary visual census - 4 x 2m"
+fish_long_format$samplingProtocol <- "Stationary visual survey" #  4 x 2m
 # effort
 fish_long_format$samplingEffort <- 1 # "one observer per point"
 
 # sampleSizeValue (based on Minte-Vera et al. 2008 MEPS, https://www.int-res.com/abstracts/meps/v367/p283-293/)
-fish_long_format$sampleSizeValue <- pi*(4^2)# plotarea?radii?"
+fish_long_format$sampleSizeValue <- 4*2 # plotarea?radii?" (or pi*(4^2))
 
 # sampleSizeUnit (based on Minte-Vera et al. 2008 MEPS)
 fish_long_format$sampleSizeUnit <- "squared meters"
@@ -412,21 +419,27 @@ fish_long_format$occurrenceID <- paste (
 
 
 
-DF_eMOF <- fish_long_format [,c("eventID", "occurrenceID","verbatimIdentification",
-                                "scientificName",
-                                "scientificNameID",
-                                "taxonRank",
-                                "kingdom","class","family",
-                                "measurementValue", "measurementType","measurementUnit")]
+DF_eMOF <- fish_long_format [,c("eventID", 
+                                "occurrenceID",
+                                 "measurementValue", 
+                                "measurementType",
+                                "measurementUnit")]
 
 
 
 DF_occ <- fish_long_format  [,c("eventID", "occurrenceID","basisOfRecord",
-                                "verbatimIdentification","scientificName",
+                                "verbatimIdentification",
+                                "scientificNameAccepted",
                                 "scientificNameID",
                                 "taxonRank",
-                                "kingdom","class","family",
-                                "recordedBy", "organismQuantityType", "occurrenceStatus")]
+                                "kingdom",
+                                "phylum",
+                                "class",
+                                "order",
+                                "family",
+                                "recordedBy", 
+                                "organismQuantityType", 
+                                "occurrenceStatus")]
 
 # aggregate data by eventIDs to have event_core
 

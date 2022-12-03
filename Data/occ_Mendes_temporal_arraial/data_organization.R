@@ -57,11 +57,11 @@ dados_bind <- rbind (abundance,
 
 
 # method
-dados_bind$samplingProtocol <- "underwater visual survey - 20 x 2m"
+dados_bind$samplingProtocol <- "Underwater visual survey" #  - 20 x 2m
 # effort
 dados_bind$samplingEffort <- 1# "one observer per transect"
 # sampleSizeValue
-dados_bind$sampleSizeValue <- 40 # area
+dados_bind$sampleSizeValue <- 20*2 # area
 # sampleSizeUnit
 dados_bind$sampleSizeUnit <- "squared meters"
 # recordedBy
@@ -175,22 +175,28 @@ df_worms_record <- data.frame(do.call(rbind,worms_record))
 
 # df_worms_record[which(df_worms_record$match_type == "near_1"),]
 # match
-dados_bind$scientificName<-(df_worms_record$scientificname [match (tolower (dados_bind$namesToSearch),
-                                                                   tolower(df_worms_record$scientificname))])
+dados_bind$scientificNameAccepted<-(df_worms_record$scientificname [match ( (dados_bind$namesToSearch),
+                                                                   (df_worms_record$scientificname))])
 
-dados_bind$scientificNameID<-(df_worms_record$lsid [match (tolower (dados_bind$namesToSearch),
+dados_bind$scientificNameID<-(df_worms_record$lsid [match ( (dados_bind$namesToSearch),
                                                             (df_worms_record$scientificname))])
 # taxon rank of the identified level
-dados_bind$taxonRank <- (df_worms_record$rank [match (tolower (dados_bind$namesToSearch),
+dados_bind$taxonRank <- (df_worms_record$rank [match ( (dados_bind$namesToSearch),
                                                       tolower (df_worms_record$scientificname))])
 # kingdom
-dados_bind$kingdom <-(df_worms_record$kingdom [match (tolower (dados_bind$namesToSearch),
+dados_bind$kingdom <-(df_worms_record$kingdom [match ( (dados_bind$namesToSearch),
                                                        (df_worms_record$scientificname))])
+# phylum
+dados_bind$phylum <-(df_worms_record$phylum [match ( (dados_bind$namesToSearch),
+                                                      (df_worms_record$scientificname))])
 # class
-dados_bind$class<-(df_worms_record$class [match (tolower (dados_bind$namesToSearch),
+dados_bind$class<-(df_worms_record$class [match ( (dados_bind$namesToSearch),
+                                                 (df_worms_record$scientificname))])
+# order
+dados_bind$order <-(df_worms_record$order [match ( (dados_bind$namesToSearch),
                                                  (df_worms_record$scientificname))])
 # family
-dados_bind$family<-(df_worms_record$family [match (tolower (dados_bind$namesToSearch),
+dados_bind$family<-(df_worms_record$family [match ( (dados_bind$namesToSearch),
                                                    (df_worms_record$scientificname))])
 
 
@@ -268,13 +274,6 @@ dados_bind$occurrenceID <- paste (
 
 DF_eMOF <- dados_bind [,c("eventID", 
                           "occurrenceID",
-                          "verbatimIdentification",
-                          "scientificNameID",
-                          "scientificName",
-                          "taxonRank",
-                          "kingdom",
-                          "class",
-                          "family",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit")]
@@ -284,12 +283,15 @@ DF_occ <- dados_bind [,c("eventID",
                          "occurrenceID",
                          "basisOfRecord",
                          "verbatimIdentification",
-                         "scientificName",
+                         "scientificNameAccepted",
                          "scientificNameID",
                          "taxonRank",
                          "kingdom",
+                         "phylum",
                          "class",
+                         "order",
                          "family",
+                         
                          "recordedBy", 
                          "organismQuantityType", 
                          "occurrenceStatus")]

@@ -359,7 +359,7 @@ worms_record <- lapply (unique(dados$namesToSearch), function (i)
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 # match
-dados$scientificName<-(df_worms_record$scientificname [match (dados$namesToSearch,
+dados$scientificNameAccepted<-(df_worms_record$scientificname [match (dados$namesToSearch,
                                                               tolower (df_worms_record$scientificname))])
 # taxon rank of the identified level
 dados$taxonRank <- (df_worms_record$rank [match (dados$namesToSearch,
@@ -370,8 +370,14 @@ dados$scientificNameID<-(df_worms_record$lsid [match (dados$namesToSearch,
 # kingdom
 dados$kingdom<-(df_worms_record$kingdom [match (dados$namesToSearch,
                                                 tolower (df_worms_record$scientificname))])
+# phylum
+dados$phylum<-(df_worms_record$phylum [match (dados$namesToSearch,
+                                                tolower (df_worms_record$scientificname))])
 # class
 dados$class<-(df_worms_record$class [match (dados$namesToSearch,
+                                            tolower (df_worms_record$scientificname))])
+# order
+dados$order<-(df_worms_record$order [match (dados$namesToSearch,
                                             tolower (df_worms_record$scientificname))])
 # family
 dados$family<-(df_worms_record$family [match (dados$namesToSearch,
@@ -435,7 +441,7 @@ traits_db <- read.csv (here ("Data",
 
 traits_db$Body_size <- as.numeric(gsub (",",".", traits_db$Body_size)) # adjust variable
 # max size from Quimbayo
-size$measurementUncertainty <- traits_db[match (size$scientificName, (traits_db$Name)),"Body_size"]
+size$measurementUncertainty <- traits_db[match (size$scientificNameAccepted, (traits_db$Name)),"Body_size"]
 
 # flag
 size$measurementUncertainty<-(ifelse (size$measurementValue <= size$measurementUncertainty, 
@@ -448,7 +454,7 @@ size$measurementUncertainty<-(ifelse (size$measurementValue <= size$measurementU
 # use fishbase for remaining species
 
 fish_to_search <- unique(size [which(size$measurementUncertainty == "larger_than_reported_in_Quimbayo_et_al"),
-                               "scientificName"])
+                               "scientificNameAccepted"])
 # search
 search_fish<-data.frame (fb_tbl("species",version = "latest") %>% 
                         mutate(sci_name = paste(Genus, Species)) %>%
@@ -459,7 +465,7 @@ search_fish<-data.frame (fb_tbl("species",version = "latest") %>%
 
 # flag based on fishbase
 subset_larger <- size[which(size$measurementUncertainty == "larger_than_reported_in_Quimbayo_et_al"),]
-subset_larger$measurementUncertainty <- (search_fish[match (subset_larger$scientificName,
+subset_larger$measurementUncertainty <- (search_fish[match (subset_larger$scientificNameAccepted,
                                                             (search_fish$sci_name)),
                                                      "Length"])
 # check
@@ -472,7 +478,7 @@ subset_larger$measurementUncertainty<-(ifelse (subset_larger$measurementValue <=
 size[which(rownames(size) %in% rownames(subset_larger)),"measurementUncertainty"] <- subset_larger$measurementUncertainty
 
 # finally try to find NAs
-fish_to_search_NA<- unique(size[is.na(size$measurementUncertainty),"scientificName"])
+fish_to_search_NA<- unique(size[is.na(size$measurementUncertainty),"scientificNameAccepted"])
 
 # search
 search_fish_NA<-data.frame (fb_tbl("species") %>% 
@@ -487,12 +493,12 @@ search_fish_NA [which(search_fish_NA$sci_name == "Prognathodes brasiliensis"), "
 
 # flag based on fishbase
 subset_NA <- size[is.na(size$measurementUncertainty),]
-subset_NA$measurementUncertainty <- (search_fish_NA[match (subset_NA$scientificName, 
+subset_NA$measurementUncertainty <- (search_fish_NA[match (subset_NA$scientificNameAccepted, 
                                                            (search_fish_NA$sci_name)),"Length"])
 # Malacoctenus lianae by hand usingfishbase
-subset_NA [which(subset_NA$scientificName == "Malacoctenus lianae"), "measurementUncertainty"] <- 4.5
-subset_NA [which(subset_NA$scientificName == "Stephanolepis hispidus"), "measurementUncertainty"] <- 36.9
-subset_NA [which(subset_NA$scientificName == "Carcharhinus perezii"), "measurementUncertainty"] <- 300
+subset_NA [which(subset_NA$scientificNameAccepted == "Malacoctenus lianae"), "measurementUncertainty"] <- 4.5
+subset_NA [which(subset_NA$scientificNameAccepted == "Stephanolepis hispidus"), "measurementUncertainty"] <- 36.9
+subset_NA [which(subset_NA$scientificNameAccepted == "Carcharhinus perezii"), "measurementUncertainty"] <- 300
 
 # check
 subset_NA$measurementUncertainty<-(ifelse (subset_NA$measurementValue <= subset_NA$measurementUncertainty, 
@@ -510,7 +516,7 @@ dados_bind <- rbind (abundance,
 
 
 unique(dados_bind[which(dados_bind$measurementType == "total length" & 
-                          is.na(dados_bind$measurementUncertainty)),"scientificName"])
+                          is.na(dados_bind$measurementUncertainty)),"scientificNameAccepted"])
 
 
 # -----------------------------------------------------------------------
@@ -522,13 +528,13 @@ unique(dados_bind[which(dados_bind$measurementType == "total length" &
 
 
 # method
-dados_bind$samplingProtocol <- "underwater visual survey - 20 x 2m"
+dados_bind$samplingProtocol <- "Underwater visual survey" #  - 20 x 2m
 
 # effort
 dados_bind$samplingEffort <- 1# "one observer per transect"
 
-# sampleSizeValue (based on Minte-Vera et al. 2008 MEPS)
-dados_bind$sampleSizeValue <- 40# plotarea?radii?"
+# sampleSizeValue belt transects 20*2
+dados_bind$sampleSizeValue <- 20*2# 
 
 # sampleSizeUnit
 dados_bind$sampleSizeUnit <- "squared meters"
@@ -576,20 +582,25 @@ dados_bind$bibliographicCitation <- "Morais, R.A., Ferreira, C.E.L. and Floeter,
 # measurement or facts
 DF_eMOF <- dados_bind [,c("eventID", 
                           "occurrenceID",
-                          "verbatimIdentification",
-                          "scientificName",
-                          "scientificNameID",
-                          "taxonRank",
-                          "kingdom",
-                          "class","family",
-                          "measurementValue", "measurementType","measurementUnit",
+                          "measurementValue", 
+                          "measurementType",
+                          "measurementUnit",
                           "measurementUncertainty")]
 
 
 # occurrence
-DF_occ <- dados_bind  [,c("eventID", "occurrenceID","basisOfRecord","verbatimIdentification",
-                          "scientificName","scientificNameID","taxonRank",
-                          "kingdom","class","family",
+DF_occ <- dados_bind  [,c("eventID", 
+                          "occurrenceID",
+                          "basisOfRecord",
+                          "verbatimIdentification",
+                          "scientificNameAccepted",
+                          "scientificNameID",
+                          "taxonRank",
+                          "kingdom",
+                          "phylum",
+                          "class",
+                          "order",
+                          "family",
                           "recordedBy", "organismQuantityType", "occurrenceStatus",
                           "licence",
                           "language",

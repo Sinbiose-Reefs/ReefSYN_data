@@ -55,7 +55,7 @@ dados_bind <- rbind (abundance,
                      size)
 
 # method
-dados_bind$samplingProtocol <- "underwater visual survey - 20 x 2m"
+dados_bind$samplingProtocol <- "Underwater visual survey" #  - 20 x 2m
 # effort
 dados_bind$samplingEffort <- 1#"one observer per transect"
 # sampleSizeValue (based on Minte-Vera et al. 2008 MEPS)
@@ -199,7 +199,7 @@ df_worms_record <- data.frame(do.call(rbind,worms_record))
 
 
 # valid name WORMS
-dados_bind$scientificName <- (df_worms_record$scientificname [match (dados_bind$species_to_search,
+dados_bind$scientificNameAccepted <- (df_worms_record$scientificname [match (dados_bind$species_to_search,
                                                       tolower (df_worms_record$scientificname))])
 # id
 dados_bind$scientificNameID<-(df_worms_record$lsid [match (dados_bind$species_to_search,
@@ -212,9 +212,18 @@ dados_bind$taxonRank <- (df_worms_record$rank [match (dados_bind$species_to_sear
 # kingdom
 dados_bind$kingdom <-(df_worms_record$kingdom [match (dados_bind$species_to_search,
                                                       tolower (df_worms_record$scientificname))])
+# phylum
+dados_bind$phylum <-(df_worms_record$phylum [match (dados_bind$species_to_search,
+                                                      tolower (df_worms_record$scientificname))])
+
+
 # class
 dados_bind$class<-(df_worms_record$class [match (dados_bind$species_to_search,
                                                  tolower(df_worms_record$scientificname))])
+# order
+dados_bind$order<-(df_worms_record$order [match (dados_bind$species_to_search,
+                                                 tolower(df_worms_record$scientificname))])
+
 # family
 dados_bind$family<-(df_worms_record$family [match (dados_bind$species_to_search,
                                                    tolower(df_worms_record$scientificname))])
@@ -290,13 +299,6 @@ dados_bind$language <- "en"
 
 
 DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
-                          "verbatimIdentification",
-                          "scientificNameID",
-                          "scientificName",
-                          "taxonRank",
-                          "kingdom",
-                          "class",
-                          "family",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit")]
@@ -309,9 +311,13 @@ DF_occ <- dados_bind [,c("eventID",
                          "verbatimIdentification",
                          "scientificNameID",
                          "scientificName",
+                         "scientificNameAccepted",
                          "taxonRank",
                          "kingdom",
-                         "class","family",
+                         "phylum",
+                         "class",
+                         "order",
+                         "family",
                          "recordedBy",
                          "organismQuantityType", 
                          "occurrenceStatus",

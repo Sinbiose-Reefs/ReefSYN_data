@@ -124,7 +124,7 @@ worms_record <- lapply (unique(occ_Ross_et_al$namesToSearch), function (i)
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 
 # match
-occ_Ross_et_al$scientificName<-(df_worms_record$scientificname [match (occ_Ross_et_al$namesToSearch,
+occ_Ross_et_al$scientificNameAccepted<-(df_worms_record$scientificname [match (occ_Ross_et_al$namesToSearch,
                                                                                  tolower (df_worms_record$scientificname))])
 # taxon rank of the identified level
 occ_Ross_et_al$taxonRank <- (df_worms_record$rank [match (occ_Ross_et_al$namesToSearch,
@@ -135,9 +135,15 @@ occ_Ross_et_al$scientificNameID<-(df_worms_record$lsid [match (occ_Ross_et_al$na
 # kingdom
 occ_Ross_et_al$kingdom<-(df_worms_record$kingdom [match (occ_Ross_et_al$namesToSearch,
                                                                    tolower (df_worms_record$scientificname))])
+# phylum
+occ_Ross_et_al$phylum<-(df_worms_record$phylum [match (occ_Ross_et_al$namesToSearch,
+                                                         tolower (df_worms_record$scientificname))])
 # class
 occ_Ross_et_al$class<-(df_worms_record$class [match (occ_Ross_et_al$namesToSearch,
                                                                tolower (df_worms_record$scientificname))])
+# order
+occ_Ross_et_al$order<-(df_worms_record$order [match (occ_Ross_et_al$namesToSearch,
+                                                       tolower (df_worms_record$scientificname))])
 # family
 occ_Ross_et_al$family<-(df_worms_record$family [match (occ_Ross_et_al$namesToSearch,
                                                                  tolower (df_worms_record$scientificname))])
@@ -302,14 +308,14 @@ occ_Ross_et_al$occurrenceStatus <- "presence"
 occ_Ross_et_al$geodeticDatum <- "decimal degrees"
 
 # method
-occ_Ross_et_al$samplingProtocol <- "underwater visual survey - 20 x 2m"
+occ_Ross_et_al$samplingProtocol <- "Underwater visual survey" #  - 20 x 2m
 
 # effort
 ## check roos et al. 2020/2019
-occ_Ross_et_al$samplingEffort <- 1
+occ_Ross_et_al$samplingEffort <- 1 # one observer
 
 # sampleSizeValue
-occ_Ross_et_al$sampleSizeValue <- 40# plotarea?radii?"
+occ_Ross_et_al$sampleSizeValue <- 20*2#
 
 # sampleSizeUnit
 occ_Ross_et_al$sampleSizeUnit <- "squared meters"
@@ -364,13 +370,6 @@ dados_bind <- rbind (abundance,
 
 DF_eMOF <- dados_bind [,c("eventID", 
                           "occurrenceID",
-                          "verbatimIdentification",
-                          "scientificName",
-                          "scientificNameID",
-                          "taxonRank",
-                          "kingdom",
-                          "class",
-                          "family",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit")]
@@ -380,11 +379,13 @@ DF_occ <- dados_bind [,c("eventID",
                          "occurrenceID",
                          "basisOfRecord",
                          "verbatimIdentification",
-                         "scientificName",
+                         "scientificNameAccepted",
                          "scientificNameID",
                          "taxonRank",
                          "kingdom",
+                         "phylum",
                          "class",
+                         "order",
                          "family",
                          "recordedBy", 
                          "organismQuantityType", 
@@ -552,7 +553,7 @@ worms_record_parrachos <- lapply (unique(occ_Ross_et_al_parrachos$namesToSearch)
 df_worms_record <- data.frame(do.call(rbind,worms_record_parrachos))
 
 # match
-occ_Ross_et_al_parrachos$scientificName<-(df_worms_record$scientificname [match (occ_Ross_et_al_parrachos$namesToSearch,
+occ_Ross_et_al_parrachos$scientificNameAccepted<-(df_worms_record$scientificname [match (occ_Ross_et_al_parrachos$namesToSearch,
                                                                        tolower (df_worms_record$scientificname))])
 # taxon rank of the identified level
 occ_Ross_et_al_parrachos$taxonRank <- (df_worms_record$rank [match (occ_Ross_et_al_parrachos$namesToSearch,
@@ -563,9 +564,15 @@ occ_Ross_et_al_parrachos$scientificNameID<-(df_worms_record$lsid [match (occ_Ros
 # kingdom
 occ_Ross_et_al_parrachos$kingdom<-(df_worms_record$kingdom [match (occ_Ross_et_al_parrachos$namesToSearch,
                                                          tolower (df_worms_record$scientificname))])
+# phylum
+occ_Ross_et_al_parrachos$phylum<-(df_worms_record$phylum [match (occ_Ross_et_al_parrachos$namesToSearch,
+                                                                   tolower (df_worms_record$scientificname))])
 # class
 occ_Ross_et_al_parrachos$class<-(df_worms_record$class [match (occ_Ross_et_al_parrachos$namesToSearch,
                                                      tolower (df_worms_record$scientificname))])
+# order
+occ_Ross_et_al_parrachos$order<-(df_worms_record$order [match (occ_Ross_et_al_parrachos$namesToSearch,
+                                                               tolower (df_worms_record$scientificname))])
 # family
 occ_Ross_et_al_parrachos$family<-(df_worms_record$family [match (occ_Ross_et_al_parrachos$namesToSearch,
                                                        tolower (df_worms_record$scientificname))])
@@ -710,14 +717,14 @@ occ_Ross_et_al_parrachos$occurrenceStatus <- "presence"
 occ_Ross_et_al_parrachos$geodeticDatum <- "decimal degrees"
 
 # method
-occ_Ross_et_al_parrachos$samplingProtocol <- "underwater visual survey - 20 x 2m"
+occ_Ross_et_al_parrachos$samplingProtocol <- "Underwater visual survey" #20 x 2m
 
 # effort
 ## check roos et al. 2020/2019
 occ_Ross_et_al_parrachos$samplingEffort <- 1
 
 # sampleSizeValue
-occ_Ross_et_al_parrachos$sampleSizeValue <- 40# plotarea?radii?"
+occ_Ross_et_al_parrachos$sampleSizeValue <- 20*2#
 
 # sampleSizeUnit
 occ_Ross_et_al_parrachos$sampleSizeUnit <- "squared meters"
@@ -772,13 +779,6 @@ dados_bind_parrachos <- rbind (abundance,
 
 DF_eMOF_parrachos <- dados_bind_parrachos [,c("eventID", 
                           "occurrenceID",
-                          "verbatimIdentification",
-                          "scientificName",
-                          "scientificNameID",
-                          "taxonRank",
-                          "kingdom",
-                          "class",
-                          "family",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit")]
@@ -788,11 +788,13 @@ DF_occ_parrachos <- dados_bind_parrachos [,c("eventID",
                          "occurrenceID",
                          "basisOfRecord",
                          "verbatimIdentification",
-                         "scientificName",
+                         "scientificNameAccepted",
                          "scientificNameID",
                          "taxonRank",
                          "kingdom",
+                         "phylum",
                          "class",
+                         "order",
                          "family",
                          "recordedBy", 
                          "organismQuantityType", 
@@ -1027,7 +1029,7 @@ worms_record <- lapply (unique(occ_Ross_et_al_benthos$taxonOrGroup), function (i
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 # match
 # sp
-occ_Ross_et_al_benthos$scientificName<-(df_worms_record$scientificname [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower (df_worms_record$scientificname))])
+occ_Ross_et_al_benthos$scientificNameAccepted<-(df_worms_record$scientificname [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower (df_worms_record$scientificname))])
 # aphiaID
 occ_Ross_et_al_benthos$scientificNameID<-(df_worms_record$lsid [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower (df_worms_record$scientificname))])
 # taxon rank of the identified level
@@ -1035,8 +1037,16 @@ occ_Ross_et_al_benthos$taxonRank <- (df_worms_record$rank [match (occ_Ross_et_al
                                                                  tolower (df_worms_record$scientificname))])
 # kingdom
 occ_Ross_et_al_benthos$kingdom<-(df_worms_record$kingdom [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower(df_worms_record$scientificname))])
+
+# phylum
+occ_Ross_et_al_benthos$phylum<-(df_worms_record$phylum [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower(df_worms_record$scientificname))])
+
 # class
 occ_Ross_et_al_benthos$class<-(df_worms_record$class [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower(df_worms_record$scientificname))])
+
+# order
+occ_Ross_et_al_benthos$order <- (df_worms_record$order [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower(df_worms_record$scientificname))])
+
 # family
 occ_Ross_et_al_benthos$family<-(df_worms_record$family [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower(df_worms_record$scientificname))])
 
@@ -1203,13 +1213,6 @@ occ_Ross_et_al_benthos$bibliographicCitation <- "Roos NC, Pennino MG, Carvalho A
 
 DF_eMOF <- occ_Ross_et_al_benthos [,c("eventID", 
                                       "occurrenceID",
-                                      "verbatimIdentification",
-                                      "scientificName",
-                                      "scientificNameID",
-                                      "taxonRank",
-                                      "kingdom",
-                                      "class",
-                                      "family",
                                       "measurementValue",
                                       "measurementType",
                                       "measurementUnit")]
@@ -1220,11 +1223,14 @@ DF_occ <- occ_Ross_et_al_benthos [,c("eventID",
                                      "occurrenceID",
                                      "basisOfRecord",
                                      "verbatimIdentification",
-                                     "scientificName",
+                                     "scientificNameAccepted",
+                                     "taxonOrGroup",
                                      "scientificNameID",
                                      "taxonRank",
                                      "kingdom",
+                                     "phylum",
                                      "class",
+                                     "order",
                                      "family",
                                      "recordedBy", 
                                      "organismQuantityType",
