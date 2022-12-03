@@ -10,6 +10,10 @@ Floeter, SR, Bender, MG
 <!-- badges: start -->
 <!-- badges: end -->
 
+# nice example of datapaper
+
+<https://essd.copernicus.org/articles/14/1015/2022/>
+
 # 1 Introduction
 
 The recent rise of ecological synthesis has two main reasons: ecology is
@@ -136,13 +140,13 @@ Table 2: Description of reef fish datasets.
 
 | Dataset |    Sampling Protocol     | Samples (n) |     Scale     | Sampling area (m2) | Number of sites |    Latitude    |   Longitude    |   Years   |
 |:-------:|:------------------------:|:-----------:|:-------------:|:------------------:|:---------------:|:--------------:|:--------------:|:---------:|
-|    I    | Underwater visual survey |    4570     | Transect/plot |      40.00000      |       20        |  -27.85, 0.92  | -48.52, -28.86 | 2001-2015 |
-|   II    |       Video plots        |     378     | Transect/plot |      2.00000       |       19        |  -27.6, 34.42  | -87.26, -34.04 | 2009-2014 |
-|   III   | Underwater visual survey |    3480     | Transect/plot |      40.00000      |        4        |  -20.53, 0.97  | -33.82, -28.86 | 2006-2019 |
-|   IV    | Underwater visual survey |     820     | Transect/plot |      40.00000      |        7        |  -6.38, -4.72  | -36.7, -34.93  | 2016-2022 |
-|    V    | Underwater visual survey |    1897     | Transect/plot |      40.00000      |        9        | -27.84, -27.12 | -48.53, -48.33 | 2007-2021 |
-|   VI    | Underwater visual survey |    2146     | Transect/plot |      40.00000      |        1        | -23.01, -22.96 | -42.04, -41.98 | 2003-2021 |
-|   VII   | Stationary visual survey |    6422     | Transect/plot |      50.26548      |        5        |  -18, -16.89   | -39.15, -38.65 | 2001-2014 |
+|    I    | Underwater visual survey |    4570     | Transect/plot |         40         |       20        |  -27.85, 0.92  | -48.52, -28.86 | 2001-2015 |
+|   II    |       Video plots        |     378     | Transect/plot |         2          |       19        |  -27.6, 34.42  | -87.26, -34.04 | 2009-2014 |
+|   III   | Underwater visual survey |    3480     | Transect/plot |         40         |        4        |  -20.53, 0.97  | -33.82, -28.86 | 2006-2019 |
+|   IV    | Underwater visual survey |     820     | Transect/plot |         40         |        7        |  -6.38, -4.72  | -36.7, -34.93  | 2016-2022 |
+|    V    | Underwater visual survey |    1897     | Transect/plot |         40         |        9        | -27.84, -27.12 | -48.53, -48.33 | 2007-2021 |
+|   VI    | Underwater visual survey |    2146     | Transect/plot |         40         |        1        | -23.01, -22.96 | -42.04, -41.98 | 2003-2021 |
+|   VII   | Stationary visual survey |    6422     | Transect/plot |         8          |        5        |  -18, -16.89   | -39.15, -38.65 | 2001-2014 |
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -339,7 +343,7 @@ fields were named compliant with Darwin Core (DwC) standards (TDWG,
 (taxonomic data), and extended measurement or fact (environmental
 variables and taxa counts or cover) (Fig. 5).
 
-<img src="DwC_output/dataStructure.png" width="50%" height="50%" style="display: block; margin: auto;" />
+<img src="DwC_output/dataStructure.png" width="75%" height="75%" style="display: block; margin: auto;" />
 Fig. 5: ReefSYN data structure following the Darwin Core Standard.
 Dataset codes in Tables 1 and 2.
 
@@ -355,13 +359,14 @@ Dataset codes in Tables 1 and 2.
 
 -   Data were checked by two data managers (A.L. Luza, C. Cordeiro) and
     questions were sent to data holders whenever necessary. The data
-    holders are listed in Author contributions’ section. Overal, main
-    inconsistencies found in the datasets were about 1) region names; 2)
-    locality names; 3) site names; 4) different IDs of unique sampling
-    events; 5) format of sampling data, month and year; 6) lack of
-    geographical information; 7) incorrect writing of species names; 8)
-    the identity of the most basic sampling unit (e.g., one video plot,
-    photoquadrat) was not readily available.
+    holders are listed in Author contributions’ section. Overall, main
+    inconsistencies found in the datasets (and solved by contacting the
+    data holders) were about 1) region names; 2) locality names; 3) site
+    names; 4) different IDs of unique sampling events; 5) format of
+    sampling data, month and year; 6) lack of geographical
+    information; 7) incorrect writing of species names; 8) the identity
+    of the most basic sampling unit (e.g., one video plot, photoquadrat)
+    was not readily available.
 
 -   Data holders shared Microsoft Excel spreadsheets (“.csv”, “.xlsx”),
     often containing data in a wide format. Most data were transformed
@@ -385,10 +390,10 @@ between the data being presented, the data analysis, and the output
 # 2.7 Taxonomic coverage
 
 General taxonomic coverage description: The five benthic datasets
-comprise the description of the occurrence of 185 taxa from 58 families,
-15, and 4 kingdoms, being them Plantae, Animalia, Bacteria, Chromista.
+comprise the description of the occurrence of 147 taxa from 69 families,
+16, and 4 kingdoms, being them Plantae, Animalia, Bacteria, Chromista.
 The seven fish datasets comprise the description of the occurrence of
-567 taxa from 68 families and 2 classes, being them Actinopteri,
+427 taxa from 69 families and 2 classes, being them Actinopteri,
 Elasmobranchii.
 
 # 2.8 Taxonomic coverage per dataset
@@ -401,11 +406,19 @@ Dataset I
 
 Kingdom: Animalia, NA
 
-Phylum: Chordata
+Phylum: Chordata, NA
 
 Class: Actinopteri, NA, Elasmobranchii
 
-Orders:
+Orders: Ovalentaria incertae sedis, Anguilliformes, Perciformes,
+Tetraodontiformes, Carangiformes, Eupercaria incertae sedis,
+Acanthuriformes, Syngnathiformes, Blenniiformes, Holocentriformes,
+Centrarchiformes, Dactylopteriformes, Carangaria incertae sedis,
+Kurtiformes, Gobiiformes, NA, Pleuronectiformes, Beloniformes,
+Orectolobiformes, Aulopiformes, Mulliformes, Myliobatiformes,
+Albuliformes, Carcharhiniformes, Acropomatiformes, Callionymiformes,
+Clupeiformes, Batrachoidiformes, Lophiiformes, Scombriformes,
+Torpediniformes, Mugiliformes, Rhinopristiformes
 
 Families: Pomacentridae, Muraenidae, Serranidae, Balistidae, Carangidae,
 Labridae, Pomacanthidae, Aulostomidae, Lutjanidae, Labrisomidae,
@@ -520,11 +533,17 @@ Dataset II
 
 Kingdom: Animalia, NA
 
-Phylum: Chordata
+Phylum: Chordata, NA
 
 Class: Actinopteri, NA, Elasmobranchii
 
-Orders:
+Orders: Eupercaria incertae sedis, Acanthuriformes, Mulliformes, NA,
+Blenniiformes, Centrarchiformes, Ovalentaria incertae sedis,
+Carangiformes, Carangaria incertae sedis, Holocentriformes, Perciformes,
+Tetraodontiformes, Syngnathiformes, Scombriformes, Gobiesociformes,
+Gobiiformes, Kurtiformes, Carcharhiniformes, Pleuronectiformes,
+Orectolobiformes, Aulopiformes, Myliobatiformes, Dactylopteriformes,
+Mugiliformes, Anguilliformes, Clupeiformes, Acropomatiformes
 
 Families: Scaridae, Haemulidae, Labridae, Chaetodontidae, Acanthuridae,
 Mullidae, Lutjanidae, NA, Blenniidae, Pomacanthidae, Kyphosidae,
@@ -622,77 +641,91 @@ Dataset III
 
 *Taxonomic ranks*
 
-Kingdom:
+Kingdom: Animalia, NA
 
-Phylum: Chordata
+Phylum: Chordata, NA
 
-Class:
+Class: Actinopteri, NA, Elasmobranchii
 
-Orders:
+Orders: Acanthuriformes, Ovalentaria incertae sedis, Perciformes,
+Eupercaria incertae sedis, Tetraodontiformes, Holocentriformes,
+Blenniiformes, Aulopiformes, Carangiformes, Gobiiformes, Anguilliformes,
+Mulliformes, Centrarchiformes, Syngnathiformes, Kurtiformes, NA,
+Pleuronectiformes, Carangaria incertae sedis, Beloniformes,
+Callionymiformes, Albuliformes, Acropomatiformes, Dactylopteriformes,
+Myliobatiformes
 
-Families:
+Families: Acanthuridae, Pomacentridae, Serranidae, Pomacanthidae,
+Labridae, Balistidae, Holocentridae, Labrisomidae, Chaetodontidae,
+Synodontidae, Blenniidae, Scorpaenidae, Carangidae, Gobiidae,
+Ostraciidae, Muraenidae, Mullidae, Monacanthidae, Kyphosidae, Scaridae,
+Aulostomidae, Tetraodontidae, Apogonidae, NA, Sparidae, Malacanthidae,
+Cirrhitidae, Priacanthidae, Diodontidae, Bothidae, Sphyraenidae,
+Tripterygiidae, Hemiramphidae, Haemulidae, Ophichthidae, Callionymidae,
+Lutjanidae, Belonidae, Albulidae, Pempheridae, Dactylopteridae,
+Opistognathidae, Chaenopsidae, Fistulariidae, Echeneidae, Dasyatidae
 
 *Taxa in the dataset (per identification level/at the identification
 level)*
 
 Family:
 
-Genera: coryphopterus, entomacrodus, kyphosus, ophioblennius, rypticus,
-sparisoma
+Genera: Coryphopterus, Entomacrodus, Kyphosus, Ophioblennius, Rypticus,
+Sparisoma
 
-Species: abudefduf saxatilis, acanthostracion polygonius,
-acanthostracion quadricornis, acanthurus bahianus, acanthurus chirurgus,
-acanthurus coeruleus, albula vulpes, aluterus monoceros, aluterus
-scriptus, amblycirrhitus earnshawi, amblycirrhitus pinos, anisotremus
-surinamensis, anisotremus virginicus, anthias salmopunctatus, apogon
-americanus, apogon axillaris, aulostomus strigosus, balistes vetula,
-belone belone, bodianus insularis, bodianus pulchellus, bodianus rufus,
-bothus lunatus, bothus ocellatus, callionymus bairdi, cantherhines
-macrocerus, cantherhines pullus, canthidermis sufflamen, canthigaster
-figueiredoi, canthigaster sanctaehelenae, carangoides bartholomaei,
-caranx crysos, caranx latus, caranx lugubris, caranx ruber, centropyge
-aurantonotus, cephalopholis fulva, chaetodon ocellatus, chaetodon
-sanctaehelenae, chaetodon striatus, channomuraena vittata, chilomycterus
-reticulatus, chromis jubauna, chromis multilineata, clepticus
-brasiliensis, coryphopterus glaucofraenum, coryphopterus thrix,
-dactylopterus volitans, dermatolepis inermis, diodon holocanthus, diodon
-hystrix, diplodus argenteus, doratonotus megalepis, echeneis naucrates,
-echidna catenata, elacatinus figaro, elacatinus phthirophagus,
-elacatinus pridisi, elagatis bipinnulata, emblemariopsis signifer,
-enchelycore anatina, enchelycore carychroa, enchelycore nigricans,
-enneanectes altivelis, enneanectes smithi, epinephelus adscensionis,
-fistularia petimba, fistularia tabacaria, gnatholepis thompsoni,
-gobioclinus kalisherae, gymnothorax funebris, gymnothorax miliaris,
-gymnothorax moringa, gymnothorax vicinus, haemulon chrysargyreum,
-haemulon parra, halichoeres brasiliensis, halichoeres dimidiatus,
-halichoeres penrosei, halichoeres poeyi, halichoeres radiatus,
-halichoeres rubrovirens, helcogramma ascensionis, hemiramphus
-brasiliensis, heteropriacanthus cruentatus, holacanthus ciliaris,
-holacanthus tricolor, holocentrus adscensionis, hypanus americanus,
-hypleurochilus brasil, kyphosus bigibbus, kyphosus cinerascens, kyphosus
-sectatrix, kyphosus vaigiensis, labrisomus nuchipinnis, lactophrys
-trigonus, lutjanus jocu, malacanthus plumieri, malacoctenus brunoi,
-malacoctenus lianae, melichthys niger, menaphorus punticulatus,
-microspathodon chrysurus, mulloidichthys martinicus, muraena melanotis,
-muraena pavonina, mycteroperca bonaci, mycteroperca interstitialis,
-mycteroperca venenosa, myrichthys breviceps, myripristis jacobus,
-nicholsina usta, ocyurus chrysurus, ophichthus ophis, ophioblennius
-atlanticus, ophioblennius trinitatis, opistognathus aurifrons,
-orthopristis ruber, parablennius marmoreus, paranthias furcifer,
-pempheris schomburgkii, phaeoptyx pigmentaria, pomacanthus paru,
-priacanthus arenatus, priolepis ascensionis, prognathodes brasiliensis,
-prognathodes obliquus, pseudupeneus maculatus, rypticus saponaceus,
-sargocentron bullisi, scarus trispinosus, scorpaena brasiliensis,
-scorpaena plumieri, selar crumenophthalmus, seriola rivoliana, sparisoma
-amplum, sparisoma axillare, sparisoma frondosum, sparisoma radians,
-sparisoma rocha, sphoeroides spengleri, sphyraena barracuda, sphyraena
-borealis, sphyraena picudilla, stegastes fuscus, stegastes lubbocki,
-stegastes pictus, stegastes rocasensis, stegastes sanctipauli,
-strongylura timucu, synodus synodus, thalassoma ascensionis, thalassoma
-noronhanum, thalassoma sanctaehelenae, trachinotus falcatus, xyrichtys
-blanchardi, xyrichtys novacula
+Species: Abudefduf saxatilis, Acanthostracion polygonius,
+Acanthostracion quadricornis, Acanthurus bahianus, Acanthurus chirurgus,
+Acanthurus coeruleus, Albula vulpes, Aluterus monoceros, Aluterus
+scriptus, Amblycirrhitus earnshawi, Amblycirrhitus pinos, Anisotremus
+surinamensis, Anisotremus virginicus, Anthias salmopunctatus, Apogon
+americanus, Apogon axillaris, Aulostomus strigosus, Balistes vetula,
+Belone belone, Bodianus insularis, Bodianus pulchellus, Bodianus rufus,
+Bothus lunatus, Bothus ocellatus, Callionymus bairdi, Cantherhines
+macrocerus, Cantherhines pullus, Canthidermis sufflamen, Canthigaster
+figueiredoi, Canthigaster sanctaehelenae, Carangoides bartholomaei,
+Caranx crysos, Caranx latus, Caranx lugubris, Caranx ruber, Centropyge
+aurantonotus, Cephalopholis fulva, Chaetodon ocellatus, Chaetodon
+sanctaehelenae, Chaetodon striatus, Channomuraena vittata, Chilomycterus
+reticulatus, Chromis jubauna, Chromis multilineata, Clepticus
+brasiliensis, Coryphopterus glaucofraenum, Coryphopterus thrix,
+Dactylopterus volitans, Dermatolepis inermis, Diodon holocanthus, Diodon
+hystrix, Diplodus argenteus, Doratonotus megalepis, Echeneis naucrates,
+Echidna catenata, Elacatinus figaro, Elacatinus phthirophagus,
+Elacatinus pridisi, Elagatis bipinnulata, Emblemariopsis signifer,
+Enchelycore anatina, Enchelycore carychroa, Enchelycore nigricans,
+Enneanectes altivelis, Enneanectes smithi, Epinephelus adscensionis,
+Fistularia petimba, Fistularia tabacaria, Gnatholepis thompsoni,
+Gobioclinus kalisherae, Gymnothorax funebris, Gymnothorax miliaris,
+Gymnothorax moringa, Gymnothorax vicinus, Haemulon chrysargyreum,
+Haemulon parra, Halichoeres brasiliensis, Halichoeres dimidiatus,
+Halichoeres penrosei, Halichoeres poeyi, Halichoeres radiatus,
+Halichoeres rubrovirens, Helcogramma ascensionis, Hemiramphus
+brasiliensis, Heteropriacanthus cruentatus, Holacanthus ciliaris,
+Holacanthus tricolor, Holocentrus adscensionis, Hypanus americanus,
+Hypleurochilus brasil, Kyphosus bigibbus, Kyphosus cinerascens, Kyphosus
+sectatrix, Kyphosus vaigiensis, Labrisomus nuchipinnis, Lactophrys
+trigonus, Lutjanus jocu, Malacanthus plumieri, Malacoctenus brunoi,
+Malacoctenus lianae, Melichthys niger, Microspathodon chrysurus,
+Mulloidichthys martinicus, Muraena melanotis, Muraena pavonina,
+Mycteroperca bonaci, Mycteroperca interstitialis, Mycteroperca venenosa,
+Myrichthys breviceps, Myripristis jacobus, Nicholsina usta, Ocyurus
+chrysurus, Ophichthus ophis, Ophioblennius atlanticus, Ophioblennius
+trinitatis, Opistognathus aurifrons, Orthopristis ruber, Parablennius
+marmoreus, Paranthias furcifer, Pempheris schomburgkii, Phaeoptyx
+pigmentaria, Pomacanthus paru, Priacanthus arenatus, Priolepis
+ascensionis, Prognathodes brasiliensis, Prognathodes obliquus,
+Pseudupeneus maculatus, Rypticus saponaceus, Sargocentron bullisi,
+Scarus trispinosus, Scorpaena brasiliensis, Scorpaena plumieri, Selar
+crumenophthalmus, Seriola rivoliana, Sparisoma amplum, Sparisoma
+axillare, Sparisoma frondosum, Sparisoma radians, Sparisoma rocha,
+Sphoeroides spengleri, Sphyraena barracuda, Sphyraena borealis,
+Sphyraena picudilla, Stegastes fuscus, Stegastes lubbocki, Stegastes
+pictus, Stegastes rocasensis, Stegastes sanctipauli, Strongylura timucu,
+Synodus synodus, Thalassoma ascensionis, Thalassoma noronhanum,
+Thalassoma sanctaehelenae, Trachinotus falcatus, Xyrichtys blanchardi,
+Xyrichtys novacula
 
-Subspecies: chilomycterus spinosus mauretanicus, platybelone argalus
+Subspecies: Chilomycterus spinosus mauretanicus, Platybelone argalus
 argalus
 
 Dataset IV
@@ -701,11 +734,16 @@ Dataset IV
 
 Kingdom: Animalia, NA
 
-Phylum: Chordata
+Phylum: Chordata, NA
 
 Class: Actinopteri, Elasmobranchii, NA
 
-Orders:
+Orders: Eupercaria incertae sedis, Acanthuriformes, Perciformes,
+Holocentriformes, Ovalentaria incertae sedis, Tetraodontiformes,
+Mulliformes, Anguilliformes, Carangaria incertae sedis,
+Centrarchiformes, Syngnathiformes, Orectolobiformes, Scombriformes,
+Carangiformes, Gobiiformes, Myliobatiformes, Aulopiformes, Beloniformes,
+Blenniiformes, NA, Clupeiformes, Pleuronectiformes
 
 Families: Scaridae, Acanthuridae, Lutjanidae, Labridae, Serranidae,
 Haemulidae, Pomacanthidae, Holocentridae, Pomacentridae, Ostraciidae,
@@ -765,7 +803,14 @@ Phylum: Chordata
 
 Class: Actinopteri, Elasmobranchii
 
-Orders:
+Orders: Eupercaria incertae sedis, Gobiiformes, Perciformes,
+Acanthuriformes, Ovalentaria incertae sedis, Tetraodontiformes,
+Blenniiformes, Holocentriformes, Centrarchiformes, Carangiformes,
+Aulopiformes, Mulliformes, Carangaria incertae sedis, Batrachoidiformes,
+Pleuronectiformes, Anguilliformes, Lophiiformes, Clupeiformes,
+Mugiliformes, Syngnathiformes, Kurtiformes, Dactylopteriformes,
+Acropomatiformes, Myliobatiformes, Torpediniformes, Scombriformes,
+Beloniformes, Rhinopristiformes
 
 Families: Haemulidae, Gobiidae, Serranidae, Pomacanthidae, Scaridae,
 Pomacentridae, Tetraodontidae, Chaetodontidae, Blenniidae, Sparidae,
@@ -846,11 +891,11 @@ Dataset VI
 
 Kingdom: NA
 
-Phylum: Chordata
+Phylum: NA
 
 Class: NA
 
-Orders:
+Orders: NA
 
 Families: NA
 
@@ -930,7 +975,12 @@ Phylum: Chordata
 
 Class: Actinopteri, Elasmobranchii
 
-Orders:
+Orders: Ovalentaria incertae sedis, Acanthuriformes, Tetraodontiformes,
+Centrarchiformes, Eupercaria incertae sedis, Carangiformes,
+Carcharhiniformes, Perciformes, Gobiiformes, Myliobatiformes,
+Blenniiformes, Anguilliformes, Holocentriformes, Mulliformes,
+Lophiiformes, Acropomatiformes, Scombriformes, Carangaria incertae
+sedis, Aulopiformes
 
 Families: Pomacentridae, Acanthuridae, Ostraciidae, Monacanthidae,
 Cirrhitidae, Haemulidae, Sparidae, Balistidae, Labridae, Tetraodontidae,
@@ -994,24 +1044,29 @@ Dataset I
 
 Kingdom: Plantae, Animalia, NA, Bacteria, Chromista
 
-Phylum:
+Phylum: Rhodophyta, Cnidaria, Chordata, Arthropoda, NA, Cyanobacteria,
+Ochrophyta, Porifera, Chlorophyta, Echinodermata, Annelida, Bryozoa
 
 Class: Florideophyceae, Hydrozoa, Ascidiacea, Thecostraca, NA,
 Phaeophyceae, Anthozoa, Ulvophyceae, Echinoidea, Polychaeta, Asteroidea,
 Gymnolaemata, Crinoidea, Ophiuroidea
 
-Orders:
+Orders: Corallinales, Anthoathecata, Phlebobranchia, NA, Dictyotales,
+Scleractinia, Zoantharia, Fucales, Bryopsidales, Rhodymeniales,
+Malacalcyonacea, Cladophorales, Peyssonneliales, Actiniaria,
+Stolidobranchia, Nemaliales, Gelidiales, Leptothecata, Cheilostomatida,
+Aplousobranchia, Ectocarpales, Amphilepidida, Gigartinales, Ceramiales
 
 Families: NA, Milleporidae, Ascidiidae, Corallinaceae, Dictyotaceae,
 Faviidae, Sphenopidae, Poritidae, Sargassaceae, Rhizangiidae,
 Agariciidae, Halimedaceae, Bryopsidaceae, Parazoanthidae, Champiaceae,
-Plexauridae, Caulerpaceae, Montastraeidae, Udoteaceae, Valoniaceae,
-Peyssonneliaceae, Styelidae, Clavulariidae, Codiaceae, Galaxauraceae,
+Pterogorgiidae, Caulerpaceae, Montastraeidae, Udoteaceae, Valoniaceae,
+Peyssonneliaceae, Styelidae, Carijoidae, Codiaceae, Galaxauraceae,
 Gelidiaceae, Aglaopheniidae, Pocilloporidae, Schizoporellidae,
-Didemnidae, Sertulariidae, Gorgoniidae, Scytosiphonaceae, Zoanthidae,
-Meandrinidae, Plexaurellidae, Gelidiellaceae, Ophiotrichidae,
-Lomentariaceae, Cystocloniaceae, Rhodomelaceae, Wrangeliaceae,
-Cladophoraceae
+Didemnidae, Paramuriceidae, Sertulariidae, Gorgoniidae,
+Scytosiphonaceae, Zoanthidae, Meandrinidae, Plexaurellidae,
+Gelidiellaceae, Plexauridae, Ophiotrichidae, Lomentariaceae,
+Cystocloniaceae, Rhodomelaceae, Wrangeliaceae, Cladophoraceae
 
 *Taxa in the dataset (per identification level/at the identification
 level)*
@@ -1057,11 +1112,12 @@ Dataset II
 
 Kingdom: Animalia, NA, Plantae, Bacteria
 
-Phylum:
+Phylum: Cnidaria, NA, Porifera, Rhodophyta, Cyanobacteria, Bryozoa,
+Chordata
 
 Class: Anthozoa, NA, Hydrozoa, Florideophyceae, Ascidiacea
 
-Orders:
+Orders: Scleractinia, NA, Anthoathecata, Zoantharia, Corallinales
 
 Families: Faviidae, Agariciidae, Rhizangiidae, Montastraeidae,
 Pocilloporidae, Meandrinidae, Poritidae, NA, Astrocoeniidae,
@@ -1096,45 +1152,54 @@ Dataset III
 
 *Taxonomic ranks*
 
-Kingdom:
+Kingdom: Plantae, NA, Bacteria, Chromista, Animalia
 
-Phylum:
+Phylum: Rhodophyta, NA, Cyanobacteria, Ochrophyta, Porifera, Cnidaria,
+Echinodermata, Chlorophyta, Mollusca, Annelida, Chordata, Bryozoa
 
-Class:
+Class: Florideophyceae, NA, Phaeophyceae, Anthozoa, Asteroidea,
+Ulvophyceae, Bivalvia, Polychaeta, Demospongiae, Echinoidea
 
-Orders:
+Orders: Corallinales, NA, Dictyotales, Scleractinia, Peyssonneliales,
+Bryopsidales, Fucales, Zoantharia, Poecilosclerida, Nemaliales,
+Haplosclerida, Dictyoceratida, Cladophorales, Ceramiales, Gigartinales,
+Diadematoida, Camarodonta, Chondrillida, Dasycladales, Verongiida
 
-Families:
+Families: Corallinaceae, Lithophyllaceae, NA, Dictyotaceae, Faviidae,
+Peyssonneliaceae, Caulerpaceae, Sargassaceae, Montastraeidae,
+Crambeidae, Galaxauraceae, Poritidae, Petrosiidae, Irciniidae,
+Dendrophylliidae, Valoniaceae, Rhodomelaceae, Bryopsidaceae,
+Cladophoraceae, Cystocloniaceae, Siphonocladaceae, Mesophyllumaceae,
+Diadematidae, Echinometridae, Chondrillidae, Dasycladaceae, Aplysinidae,
+Microcionidae, Halimedaceae
 
 *Taxa in the dataset (per identification level/at the identification
 level)*
 
 Phylum (Division):
 
-Phylum: bryozoa, cyanobacteria, porifera
+Phylum: Bryozoa, Cyanobacteria, Porifera
 
-Subphylum: tunicata
+Subphylum: Tunicata
 
-Class: asteroidea, bivalvia, polychaeta
+Class: Asteroidea, Bivalvia, Polychaeta
 
 Subclass:
 
-Order: scleractinia, zoantharia
+Order: Scleractinia, Zoantharia
 
-Subfamily: amphiroideae, lithophylloideae
+Subfamily: Amphiroideae, Lithophylloideae
 
-Genera: amphiroideae, bryopsis, caulerpa, chaetomorpha, cladophora,
-clathria, dictyopteris, dictyota, galaxaura, millepora sp, mussismilia
-spp, padina sp, palythoa sp , peyssonnelia, sargassum, siderastrea spp,
-tubastraea
+Genera: Bryopsis, Caulerpa, Chaetomorpha, Cladophora, Clathria,
+Dictyopteris, Dictyota, Galaxaura, Peyssonnelia, Sargassum, Tubastraea
 
-Species: aiolochroia crassa, caulerpa cupressoides, caulerpa mexicana,
-caulerpa racemosa, caulerpa verticillata, chondrilla nucula, diadema
-antillarum, dictyosphaeria versluysii, digenea simplex, echinometra
-lucunter, favia gravida, halimeda discoidea, hypnea musciformis, ircinia
-strobilina, mesophyllum erubescens, monanchora brasiliensis, montastraea
-cavernosa, neomeris annulata, porites astreoides, valonia ventricosa,
-verongula gigantea, verongula rigida, xestospongia muta
+Species: Aiolochroia crassa, Caulerpa cupressoides, Caulerpa mexicana,
+Caulerpa racemosa, Caulerpa verticillata, Chondrilla nucula, Diadema
+antillarum, Dictyosphaeria versluysii, Digenea simplex, Echinometra
+lucunter, Favia gravida, Halimeda discoidea, Hypnea musciformis, Ircinia
+strobilina, Mesophyllum erubescens, Monanchora brasiliensis, Montastraea
+cavernosa, Neomeris annulata, Porites astreoides, Valonia ventricosa,
+Verongula gigantea, Verongula rigida, Xestospongia muta
 
 Dataset IV
 
@@ -1142,19 +1207,24 @@ Dataset IV
 
 Kingdom: Animalia, Plantae, NA, Bacteria, Chromista
 
-Phylum:
+Phylum: Cnidaria, Rhodophyta, NA, Cyanobacteria, Porifera, Ochrophyta,
+Chlorophyta, Echinodermata, Bryozoa, Annelida
 
 Class: Anthozoa, Florideophyceae, NA, Demospongiae, Phaeophyceae,
 Ulvophyceae, Hydrozoa, Echinoidea, Polychaeta, Homoscleromorpha
 
-Orders:
+Orders: Scleractinia, Ceramiales, NA, Zoantharia, Poecilosclerida,
+Dictyoceratida, Dictyotales, Corallinales, Haplosclerida, Bryopsidales,
+Gelidiales, Clionaida, Verongiida, Anthoathecata, Ulvales,
+Cladophorales, Fucales, Malacalcyonacea, Halymeniales, Suberitida,
+Homosclerophorida, Agelasida
 
 Families: Rhizangiidae, Rhodomelaceae, NA, Sphenopidae, Faviidae,
 Montastraeidae, Crambeidae, Irciniidae, Dictyotaceae, Callyspongiidae,
 Caulerpaceae, Gelidiaceae, Clionaidae, Lithophyllaceae, Corallinaceae,
 Niphatidae, Aplysinidae, Zoanthidae, Agariciidae, Milleporidae,
 Poritidae, Ulvaceae, Halimedaceae, Valoniaceae, Sargassaceae,
-Astrangiidae, Clavulariidae, Halymeniaceae, Suberitidae, Pocilloporidae,
+Astrangiidae, Carijoidae, Halymeniaceae, Suberitidae, Pocilloporidae,
 Plakinidae, Agelasidae
 
 *Taxa in the dataset (per identification level/at the identification
@@ -1197,16 +1267,18 @@ Dataset V
 
 Kingdom: NA, Animalia, Bacteria, Plantae
 
-Phylum:
+Phylum: NA, Cnidaria, Porifera, Echinodermata, Cyanobacteria,
+Chlorophyta, Chordata, Bryozoa, Annelida
 
 Class: NA, Anthozoa, Hydrozoa, Echinoidea, Ulvophyceae, Ascidiacea,
 Polychaeta
 
-Orders:
+Orders: NA, Scleractinia, Anthoathecata, Zoantharia, Bryopsidales,
+Malacalcyonacea, Sabellida
 
 Families: NA, Milleporidae, Halimedaceae, Agariciidae, Faviidae,
 Pocilloporidae, Meandrinidae, Montastraeidae, Poritidae, Rhizangiidae,
-Sphenopidae, Zoanthidae, Clavulariidae, Plexauridae, Nephtheidae,
+Sphenopidae, Zoanthidae, Carijoidae, Plexauridae, Nephtheidae,
 Gorgoniidae, Plexaurellidae, Serpulidae
 
 *Taxa in the dataset (per identification level/at the identification

@@ -1,8 +1,8 @@
 ---
-title:  "Datapaper Draft: Standardized datasets of Brazilian reef biodiversity in space and time"
+title:  "Standardized datasets of Brazilian reef diversity in space and time"
 author: "Reef Synthesis Working Group; Luza, AL, Cordeiro, CAMM, ..., Aued, AW, Ferreira, CEL, Mendes, T., Roos, N, Longo, GO, Francini-Filho, RB, Floeter, SR, Bender, MG"
 date: "2022/08/16"
-output: github_document # word_document
+output: word_document  # github_document
 ---
 
 
@@ -15,9 +15,13 @@ output: github_document # word_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# nice example of datapaper
+https://essd.copernicus.org/articles/14/1015/2022/
+
+
 # 1 Introduction
 
-The recent rise of ecological synthesis has two main reasons: ecology is both entering in the age of big data (Michener & Jones 2012), and is increasingly applying the principles of open science (UNESCO 2021, Reichman et al. 2011). We are now experiencing a transition from isolated research, with data stored locally, to a global research network with data stored in public repositories available to be used for fueling further research (Reichman et al. 2011). Brazil have just started to track this trend. The 'Sinbiose', the Center for Synthesis in Biodiversity and Ecosystem Services (see <http://www.sinbiose.cnpq.br/web/sinbiose/home>), comprises a pioneer initiative within Latin America in terms of ecological synthesis and application of open-science principles (Luza et al., in prep.). There are seven working groups funded by the SinBiose, from which the ReefSYN --**ReefSYN Working Group**-- is the unique group working with marine ecosystems, particularly those biogenic and rocky reefs of the Brazilian marine biogeographical province (Briggs 1974)).
+The recent rise of ecological synthesis has two main reasons: ecology is both entering in the age of big data (Michener & Jones 2012), and is increasingly applying the principles of open science (UNESCO 2021, Reichman et al. 2011). We are now experiencing a transition from isolated research, with data stored locally, to a global research network with data stored in public repositories available to be used for fueling further research (Reichman et al. 2011). Brazil have just started to track this trend. The 'Sinbiose', the Center for Synthesis in Biodiversity and Ecosystem Services (see <http://www.sinbiose.cnpq.br/web/sinbiose/home>), comprises a pioneer initiative within Latin America in terms of ecological synthesis and application of open-science principles (Luza et al., in prep.). There are seven working groups funded by the SinBiose, from which the ReefSYN --**ReefSYN Working Group**-- is the unique group working concerned with marine ecosystems, particularly those biogenic and rocky reefs of the Brazilian marine biogeographical province (Briggs 1974)).
 
 The ReefSYN is composed of a team with 22 researchers (20 early-career and senior researchers, assisted by two post-doctoral researchers) from several countries and institutions  (Fig. 1). Up to this date, most team members performed research in isolation, each one covering a specific dimension of reef biodiversity (Fig. 1). By getting funding and support from the Sinbiose we have now the chance to gather existing data, make data synthesis, and bring together different research expertise and perspectives to engage into a common objective with large societal implications: *Provide a synthesis about patterns and drivers of reef diversity and ecological services provision  in Brazil*. More information about our group can be found at <https://reefsyn.weebly.com/home-us.html>.
 
@@ -81,7 +85,7 @@ Fig. 1: Institutions and research topics explored by the ReefSYN team members.
 
 ## 2.1 Geographical and temporal coverage
 
-From 2001 up to 2020, data holders gathered data on fish and benthic organisms (e.g., algae, corals) in more than 400 sites distributed throughout the Brazilian coast and oceanic islands (Fig. 2, Tables 1 and 2). All these data came from geographically replicated, large-scale research programs conducted over the last decades in Brazil (SISBOTA-MAR, PELD-ILOC, Abrolhos Bank monitoring) and from novel initiatives such as the monitoring of reef fish and benthos of Rio Grande do Norte (e.g., Ross et al. 2019).
+From 2001 up to 2020, data holders gathered data on fish and benthic organisms (e.g., algae, corals) in more than 400 sites distributed throughout the Brazilian coast and oceanic islands (Fig. 2, Tables 1 and 2). All these data came from geographically replicated, large-scale research programs conducted over the last decades, some of them also over time in Brazil (SISBOTA-MAR, PELD-ILOC, Abrolhos Bank monitoring), and from novel initiatives such as the monitoring of reef fish and benthos of Rio Grande do Norte (e.g., Ross et al. 2019).
 
 The Brazilian marine biogeographical province (Briggs, 1974; Floeter et al., 2008; Pinheiro et al., 2018), located in Southwestern Atlantic, host reefs with mostly turbid and nutrient-rich waters due to the sediment discharge from several rivers that flow into the coast  (Aued et al., 2018; Loiola et al., 2019; Mies et al., 2020). The narrow continental shelf hosts coral and rocky reefs reefs disposed along more than 27 degrees of latitude (0.91N to 27.6S latitude degrees; Fig. 3). The reefs are exposed to varied temperature, productivity and salinity settings, producing a north/northeast and south/southeast regionalization of the coast (Cord et al., 2022; Pinheiro et al., 2018). Far from the coast there are four oceanic islands, which host coralligenous and rocky reefs, with high endemism levels, and a varied similarity in species composition to that of coastal reefs (Cord et al., 2022; Pinheiro et al., 2018). Recent analysis of spatially extensive benthic datasets revealed clear-water reef communities occurring in the oceanic islands and in oligotrophic waters from the Northeast region, whereas turbid-water reef communities occur throughout the coast (Santana et al. 2023).
 
@@ -332,6 +336,7 @@ table_description_data_fish <- lapply (list_fish, function (i)
                                     round (max (i$year,na.rm=T),2),
                                     sep="-"))
 )
+
 # melt
 table_description_data_fish<-do.call(rbind,table_description_data_fish)
 
@@ -559,12 +564,12 @@ spp_year <- do.call(rbind,
                     lapply (list_occ_benthos, function (i)  
                       
                     
-                        i %>% select (year, scientificName, Dataset) # interesting columns
+                        i %>% select (year, scientificNameAccepted, Dataset) # interesting columns
   
                               
                        )) %>% 
   
-                dcast (formula = year ~ scientificName, # table
+                dcast (formula = year ~ scientificNameAccepted, # table
                                   drop=T) %>%
                         
                   
@@ -603,16 +608,16 @@ spp_year_fish <- do.call(rbind ,
                     lapply (list_occ_fish, function (i)  
                       
                     
-                        i %>% select (year, scientificName, Dataset) # interesting columns
+                        i %>% select (year, scientificNameAccepted, Dataset) # interesting columns
   
                               
                        )) %>% 
   
-                dcast (formula = year ~ scientificName, # table
+                dcast (formula = year ~ scientificNameAccepted, # table
                                   drop=T)# %>%
                         
                   
-                 # set_rownames(.$year)   # set rownames
+                 #set_rownames(.$year)   # set rownames
 
                     
                 
@@ -696,12 +701,12 @@ trend_fish_SR <- ggplot (data = acc_time_fish, aes (x=year, y=SR)) +
 grid.arrange(trend_benthos_SR,
              trend_fish_SR,
              nrow=2,
-              left = "Cumulative number of scientificNames")
+              left = "Cumulative number of scientificNameAccepted")
 
 
 # count the totals of taxa
 # spp benthos
-Ntaxa<-sum(is.na(unique(unlist(sapply (list_occ_benthos, "[[", "scientificName"))))!=T)
+Ntaxa<-sum(is.na(unique(unlist(sapply (list_occ_benthos, "[[", "scientificNameAccepted"))))!=T)
 Nfam<-sum(is.na(unique(unlist(sapply (list_occ_benthos, "[[", "family"))))!=T)
 Ncla<-sum(is.na(unique(unlist(sapply (list_occ_benthos, "[[", "class"))))!=T)
 Nkin<-sum(is.na(unique(unlist(sapply (list_occ_benthos, "[[", "kingdom"))))!=T)
@@ -709,7 +714,7 @@ king_to_show<-unique(unlist(sapply (list_occ_benthos, "[[", "kingdom")))
 king_to_show<- king_to_show[is.na(king_to_show)!=T]
 
 # spp fish
-Nspp <-sum(is.na(unique(unlist(sapply (list_occ_fish, "[[", "scientificName"))))!=T)
+Nspp <-sum(is.na(unique(unlist(sapply (list_occ_fish, "[[", "scientificNameAccepted"))))!=T)
 Nfamfish<-sum(is.na(unique(unlist(sapply (list_occ_fish, "[[", "family"))))!=T)
 Nclafish<-sum(is.na(unique(unlist(sapply (list_occ_fish, "[[", "class"))))!=T)
 fish_class <- unique(unlist(sapply (list_occ_fish, "[[", "class")))
@@ -724,7 +729,7 @@ list_taxa_show <- lapply (list_occ_fish, function (i) # for each dataset
   lapply ( ranks, function (k) { # for each rank
 
     
-    taxa_to_show <- unique(i[which(i$taxonRank %in% k),"scientificName"])# get the name
+    taxa_to_show <- unique(i[which(i$taxonRank %in% k),"scientificNameAccepted"])# get the name
 
     taxa_to_show <- taxa_to_show[order(taxa_to_show)] # order
 
@@ -741,7 +746,7 @@ list_taxa_show_benthos <- lapply (list_occ_benthos, function (i) # for each data
   lapply ( ranks_benthos, function (k) { # for each rank
 
     
-    taxa_to_show <- unique(i[which(i$taxonRank %in% k),"scientificName"])# get the name
+    taxa_to_show <- unique(i[which(i$taxonRank %in% k),"scientificNameAccepted"])# get the name
 
     taxa_to_show <- taxa_to_show[order(taxa_to_show)] # order
 
@@ -821,21 +826,21 @@ Fig. 5: ReefSYN data structure following the Darwin Core Standard. Dataset codes
 
 # 2.6 Quality assurance/quality control procedures 
 
-- The name of all taxa were checked against the WoRMS database, using the R package "worrms" (World Register of Marine Species (WoRMS, 2022)).
+- The name of all taxa were checked against the WoRMS database, using the R package "worrms" (World Register of Marine Species (WoRMS, 2022)). Thus, valid scientific names were called "scientificNameAccepted" following the DwC standard.
 
 - Samples were always collected by researchers or trained students.
 
 - Sampling methods are worldwide/widely used and accepted. 
 
-- Data were checked by two data managers (A.L. Luza, C. Cordeiro) and questions were sent to data holders whenever necessary. The data holders are listed in Author contributions' section. Overal, main inconsistencies found in the datasets were about 1) region names; 2) locality names; 3) site names; 4) different IDs of unique sampling events; 5) format of sampling data, month and year; 6) lack of geographical information; 7) incorrect writing of species names; 8) the identity of the most basic sampling unit (e.g., one video plot, photoquadrat) was not readily available.
+- Data were checked by two data managers (A.L. Luza, C. Cordeiro) and questions were sent to data holders whenever necessary. The data holders are listed in Author contributions' section. Overall, main inconsistencies found in the datasets  (and solved by contacting the data holders) were about 1) region names; 2) locality names; 3) site names; 4) different IDs of unique sampling events; 5) format of sampling day, month and year; 6) Missing sampling day, month, year; 7) lack of geographical information; 8) incorrect writing of species names; 9) the identity of the most basic sampling unit (e.g., one video plot, photoquadrat) sometimes was not readily available.
 
-- Data holders shared Microsoft Excel spreadsheets (".csv", ".xlsx"), often containing data in a wide format. Most data were transformed into a long format, organized, standardized (using Darwin Core Standards) and processed using the R Programming Environment (R Core Team, 2022). Some modifications that could not be easily done in R, regarding the splitting of the sample IDs, were done in the software Microsoft Excel. It consisted in dealing with eventIDs separated by different separators ("_", ".", ...) and we used Excel to have more control on what information to get.
+- Data holders shared Microsoft Excel spreadsheets (".csv", ".xlsx"), often containing data in a wide format. Most data were transformed into a long format, organized, standardized (following the DwC standard) and processed using the R Programming Environment (R Core Team, 2022). Some modifications that could not be easily done in R, regarding the splitting of the sample IDs, were done in the software Microsoft Excel. It consisted in dealing with eventIDs separated by different separators ("_", ".", ...) and we used Excel to have more control on what information to get.
 
 - R routines (scripts) are available at GitHub, together with the raw data. 
 
 _ This paper's draft was written in RMarkdown to ensure consistency between the data being presented, the data analysis, and the output (tables, figures (except Fig. 5)).
 
-- Were softwares used to identify benthos always the same?
+- Were softwares used to identify benthos all the same?
 
 
 # 2.7 Taxonomic coverage
@@ -853,11 +858,11 @@ Dataset I
 
 Kingdom: `r unique(list_occ_fish[[1]]$kingdom)`
 
-Phylum: Chordata
+Phylum: `r unique(list_occ_fish[[1]]$phylum)`
 
 Class: `r knitr::combine_words(unique(list_occ_fish[[1]]$class), and = "")`
 
-Orders:
+Orders: `r knitr::combine_words(unique(list_occ_fish[[1]]$order), and = "")`
 
 Families: `r knitr::combine_words(unique(list_occ_fish[[1]]$family), and = "")`
 
@@ -878,11 +883,11 @@ Dataset II
 
 Kingdom: `r unique(list_occ_fish[[2]]$kingdom)`
 
-Phylum: Chordata
+Phylum: `r unique(list_occ_fish[[2]]$phylum)`
 
 Class: `r knitr::combine_words(unique(list_occ_fish[[2]]$class), and = "")`
 
-Orders:
+Orders: `r knitr::combine_words(unique(list_occ_fish[[2]]$order), and = "")`
 
 Families: `r knitr::combine_words(unique(list_occ_fish[[2]]$family), and = "")`
 
@@ -904,11 +909,11 @@ Dataset III
 
 Kingdom: `r unique(list_occ_fish[[3]]$kingdom)`
 
-Phylum: Chordata
+Phylum: `r unique(list_occ_fish[[3]]$phylum)`
 
 Class: `r knitr::combine_words(unique(list_occ_fish[[3]]$class), and = "")`
 
-Orders:
+Orders: `r knitr::combine_words(unique(list_occ_fish[[3]]$order), and = "")`
 
 Families: `r knitr::combine_words(unique(list_occ_fish[[3]]$family), and = "")`
 
@@ -930,11 +935,11 @@ Dataset IV
 
 Kingdom: `r unique(list_occ_fish[[4]]$kingdom)`
 
-Phylum: Chordata
+Phylum: `r unique(list_occ_fish[[4]]$phylum)`
 
 Class: `r knitr::combine_words(unique(list_occ_fish[[4]]$class), and = "")`
 
-Orders:
+Orders: `r knitr::combine_words(unique(list_occ_fish[[4]]$order), and = "")`
 
 Families: `r knitr::combine_words(unique(list_occ_fish[[4]]$family), and = "")`
 
@@ -956,11 +961,11 @@ Dataset V
 
 Kingdom: `r unique(list_occ_fish[[5]]$kingdom)`
 
-Phylum: Chordata
+Phylum: `r unique(list_occ_fish[[5]]$phylum)`
 
 Class: `r knitr::combine_words(unique(list_occ_fish[[5]]$class), and = "")`
 
-Orders:
+Orders: `r knitr::combine_words(unique(list_occ_fish[[5]]$order), and = "")`
 
 Families: `r knitr::combine_words(unique(list_occ_fish[[5]]$family), and = "")`
 
@@ -982,24 +987,18 @@ Dataset VI
 
 Kingdom: `r unique(list_occ_fish[[6]]$kingdom)`
 
-Phylum: Chordata
+Phylum: `r unique(list_occ_fish[[6]]$phylum)`
 
 Class: `r knitr::combine_words(unique(list_occ_fish[[6]]$class), and = "")`
 
-Orders:
+Orders: `r knitr::combine_words(unique(list_occ_fish[[6]]$order), and = "")`
 
 Families: `r knitr::combine_words(unique(list_occ_fish[[6]]$family), and = "")`
 
 *Taxa in the dataset (per identification level/at the identification level)*
 
-Family: `r list_taxa_show[[6]][[5]]` 
 
-Genera: `r list_taxa_show[[6]][[2]]` 
-
-Species: `r list_taxa_show[[6]][[1]]` 
-
-Subspecies: `r list_taxa_show[[6]][[4]]`
-
+Species: `r list_taxa_show[[6]][[3]]` 
 
 
 Dataset VII
@@ -1008,11 +1007,11 @@ Dataset VII
 
 Kingdom: `r unique(list_occ_fish[[7]]$kingdom)`
 
-Phylum: Chordata
+Phylum: `r unique(list_occ_fish[[7]]$phylum)`
 
 Class: `r knitr::combine_words(unique(list_occ_fish[[7]]$class), and = "")`
 
-Orders:
+Orders: `r knitr::combine_words(unique(list_occ_fish[[7]]$order), and = "")`
 
 Families: `r knitr::combine_words(unique(list_occ_fish[[7]]$family), and = "")`
 
@@ -1035,11 +1034,11 @@ Dataset I
 
 Kingdom: `r unique(list_occ_benthos[[1]]$kingdom)`
 
-Phylum: 
+Phylum: `r knitr::combine_words(unique(list_occ_benthos[[1]]$phylum), and = "")`
 
 Class: `r knitr::combine_words(unique(list_occ_benthos[[1]]$class), and = "")`
 
-Orders:
+Orders: `r knitr::combine_words(unique(list_occ_benthos[[1]]$order), and = "")`
 
 Families: `r knitr::combine_words(unique(list_occ_benthos[[1]]$family), and = "")`
 
@@ -1071,11 +1070,11 @@ Dataset II
 
 Kingdom: `r unique(list_occ_benthos[[2]]$kingdom)`
 
-Phylum: 
+Phylum: `r knitr::combine_words(unique(list_occ_benthos[[2]]$phylum), and = "")`
 
 Class: `r knitr::combine_words(unique(list_occ_benthos[[2]]$class), and = "")`
 
-Orders:
+Orders: `r knitr::combine_words(unique(list_occ_benthos[[2]]$order), and = "")`
 
 Families: `r knitr::combine_words(unique(list_occ_benthos[[2]]$family), and = "")`
 
@@ -1107,11 +1106,11 @@ Dataset III
 
 Kingdom: `r unique(list_occ_benthos[[3]]$kingdom)`
 
-Phylum: 
+Phylum: `r knitr::combine_words(unique(list_occ_benthos[[3]]$phylum), and = "")`
 
 Class: `r knitr::combine_words(unique(list_occ_benthos[[3]]$class), and = "")`
 
-Orders:
+Orders: `r knitr::combine_words(unique(list_occ_benthos[[3]]$order), and = "")`
 
 Families: `r knitr::combine_words(unique(list_occ_benthos[[3]]$family), and = "")`
 
@@ -1143,11 +1142,11 @@ Dataset IV
 
 Kingdom: `r unique(list_occ_benthos[[4]]$kingdom)`
 
-Phylum: 
+Phylum: `r knitr::combine_words(unique(list_occ_benthos[[4]]$phylum), and = "")`
 
 Class: `r knitr::combine_words(unique(list_occ_benthos[[4]]$class), and = "")`
 
-Orders:
+Orders: `r knitr::combine_words(unique(list_occ_benthos[[4]]$order), and = "")`
 
 Families: `r knitr::combine_words(unique(list_occ_benthos[[4]]$family), and = "")`
 
@@ -1179,11 +1178,11 @@ Dataset V
 
 Kingdom: `r unique(list_occ_benthos[[5]]$kingdom)`
 
-Phylum: 
+Phylum: `r knitr::combine_words(unique(list_occ_benthos[[5]]$phylum), and = "")`
 
 Class: `r knitr::combine_words(unique(list_occ_benthos[[5]]$class), and = "")`
 
-Orders:
+Orders: `r knitr::combine_words(unique(list_occ_benthos[[5]]$order), and = "")`
 
 Families: `r knitr::combine_words(unique(list_occ_benthos[[5]]$family), and = "")`
 
