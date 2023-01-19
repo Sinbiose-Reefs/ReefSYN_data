@@ -23,7 +23,7 @@ https://essd.copernicus.org/articles/14/1015/2022/
 
 The recent rise of ecological synthesis has two main reasons: ecology is both entering in the age of big data (Michener & Jones 2012), and is increasingly applying the principles of open science (UNESCO 2021, Reichman et al. 2011). We are now experiencing a transition from isolated research, with data stored locally, to a global research network with data stored in public repositories available to be used for fueling further research (Reichman et al. 2011). Brazil have just started to track this trend. The 'Sinbiose', the Center for Synthesis in Biodiversity and Ecosystem Services (see <http://www.sinbiose.cnpq.br/web/sinbiose/home>), comprises a pioneer initiative within Latin America in terms of ecological synthesis and application of open-science principles (Luza et al., in prep.). There are seven working groups funded by the SinBiose, from which the ReefSYN --**ReefSYN Working Group**-- is the unique group working concerned with marine ecosystems, particularly those biogenic and rocky reefs of the Brazilian marine biogeographical province (Briggs 1974)).
 
-The ReefSYN is composed of a team with 22 researchers (20 early-career and senior researchers, assisted by two post-doctoral researchers) from several countries and institutions  (Fig. 1). Up to this date, most team members performed research in isolation, each one covering a specific dimension of reef biodiversity (Fig. 1). By getting funding and support from the Sinbiose we have now the chance to gather existing data, make data synthesis, and bring together different research expertise and perspectives to engage into a common objective with large societal implications: *Provide a synthesis about patterns and drivers of reef diversity and ecological services provision  in Brazil*. More information about our group can be found at <https://reefsyn.weebly.com/home-us.html>.
+The ReefSYN is composed of a team with 22 researchers (20 early-career and senior researchers, assisted by two post-doctoral researchers) from several countries and institutions  (Fig. 1). Up to this date, most team members performed research in isolation, each one covering a specific dimension of reef biodiversity (Fig. 1). By getting funding and support from the Sinbiose we now have the chance to gather existing data, make data synthesis, and bring together different research expertise and perspectives to engage into a common objective with large societal implications: *Provide a synthesis about patterns and drivers of reef diversity and ecological services provision  in Brazil*. More information about our group can be found at <https://reefsyn.weebly.com/home-us.html>.
 
 By standardizing these data to a common, globally accepted standard --the Darwin Core Standard-- it would be possible to integrate data and make data synthesis to answer ambitious questions about the functioning of Brazilian reef ecosystems, as well quantify, given the distribution of data in space and time, the influence of humans on reef biodiversity and ecosystem services.
 
@@ -94,7 +94,7 @@ The sampling effort was not evenly distributed in time. Indeed, since 2001, the 
 Notably, the cumulative number of eventIDs (i.e. information associated with an event of sampling (something that occurs at a place and time), Darwin Core Task Group (2009)) across the datasets over time show that i) there was an abrupt increase in the number of eventIDs after 2013, mainly for benthos (probably leveraged by the Sisbiota-Mar project (CNPq)), ii) large projects such as Sisbiota-Mar and PELD ILOC have already made an effort to gather data from previous initiatives (Krajewksi & Floeter 2011), iii) there was a nearly constant increase in the number of fish scientific names over time. For benthos, in contrast, there were years of constancy amid years of abrupt increase in the number of identified taxa (Figs. 3 and 4).
 
 
-```{r, echo = F, fig.height=5, fig.width=8, message=F, warning=F, fig.align= "center", out.width="100%", out.height="100%"}
+```{r, echo = F, fig.height=8, fig.width=8, message=F, warning=F, fig.align= "center", out.width="100%", out.height="100%", dpi=300}
 
 # load Datasets
 # benthos
@@ -160,8 +160,8 @@ wm <- ggplot() +
   theme(panel.border = element_blank(), 
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
-        panel.background = element_rect(fill = "lightcyan",#darkslategray1
-                                        colour = "lightcyan"),
+        panel.background = element_rect(fill = "#81C6E8",
+                                        colour = "#81C6E8"),
         
         axis.text.x = element_text(size=6),
         axis.ticks.x=element_line(size=1),
@@ -177,9 +177,10 @@ wm_data <- wm +  geom_jitter(data = coords,
                                  y = decimalLatitude,
                                  col = Dataset,
                                  fill=Dataset), 
-                            size =4, position= "jitter",
+                             size =4, position= "jitter",
                             stat = "identity",
-        shape = 19, alpha=0.3) +
+        shape = 19, alpha=0.3,
+        stroke=1) +
   theme (plot.background = element_rect("#EBEBEB"),
         #panel.background = element_blank(),
         axis.title = element_text(color = "#292929", face = "bold"),
@@ -190,7 +191,7 @@ wm_data <- wm +  geom_jitter(data = coords,
         legend.key.width= unit(0.1, 'cm'),
         panel.grid = element_blank())+
   scale_colour_viridis_d(option="magma", end=0.8)+
-  ggtitle (paste ("Data of benthic communities", "n=", nrow(coords), sep=" "))  +
+  ggtitle (paste ("Number of sites with benthic sampling", "n=", nrow(coords), sep=" "))  +
   guides(colour = guide_legend(override.aes = list(alpha=1)))
 
 
@@ -242,7 +243,7 @@ wm_data_fish <- wm + geom_point(data = data.frame(coords_fish), aes(x = decimalL
         legend.key.height= unit(0.3, 'cm'),
         legend.key.width= unit(0.1, 'cm'),
         panel.grid = element_blank())+
-  ggtitle (paste ("Data of fish commnities", "n=", nrow(coords_fish), sep=" ")) +
+  ggtitle (paste ("Number of sites with fish sampling", "n=", nrow(coords_fish), sep=" ")) +
   guides(colour = guide_legend(override.aes = list(alpha=1))) 
 
 # panel of maps
@@ -251,12 +252,12 @@ gridExtra::grid.arrange(wm_data, # why you suggested patchwork and wm_data + wm_
 
 
 ```
-Fig. 2: Spatial distribution of sampling sites of fish (left) and benthos (right) per dataset.
+Fig. 2: Spatial distribution of fish (left) and benthos (right) sampling sites per dataset.
 
 
 ## 2.2 Data description
 
-The datasets described here represent different efforts to gather data on reef fish and benthos along the Brazilian biogeographical province. We hereby present 12 datasets of reef fish (n=7) and benthos (n=5). Three out of seven fish datasets are time series, whereas two out of five benthic datasetse are time series (Tables 1 and 2). The remaining datasets are spatial snapshots (only one visit to a site) whose data were collected over many years.
+The datasets described here represent different efforts to gather data on reef fish and benthos along the Brazilian biogeographical province. We hereby present 12 datasets of reef fish (n=7) and benthos (n=5). Three out of seven fish datasets are time series, whereas two out of five benthic datasets are time series (Tables 1 and 2). The remaining datasets are spatial snapshots (only one visit to a site) whose data were collected over many years.
 
 
 Table 1: number of sampling events of benthos sampling, per dataset.
@@ -290,10 +291,10 @@ table_description_data_benthos <- do.call(rbind,table_description_data_benthos)
 
 table_description_data_benthos %>%
   dplyr::mutate(Sampling.protocol.Var1 = recode(Sampling.protocol.Var1, 
-                                                "point-intercept  lines" = "Point-intercept lines",
-                                                "photoquadrats" = "Photoquadrats",
-                                                "fixed photo-quadrats" = "Photoquadrats",
-                                                "Photoquadrats 50 X 50cm" = "Photoquadrats"))  %>%
+                                                "point-intercept  lines" = "Point-intercept lines - 10m",
+                                                "photoquadrats" = "Photoquadrats - 1 x 1m",
+                                                "fixed photo-quadrats" = "Photoquadrats - 1 x 1m",
+                                                "Photoquadrats 50 X 50cm" = "Photoquadrats - 0.5 x 0.5m"))  %>%
   
   dplyr::rename("Sampling Protocol" = "Sampling.protocol.Var1",
                 "Samples (n)" = "Sampling.protocol.Freq",
@@ -342,10 +343,10 @@ table_description_data_fish<-do.call(rbind,table_description_data_fish)
 
 table_description_data_fish %>% 
   mutate(Sampling.protocol.Var1 = recode(Sampling.protocol.Var1, 
-                                         "underwater visual survey - 20 x 2m" = "Underwater visual survey",
-                                         "Underwater Visual Survey - 20 x 2m" = "Underwater visual survey",
-                                         "video plot" = "Video plots",
-                                   "stationary visual census - 4 x 2m" = "Stationary visual survey",
+                                         "Underwater visual survey" = "Underwater visual survey - 20 x 2m",
+                                         "Underwater Visual Survey - 20 x 2m" = "Underwater visual survey - 20 x 2m",
+                                         "video plot" = "Video plots - 1 x 1m",
+                                   "Stationary visual survey" = "Stationary visual survey - 4 x 2m",
                                    )) %>% 
   dplyr::rename("Sampling Protocol" = "Sampling.protocol.Var1",
                 "Samples (n)" = "Sampling.protocol.Freq",
@@ -435,18 +436,18 @@ eventIDs_year_benthos <- bind_rows (eventIDs_year_benthos,
 # plot 
 # benthos
 trend_benthos <- ggplot (data = eventIDs_year_benthos, aes (x=year,y=n_cum)) + 
-  geom_area(alpha=0.5, fill = "#FD8235", col = "gray30",size=2) + 
+  geom_area(alpha=0.5, fill = "#FD8235", col = "gray30",size=1) + 
   theme(plot.background = element_rect("#EBEBEB"),
         panel.background = element_blank(),
-        axis.title = element_text(color = "#292929", face = "bold"),
-        axis.text = element_text(color = "#292929", face = "bold"),
+        axis.title = element_text(color = "#292929", face = "bold",size=12),
+        axis.text = element_text(color = "#292929", face = "bold",size=12),
         panel.grid = element_blank()) + 
   xlab ("") + ylab ("") 
 
-trend_benthos_annotate <- trend_benthos + geom_text(data = begin_data, aes (x= min_year, y = 2500,
+trend_benthos_annotate <- trend_benthos + geom_text(data = begin_data, aes (x= min_year, y = 2000,
                                                   label = Dataset,
-                                                  angle = 270),
-                                                  size = 3) + 
+                                                  angle = 0),
+                                                  size = 5) + 
   geom_segment(data = begin_data, 
                aes(x = min_year, y = 0, xend = min_year, yend = 1500)) + 
   geom_segment(aes(x = 2011, y = -100, xend = 2014, yend = -100),size=3,col="gray30")+
@@ -458,17 +459,17 @@ trend_fish <- ggplot (data = eventIDs_year_fish, aes (x=year,y=n_cum)) +
   geom_area(alpha=0.5, fill = "#6CC4A1", col = "gray30",size=2) + 
   theme(plot.background = element_rect("#EBEBEB"),
         panel.background = element_blank(),
-        axis.title.y = element_text(color = "#292929", face = "bold"),
-        axis.text.y = element_text(color = "#292929", face = "bold"),
+        axis.title.y = element_text(color = "#292929", face = "bold",size=12),
+        axis.text.y = element_text(color = "#292929", face = "bold",size=12),
         axis.ticks.x = element_blank(),
         axis.text.x = element_blank(),# element_text(color = "#292929", face = "bold"),
         panel.grid = element_blank()) + 
   xlab ("") + ylab ("") 
 
-trend_fish_annotate <- trend_fish + geom_text_repel(data = begin_data_fish, aes (x= min_year, y = 15000,
+trend_fish_annotate <- trend_fish + geom_text_repel(data = begin_data_fish, aes (x= min_year, y = 14000,
                                                   label = Dataset,
-                                                  angle = 270),
-                                                  size = 3,
+                                                  angle = 0),
+                                                  size = 5,
                                                   box.padding=0) + 
   geom_segment(data = begin_data_fish, 
                aes(x = min_year, y = 0, xend = min_year, yend = 10000)) +
@@ -479,8 +480,9 @@ trend_fish_annotate <- trend_fish + geom_text_repel(data = begin_data_fish, aes 
  # scale_y_reverse()
 
 
-grid.arrange (trend_benthos_annotate,
+gridExtra::grid.arrange (
               trend_fish_annotate,
+              trend_benthos_annotate,
               nrow=2,
               left = "Cumulative number of sampling events (eventIDs)") 
 
@@ -491,7 +493,7 @@ Fig. 3: The number of sampling events accumulated over time for benthos (top) an
 
 
 
-```{r, echo = F, fig.height=5,fig.width=8,message=F, warning=F, fig.align= "center",out.width="100%",out.height="100%"}
+```{r, echo = F, fig.height=5,fig.width=8,message=F, dpi=300, warning=F, fig.align= "center",out.width="100%",out.height="100%"}
 
 # load Datasets
 # benthos
@@ -647,22 +649,22 @@ acc_time_fish <- data.frame(SR = acc_time_fish,
 # benthos
 trend_benthos_SR <- ggplot (data = acc_time, 
                             aes (x= (year),y=SR)) + 
-  geom_area(alpha=0.5, fill = "#FD8235", col = "gray30",size=2) + 
+  geom_area(alpha=0.5, fill = "#FD8235", col = "gray30",size=1) + 
   theme(plot.background = element_rect("#EBEBEB"),
         panel.background = element_blank(),
-        axis.title = element_text(color = "#292929", face = "bold"),
-        axis.text = element_text(color = "#292929", face = "bold"),
+        axis.title = element_text(color = "#292929", face = "bold",size=12),
+        axis.text = element_text(color = "#292929", face = "bold",size=12),
         panel.grid = element_blank()) + 
   xlab ("") + ylab ("") +
   
   # projects 
-  geom_text_repel(data = begin_data, aes (x= min_year, y = 100,
+  geom_text_repel(data = begin_data, aes (x= min_year, y = 80,
                                                   label = Dataset,
-                                                  angle = 270),
-                                                  size = 3,
+                                                  angle = 0),
+                                                  size = 5,
                                                   box.padding=0) + 
   geom_segment(data = begin_data, 
-               aes(x = min_year, y = 0, xend = min_year, yend = 80)) + 
+               aes(x = min_year, y = 0, xend = min_year, yend = 60)) + 
   
   # grants
   geom_segment(aes(x = 2011, y = -5, xend = 2014, yend = -5),size=3,col="gray30")+
@@ -671,11 +673,11 @@ trend_benthos_SR <- ggplot (data = acc_time,
 
 # fish
 trend_fish_SR <- ggplot (data = acc_time_fish, aes (x=year, y=SR)) + 
-  geom_area(alpha=0.5, fill = "#6CC4A1", col = "gray30",size=2) + 
+  geom_area(alpha=0.5, fill = "#6CC4A1", col = "gray30",size=1) + 
   theme(plot.background = element_rect("#EBEBEB"),
         panel.background = element_blank(),
-        axis.title.y = element_text(color = "#292929", face = "bold"),
-        axis.text.y = element_text(color = "#292929", face = "bold"),
+        axis.title.y = element_text(color = "#292929", face = "bold",size=12),
+        axis.text.y = element_text(color = "#292929", face = "bold",size=12),
         axis.ticks.x = element_blank(),
         axis.text.x = element_blank(),# element_text(color = "#292929", face = "bold"),
         panel.grid = element_blank()) + 
@@ -683,10 +685,10 @@ trend_fish_SR <- ggplot (data = acc_time_fish, aes (x=year, y=SR)) +
   
   #scale_y_reverse() + # talvez seja melhor manter a escala normal
   # projects
-  geom_text_repel(data = begin_data_fish, aes (x= min_year, y = 300,
+  geom_text_repel(data = begin_data_fish, aes (x= min_year, y = 320,
                                                   label = Dataset,
-                                                  angle = 270),
-                                                  size = 3,
+                                                  angle = 0),
+                                                  size = 5,
                                                   box.padding=0) + 
   geom_segment(data = begin_data_fish, 
                aes(x = min_year, y = 0, xend = min_year, yend = 300)) + 
@@ -698,8 +700,8 @@ trend_fish_SR <- ggplot (data = acc_time_fish, aes (x=year, y=SR)) +
 
 
 # arrange plots
-grid.arrange(trend_benthos_SR,
-             trend_fish_SR,
+gridExtra::grid.arrange(trend_fish_SR,
+             trend_benthos_SR,
              nrow=2,
               left = "Cumulative number of scientificNameAccepted")
 
@@ -832,9 +834,9 @@ Fig. 5: ReefSYN data structure following the Darwin Core Standard. Dataset codes
 
 - Sampling methods are worldwide/widely used and accepted. 
 
-- Data were checked by two data managers (A.L. Luza, C. Cordeiro) and questions were sent to data holders whenever necessary. The data holders are listed in Author contributions' section. Overall, main inconsistencies found in the datasets  (and solved by contacting the data holders) were about 1) region names; 2) locality names; 3) site names; 4) different IDs of unique sampling events; 5) format of sampling day, month and year; 6) Missing sampling day, month, year; 7) lack of geographical information; 8) incorrect writing of species names; 9) the identity of the most basic sampling unit (e.g., one video plot, photoquadrat) sometimes was not readily available.
+- Data were checked by two data managers (A.L. Luza, C. Cordeiro) and questions were sent to data holders whenever necessary. The data holders are listed in Author contributions' section. Overall, main inconsistencies found in the datasets  (and solved by contacting the data holders) were related with 1) region names; 2) locality names; 3) site names; 4) different IDs of unique sampling events; 5) format of sampling day, month and year; 6) Missing sampling day, month, year; 7) lack of geographical information; 8) misspelling of species names; 9) sampling unit identity (e.g., one video plot, photoquadrat).
 
-- Data holders shared Microsoft Excel spreadsheets (".csv", ".xlsx"), often containing data in a wide format. Most data were transformed into a long format, organized, standardized (following the DwC standard) and processed using the R Programming Environment (R Core Team, 2022). Some modifications that could not be easily done in R, regarding the splitting of the sample IDs, were done in the software Microsoft Excel. It consisted in dealing with eventIDs separated by different separators ("_", ".", ...) and we used Excel to have more control on what information to get.
+- Data holders shared Microsoft Excel spreadsheets (".csv", ".xlsx"), often containing data in a wide format. Most data were transformed into a long format, organized, standardized (following the DwC standard) and processed using the R Programming Environment (R Core Team, 2022). Some modifications that could not be easily done in R, regarding the splitting of sample IDs, were done in Microsoft Excel. It consisted in dealing with eventIDs separated by different separators ("_", ".", ...) and we used Excel to have more control on what information to get.
 
 - R routines (scripts) are available at GitHub, together with the raw data. 
 
