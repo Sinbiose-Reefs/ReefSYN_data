@@ -250,6 +250,9 @@ francini_bind_data$order <-(df_worms_record$order [match (francini_bind_data$tax
 francini_bind_data$family<-(df_worms_record$family [match (francini_bind_data$taxonOrGroup,
                                                            tolower (df_worms_record$scientificname))])
 
+# genus
+francini_bind_data$genus <-(df_worms_record$genus [match (francini_bind_data$taxonOrGroup,
+                                                           tolower (df_worms_record$scientificname))])
 
 
 
@@ -446,13 +449,13 @@ years_sites <- table (francini_bind_data$site,francini_bind_data$locality,franci
 colnames(francini_bind_data)[which(colnames(francini_bind_data) == "cover")] <- "measurementValue"
 
 # method
-francini_bind_data$samplingProtocol <- "photoquadrats"
+francini_bind_data$samplingProtocol <- "Photoquadrats - 2 x 1m"
 # samplingEffort
 
 
 
 # CHECK THIS ONCE AGAIN!!!
-francini_bind_data$samplingEffort <- 5 # 5 to 33 (Following Santana et al unpublished data)
+francini_bind_data$samplingEffort <- 5 - 33 # 5 to 33 (Following Santana et al 2023) # not sure yet how many per site
 
 
 
@@ -475,7 +478,7 @@ francini_bind_data$basisOfRecord <- "HumanObservation"
 francini_bind_data$occurrenceStatus <- "presence"
 
 # recordedBy
-francini_bind_data$recordedBy <- NA
+francini_bind_data$recordedBy <- "R Francini-Filho, E Santana, A Aued"
 
 # organismQuantityType
 francini_bind_data$organismQuantityType <- "Percentage cover"
@@ -503,6 +506,12 @@ francini_bind_data$language <- "en"
 
 
 
+# eventRemarks
+francini_bind_data$eventRemarks <- "Bare substrate, sediment, lost information (shade, quadrat, tape), morpho-anatomical benthic groups and turf were not included in the data because they do not represent taxonomical entities in which DwC standards are based. This implies in a measurementValue which does not add up to 1. Please contact the data curators Andre Luza and Cesar Cordeiro to have the complete dataset with verbatimIdentification"
+
+# remove these MAGs
+francini_bind_data <- francini_bind_data [which(is.na(francini_bind_data$scientificNameAccepted) !=T),]
+
 
 
 # ----------------------------------------------------------------------------------------------
@@ -511,25 +520,29 @@ francini_bind_data$language <- "en"
 
 
 
-
-
-
-
 # Formatted according to DwC
-DF_eMOF <- francini_bind_data [,c("eventID", "occurrenceID",
-                                  "measurementValue", "measurementType","measurementUnit")]
+DF_eMOF <- francini_bind_data [,c("eventID", 
+                                  "occurrenceID",
+                                  "measurementValue", 
+                                  "measurementType",
+                                  "measurementUnit",
+                                  "eventRemarks")]
 
-DF_occ <- francini_bind_data [,c("eventID", "occurrenceID","basisOfRecord",
+DF_occ <- francini_bind_data [,c("eventID", 
+                                 "occurrenceID",
+                                 "basisOfRecord",
                                  "scientificNameID",
                                  "scientificNameAccepted",
-                                 "taxonOrGroup",
                                  "taxonRank",
                                  "kingdom",
                                  "phylum",
                                  "class",
                                  "order",
                                  "family",
-                                 "recordedBy", "organismQuantityType", "occurrenceStatus",
+                                 "genus",
+                                 "recordedBy", 
+                                 "organismQuantityType", 
+                                 "occurrenceStatus",
                                  "licence",
                                  "language")]
 

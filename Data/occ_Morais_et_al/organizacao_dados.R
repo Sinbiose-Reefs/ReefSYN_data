@@ -383,6 +383,9 @@ dados$order<-(df_worms_record$order [match (dados$namesToSearch,
 dados$family<-(df_worms_record$family [match (dados$namesToSearch,
                                               tolower (df_worms_record$scientificname))])
 
+# genus
+dados$genus<-(df_worms_record$genus [match (dados$namesToSearch,
+                                              tolower (df_worms_record$scientificname))])
 
 
 
@@ -528,7 +531,7 @@ unique(dados_bind[which(dados_bind$measurementType == "total length" &
 
 
 # method
-dados_bind$samplingProtocol <- "Underwater visual survey" #  - 20 x 2m
+dados_bind$samplingProtocol <- "Underwater visual survey - 20 x 2m" 
 
 # effort
 dados_bind$samplingEffort <- 1# "one observer per transect"
@@ -601,6 +604,7 @@ DF_occ <- dados_bind  [,c("eventID",
                           "class",
                           "order",
                           "family",
+                          "genus",
                           "recordedBy", "organismQuantityType", "occurrenceStatus",
                           "licence",
                           "language",
@@ -649,7 +653,7 @@ write.csv(DF_eMOF, file =here("DwC_output",
 write.csv(event_core, file =here("DwC_output",
                                    "RMorais_spatialData",
                                    "event_core.csv"))
-
+rm(list=ls())
 
 # # ========================================================
 # quality checks

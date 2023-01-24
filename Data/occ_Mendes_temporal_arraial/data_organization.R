@@ -57,7 +57,7 @@ dados_bind <- rbind (abundance,
 
 
 # method
-dados_bind$samplingProtocol <- "Underwater visual survey" #  - 20 x 2m
+dados_bind$samplingProtocol <- "Underwater visual survey - 20 x 2m" # 
 # effort
 dados_bind$samplingEffort <- 1# "one observer per transect"
 # sampleSizeValue
@@ -112,6 +112,11 @@ dados_bind$month [which(dados_bind$month == "oct")] <- 10
 dados_bind$month [which(dados_bind$month == "nov")] <- 11
 dados_bind$month [which(dados_bind$month == "dec")] <- 12
 
+# adjust day
+dados_bind$day <- ifelse (dados_bind$day < 10, 
+                          paste0("0", dados_bind$day),
+                          dados_bind$day)
+
 # date
 dados_bind$eventDate <- as.Date (paste(dados_bind$year, 
                dados_bind$month,
@@ -153,7 +158,10 @@ dados_bind$identificationQualifier <- ifelse (sapply (strsplit (dados_bind$names
 dados_bind$namesToSearch [which(dados_bind$identificationQualifier == "sp")] <- gsub (" sp",
                                                                                                    "",
                                                                                       dados_bind$namesToSearch [which(dados_bind$identificationQualifier == "sp")])
+dados_bind$namesToSearch[which(dados_bind$namesToSearch == "Myliobatis goodei ")]<- "Myliobatis goodei"
 
+# check again in the future
+dados_bind$namesToSearch[which(dados_bind$namesToSearch == "Malacoctenus aff. triangulatus")]<- "Malacoctenus triangulatus" 
 
 
 # matching names with worms
@@ -170,6 +178,7 @@ worms_record <- lapply (unique(dados_bind$namesToSearch), function (i)
   
 )
 
+
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 
@@ -182,7 +191,7 @@ dados_bind$scientificNameID<-(df_worms_record$lsid [match ( (dados_bind$namesToS
                                                             (df_worms_record$scientificname))])
 # taxon rank of the identified level
 dados_bind$taxonRank <- (df_worms_record$rank [match ( (dados_bind$namesToSearch),
-                                                      tolower (df_worms_record$scientificname))])
+                                                       (df_worms_record$scientificname))])
 # kingdom
 dados_bind$kingdom <-(df_worms_record$kingdom [match ( (dados_bind$namesToSearch),
                                                        (df_worms_record$scientificname))])
@@ -198,9 +207,13 @@ dados_bind$order <-(df_worms_record$order [match ( (dados_bind$namesToSearch),
 # family
 dados_bind$family<-(df_worms_record$family [match ( (dados_bind$namesToSearch),
                                                    (df_worms_record$scientificname))])
+# genus
+dados_bind$genus<-(df_worms_record$genus [match ( (dados_bind$namesToSearch),
+                                                    (df_worms_record$scientificname))])
 
 
-
+# check what remains
+unique(dados_bind [is.na(dados_bind$scientificNameAccepted),"namesToSearch"])
 
 
 # --------------------------------------------------------------------------
@@ -291,7 +304,7 @@ DF_occ <- dados_bind [,c("eventID",
                          "class",
                          "order",
                          "family",
-                         
+                         "genus",
                          "recordedBy", 
                          "organismQuantityType", 
                          "occurrenceStatus")]
@@ -337,3 +350,4 @@ write.csv(event_core, file =here("DwC_output",
                                    "event_core.csv"))
 
 ## end
+rm(list=ls())

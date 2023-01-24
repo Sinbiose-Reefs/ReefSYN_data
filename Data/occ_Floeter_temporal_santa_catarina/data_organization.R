@@ -55,7 +55,7 @@ dados_bind <- rbind (abundance,
                      size)
 
 # method
-dados_bind$samplingProtocol <- "Underwater visual survey" #  - 20 x 2m
+dados_bind$samplingProtocol <- "Underwater visual survey - 20 x 2m"
 # effort
 dados_bind$samplingEffort <- 1#"one observer per transect"
 # sampleSizeValue (based on Minte-Vera et al. 2008 MEPS)
@@ -108,6 +108,11 @@ dados_bind$month [which(dados_bind$month == "july")] <- 07
 dados_bind$month [which(dados_bind$month == "august")] <- 08
 dados_bind$month [which(dados_bind$month == "september")] <- 09
 dados_bind$month [which(dados_bind$month == "october")] <- 10
+
+# adjust day
+dados_bind$day <- ifelse(dados_bind$day < 10, 
+                         paste0("0", dados_bind$day),
+                         dados_bind$day)
 
 # eventDate
 dados_bind$eventDate <- as.Date (paste(dados_bind$year, 
@@ -228,6 +233,9 @@ dados_bind$order<-(df_worms_record$order [match (dados_bind$species_to_search,
 dados_bind$family<-(df_worms_record$family [match (dados_bind$species_to_search,
                                                    tolower(df_worms_record$scientificname))])
 
+# genus
+dados_bind$genus<-(df_worms_record$genus [match (dados_bind$species_to_search,
+                                                   tolower(df_worms_record$scientificname))])
 
 
 
@@ -318,6 +326,7 @@ DF_occ <- dados_bind [,c("eventID",
                          "class",
                          "order",
                          "family",
+                         "genus",
                          "recordedBy",
                          "organismQuantityType", 
                          "occurrenceStatus",
@@ -369,3 +378,4 @@ write.csv(event_core, file =here("DwC_output",
                                    "event_core.csv"))
 
 ## end
+rm(list=ls())

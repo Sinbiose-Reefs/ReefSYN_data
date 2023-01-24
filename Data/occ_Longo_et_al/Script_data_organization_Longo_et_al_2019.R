@@ -1,3 +1,5 @@
+
+
 # ------------------------------------------
 # Organizing data (video plots and photoquadrats)
 
@@ -123,8 +125,21 @@ L.peixes$month <- format(L.peixes$eventDate,"%m")
 L.peixes$day <- format(L.peixes$eventDate,"%d")
 
 
-
-
+# eventTime
+L.peixes$eventTime <- L.peixes$time_of_day
+L.peixes$eventTime <- ifelse (L.peixes$eventTime == "", NA, L.peixes$eventTime)
+L.peixes$eventTime <- gsub ("-", "Z/", L.peixes$eventTime)
+L.peixes$eventTime <- gsub ("h", "Z", L.peixes$eventTime)
+L.peixes$eventTime <- gsub ("H", "Z", L.peixes$eventTime)
+L.peixes$eventTime <- gsub ("pm", "Z", L.peixes$eventTime)
+L.peixes$eventTime <- gsub ("am", "Z", L.peixes$eventTime)
+L.peixes$eventTime <- gsub ("m", "Z", L.peixes$eventTime)
+# paste zero if last character is not Z
+L.peixes$eventTime <- ifelse (substr ((L.peixes$eventTime), nchar(L.peixes$eventTime),nchar(L.peixes$eventTime)) == "Z",
+        L.peixes$eventTime,
+        paste0 (L.peixes$eventTime,"Z"))
+# wrong hour as NA
+L.peixes$eventTime [which(L.peixes$eventTime == "00/01/1900Z")] <- NA
 
 # -----------------------------------------------------------------------------------
 # ADJUSTING SPECIES NAMES
@@ -369,8 +384,11 @@ L.peixes_coord$phylum<-(df_worms_record$phylum [match (L.peixes_coord$namesToSea
 L.peixes_coord$class<-(df_worms_record$class [match (L.peixes_coord$namesToSearch,tolower(df_worms_record$scientificname))])
 L.peixes_coord$order<-(df_worms_record$order [match (L.peixes_coord$namesToSearch,tolower(df_worms_record$scientificname))])
 L.peixes_coord$family<-(df_worms_record$family [match (L.peixes_coord$namesToSearch,tolower(df_worms_record$scientificname))])
+L.peixes_coord$genus<-(df_worms_record$genus [match (L.peixes_coord$namesToSearch,tolower(df_worms_record$scientificname))])
 
 
+
+unique(L.peixes_coord [is.na(L.peixes_coord$scientificNameAccepted),"namesToSearch"])
 
 
 # -----------------------------------------------------------------------------------
@@ -487,7 +505,7 @@ L.peixes_coord$occurrenceID <- paste (
 
 
 # method
-L.peixes_coord$samplingProtocol <- "video plot"
+L.peixes_coord$samplingProtocol <- "video plot - 2 x 1m"
 
 # samplingEffort per parentEventID
 table_effort <-do.call(rbind, lapply (unique(L.peixes_coord$parentEventID), function (i)
@@ -627,6 +645,10 @@ dados_bind$measurementTypeID <- "http://vocab.nerc.ac.uk/collection/P14/current/
 
 
 
+# remove not identified fish
+dados_bind <- dados_bind [which(is.na(dados_bind$scientificNameAccepted) !=T),]
+
+
 
 
 # -----------------------------------------------------------------------------------
@@ -661,6 +683,7 @@ DF_occ <- dados_bind [,c("eventID",
                          "class",
                          "order",
                          "family",
+                         "genus",
                          "recordedBy", 
                          "organismQuantityType",
                          "basisOfRecord")]
@@ -672,6 +695,7 @@ event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,verbatimL
                             
                             summarise(year = mean(as.numeric(year)),
                                       eventDate = mean(eventDate),
+                                      eventTime = unique(eventTime),
                                       minimumDepthinMeters = mean(minimumDepthinMeters),
                                       maximumDepthinMeters = mean(maximumDepthinMeters),
                                       samplingProtocol = unique(samplingProtocol),
@@ -706,3 +730,4 @@ write.csv(event_core, file =here("DwC_output",
                                    "GLongo_spatialData",
                                    "event_core.csv"))
 
+rm(list=ls())

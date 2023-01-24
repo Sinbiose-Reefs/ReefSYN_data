@@ -48,7 +48,7 @@ benthos_event_core$island<-tolower(iconv(benthos_event_core$island, "UTF-8", "AS
 benthos_event_core$island<-gsub (" ","_",benthos_event_core$island)
 
 # create year
-benthos_event_core$eventYear<-substr(benthos_event_core$eventDate,1,4) # only year
+benthos_event_core$year<-substr(benthos_event_core$eventDate,1,4) # only year
 
 
 # load occ id table
@@ -161,12 +161,6 @@ worms_record <- lapply (unique(benthos_DF_occ2$taxonOrGroup), function (i)
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 
 
-
-
-# valid name OBIS -> o OBIS eh soh o repositorio, o WoRMS que faz a validacao mesmo entao nao faz muito sentido
-# o termo do DwC pro scientificName apos a validacao pode ser scientificNameAccepted. Nesse caso os grupos morfo-anatomicos do bentos
-# nao vao interferir no DwC mas vao continuar lah. Apesar do termo nao estar no DwC, o proprio WoRMS usa scientificNameAccepted.
-
 # valid name WoRMS 
 benthos_DF_occ2$scientificName <- (df_worms_record$scientificname [match (benthos_DF_occ2$taxonOrGroup,
                                                                              tolower (df_worms_record$scientificname))])
@@ -204,8 +198,20 @@ benthos_DF_occ2$order <-(df_worms_record$order [match (benthos_DF_occ2$taxonOrGr
 benthos_DF_occ2$family<-(df_worms_record$family [match (benthos_DF_occ2$taxonOrGroup,
                                                            tolower (df_worms_record$scientificname))])
 
+# genus
+benthos_DF_occ2$genus <-(df_worms_record$genus [match (benthos_DF_occ2$taxonOrGroup,
+                                                        tolower (df_worms_record$scientificname))])
 
 
+
+# remove these MAGs
+benthos_DF_occ2 <- benthos_DF_occ2 [which(is.na(benthos_DF_occ2$scientificNameAccepted) !=T),]
+# remove taxon or group
+benthos_DF_occ2<- benthos_DF_occ2[,-which(colnames(benthos_DF_occ2) == "taxonOrGroup")]
+
+
+# eventRemarks
+benthos_DF_eMOF$eventRemarks <- "Bare substrate, sediment, lost information (shade, quadrat, tape), morpho-anatomical benthic groups and turf were not included in the data because they do not represent taxonomical entities in which DwC standards are based. This implies in a measurementValue which does not add up to 1. Please contact the data curator Cesar Cordeiro to have the complete dataset with verbatimIdentification"
 
 
 
@@ -229,3 +235,4 @@ write.table(benthos_event_core, file =here("DwC_output",
             row.names = F)
 
 # end
+rm(list=ls())

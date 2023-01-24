@@ -148,6 +148,9 @@ occ_Ross_et_al$order<-(df_worms_record$order [match (occ_Ross_et_al$namesToSearc
 occ_Ross_et_al$family<-(df_worms_record$family [match (occ_Ross_et_al$namesToSearch,
                                                                  tolower (df_worms_record$scientificname))])
 
+# genus
+occ_Ross_et_al$genus <-(df_worms_record$genus [match (occ_Ross_et_al$namesToSearch,
+                                                       tolower (df_worms_record$scientificname))])
 
 
 
@@ -164,12 +167,12 @@ occ_Ross_et_al$family<-(df_worms_record$family [match (occ_Ross_et_al$namesToSea
 # month
 occ_Ross_et_al$verbatimMonth <- occ_Ross_et_al$month  # month
 occ_Ross_et_al$month <- ifelse(nchar(occ_Ross_et_al$month) == 1, # adjust format
-                                         paste ("0", occ_Ross_et_al$month,sep=""),
+                                         paste0 ("0", occ_Ross_et_al$month),
                                          occ_Ross_et_al$month)
 # day
 occ_Ross_et_al$verbatimDay <- occ_Ross_et_al$day  # month
 occ_Ross_et_al$day <- ifelse(nchar(occ_Ross_et_al$day) == 1, # adjust format
-                                       paste ("0", occ_Ross_et_al$day,sep=""),
+                                       paste0 ("0", occ_Ross_et_al$day),
                                        occ_Ross_et_al$day)
 
 # as date
@@ -212,14 +215,17 @@ occ_Ross_et_al$regionalization [which(occ_Ross_et_al$regionalization == "caicara
 occ_Ross_et_al$regionalization [which(occ_Ross_et_al$regionalization == "portodomangue")] <- "rgnor_set"
 occ_Ross_et_al$regionalization [which(occ_Ross_et_al$regionalization == "natal")] <- "rgnor_natal"
 
+
 # fixing locals(reefs)
 occ_Ross_et_al$site <- occ_Ross_et_al$verbatimSite
 # sitename = locality
 occ_Ross_et_al$locality <- occ_Ross_et_al$verbatimLocality
 
+
 # adjusting site names
 occ_Ross_et_al$locality<-(iconv(occ_Ross_et_al$locality, "ASCII", "UTF-8", sub=""))
 occ_Ross_et_al$locality <- tolower(occ_Ross_et_al$locality)
+
 
 # adjust
 unique(occ_Ross_et_al$locality)[order(unique(occ_Ross_et_al$locality))]
@@ -308,7 +314,7 @@ occ_Ross_et_al$occurrenceStatus <- "presence"
 occ_Ross_et_al$geodeticDatum <- "decimal degrees"
 
 # method
-occ_Ross_et_al$samplingProtocol <- "Underwater visual survey" #  - 20 x 2m
+occ_Ross_et_al$samplingProtocol <- "Underwater visual survey - 20 x 2m"
 
 # effort
 ## check roos et al. 2020/2019
@@ -372,7 +378,8 @@ DF_eMOF <- dados_bind [,c("eventID",
                           "occurrenceID",
                           "measurementValue", 
                           "measurementType",
-                          "measurementUnit")]
+                          "measurementUnit",
+                          "eventRemarks")]
 
 
 DF_occ <- dados_bind [,c("eventID", 
@@ -387,6 +394,7 @@ DF_occ <- dados_bind [,c("eventID",
                          "class",
                          "order",
                          "family",
+                         "genus",
                          "recordedBy", 
                          "organismQuantityType", 
                          "occurrenceStatus",
@@ -577,6 +585,9 @@ occ_Ross_et_al_parrachos$order<-(df_worms_record$order [match (occ_Ross_et_al_pa
 occ_Ross_et_al_parrachos$family<-(df_worms_record$family [match (occ_Ross_et_al_parrachos$namesToSearch,
                                                        tolower (df_worms_record$scientificname))])
 
+# genus
+occ_Ross_et_al_parrachos$genus <-(df_worms_record$genus [match (occ_Ross_et_al_parrachos$namesToSearch,
+                                                                 tolower (df_worms_record$scientificname))])
 
 
 
@@ -717,7 +728,7 @@ occ_Ross_et_al_parrachos$occurrenceStatus <- "presence"
 occ_Ross_et_al_parrachos$geodeticDatum <- "decimal degrees"
 
 # method
-occ_Ross_et_al_parrachos$samplingProtocol <- "Underwater visual survey" #20 x 2m
+occ_Ross_et_al_parrachos$samplingProtocol <- "Underwater visual survey - 20 x 2m"
 
 # effort
 ## check roos et al. 2020/2019
@@ -781,7 +792,8 @@ DF_eMOF_parrachos <- dados_bind_parrachos [,c("eventID",
                           "occurrenceID",
                           "measurementValue", 
                           "measurementType",
-                          "measurementUnit")]
+                          "measurementUnit",
+                          "eventRemarks")]
 
 
 DF_occ_parrachos <- dados_bind_parrachos [,c("eventID", 
@@ -796,6 +808,7 @@ DF_occ_parrachos <- dados_bind_parrachos [,c("eventID",
                          "class",
                          "order",
                          "family",
+                         "genus",
                          "recordedBy", 
                          "organismQuantityType", 
                          "occurrenceStatus",
@@ -1050,6 +1063,9 @@ occ_Ross_et_al_benthos$order <- (df_worms_record$order [match (occ_Ross_et_al_be
 # family
 occ_Ross_et_al_benthos$family<-(df_worms_record$family [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower(df_worms_record$scientificname))])
 
+# genus
+occ_Ross_et_al_benthos$genus <-(df_worms_record$genus [match (occ_Ross_et_al_benthos$taxonOrGroup,tolower(df_worms_record$scientificname))])
+
 
 unique(occ_Ross_et_al_benthos[is.na(occ_Ross_et_al_benthos$scientificName),"taxonOrGroup"])
 
@@ -1176,10 +1192,10 @@ occ_Ross_et_al_benthos$occurrenceStatus <- "presence"
 # geodeticDatum
 occ_Ross_et_al_benthos$geodeticDatum <- "decimal degrees"
 # method
-occ_Ross_et_al_benthos$samplingProtocol <- "photoquadrats"
+occ_Ross_et_al_benthos$samplingProtocol <- "Photoquadrats - 1 x 1m"
 # effort
 ## check roos et al. 2020/2019
-occ_Ross_et_al_benthos$samplingEffort <- 2 # two squared meters
+occ_Ross_et_al_benthos$samplingEffort <- 1 # one squared meters
 # sampleSizeValue
 occ_Ross_et_al_benthos$sampleSizeValue <- 10# number of photos
 # sampleSizeUnit
@@ -1202,6 +1218,16 @@ occ_Ross_et_al_benthos$bibliographicCitation <- "Roos NC, Pennino MG, Carvalho A
 
 
 
+# eventRemarks
+occ_Ross_et_al_benthos$eventRemarks <- "Bare substrate, sediment, lost information (shade, quadrat, tape), morpho-anatomical benthic groups and turf were not included in the data because they do not represent taxonomical entities in which DwC standards are based. This implies in a measurementValue which does not add up to 1. Please contact the data curators Andre Luza and Cesar Cordeiro to have the complete dataset with verbatimIdentification"
+
+# remove these MAGs
+occ_Ross_et_al_benthos$verbatimIdentification[ is.na(occ_Ross_et_al_benthos$scientificNameAccepted)]
+occ_Ross_et_al_benthos <- occ_Ross_et_al_benthos [which(is.na(occ_Ross_et_al_benthos$scientificNameAccepted) !=T),]
+
+
+
+
 
 
 # --------------------------------------------------------------------
@@ -1215,7 +1241,8 @@ DF_eMOF <- occ_Ross_et_al_benthos [,c("eventID",
                                       "occurrenceID",
                                       "measurementValue",
                                       "measurementType",
-                                      "measurementUnit")]
+                                      "measurementUnit",
+                                      "eventRemarks")]
 
 
 
@@ -1223,15 +1250,15 @@ DF_occ <- occ_Ross_et_al_benthos [,c("eventID",
                                      "occurrenceID",
                                      "basisOfRecord",
                                      "verbatimIdentification",
-                                     "scientificNameAccepted",
-                                     "taxonOrGroup",
                                      "scientificNameID",
+                                     "scientificNameAccepted",
                                      "taxonRank",
                                      "kingdom",
                                      "phylum",
                                      "class",
                                      "order",
                                      "family",
+                                     "genus",
                                      "recordedBy", 
                                      "organismQuantityType",
                                      "occurrenceStatus",
@@ -1241,18 +1268,7 @@ DF_occ <- occ_Ross_et_al_benthos [,c("eventID",
 
 # aggregate data by eventIDs to have event_core
 # do the lines have the same information? (check this by calculating the sd of depth)
-# sd(fish_long_format[which(fish_long_format$eventID == unique_eventIDs[100]),"depthInMeters"])
-#event_core <- aggregate (minimumDepthInMeters ~ parentEventID + eventID +
-#                           higherGeographyID+site +locality + 
-#                           eventDate+ year+
-#                           minimumDepthInMeters+maximumDepthInMeters+
-#                           samplingProtocol+samplingEffort+sampleSizeValue+
-#                           decimalLongitude+decimalLatitude+
-#                           geodeticDatum+
-#                           Country+countryCode, 
-#                         data = occ_Ross_et_al_benthos,
-#                         FUN = mean)
-#
+
 event_core <- data.frame (group_by(occ_Ross_et_al_benthos, eventID,higherGeography,site,verbatimLocality, locality) %>% 
                             
                             summarise(year = mean(year),
@@ -1280,3 +1296,4 @@ write.csv(event_core, file =here("DwC_output",
                                    "event_core_benthos.csv"))
 
 # end
+rm(list=ls())

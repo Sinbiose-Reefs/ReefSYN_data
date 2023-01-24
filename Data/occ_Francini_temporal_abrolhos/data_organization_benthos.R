@@ -135,6 +135,9 @@ benthos_long_format$order <-(df_worms_record$order [match (benthos_long_format$t
 benthos_long_format$family <-(df_worms_record$family [match (benthos_long_format$taxonOrGroup,
                                                              tolower (df_worms_record$scientificname))])
 
+# genus
+benthos_long_format$genus <-(df_worms_record$genus [match (benthos_long_format$taxonOrGroup,
+                                                             tolower (df_worms_record$scientificname))])
 
 
 
@@ -198,7 +201,7 @@ benthos_long_format$occurrenceID <- paste (
 benthos_long_format$year<- benthos_long_format$eventDate
 
 # method
-benthos_long_format$samplingProtocol <- "point-intercept  lines"
+benthos_long_format$samplingProtocol <- "Point-intercept  lines - 10m"
 
 # samplingEffort
 benthos_long_format$samplingEffort <- 4 # four lines
@@ -327,6 +330,12 @@ benthos_long_format$locality <- tolower (benthos_long_format$locality)
 
 
 
+# eventRemarks
+benthos_long_format$eventRemarks <- "Bare substrate, sediment, lost information (shade, quadrat, tape), morpho-anatomical benthic groups and turf were not included in the data because they do not represent taxonomical entities in which DwC standards are based. This implies in a measurementValue which does not add up to 1. Please contact the data curators Andre Luza and Cesar Cordeiro to have the complete dataset with verbatimIdentification"
+
+# remove these MAGs
+benthos_long_format <- benthos_long_format [which(is.na(benthos_long_format$scientificNameAccepted) !=T),]
+
 
 # ------------------------------------------------------------------------
 # Formatted according to DwC
@@ -341,12 +350,12 @@ DF_eMOF <- benthos_long_format [,c("eventID",
                                    "occurrenceID",
                                    "measurementValue", 
                                    "measurementType",
-                                   "measurementUnit")]
+                                   "measurementUnit",
+                                   "eventRemarks")]
 
 DF_occ <- benthos_long_format [,c("eventID", "occurrenceID","basisOfRecord",
                                   "verbatimIdentification",
                                   "scientificNameAccepted",
-                                  "taxonOrGroup",
                                   "taxonRank",
                                   "scientificNameID",
                                   "kingdom",
@@ -354,6 +363,7 @@ DF_occ <- benthos_long_format [,c("eventID", "occurrenceID","basisOfRecord",
                                   "class",
                                   "order",
                                   "family",
+                                  "genus",
                                   "recordedBy", 
                                   "organismQuantityType", 
                                   "occurrenceStatus",
@@ -624,6 +634,9 @@ benthos_long_format_2006$order <-(df_worms_record$order [match (benthos_long_for
 benthos_long_format_2006$family <-(df_worms_record$family [match (benthos_long_format_2006$taxonOrGroup, 
                                                                   tolower(df_worms_record$scientificname))])
 
+# genus
+benthos_long_format_2006$genus <-(df_worms_record$genus [match (benthos_long_format_2006$taxonOrGroup, 
+                                                                  tolower(df_worms_record$scientificname))])
 
 
 
@@ -688,7 +701,7 @@ benthos_long_format_2006$occurrenceID <- paste (
 benthos_long_format_2006$year<-benthos_long_format_2006$eventDate
 
 # method
-benthos_long_format_2006$samplingProtocol <- "fixed photo-quadrats"
+benthos_long_format_2006$samplingProtocol <- "Photoquadrats - 1 x 1m" # Fixed photo-quadrats
 
 # samplingEffort
 benthos_long_format_2006$samplingEffort <- 10 # 10 qudrats, 15 images per quadrat
@@ -769,6 +782,11 @@ benthos_long_format_2006$bibliographicCitation <- "Francini-Filho RB, Coni EOC, 
 Bank, Eastern Brazil: Inferences on Natural and Anthropogenic Drivers. PLoS ONE 8(1): e54260. doi:10.1371/journal.pone.0054260"
 
 
+# eventRemarks
+benthos_long_format_2006$eventRemarks <- "Bare substrate, sediment, lost information (shade, quadrat, tape), morpho-anatomical benthic groups and turf were not included in the data because they do not represent taxonomical entities in which DwC standards are based. This implies in a measurementValue which does not add up to 1. Please contact the data curators Andre Luza and Cesar Cordeiro to have the complete dataset with verbatimIdentification"
+
+# remove these MAGs
+benthos_long_format_2006 <- benthos_long_format_2006 [which(is.na(benthos_long_format_2006$scientificNameAccepted) !=T),]
 
 # ------------------------------------------------------------------------
 # Formatted according to DwC
@@ -781,17 +799,16 @@ Bank, Eastern Brazil: Inferences on Natural and Anthropogenic Drivers. PLoS ONE 
 
 DF_eMOF_2006 <- benthos_long_format_2006 [,c("eventID", 
                                              "occurrenceID",
-                                             
                                              "measurementValue", 
                                              "measurementType",
-                                             "measurementUnit")]
+                                             "measurementUnit",
+                                             "eventRemarks")]
 
 DF_occ_2006 <- benthos_long_format_2006 [,c("eventID", 
                                             "occurrenceID",
                                             "basisOfRecord",
                                             "verbatimIdentification",
                                             "scientificNameAccepted",
-                                            "taxonOrGroup",
                                             "taxonRank",
                                             "scientificNameID",
                                             "kingdom",
@@ -799,6 +816,7 @@ DF_occ_2006 <- benthos_long_format_2006 [,c("eventID",
                                             "class",
                                             "order",
                                             "family",
+                                            "genus",
                                             "recordedBy", "organismQuantityType", "occurrenceStatus",
                                             "licence",
                                             "language")]
@@ -854,3 +872,6 @@ write.csv(DF_eMOF, file =here("DwC_output",
 write.csv(event_core, file =here("DwC_output",
                                    "RFrancini_timeSeries_abrolhos",
                                    "event_core_benthos.csv"))
+
+# end
+rm(list=ls())

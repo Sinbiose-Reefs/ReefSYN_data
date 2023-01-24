@@ -1,3 +1,5 @@
+
+
 ## codes for formatting benthic data of Aued et al. 2018, 2019
 ## Data also available at DRYAD repository: https://doi.org/10.5061/dryad.f5s90
 
@@ -8,6 +10,7 @@ require(here); require(dplyr); require(worrms); require (reshape)
 bentos_amostras <- read.csv (here ("Data", "occ_Aued_et_al",
                                    "compiled_quadrats_allsites.csv"),
                              h=T, fill=T)
+
 
 # ALLuza modified in excel because it was too difficult to separate events from video ids
 bentos_variaveis <- openxlsx::read.xlsx((here("Data", "occ_Aued_et_al",
@@ -48,10 +51,10 @@ bentos_long_format$verbatimEventDate <- bentos_long_format$data
 ## adjusting dates
 bentos_long_format$Data <- as.character(bentos_long_format$data)
 
-## set "2010" for missing dates (check again with Anaide)
+## set "2010" for missing dates (checked with Anaide)
 novas_datas <- ifelse (nchar (bentos_long_format$Data) > 1  & nchar (bentos_long_format$Data) < 6,
-                       paste (bentos_long_format$Data,"2010",sep="-"), # se falta ano/em branco, coloca 1999
-                       bentos_long_format$Data)## se nao mantenha igual
+                       paste (bentos_long_format$Data,"2010",sep="-"), # missing year == 2010 
+                       bentos_long_format$Data)##
 
 ## dates in format YYYY-mm-dd
 novas_datas <- paste (substr (novas_datas,7,10), 
@@ -63,11 +66,7 @@ bentos_long_format$eventDate <- as.Date(novas_datas, format="%Y-%m-%d")
 bentos_long_format$day <- format(as.Date(novas_datas, format="%Y-%m-%d"),"%d")
 bentos_long_format$month <- format(as.Date(novas_datas, format="%Y-%m-%d"),"%m")
 bentos_long_format$year <- format(as.Date(novas_datas, format="%Y-%m-%d"),"%Y")
-
-## return 1999 as Not available
-# bentos_long_format$year [which(bentos_long_format$year == "1999")] <- "NA"
-#plot(bentos_long_format$Lon , bentos_long_format$Lat,xlim=c(-70,10))
-
+# check year
 bentos_long_format [is.na(bentos_long_format$year),]
 
 
@@ -135,7 +134,7 @@ bentos_long_format$Sites <- tolower (bentos_long_format$site)
 # ajustar os sitios de rio grande do norte, de acordo com G Longo
 bentos_long_format$locality[which(bentos_long_format$locality == "rgnor_norte")] <- "rgnor_natal"
 
-# tartaruras in rocas and trindade (only rocas in this dataset)
+# tartarugas in rocas and trindade (only rocas in this dataset)
 # unique(bentos_long_format [which(bentos_long_format$Locality == "trindade"),"Sites"])
 # removing locality names from location name
 bentos_long_format$Sites<-gsub ("arvoredo_", "",bentos_long_format$Sites)
@@ -245,7 +244,7 @@ bentos_long_format$taxonOrGroup[grep("sponge",bentos_long_format$taxonOrGroup)] 
 bentos_long_format$taxonOrGroup[grep("ourigo",bentos_long_format$taxonOrGroup)] <- "echinoidea" # ourico (ourigo deviaod à conversao pra encoding utf 8)
 bentos_long_format$taxonOrGroup[grep("sea urchin",bentos_long_format$taxonOrGroup)] <- "echinoidea"
 bentos_long_format$taxonOrGroup[grep("outro echinoderma",bentos_long_format$taxonOrGroup)] <- "echinodermata"
-bentos_long_format$taxonOrGroup[grep("crinside",bentos_long_format$taxonOrGroup)] <- "crinoidea"# crinoidea (crinside deviaod à conversao pra encoding utf 8)
+bentos_long_format$taxonOrGroup[grep("crinside",bentos_long_format$taxonOrGroup)] <- "crinoidea"# crinoidea (crinside devido à conversao pra encoding utf 8)
 bentos_long_format$taxonOrGroup[grep("estrela",bentos_long_format$taxonOrGroup)] <- "asteroidea"
 
 
@@ -321,13 +320,6 @@ worms_record <- lapply (unique(bentos_long_format$taxonOrGroup), function (i)
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 
-
-
-
-# valid name OBIS -> o OBIS eh soh o repositorio, o WoRMS que faz a validacao mesmo entao nao faz muito sentido
-# o termo do DwC pro scientificName apos a validacao pode ser scientificNameAccepted. Nesse caso os grupos morfo-anatomicos do bentos
-# nao vao interferir no DwC mas vao continuar lah. Apesar do termo nao estar no DwC, o proprio WoRMS usa scientificNameAccepted.
-
 # valid name WoRMS 
 bentos_long_format$scientificName <- (df_worms_record$scientificname [match (bentos_long_format$taxonOrGroup,
                                                                    tolower (df_worms_record$scientificname))])
@@ -365,8 +357,9 @@ bentos_long_format$order <-(df_worms_record$order [match (bentos_long_format$tax
 bentos_long_format$family<-(df_worms_record$family [match (bentos_long_format$taxonOrGroup,
                                                            tolower (df_worms_record$scientificname))])
 
-
-
+# genus
+bentos_long_format$genus <-(df_worms_record$genus [match (bentos_long_format$taxonOrGroup,
+                                                           tolower (df_worms_record$scientificname))])
 
 
 
@@ -444,33 +437,41 @@ bentos_long_format$parentEventID <- paste (
 
 
 # method
-bentos_long_format$samplingProtocol <- "photoquadrats"
+bentos_long_format$samplingProtocol <- "Photoquadrats - 2 x 1m"
 
 # samplingEffort
-bentos_long_format$samplingEffort <- 5 # 5 quadrats, 25 * 25 cm
+bentos_long_format$samplingEffort <- 5 # 5 quadrats per plot, 25 * 25 cm
 
 # sampleSizeValue
-bentos_long_format$sampleSizeValue <- 0.25*0.25
+bentos_long_format$sampleSizeValue <- 0.25*0.25 # subsamples # the scale we're presenting data
 
 # sampleSizeUnit
 bentos_long_format$sampleSizeUnit <- "squared meters"
+
 
 # country and code
 bentos_long_format$Country <- "Brazil"
 bentos_long_format$countryCode <- "BR"
 
+
 # basisOfRecord
 bentos_long_format$basisOfRecord <- "HumanObservation"
+
 # OccurrenceStatus
 bentos_long_format$occurrenceStatus <- "presence"
+
 # organismQuantityType
 bentos_long_format$organismQuantityType <- "Relative cover"
+
 # measurementType
 bentos_long_format$measurementType <- "Relative cover"
+
 # measurementUnit
 bentos_long_format$measurementUnit <- "dimensionless"
+
 # geodeticDatum
 bentos_long_format$geodeticDatum <- "decimal degrees"
+
 # depth
 # range of 1-7 m, and 8-15 meters
 bentos_long_format$minimumDepthinMeters <- NA
@@ -493,6 +494,13 @@ bentos_long_format$language <- "en"
 # citation
 bentos_long_format$bibliographicCitation <- "Aued, Anaide Wrublevski et al. (2019), Data from: Large-scale patterns of benthic marine communities in the Brazilian Province, Dryad, Dataset, https://doi.org/10.5061/dryad.f5s90"
 
+# eventRemarks
+bentos_long_format$eventRemarks <- "Bare substrate, sediment, lost information (shade, quadrat, tape), morpho-anatomical benthic groups and turf were not included in the data because they do not represent taxonomical entities in which DwC standards are based. This implies in a measurementValue which does not add up to 1. Please contact the data curators Andre Luza and Cesar Cordeiro to have the complete dataset with verbatimIdentification"
+
+# remove these MAGs
+bentos_long_format <- bentos_long_format [which(is.na(bentos_long_format$scientificNameAccepted) !=T),]
+
+
 
 
 
@@ -509,14 +517,14 @@ DF_eMOF <- bentos_long_format [,c("eventID",
                                   "occurrenceID",
                                   "measurementValue", 
                                   "measurementType",
-                                  "measurementUnit")]
+                                  "measurementUnit",
+                                  "eventRemarks")]
 
 # occurrence
 DF_occ <- bentos_long_format [,c("eventID", "occurrenceID",
                                  "basisOfRecord",
                                  "verbatimIdentification",
                                  "scientificNameID",
-                                 "taxonOrGroup",
                                  "scientificNameAccepted",
                                  "taxonRank",
                                  "kingdom",
@@ -524,6 +532,7 @@ DF_occ <- bentos_long_format [,c("eventID", "occurrenceID",
                                  "class",
                                  "order",
                                  "family",
+                                 "genus",
                                  "recordedBy", "organismQuantityType",
                                  "occurrenceStatus",
                                  "licence",
@@ -560,3 +569,5 @@ write.csv(event_core, file =here("DwC_output",
                                    "AAued_spatialData",
                                    "event_core.csv"))
 
+# end
+rm(list=ls())

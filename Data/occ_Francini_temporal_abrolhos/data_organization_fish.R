@@ -202,6 +202,9 @@ fish_long_format$order <-(df_worms_record$order [match (fish_long_format$namesTo
 fish_long_format$family <-(df_worms_record$family [match (fish_long_format$namesToSearch, 
                                                           tolower(df_worms_record$scientificname))])
 
+# genus
+fish_long_format$genus <-(df_worms_record$genus [match (fish_long_format$namesToSearch, 
+                                                          tolower(df_worms_record$scientificname))])
 
 
 # -------------------------------------------------------------
@@ -323,7 +326,7 @@ fish_long_format$measurementType <- "abundance"
 # measurementUnit
 fish_long_format$measurementUnit <- "individuals"
 # method
-fish_long_format$samplingProtocol <- "Stationary visual survey" #  4 x 2m
+fish_long_format$samplingProtocol <- "Stationary visual survey - 4 x 2m" #  
 # effort
 fish_long_format$samplingEffort <- 1 # "one observer per point"
 
@@ -437,6 +440,7 @@ DF_occ <- fish_long_format  [,c("eventID", "occurrenceID","basisOfRecord",
                                 "class",
                                 "order",
                                 "family",
+                                "genus",
                                 "recordedBy", 
                                 "organismQuantityType", 
                                 "occurrenceStatus")]
@@ -487,7 +491,8 @@ write.csv(event_core, file =here("DwC_output",
                                    "RFrancini_timeSeries_abrolhos",
                                    "event_core_fish.csv"))
 
-
+# end
+rm (list=ls())
 
 
 

@@ -47,7 +47,7 @@ fish_event_core$locality<-gsub ("praia_do_", "",fish_event_core$locality)
 fish_event_core$locality<-gsub ("praia_da_", "",fish_event_core$locality)
 
 # create year
-fish_event_core$eventYear<-substr(fish_event_core$eventDate,1,4) # only year
+fish_event_core$year<-substr(fish_event_core$eventDate,1,4) # only year
 
 # load occ id table
 fish_DF_occ2 <- read.csv(here ("Data", 
@@ -119,7 +119,9 @@ fish_DF_occ2$order <-(df_worms_record$order [match (fish_DF_occ2$scientificName,
 fish_DF_occ2$family<-(df_worms_record$family [match (fish_DF_occ2$scientificName,
                                                         tolower (df_worms_record$scientificname))])
 
-
+# genus
+fish_DF_occ2$genus <-(df_worms_record$genus [match (fish_DF_occ2$scientificName,
+                                                     tolower (df_worms_record$scientificname))])
 
 
 # save
@@ -138,3 +140,4 @@ write.table(fish_event_core, file =here("DwC_output",
             quote = FALSE)
 
 # end
+rm(list=ls())
