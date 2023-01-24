@@ -37,4 +37,5 @@ library(RColorBrewer)
 palette(RColorBrewer::brewer.pal(8, "Set2"))
 library(reshape2)
 library(magrittr)
+library(patchwork)
 
