@@ -1,7 +1,7 @@
 ---
 title:  "Standardized datasets of Brazilian reef diversity in space and time"
-author: "Reef Synthesis Working Group; Luza, AL, Cordeiro, CAMM, ..., Aued, AW, Ferreira, CEL, Mendes, T., Roos, N, Longo, GO, Francini-Filho, RB, Floeter, SR, Bender, MG"
-date: "2022/08/16"
+author: "Reef Synthesis Working Group; Luza, AL, Cordeiro, CAMM, ..., Aued, AW, Ferreira, CEL, Floeter, SR, Francini-Filho, RB, Longo, GO, Mendes, T., Roos, N, Segal, B, Bender, MG"
+date: "2023/01/24"
 output: github_document #github_document #  
 ---
 
@@ -14,9 +14,6 @@ output: github_document #github_document #
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-# nice example of datapaper
-https://essd.copernicus.org/articles/14/1015/2022/
 
 
 # 1 Introduction
@@ -77,10 +74,10 @@ wm <- ggplot() +
         axis.title.y = element_text(size=10),
         #title = element_blank(),
         plot.margin = unit(c(0,-0.8,0,0.3), "cm")) +
-  labs (title = "Institutions of ReefSYN researchers")
+  labs (title = "Institutions of ReefSYN team members")
 
 
-# require(dplyr)
+# map
 map_SC <- wm + geom_point(data  = researcher_data %>%
                                     select (instituicao, lat,long) %>%
                                     group_by(instituicao) %>%
@@ -149,7 +146,7 @@ Notably, the cumulative number of eventIDs (i.e. information associated with a s
 
 
 
-```{r, echo = F, fig.height=8, fig.width=8, message=F, warning=F, fig.align= "center", out.width="100%", out.height="100%", dpi=300}
+```{r, echo = F, fig.height=8, fig.width=8, message=F, warning=F, fig.align= "center", out.width="100%", out.height="100%", dpi=600}
 
 # load Datasets
 # benthos
@@ -174,14 +171,14 @@ ds9<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","event_c
 ds10<- read.csv (here::here("DwC_output","RJ_time_series", "event_core.csv"))
 ds11<- read.csv (here::here("DwC_output","RMorais_spatialData", "event_core.csv"))
 ds12<- read.csv (here::here("DwC_output","SC_time_series", "event_core.csv"))
-
+ds13<- read.csv (here::here("DwC_output","Alcatrazes_time_series", "event_core.csv"))
 
 # list of sites with sampling of benthic communities
-list_benthos <- list(data.frame (ds1, Dataset= "X"),
-                     data.frame (ds4, Dataset = "IX"),
-                     data.frame (ds3, Dataset ="XI"),
-                     data.frame (ds2, Dataset="XII"),
-                     data.frame (ds5, Dataset = "VIII"))
+list_benthos <- list(data.frame (ds1, Dataset= "XI"),
+                     data.frame (ds4, Dataset = "X"),
+                     data.frame (ds3, Dataset ="XII"),
+                     data.frame (ds2, Dataset="XIII"),
+                     data.frame (ds5, Dataset = "IX"))
 
 
 
@@ -201,7 +198,7 @@ coords <- lapply (list_benthos, function (i)
 # melt
 coords <- do.call(rbind, coords)
 coords$Dataset <- factor (coords$Dataset,
-                          levels =  c("VIII", "IX", "X", "XI", "XII"))
+                          levels =  c("IX", "X", "XI", "XII", "XIII"))
 
 # map
 # mapa mundi
@@ -257,10 +254,12 @@ wm_data <- wm +  geom_jitter(data = coords,
 list_fish <- list(data.frame (ds11, Dataset = "I"),
                   data.frame (ds7, Dataset = "VI"),
                   data.frame (ds8, Dataset = "IV"),
-                  data.frame (ds6, Dataset = "VII"),
+                  data.frame (ds6, Dataset = "VIII"),
                   data.frame (ds12, Dataset = "V"),
                   data.frame (ds10, Dataset = "III"),
-                  data.frame (ds9, Dataset = "II")
+                  data.frame (ds9, Dataset = "II"),
+                  data.frame (ds13, Dataset = "VII")
+                  
                   
                   )
 
@@ -303,7 +302,7 @@ wm_data_fish <- wm + geom_point(data = data.frame(coords_fish), aes(x = decimalL
   guides(colour = guide_legend(override.aes = list(alpha=1))) 
 
 # panel of maps
-gridExtra::grid.arrange(# why you suggested patchwork and wm_data + wm_data_fish?
+gridExtra::grid.arrange(
              wm_data_fish,
              wm_data,
              ncol=2)
@@ -318,7 +317,54 @@ Fig. 2: Spatial distribution of fish (left) and benthos (right) sampling sites p
 The datasets described here represent different efforts to gather data on reef fish and benthos along the Brazilian biogeographical province. We hereby present 12 datasets of reef fish (n=7) and benthos (n=5). Three out of seven fish datasets and two out of five benthic datasets are time series (Tables 1 and 2). The remaining datasets are spatial snapshots (only one visit to a site) whose data were collected over many years.
 
 
-Table 1: number of sampling events of benthos sampling, per dataset.
+Table 1: Description of reef fish datasets.
+
+```{r, echo = F, results='asis'}
+
+
+# fish
+table_description_data_fish <- lapply (list_fish, function (i)
+  
+    data.frame ("Sampling protocol" = (table(i$samplingProtocol)),
+                "Dataset" = unique(i$Dataset),
+                "Scale" = "Transect/plot",
+                "Sampling area (m2)" = mean (i$sampleSizeValue),
+                "Nsites" = length(unique(i$site)),
+                "Latitude" = paste (round (min (i$decimalLatitude,na.rm=T),2),
+                                    round (max (i$decimalLatitude,na.rm=T),2),
+                                    sep=", "),
+                "Longitude" = paste (round (min (i$decimalLongitude,na.rm=T),2),
+                                    round (max (i$decimalLongitude,na.rm=T),2),
+                                    sep=", "),
+                "Years" = paste (round (min (i$year,na.rm=T),2),
+                                    round (max (i$year,na.rm=T),2),
+                                    sep="-"))
+)
+
+# melt
+table_description_data_fish<-do.call(rbind,table_description_data_fish)
+
+table_description_data_fish %>% 
+  mutate(Sampling.protocol.Var1 = recode(Sampling.protocol.Var1, 
+                                         "video plot - 2 x 1m" = "Video plot - 2 x 1m"
+                                   )) %>% 
+  dplyr::rename("Sampling Protocol" = "Sampling.protocol.Var1",
+                "Samples (n)" = "Sampling.protocol.Freq",
+                "Sampling area (m2)" = "Sampling.area..m2.",
+                 "Number of sites" = "Nsites") %>% 
+  
+
+
+  dplyr::relocate("Dataset") %>%
+  
+  kable(align="c")
+
+
+
+```
+
+
+Table 2: number of sampling events of benthos sampling, per dataset.
 
 ```{r, echo = F, results='asis'}
 
@@ -348,12 +394,12 @@ table_description_data_benthos <- do.call(rbind,table_description_data_benthos)
 #sum(table_description_data_benthos$eventIDs)
 
 table_description_data_benthos %>%
-  dplyr::mutate(Sampling.protocol.Var1 = recode(Sampling.protocol.Var1, 
-                                                "point-intercept  lines" = "Point-intercept lines - 10m",
-                                                "photoquadrats" = "Photoquadrats - 1 x 1m",
-                                                "fixed photo-quadrats" = "Photoquadrats - 1 x 1m",
-                                                "Photoquadrats 50 X 50cm" = "Photoquadrats - 0.5 x 0.5m"))  %>%
-  
+  #dplyr::mutate(Sampling.protocol.Var1 = recode(Sampling.protocol.Var1, 
+  #                                              "point-intercept  lines" = "Point-intercept lines - 10m",
+  #                                              "photoquadrats" = "Photoquadrats - 1 x 1m",
+  #                                              "fixed photo-quadrats" = "Photoquadrats - 1 x 1m",
+  #                                              "Photoquadrats 50 X 50cm" = "Photoquadrats - 0.5 x 0.5m"))  %>%
+  #
   dplyr::rename("Sampling Protocol" = "Sampling.protocol.Var1",
                 "Samples (n)" = "Sampling.protocol.Freq",
                 "Sampling area (m2)" = "Sampling.area..m2.",
@@ -372,61 +418,13 @@ table_description_data_benthos %>%
 
 
 
-Table 2: Description of reef fish datasets.
-
-```{r, echo = F, results='asis'}
-
-
-# fish
-table_description_data_fish <- lapply (list_fish, function (i)
-  
-    data.frame ("Sampling protocol" = (table(i$samplingProtocol)),
-                "Dataset" = unique(i$Dataset),
-                "Scale" = "Transect/plot",
-                "Sampling area (m2)" = mean (i$sampleSizeValue),
-                "Nsites" = length(unique(i$site)),
-                "Latitude" = paste (round (min (i$decimalLatitude,na.rm=T),2),
-                                    round (max (i$decimalLatitude,na.rm=T),2),
-                                    sep=", "),
-                "Longitude" = paste (round (min (i$decimalLongitude,na.rm=T),2),
-                                    round (max (i$decimalLongitude,na.rm=T),2),
-                                    sep=", "),
-                "Years" = paste (round (min (i$year,na.rm=T),2),
-                                    round (max (i$year,na.rm=T),2),
-                                    sep="-"))
-)
-
-# melt
-table_description_data_fish<-do.call(rbind,table_description_data_fish)
-
-table_description_data_fish %>% 
-  mutate(Sampling.protocol.Var1 = recode(Sampling.protocol.Var1, 
-                                         "Underwater visual survey" = "Underwater visual survey - 20 x 2m",
-                                         "Underwater Visual Survey - 20 x 2m" = "Underwater visual survey - 20 x 2m",
-                                         "video plot" = "Video plots - 1 x 1m",
-                                   "Stationary visual survey" = "Stationary visual survey - 4 x 2m",
-                                   )) %>% 
-  dplyr::rename("Sampling Protocol" = "Sampling.protocol.Var1",
-                "Samples (n)" = "Sampling.protocol.Freq",
-                "Sampling area (m2)" = "Sampling.area..m2.",
-                 "Number of sites" = "Nsites") %>% 
-  
-
-
-  dplyr::relocate("Dataset") %>%
-  
-  kable(align="c")
-
-
-
-```
 
 
 <!-- badges: start -->
 <!-- badges: end -->
 
 
-```{r, echo = F, fig.height=5,fig.width=8,message=F, warning=F,fig.align= "center",out.width="100%",out.height="100%"}
+```{r, echo = F, fig.height=5,fig.width=8,message=F, warning=F,fig.align= "center",dpi=600,out.width="100%",out.height="100%"}
 
 
 # benthos
@@ -552,7 +550,7 @@ Fig. 3: The number of sampling events accumulated over time for fish (top) and b
 
 
 
-```{r, echo = F, fig.height=5,fig.width=8,message=F, dpi=300, warning=F, fig.align= "center",out.width="100%",out.height="100%"}
+```{r, echo = F, fig.height=5,fig.width=8,message=F, dpi=600, warning=F, fig.align= "center",out.width="100%",out.height="100%"}
 
 # load Datasets
 # benthos
@@ -590,15 +588,17 @@ ds11_occ<- read.csv (here::here("DwC_output","RMorais_spatialData", "DF_occ.csv"
 ds11_occ$year<- ds11 [match (ds11_occ$eventID, ds11$eventID), "year"]
 ds12_occ<- read.csv (here::here("DwC_output","SC_time_series", "DF_occ.csv"))
 ds12_occ$year<- ds12 [match (ds12_occ$eventID, ds12$eventID), "year"]
+ds13_occ<- read.csv (here::here("DwC_output","Alcatrazes_time_series", "DF_occ.csv"))
+ds13_occ$year<- ds12 [match (ds13_occ$eventID, ds13$eventID), "year"]
 
 
 # list of sites with sampling of benthic communities
 
-list_occ_benthos <- list(data.frame (ds1_occ, Dataset= "X"),
-                     data.frame (ds4_occ, Dataset = "IX"),
-                     data.frame (ds3_occ, Dataset ="XI"),
-                     data.frame (ds2_occ, Dataset="XII"),
-                     data.frame (ds5_occ, Dataset = "VIII")
+list_occ_benthos <- list(data.frame (ds1_occ, Dataset= "XI"),
+                     data.frame (ds4_occ, Dataset = "X"),
+                     data.frame (ds3_occ, Dataset ="XII"),
+                     data.frame (ds2_occ, Dataset="XIII"),
+                     data.frame (ds5_occ, Dataset = "IX")
 )
 
 
@@ -609,10 +609,12 @@ list_occ_benthos <- list(data.frame (ds1_occ, Dataset= "X"),
 list_occ_fish <- list(data.frame (ds11_occ, Dataset = "I"),    
                   data.frame (ds7_occ, Dataset = "VI"),
                   data.frame (ds8_occ, Dataset = "IV"),
-                  data.frame (ds6_occ, Dataset = "VII"),
+                  data.frame (ds6_occ, Dataset = "VIII"),
                   data.frame (ds12_occ, Dataset = "V"),
                   data.frame (ds10_occ, Dataset = "III"),
-                  data.frame (ds9_occ, Dataset = "II")
+                  data.frame (ds9_occ, Dataset = "II"),
+                  data.frame (ds13_occ, Dataset = "VII")
+                  
                   )
 
  
@@ -635,14 +637,14 @@ spp_year <- do.call(rbind,
                                   drop=T) %>%
                         
                   
-                  set_rownames(.$year)   # set rownames
-
+                  set_rownames(.$year)  # set rownames
+  
                     
                 
 
 # composition matrix
 spp_year <-  ifelse (spp_year >=1,1,0)
-spp_year <- spp_year [,-which(colnames(spp_year) == "NA")]# rm NA cols
+#spp_year <- spp_year [,-which(colnames(spp_year) == "NA")]# rm NA cols
 
 
 # aggregate
@@ -676,10 +678,7 @@ spp_year_fish <- do.call(rbind ,
                        )) %>% 
   
                 dcast (formula = year ~ scientificNameAccepted, # table
-                                  drop=T)# %>%
-                        
-                  
-                 #set_rownames(.$year)   # set rownames
+                                  drop=T)
 
                     
                 
@@ -745,13 +744,13 @@ trend_fish_SR <- ggplot (data = acc_time_fish, aes (x=year, y=SR)) +
   
   #scale_y_reverse() + # talvez seja melhor manter a escala normal
   # projects
-  geom_text_repel(data = begin_data_fish, aes (x= min_year, y = 320,
+  geom_text_repel(data = begin_data_fish, aes (x= min_year, y = 250,
                                                   label = Dataset,
                                                   angle = 0),
                                                   size = 5,
                                                   box.padding=0) + 
   geom_segment(data = begin_data_fish, 
-               aes(x = min_year, y = 0, xend = min_year, yend = 300)) + 
+               aes(x = min_year, y = 0, xend = min_year, yend = 220)) + 
   
   # grants
   geom_segment(aes(x = 2011, y = -10, xend = 2014, yend = -10),size=3,col="gray30")+
@@ -768,7 +767,15 @@ gridExtra::grid.arrange(trend_fish_SR,
 
 # count the totals of taxa
 # spp benthos
-Ntaxa<-sum(is.na(unique(unlist(sapply (list_occ_benthos, "[[", "scientificNameAccepted"))))!=T)
+
+benthic_taxa <-lapply (list_occ_benthos, function (i)
+
+
+  (unique(i$scientificNameAccepted[which(i$taxonRank == "Species")])) # at the species level
+
+)
+Ntaxa <- length (unique(unlist(benthic_taxa)))
+Ngenera <- sum(is.na(unique(unlist(sapply (list_occ_benthos, "[[", "genus"))))!=T)
 Nfam<-sum(is.na(unique(unlist(sapply (list_occ_benthos, "[[", "family"))))!=T)
 Ncla<-sum(is.na(unique(unlist(sapply (list_occ_benthos, "[[", "class"))))!=T)
 Nkin<-sum(is.na(unique(unlist(sapply (list_occ_benthos, "[[", "kingdom"))))!=T)
@@ -776,20 +783,31 @@ king_to_show<-unique(unlist(sapply (list_occ_benthos, "[[", "kingdom")))
 king_to_show<- king_to_show[is.na(king_to_show)!=T]
 
 # spp fish
-Nspp <-sum(is.na(unique(unlist(sapply (list_occ_fish, "[[", "scientificNameAccepted"))))!=T)
+fish_taxa <-lapply (list_occ_fish, function (i)
+
+
+  (unique(i$scientificNameAccepted[which(i$taxonRank == "Species")])) # at the species level
+
+)
+Nspp <- length (unique(unlist(fish_taxa)))
+Species_fish <- unique(unlist(sapply (list_occ_fish, "[[", "scientificNameAccepted")))
+Species_fish<- Species_fish[is.na(Species_fish) != T]
+Ngenera <- length(unique(sapply (strsplit(Species_fish, " "), "[[",1)))
 Nfamfish<-sum(is.na(unique(unlist(sapply (list_occ_fish, "[[", "family"))))!=T)
 Nclafish<-sum(is.na(unique(unlist(sapply (list_occ_fish, "[[", "class"))))!=T)
 fish_class <- unique(unlist(sapply (list_occ_fish, "[[", "class")))
 fish_class <- fish_class[is.na(fish_class) !=T]
 fish_kin <- unique(unlist(sapply (list_occ_fish, "[[", "kingdom")))
-
+fish_kin <- fish_kin[is.na(fish_kin)!= T]
 
 # fish to show
 ranks <- unique(unlist(sapply (list_occ_fish, "[[", "taxonRank")))
-# list of taxa
-list_taxa_show <- lapply (list_occ_fish, function (i) # for each dataset
-  lapply ( ranks, function (k) { # for each rank
+ranks <- ranks[is.na(ranks) != T]
 
+# list of taxa
+list_taxa_show <-   lapply (list_occ_fish, function (i)
+    lapply ( ranks, function (k)  { # for each rank # for each dataset
+  
     
     taxa_to_show <- unique(i[which(i$taxonRank %in% k),"scientificNameAccepted"])# get the name
 
@@ -800,12 +818,16 @@ list_taxa_show <- lapply (list_occ_fish, function (i) # for each dataset
   }))
 
 
+
 # benthos to show
 
 ranks_benthos <- unique(unlist(sapply (list_occ_benthos, "[[", "taxonRank")))
+
 # list of taxa
-list_taxa_show_benthos <- lapply (list_occ_benthos, function (i) # for each dataset
-  lapply ( ranks_benthos, function (k) { # for each rank
+list_taxa_show_benthos <- lapply ( ranks_benthos, function (k)  # for each rank
+  
+  lapply (list_occ_benthos, function (i) { # for each dataset
+   
 
     
     taxa_to_show <- unique(i[which(i$taxonRank %in% k),"scientificNameAccepted"])# get the name
@@ -832,7 +854,7 @@ This dataset, used by Morais et al. (2017), includes fish counts and size estima
 Fish assemblage data from the Abrolhos Bank was collected by Ronaldo Francini-Filho from 2001 to 2014. The dataset here includes samples of five sites and 28 localities nested within sites but not evenly distributed in space.. The variables in this dataset are related to the description of fish identification and abundance, measured at stationary visual censuses (4 x 2m, 5 min). Depth of sampling varied among sites and ranged between 2 and 15m. Benthic communities assessments were completed at the same sites, localities and depths of fish stationary censuses, using either point-intersect technique (four 10m-transects in each depth and locality) or photo quadrats (10 quadrats, 0.7m2).
 
 ### 2.3.1.3 Dataset III: Arraial do Cabo (Rio de Janeiro) monitoring/time series
-The data was collected by the [LECAR team](https://www.lecar.uff.br/) from 2003 to 2021, but were annually collected only from 2014 to 2021 at four of the 21 sites monitored. All other sites were sampled opportunistically. Dataset includes fish species, size and abundance recorded at 40m2 (20x2m) belt-transects in rocky reefs in Arraial do Cabo, Rio de Janeiro. Transects were laid at different depths at, approximately, 5m intervals according to local maximum depths, ranging from 1 to 25m deep. Samples include data from two distinct oceanographic domains present locally, one under strong influence of seasonal upwelling, and another with indirect influence of the upwelling.
+The data were collected by the [LECAR team](https://www.lecar.uff.br/) from 2003 to 2021, but were annually collected only from 2014 to 2021 at four of the 21 sites monitored. All other sites were sampled opportunistically. Dataset includes fish species, size and abundance recorded at 40m2 (20x2m) belt-transects in rocky reefs in Arraial do Cabo, Rio de Janeiro. Transects were laid at different depths at, approximately, 5m intervals according to local maximum depths, ranging from 1 to 25m deep. Samples include data from two distinct oceanographic domains present locally, one under strong influence of seasonal upwelling, and another with indirect influence of the upwelling.
 
 ### 2.3.1.4 Dataset IV: Oceanic islands' monitoring/time series
 Dataset of fish recorded in the four oceanic islands of Brazil: Fernando de Noronha Archipelago, Rocas' Atoll, Trindade Island and Martiz Vaz Archipelago, and Saint Peter and Saint Paul's Archipelago. Data were collected from 2013 to 2019, organized by Juan Quimbayo, Thiago Silveira and Cesar Cordeiro (PELD-ILOC team) and is curated by Cesar Cordeiro. The method used to sample fish was the underwater visual census (UVC). These data were generated by the team of  applying the same UVS protocol (20 x 2m strip transect) described above and used by Morais et al. (2017). Transects were laid at different depths at 5m intervals according to local maximum depths, ranging from 3 to 25m deep.
@@ -843,36 +865,38 @@ The data was collected yearly by the [LBMM team](https://lbmm.ufsc.br/), from 20
 ### 2.3.1.6 Dataset VI: Trophic interactions along the Western Atlantic
 This dataset, used by Longo et al. (2019), includes records of feeding behavior of fish over the benthic community, as well interactions among fish. These data were obtained with 1,133 unique videoplots deployed in 70 localities from 17 different sites spanning 61 degrees of latitude, from 34°N to 27°S. Sampling descriptors include *recording time*, *date*, *depth*, and *observed ID*. At each site, static videos were replicated at 2 × 1 m areas positioned haphazardly on the reefs, with 5–10 m between replicates. Feeding pressure was estimated as the product of the number of bites taken and the body mass (in kilograms) of the fish, accounting for body size variation. Individual biomass was obtained through length–weight relationships from the literature (Froese & Pauly, 2016).
 
-### 2.3.1.7 Dataset VII: Rio Grande do Norte monitoring/time series
+### 2.3.1.7 Dataset VII: Alcatrazes monitoring/time series
+This dataset has been collected through the collective effort among Instituto Chico Mendes, Centro de Biologia Marinha, Universidade de São Paulo (CEBIMar/USP), LECAR and LBMM teams. The Alcatrazes Archipelago (AA) is located 36 km offshore the Northern Coast of São Paulo State, Brazil (24°06’03” S, 45°41’25” W; Fig. 1). This archipelago is composed of one main island and 13 rocky outcrops of different size, making up 73 ha of land. The Alcatrazes monitoring program started 2013 until present and has  aimed to monitor reef fish assemblages using belt transects (underwater visual surveys of 40 m2 (20 - 2m transects). A total of 113 species were recorded (109 identified at the level of species and four at the level of genus) along 325 plots (belt transects). In each transect, the divers identified, counted, and estimated the total length (TL) of all fish species observed within a belt transect.
+
+### 2.3.1.8 Dataset VIII: Rio Grande do Norte monitoring/time series
 Data collected by Guilherme Longo and Natália Roos in Rio Grande do Norte, based on fishes and benthos collected in the same spatial unit. A transect of 20x2m was used to record fishes, they also deployed 10 photo quadrats to register benthic organisms. Data have been collected yearly since 2016, at depths ranging from 1 to 28 m according to local depth. These data were used in a publication by Natalia Roos [Roos et al. 2019](https://www.int-res.com/prepress/m13005.html).
 
 
 ## 2.3.2 Benthic datasets
 
-### 2.3.2.1 Dataset VIII: Benthic communities' monitoring in Abrolhos Bank
+### 2.3.2.1 Dataset IX: Benthic communities' monitoring in Abrolhos Bank
 A mosaic of 15 high-resolution digital images totaling 0.7 m2 constituted each sample. Quadrats were permanently delimited by fixed metal pins and set at random distances along a 20–50 m axis on the tops of reef pinnacles. Relative coral cover was estimated through the identification of organisms below 300 randomly distributed points per quadrat (i.e., 20 points per photograph) using the Coral Point Count with Excel Extensions software (Kohler and Gill, 2006). The counts of benthic organisms were converted to percentages. 
 
-### 2.3.2.2 Dataset IX: Extended benthic communities from the Brazilian province
+### 2.3.2.2 Dataset X: Extended benthic communities from the Brazilian province
 This dataset was compiled by Erika Santana, Anaíde Aued, and Ronaldo Francini-Filho, and consists of data on benthic organisms sampled in photo quadrats deployed in several sites disposed along the coast and oceanic islands. This dataset is complementary to the dataset of Aued et al. (2018). Following the imaging register, image processing was done using the Coral Point Count with Excel extensions software (CPCe v. 4.1) (Kohler and Gill, 2006). Benthic organisms were identified at different taxonomic levels (morphotype, species, order). Bare substrate, sediment, lost information (shade, quadrat, tape) and turf were not included in the data because they do not represent taxonomic entities in which DwC standards are based. The dataset originally had environmental descriptors such as *site depth*, *month* and *year*, which were adequate here using DwC standards. This dataset was combined with the dataset of Aued et al. in the analysis of Santana et al. (2023).
 
 
-### 2.3.2.3 Dataset X: Benthic communities from the Brazilian province
+### 2.3.2.3 Dataset XI: Benthic communities from the Brazilian province
 includes site-level cover information of ~100 benthic taxa from 3,855 photo quadrats deployed in 40 localities from 15 different sites, spanning 0° to 27°S latitude degrees. The sampling sites indicated here are the same from Morais et al. (2017). Benthic organisms were identified at the lowest possible taxonomic level (i.e., morphotype, species, order) according to constraints related to image identification. Image processing was done using the Coral Point Count with Excel extensions software (CPCe v. 4.1) (Kohler and Gill, 2006), with the exception of data from Trindade island which was analysed using the photoQuad software (Trygonis & Sini, 2012). Bare substrate, sediment, lost information (shade, quadrat, tape) and turf were not included in the data because they do not represent taxonomic entities in which DwC standards are based. Sampling descriptors include *photo quadrat ID*, *site depth*, *date* or *year* and, for some samples, *observer ID.* The geographical information is indicated at the site level. Six to twenty 2x1m horizontal surfaces of reef area on each depth strata were haphazardly selected for taking photo quadrats (25 x 25 cm) and characterized the benthic community. Each 2x1m area was set, at least, two meters apart from each other and considered as independent sample units.
  
 
-### 2.3.2.4 Dataset XI: Benthic communities' monitoring/time series from oceanic islands
+### 2.3.2.4 Dataset XII: Benthic communities' monitoring/time series from oceanic islands
 Dataset of benthic communities recorded in the four oceanic islands of Brazil: Fernando de Noronha Archipelago, Rocas’ Atoll, Trindade Island and Martin Vaz Archipelago, and Saint Peter and Saint Paul’s Archipelago. These data were collected from 2013 to 2022, organized by Thiago Silveira and Cesar Cordeiro (PELD-ILOC team) and curated by Cesar Cordeiro. These data were generated by the team of [PELD ILOC project](http://peldiloc.sites.ufsc.br/), and are still being sampled annually. As the images from 2020 to 2022 are still under analysis, these data were not included here. The method for registering the benthic community included three to six fixed transects (20 m) parallel to the coastline placed at 2 m intervals. Ten to 11 (50 × 50 cm) photo quadrats were taken at each transect in each year and locality from 2013 to 2019. Following the imaging register, image processing was done using the Coral Point Count with Excel extensions software (CPCe v. 4.1) (Kohler and Gill, 2006). This stage consisted on the identification of major taxonomic, morpho-anatomical benthic groups and the estimation of their relative cover in samples. Bare substrate, sediment, lost information (shade, quadrat, tape), morpho-anatomical benthic groups and turf were not included in the data because they do not represent taxonomical entities in which DwC standards are based. Software analysis were performed by overlaying 50 random points on each image and identifying the organisms immediately below each point details (details in Zamoner et al. 2021).
 
 
 
-### 2.3.2.4 Dataset XII: Benthic communities from Rio Grande do Norte
+### 2.3.2.4 Dataset XIII: Benthic communities from Rio Grande do Norte
 See 2.3.1.4
-
 
 
 # 2.4 Data management and standardization
 
-We strive to standardize data and follow the FAIR principles of data science -- i.e. data should be "findable", "accessible", "interoperable", and "reusable" (Wilkinson et al., 2016). Data holders supplied their datasets to the database manager in digital format (e.g., spreadsheets, csv files). 
+We strive to standardize data and follow the FAIR principles of data science -- i.e. data should be "findable", "accessible", "interoperable", and "reusable" (Wilkinson et al., 2016). Data holders supplied their datasets to the database managers in digital format (e.g., spreadsheets, csv files). The datasets were predominantly managed in the R Programming Environment (R Core Team 2022).
 
 
 # 2.5 Data structure
@@ -891,385 +915,170 @@ Fig. 5: ReefSYN data structure following the Darwin Core Standard. Dataset codes
 
 # 2.6 Quality assurance/quality control procedures 
 
-- The name of all taxa were checked against the WoRMS database, using the R package "worrms" (World Register of Marine Species (WoRMS, 2022)). Thus, valid scientific names were called "scientificNameAccepted" following the DwC standard.
-
+- The name of all taxa were checked against the WoRMS database, using the R package “worrms” (World Register of Marine Species (WoRMS, 2022)). Thus, valid scientific names were called “scientificNameAccepted” following the DwC standard.
 - Samples were always collected by researchers or trained students.
+- Sampling methods are broadly used and accepted worldwide.
+- Data were checked by two data managers (A.L. Luza, C. Cordeiro) and questions were sent to data owners whenever necessary. The data owners are listed in the Author contributions’ section. Overall, main inconsistencies found in the datasets (and solved by contacting the data owners) were related with 1) region names; 2) locality names; 3) site names; 4) different IDs of unique sampling events; 5) format of sampling day, month and year; 6) Missing sampling day, month, year; 7) lack of geographical information; 8) misspelling  of species names; 9) sampling unit identity (e.g., one video plot, photoquadrat).
+- Data owners shared Microsoft Excel spreadsheets (“.csv”, “.xlsx”), often containing data in a wide format. Most data were transformed into a long format, organized, standardized (following the DwC standard) and processed using the R Programming Environment (R Core Team, 2022). Some modifications that could not be easily done in R, regarding the splitting of sample IDs, were done in Microsoft Excel. It consisted in dealing with eventIDs separated by different separators (“ _ “, ” . ” , …) and we used Excel to have more control on what information to get.
+R routines (scripts) are available at GitHub, together with the raw data.
+- Softwares used to identify benthos were cited in the description of each dataset so the data user is aware of them.
 
-- Sampling methods are worldwide/widely used and accepted. 
-
-- Data were checked by two data managers (A.L. Luza, C. Cordeiro) and questions were sent to data holders whenever necessary. The data holders are listed in Author contributions' section. Overall, main inconsistencies found in the datasets  (and solved by contacting the data holders) were related with 1) region names; 2) locality names; 3) site names; 4) different IDs of unique sampling events; 5) format of sampling day, month and year; 6) Missing sampling day, month, year; 7) lack of geographical information; 8) misspelling of species names; 9) sampling unit identity (e.g., one video plot, photoquadrat).
-
-- Data holders shared Microsoft Excel spreadsheets (".csv", ".xlsx"), often containing data in a wide format. Most data were transformed into a long format, organized, standardized (following the DwC standard) and processed using the R Programming Environment (R Core Team, 2022). Some modifications that could not be easily done in R, regarding the splitting of sample IDs, were done in Microsoft Excel. It consisted in dealing with eventIDs separated by different separators ("_", ".", ...) and we used Excel to have more control on what information to get.
-
-- R routines (scripts) are available at GitHub, together with the raw data. 
-
-_ This paper's draft was written in RMarkdown to ensure consistency between the data being presented, the data analysis, and the output (tables, figures (except Fig. 5)).
-
-- Were softwares used to identify benthos all the same?
 
 
 # 2.7 Taxonomic coverage
 
-General taxonomic coverage description: The five benthic datasets comprise the description of the occurrence of `r Ntaxa` taxa from `r Nfam` families, `r Ncla`, and `r Nkin` kingdoms, being them `r king_to_show`. The seven fish datasets comprise the description of the occurrence of `r Nspp` taxa from `r Nfamfish` families and `r Nclafish` classes, being them `r fish_class`.
+General taxonomic coverage description
 
+The seven fish datasets comprise the description of the occurrence of `r Nspp` taxa from `r Ngenera` genera, `r Nfamfish` families and `r Nclafish` classes, being them `r paste (fish_class[1],fish_class[2], sep="and") `. The five benthic datasets comprise the description of the occurrence of `r Ntaxa`  taxa, `r Ngenera` genera, `r Nfam` families, `r Ncla`, and `r Nkin` kingdoms, being them `r king_to_show`. Because the photographic identification does not always allow the species level identification, the number of genera and families are  comparatively high relative to species richness.  In general, the datasets with a large spatial coverage (datasets I and X from SISBIOTA-Mar project) showed higher taxa richness in comparison with local monitoring (datasets IV and XI) (Fig. 6).
+
+
+
+```{r, echo = F, fig.height=6, fig.width=10, message=F, warning=F, fig.align= "center", out.width="100%", out.height="100%", dpi=600}
+
+# All defaults
+
+
+# plot
+
+dat_barplot_fish <- lapply (list_occ_fish, function (i)
+  
+  i %>% select (Dataset,
+                scientificNameAccepted,
+                genus,
+                family,
+                order,
+                class,
+                phylum,
+                kingdom
+                ) %>%
+    
+    distinct()
+    
+  )
+
+# melt
+dat_barplot_fish <- do.call(rbind,dat_barplot_fish)
+
+
+# Get full taxonomical classification
+barplot_fish <- dat_barplot_fish %>% 
+   group_by(Dataset) %>% 
+  summarise(Species = n_distinct(scientificNameAccepted),
+            Phylum = n_distinct(phylum),
+            Class = n_distinct(class),
+            Order = n_distinct(order),
+            Family = n_distinct(family),
+            Genus = n_distinct(genus)) %>%
+  pivot_longer(cols = Species:Genus, names_to = "taxa_rank", values_to = "richness") %>% 
+  mutate(taxa_rank = factor(taxa_rank, levels = c("Phylum", "Class", "Order", "Family", "Genus", "Species")))  %>% 
+  ggplot(aes(y = richness, x = Dataset, fill = taxa_rank)) +
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  theme(legend.position = "",
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12),
+        axis.text.x = element_text(size = 12)) +
+  labs(y = "Taxa richness (n)", x = "", title = "(a) Fish taxa") +
+  scale_fill_brewer(palette="Spectral")
+  
+
+
+# benthos
+
+dat_barplot_benthos <- lapply (list_occ_benthos, function (i)
+  
+  i %>% select (Dataset,
+                scientificNameAccepted,
+                genus,
+                family,
+                order,
+                class,
+                phylum,
+                kingdom
+                ) %>%
+    
+    distinct()
+    
+  )
+
+# melt
+dat_barplot_benthos <- do.call(rbind,dat_barplot_benthos)
+
+
+# Get full taxonomical classification
+barplot_benthos <- dat_barplot_benthos %>% 
+   group_by(Dataset) %>% 
+  summarise(Species = n_distinct(scientificNameAccepted),
+            Phylum = n_distinct(phylum),
+            Class = n_distinct(class),
+            Order = n_distinct(order),
+            Family = n_distinct(family),
+            Genus = n_distinct(genus)) %>%
+  pivot_longer(cols = Species:Genus, names_to = "taxa_rank", values_to = "richness") %>% 
+  mutate(taxa_rank = factor(taxa_rank, levels = c("Phylum", "Class", "Order", "Family", "Genus", "Species")))  %>% 
+  ggplot(aes(y = richness, x = Dataset, fill = taxa_rank)) +
+  geom_bar(stat = "identity") +
+  theme_classic() +
+  theme(legend.position = "",
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12),
+        axis.text.x = element_text(size = 12)) +
+  labs(y = "", x = "", title = "(a) Benthic taxa") +
+  scale_fill_brewer(palette="Spectral")
+  
+# get the legend
+legend_to_plot <- get_legend (barplot_benthos + theme(legend.position="right",
+                        legend.title = element_blank()))
+
+# arrange panel
+(barplot_fish | barplot_benthos) + legend_to_plot + plot_layout(ncol = 3, widths=c(2,2,1))
+
+
+
+
+
+
+```
+Fig. 6: Taxa richness according to taxonomic classification in each dataset. Column labels denote different reef fish and benthos datasets (see Fig. 5).
 
 # 2.8 Taxonomic coverage per dataset
 
 ## 2.8.1 Fish
 
-Dataset I
-
 *Taxonomic ranks*
 
-Kingdom: `r unique(list_occ_fish[[1]]$kingdom)`
+Kingdom: `r unique(unlist(lapply (list_occ_fish, function (i) i$kingdom)))[order(unique(unlist(lapply (list_occ_fish, function (i) i$kingdom))))]`
 
-Phylum: `r unique(list_occ_fish[[1]]$phylum)`
+Phylum: `r unique(unlist(lapply (list_occ_fish, function (i) i$phylum)))[order(unique(unlist(lapply (list_occ_fish, function (i) i$phylum))))]`
 
-Class: `r knitr::combine_words(unique(list_occ_fish[[1]]$class), and = "")`
+Class: `r knitr::combine_words(unique(unlist(lapply (list_occ_fish, function (i) i$class)))[order(unique(unlist(lapply (list_occ_fish, function (i) i$class))))], and = "")`
 
-Orders: `r knitr::combine_words(unique(list_occ_fish[[1]]$order), and = "")`
+Orders: `r knitr::combine_words(unique(unlist(lapply (list_occ_fish, function (i) i$order)))[order(unique(unlist(lapply (list_occ_fish, function (i) i$order))))], and = "")`
 
-Families: `r knitr::combine_words(unique(list_occ_fish[[1]]$family), and = "")`
+Families: `r knitr::combine_words(unique(unlist(lapply (list_occ_fish, function (i) i$family)))[order(unique(unlist(lapply (list_occ_fish, function (i) i$family))))], and = "")`
 
-*Taxa in the dataset (per identification level/at the identification level)*
+Genus: `r knitr::combine_words(unique(unlist(lapply (list_occ_fish, function (i) i$genus)))[order(unique(unlist(lapply (list_occ_fish, function (i) i$genus))))], and = "")`
 
-Family: `r list_taxa_show[[1]][[5]]`
-
-Genera: `r list_taxa_show[[1]][[2]]` 
-
-Species: `r list_taxa_show[[1]][[1]]` 
-
-Subspecies: `r list_taxa_show[[1]][[4]]`
-
-
-Dataset II
-
-*Taxonomic ranks*
-
-Kingdom: `r unique(list_occ_fish[[2]]$kingdom)`
-
-Phylum: `r unique(list_occ_fish[[2]]$phylum)`
-
-Class: `r knitr::combine_words(unique(list_occ_fish[[2]]$class), and = "")`
-
-Orders: `r knitr::combine_words(unique(list_occ_fish[[2]]$order), and = "")`
-
-Families: `r knitr::combine_words(unique(list_occ_fish[[2]]$family), and = "")`
-
-*Taxa in the dataset (per identification level/at the identification level)*
-
-Family: `r list_taxa_show[[2]][[5]]`
-
-Genera: `r list_taxa_show[[2]][[2]]` 
-
-Species: `r list_taxa_show[[2]][[1]]` 
-
-Subspecies: `r list_taxa_show[[2]][[4]]`
-
-
-
-Dataset III
-
-*Taxonomic ranks*
-
-Kingdom: `r unique(list_occ_fish[[3]]$kingdom)`
-
-Phylum: `r unique(list_occ_fish[[3]]$phylum)`
-
-Class: `r knitr::combine_words(unique(list_occ_fish[[3]]$class), and = "")`
-
-Orders: `r knitr::combine_words(unique(list_occ_fish[[3]]$order), and = "")`
-
-Families: `r knitr::combine_words(unique(list_occ_fish[[3]]$family), and = "")`
-
-*Taxa in the dataset (per identification level/at the identification level)*
-
-Family: `r list_taxa_show[[3]][[5]]` 
-
-Genera: `r list_taxa_show[[3]][[2]]` 
-
-Species: `r list_taxa_show[[3]][[1]]` 
-
-Subspecies: `r list_taxa_show[[3]][[4]]`
-
-
-
-Dataset IV
-
-*Taxonomic ranks*
-
-Kingdom: `r unique(list_occ_fish[[4]]$kingdom)`
-
-Phylum: `r unique(list_occ_fish[[4]]$phylum)`
-
-Class: `r knitr::combine_words(unique(list_occ_fish[[4]]$class), and = "")`
-
-Orders: `r knitr::combine_words(unique(list_occ_fish[[4]]$order), and = "")`
-
-Families: `r knitr::combine_words(unique(list_occ_fish[[4]]$family), and = "")`
-
-*Taxa in the dataset (per identification level/at the identification level)*
-
-Family: `r list_taxa_show[[4]][[5]]`
-
-Genera: `r list_taxa_show[[4]][[2]]` 
-
-Species: `r list_taxa_show[[4]][[1]]` 
-
-Subspecies: `r list_taxa_show[[4]][[4]]`
-
-
-
-Dataset V
-
-*Taxonomic ranks*
-
-Kingdom: `r unique(list_occ_fish[[5]]$kingdom)`
-
-Phylum: `r unique(list_occ_fish[[5]]$phylum)`
-
-Class: `r knitr::combine_words(unique(list_occ_fish[[5]]$class), and = "")`
-
-Orders: `r knitr::combine_words(unique(list_occ_fish[[5]]$order), and = "")`
-
-Families: `r knitr::combine_words(unique(list_occ_fish[[5]]$family), and = "")`
-
-*Taxa in the dataset (per identification level/at the identification level)*
-
-Family: `r list_taxa_show[[5]][[5]]` 
-
-Genera: `r list_taxa_show[[5]][[2]]` 
-
-Species: `r list_taxa_show[[5]][[1]]` 
-
-Subspecies: `r list_taxa_show[[5]][[4]]`
-
-
-
-Dataset VI
-
-*Taxonomic ranks*
-
-Kingdom: `r unique(list_occ_fish[[6]]$kingdom)`
-
-Phylum: `r unique(list_occ_fish[[6]]$phylum)`
-
-Class: `r knitr::combine_words(unique(list_occ_fish[[6]]$class), and = "")`
-
-Orders: `r knitr::combine_words(unique(list_occ_fish[[6]]$order), and = "")`
-
-Families: `r knitr::combine_words(unique(list_occ_fish[[6]]$family), and = "")`
-
-*Taxa in the dataset (per identification level/at the identification level)*
-
-
-Species: `r list_taxa_show[[6]][[3]]` 
-
-
-Dataset VII
-
-*Taxonomic ranks*
-
-Kingdom: `r unique(list_occ_fish[[7]]$kingdom)`
-
-Phylum: `r unique(list_occ_fish[[7]]$phylum)`
-
-Class: `r knitr::combine_words(unique(list_occ_fish[[7]]$class), and = "")`
-
-Orders: `r knitr::combine_words(unique(list_occ_fish[[7]]$order), and = "")`
-
-Families: `r knitr::combine_words(unique(list_occ_fish[[7]]$family), and = "")`
-
-*Taxa in the dataset (per identification level/at the identification level)*
-
-Family: `r list_taxa_show[[7]][[5]]`  
-
-Genera: `r list_taxa_show[[7]][[2]]` 
-
-Species: `r list_taxa_show[[7]][[1]]` 
-
-Subspecies: `r list_taxa_show[[7]][[4]]`
+Species: `r knitr::combine_words(unique(unlist(fish_taxa))[order(unique(unlist(fish_taxa)))], and = "")`
 
 
 ## 2.8.2 Benthos
 
-Dataset I
-
 *Taxonomic ranks*
 
-Kingdom: `r unique(list_occ_benthos[[1]]$kingdom)`
+Kingdom: `r unique(unlist(lapply (list_occ_benthos, function (i) i$kingdom)))[order(unique(unlist(lapply (list_occ_benthos, function (i) i$kingdom))))]`
 
-Phylum: `r knitr::combine_words(unique(list_occ_benthos[[1]]$phylum), and = "")`
+Phylum: `r unique(unlist(lapply (list_occ_benthos, function (i) i$phylum)))[order(unique(unlist(lapply (list_occ_benthos, function (i) i$phylum))))]`
 
-Class: `r knitr::combine_words(unique(list_occ_benthos[[1]]$class), and = "")`
+Class: `r knitr::combine_words(unique(unlist(lapply (list_occ_benthos, function (i) i$class)))[order(unique(unlist(lapply (list_occ_benthos, function (i) i$class))))], and = "")`
 
-Orders: `r knitr::combine_words(unique(list_occ_benthos[[1]]$order), and = "")`
+Orders: `r knitr::combine_words(unique(unlist(lapply (list_occ_benthos, function (i) i$order)))[order(unique(unlist(lapply (list_occ_benthos, function (i) i$order))))], and = "")`
 
-Families: `r knitr::combine_words(unique(list_occ_benthos[[1]]$family), and = "")`
+Families: `r knitr::combine_words(unique(unlist(lapply (list_occ_benthos, function (i) i$family)))[order(unique(unlist(lapply (list_occ_benthos, function (i) i$family))))], and = "")`
 
-*Taxa in the dataset (per identification level/at the identification level)*
+Genus: `r knitr::combine_words(unique(unlist(lapply (list_occ_benthos, function (i) i$genus)))[order(unique(unlist(lapply (list_occ_benthos, function (i) i$genus))))], and = "")`
 
-Phylum (Division): `r list_taxa_show_benthos[[1]][[9]]` 
-
-Phylum: `r list_taxa_show_benthos[[1]][[6]]` 
-
-Subphylum: `r list_taxa_show_benthos[[1]][[10]]` 
-
-Class: `r list_taxa_show_benthos[[1]][[8]]` 
-
-Subclass: `r list_taxa_show_benthos[[1]][[3]]` 
-
-Order: `r list_taxa_show_benthos[[1]][[1]]` 
-
-Subfamily: `r list_taxa_show_benthos[[1]][[4]]`
-
-Genera: `r list_taxa_show_benthos[[1]][[7]]` 
-
-Species: `r list_taxa_show_benthos[[1]][[2]]` 
-
-
-
-Dataset II
-
-*Taxonomic ranks*
-
-Kingdom: `r unique(list_occ_benthos[[2]]$kingdom)`
-
-Phylum: `r knitr::combine_words(unique(list_occ_benthos[[2]]$phylum), and = "")`
-
-Class: `r knitr::combine_words(unique(list_occ_benthos[[2]]$class), and = "")`
-
-Orders: `r knitr::combine_words(unique(list_occ_benthos[[2]]$order), and = "")`
-
-Families: `r knitr::combine_words(unique(list_occ_benthos[[2]]$family), and = "")`
-
-*Taxa in the dataset (per identification level/at the identification level)*
-
-Phylum (Division): `r list_taxa_show_benthos[[2]][[9]]` 
-
-Phylum: `r list_taxa_show_benthos[[2]][[6]]` 
-
-Subphylum: `r list_taxa_show_benthos[[2]][[10]]` 
-
-Class: `r list_taxa_show_benthos[[2]][[8]]` 
-
-Subclass: `r list_taxa_show_benthos[[2]][[3]]` 
-
-Order: `r list_taxa_show_benthos[[2]][[1]]` 
-
-Subfamily: `r list_taxa_show_benthos[[2]][[4]]`
-
-Genera: `r list_taxa_show_benthos[[2]][[7]]` 
-
-Species: `r list_taxa_show_benthos[[2]][[2]]` 
-
-
-
-Dataset III
-
-*Taxonomic ranks*
-
-Kingdom: `r unique(list_occ_benthos[[3]]$kingdom)`
-
-Phylum: `r knitr::combine_words(unique(list_occ_benthos[[3]]$phylum), and = "")`
-
-Class: `r knitr::combine_words(unique(list_occ_benthos[[3]]$class), and = "")`
-
-Orders: `r knitr::combine_words(unique(list_occ_benthos[[3]]$order), and = "")`
-
-Families: `r knitr::combine_words(unique(list_occ_benthos[[3]]$family), and = "")`
-
-*Taxa in the dataset (per identification level/at the identification level)*
-
-Phylum (Division): `r list_taxa_show_benthos[[3]][[9]]` 
-
-Phylum: `r list_taxa_show_benthos[[3]][[6]]` 
-
-Subphylum: `r list_taxa_show_benthos[[3]][[10]]` 
-
-Class: `r list_taxa_show_benthos[[3]][[8]]` 
-
-Subclass: `r list_taxa_show_benthos[[3]][[3]]` 
-
-Order: `r list_taxa_show_benthos[[3]][[1]]` 
-
-Subfamily: `r list_taxa_show_benthos[[3]][[4]]`
-
-Genera: `r list_taxa_show_benthos[[3]][[7]]` 
-
-Species: `r list_taxa_show_benthos[[3]][[2]]` 
-
-
-
-Dataset IV
-
-*Taxonomic ranks*
-
-Kingdom: `r unique(list_occ_benthos[[4]]$kingdom)`
-
-Phylum: `r knitr::combine_words(unique(list_occ_benthos[[4]]$phylum), and = "")`
-
-Class: `r knitr::combine_words(unique(list_occ_benthos[[4]]$class), and = "")`
-
-Orders: `r knitr::combine_words(unique(list_occ_benthos[[4]]$order), and = "")`
-
-Families: `r knitr::combine_words(unique(list_occ_benthos[[4]]$family), and = "")`
-
-*Taxa in the dataset (per identification level/at the identification level)*
-
-Phylum (Division): `r list_taxa_show_benthos[[4]][[9]]` 
-
-Phylum: `r list_taxa_show_benthos[[4]][[6]]` 
-
-Subphylum: `r list_taxa_show_benthos[[4]][[10]]` 
-
-Class: `r list_taxa_show_benthos[[4]][[8]]` 
-
-Subclass: `r list_taxa_show_benthos[[4]][[3]]` 
-
-Order: `r list_taxa_show_benthos[[4]][[1]]` 
-
-Subfamily: `r list_taxa_show_benthos[[4]][[4]]`
-
-Genera: `r list_taxa_show_benthos[[4]][[7]]` 
-
-Species: `r list_taxa_show_benthos[[4]][[2]]` 
-
-
-
-Dataset V
-
-*Taxonomic ranks*
-
-Kingdom: `r unique(list_occ_benthos[[5]]$kingdom)`
-
-Phylum: `r knitr::combine_words(unique(list_occ_benthos[[5]]$phylum), and = "")`
-
-Class: `r knitr::combine_words(unique(list_occ_benthos[[5]]$class), and = "")`
-
-Orders: `r knitr::combine_words(unique(list_occ_benthos[[5]]$order), and = "")`
-
-Families: `r knitr::combine_words(unique(list_occ_benthos[[5]]$family), and = "")`
-
-*Taxa in the dataset (per identification level/at the identification level)*
-
-Phylum (Division): `r list_taxa_show_benthos[[5]][[9]]` 
-
-Phylum: `r list_taxa_show_benthos[[5]][[6]]` 
-
-Subphylum: `r list_taxa_show_benthos[[5]][[10]]` 
-
-Class: `r list_taxa_show_benthos[[5]][[8]]` 
-
-Subclass: `r list_taxa_show_benthos[[5]][[3]]` 
-
-Order: `r list_taxa_show_benthos[[5]][[1]]` 
-
-Subfamily: `r list_taxa_show_benthos[[5]][[4]]`
-
-Genera: `r list_taxa_show_benthos[[5]][[7]]` 
-
-Species: `r list_taxa_show_benthos[[5]][[2]]` 
+Species: `r knitr::combine_words(unique(unlist(benthic_taxa))[order(unique(unlist(benthic_taxa)))], and = "")`
 
 
 # 3 Data availability
@@ -1278,6 +1087,8 @@ These data are published under CC BY-NC licence.
 
 
 # 4 Potential use and conclusions
+Develop this. Mention the objectives of published and ongoing papers.
+
 
 # Author contributions
 AL Luza and CAMM Cordeiro standardized the data to the DwC Standard. Data holders: CAMM Cordeiro, AW Aued, CEL Ferreira, T Mendes, N Roos, GO Longo, RB Francini-Filho, SR Floeter.
@@ -1286,7 +1097,7 @@ AL Luza and CAMM Cordeiro standardized the data to the DwC Standard. Data holder
 The authors have no competing interest to declare.
 
 # Disclaimer
-Embargo for fish dataset V (Arraial do Cabo, RJ)
+Embargo for fish dataset III (Time series of Arraial do Cabo, Rio de Janeiro)
 
 # Permits
 Data were collected following Brazilian government legislation. This includes authorization to the SISBIOTA-Mar project to assess images of the benthic communities along the Brazilian reefs, under the permits # 06/2012 (Parcel do Manuel Luis; SEMA-MA), # 29953–1 (Rocas Atoll; ICMBio/ MMA—Brazilian Ministry of Environment), # 29687–2 (Fernando de Noronha; ICMBio/ MMA—Brazilian Ministry of Environment), # 32145–1 (Costa dos Corais, ICMBio/ MMA—Brazilian Ministry of Environment), # 22637 (Abrolhos, ICMBio/ MMA—Brazilian Ministry of Environment), # 4416–1 (Trindade Island, ICMBio/ MMA—Brazilian Ministry of Environment), # 37869 (Alcatrazes, ICMBio/ MMA—Brazilian Ministry of Environment), # 21422 (Florianópolis Norte, ICMBio/ MMA—Brazilian Ministry of Environment), and for RN Maracajaú (APA dos Recifes de Corais, IDEMA-RN). 
@@ -1302,17 +1113,42 @@ This project is funded by the Center for Synthesis in Biodiversity and Ecosystem
 
 # References
 
+Aued, A.W., Smith, F., Quimbayo, J.P., Cândido, D.V., Longo, G.O., Ferreira, C.E.L., … Segal, B. (2018). Large-scale patterns of benthic marine communities in the Brazilian Province. PLoS ONE, 13(6), e0198452. https://doi.org/10.1371/journal.pone.0198452
+
 Briggs, J.C. (1974). Marine zoogeography. McGraw-Hill, New York.
+
 Bruce T, Meirelles PM, Garcia G, Paranhos R, Rezende CE, et al. (2012) Abrolhos Bank Reef Health Evaluated by Means of Water Quality, Microbial Diversity, Benthic Cover, and Fish Biomass Data. PLoS ONE 7(6): e36687. doi:10.1371/journal.pone.0036687
+
+Cord, I., Nunes, L.T., Barroso, C.X., Freire, A.S., Gadig, O.B.F., Gomes, P.B., ... Floeter, S.R. (2022). Brazilian marine biogeography: a multi-taxa approach for outlining sectorization. Marine Biology, 169, 61. https://doi.org/10.1007/s00227-022-04045-8
+
 Darwin Core Task Group. 2009. Darwin Core. Biodiversity Information Standards (TDWG) http://www.tdwg.org/standards/450
 
-Michener WK, Jones MB. Ecoinformatics: supporting ecology as a data-intensive science. Trends Ecol Evol. 2012 Feb;27(2):85-93. doi: 10.1016/j.tree.2011.11.016. Epub 2012 Jan 10. PMID: 22240191.
+Floeter, S.R., Rocha, L.A., Robertson, D.R., Joyeux, J.C., Smith-Vaniz, W.F., Wirtz, P., ... Bernardi, G. (2008). Atlantic reef fish biogeography and evolution. Journal of Biogeography, 35, 22–47. https://doi.org/10.1111/j.1365-2699.2007.01790.x
 
-Reichman OJ, Jones MB, Schildhauer MP. Challenges and opportunities of open data in ecology. Science. 2011 Feb 11;331(6018):703-5. doi: 10.1126/science.1197962. PMID: 21311007.
-
-UNESCO, 2021. UNESCO Recommendation on Open Science. Available at: https://unesdoc.unesco.org/ark:/48223/pf0000379949. 34 pages
+Inagaki, K.Y., Pennino, M.G., Floeter, S.R., Hay, M.E., & Longo, G.O. (2020). Trophic interactions will expand geographically but be less intense as oceans warm. Global Change Biology, 26, 6805–6812. https://doi.org/10.1111/gcb.15346
 
 Krajewski, J.P., Floeter, S.R. Reef fish community structure of the Fernando de Noronha Archipelago (Equatorial Western Atlantic): the influence of exposure and benthic composition. Environ Biol Fish 92, 25 (2011). https://doi.org/10.1007/s10641-011-9813-3
 
+Loiola, M., Cruz, I.C.S., Lisboa, D.S., Mariano-Neto, E., Leão, Z.M.A.N., Oliveira, M.D.M., & Kikuchi, R.K.P. (2019). Structure of marginal coral reef assemblages under different turbidity regime. Marine Environmental Research, 147, 138–148. https://doi.org/10.1016/j.marenvres.2019.03.013
+
+Longo, G. O., Hay, M. E., Ferreira, C. E. L. & Floeter, S. R. (2019) Trophic interactions across 61 degrees of latitude in the Western Atlantic. Glob. Ecol. Biogeogr. 28, 107-117; 10.1111/geb.12806 
+
+Michener WK, Jones MB. Ecoinformatics: supporting ecology as a data-intensive science. Trends Ecol Evol. 2012 Feb;27(2):85-93. doi: 10.1016/j.tree.2011.11.016. Epub 2012 Jan 10. PMID: 22240191.
+
+Mies, M., Francini-Filho, R.B., Zilberberg, C., Garrido, A.G., Longo, G.O., Laurentino, E., … Banha, T.N.S. (2020). South Atlantic Coral Reefs Are Major Global Warming Refugia and Less Susceptible to Bleaching. Frontiers in Marine Science, 7, 514. https://doi.org/10.3389/fmars.2020.00514 (2020)
+
+Morais, R.A., Ferreira, C.E.L., & Floeter, S.R. (2017). Spatial patterns of fish standing biomass across Brazilian reefs, Southwestern Atlantic. Journal of Fish Biology, 91, 6, 1642–1667.
+
+Pinheiro, H.T., Rocha, L.A., Macieira, R.M., Carvalho-Filho, A., Anderson, A.B., Bender, M.G., … Floeter, S.R. (2018). Southwestern Atlantic reef fishes: zoogeographic patterns and ecological drivers reveal a secondary biodiversity center in the Atlantic Ocean. Diversity and Distributions, 24, 951–965. https://doi.org/10.1111/ddi.12729
+
+Quimbayo JP, Nunes LT, Silva FC, AB Anderson, Barneche DR, Cartele AM, Cord I, Dalben A, Ferrari DS, Fontoura L, Fiuza TM, Longo GO, Morais RA, Siqueira AC, Floeter SR (2022) TimeFISH: Fish assemblages in a 15-year monitoring program (Summary). Zenodo. https://doi.org/10.5281/zenodo.7402221
+
+Reichman OJ, Jones MB, Schildhauer MP. Challenges and opportunities of open data in ecology. Science. 2011 Feb 11;331(6018):703-5. doi: 10.1126/science.1197962. PMID: 21311007.
+
+Santana, E.F.C., Mies, M., Longo, G.O., Menezes, R., Aued, A.W., Luza, A.L., … Francini-Filho, R.B. (2023). Turbidity shapes shallow Southwestern Atlantic benthic reef communities. Marine Environmental Research, 183, 105807. https://doi.org/10.1016/j.marenvres.2022.105807
+
+UNESCO, 2021. UNESCO Recommendation on Open Science. Available at: https://unesdoc.unesco.org/ark:/48223/pf0000379949. 34 pages
+
 Zamoner JB, Aued AW, Macedo-Soares LCP, Picolotto VAP, Garcia CAE and Segal B (2021) Integrating Oceanographic Data and Benthic Community Structure Temporal Series to Assess the Dynamics of a Marginal Reef. Front. Mar. Sci. 8: 762453 https://doi.org/10.3389/fmars.2021.762453
+
 
