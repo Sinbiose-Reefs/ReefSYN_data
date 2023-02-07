@@ -41,6 +41,7 @@ colnames(abundance)[which(colnames(abundance) == "abundance")] <- "measurementVa
 
 # size
 size <- sc_time_series[,which(colnames(sc_time_series) != "abundance")]
+size$total_lenght <- as.numeric(gsub (",", ".",size$total_lenght))
 # measurementType
 size$measurementType <- "total length"
 # organismQuantityType
@@ -346,6 +347,7 @@ event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,site,verb
                                       samplingProtocol = unique(samplingProtocol),
                                       samplingEffort = mean(samplingEffort),
                                       sampleSizeValue = mean(sampleSizeValue),
+                                      sampleSizeUnit = unique(sampleSizeUnit),
                                       decimalLongitude = mean(decimalLongitude),
                                       decimalLatitude = mean(decimalLatitude),
                                       geodeticDatum = unique(geodeticDatum),

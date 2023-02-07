@@ -3,7 +3,7 @@ Standardized datasets of Brazilian reef diversity in space and time
 Reef Synthesis Working Group; Luza, AL, Cordeiro, CAMM, …, Aued, AW,
 Ferreira, CEL, Floeter, SR, Francini-Filho, RB, Longo, GO, Mendes, T.,
 Roos, N, Segal, B, Bender, MG
-2023/01/24
+2023/02/06
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
@@ -381,34 +381,33 @@ Dataset codes in Tables 1 and 2.
 
 # 2.6 Quality assurance/quality control procedures
 
--   The name of all taxa were checked against the WoRMS database, using
-    the R package “worrms” (World Register of Marine Species (WoRMS,
-    2022)). Thus, valid scientific names were called
-    “scientificNameAccepted” following the DwC standard.
--   Samples were always collected by researchers or trained students.
--   Sampling methods are broadly used and accepted worldwide.
--   Data were checked by two data managers (A.L. Luza, C. Cordeiro) and
-    questions were sent to data owners whenever necessary. The data
-    owners are listed in the Author contributions’ section. Overall,
-    main inconsistencies found in the datasets (and solved by contacting
-    the data owners) were related with 1) region names; 2) locality
-    names; 3) site names; 4) different IDs of unique sampling events; 5)
-    format of sampling day, month and year; 6) Missing sampling day,
-    month, year; 7) lack of geographical information; 8) misspelling of
-    species names; 9) sampling unit identity (e.g., one video plot,
-    photoquadrat).
--   Data owners shared Microsoft Excel spreadsheets (“.csv”, “.xlsx”),
-    often containing data in a wide format. Most data were transformed
-    into a long format, organized, standardized (following the DwC
-    standard) and processed using the R Programming Environment (R Core
-    Team, 2022). Some modifications that could not be easily done in R,
-    regarding the splitting of sample IDs, were done in Microsoft Excel.
-    It consisted in dealing with eventIDs separated by different
-    separators (“ \_ “,” . ” , …) and we used Excel to have more control
-    on what information to get. R routines (scripts) are available at
-    GitHub, together with the raw data.
--   Softwares used to identify benthos were cited in the description of
-    each dataset so the data user is aware of them.
+- The name of all taxa were checked against the WoRMS database, using
+  the R package “worrms” (World Register of Marine Species (WoRMS,
+  2022)). Thus, valid scientific names were called
+  “scientificNameAccepted” following the DwC standard.
+- Samples were always collected by researchers or trained students.
+- Sampling methods are broadly used and accepted worldwide.
+- Data were checked by two data managers (A.L. Luza, C. Cordeiro) and
+  questions were sent to data owners whenever necessary. The data owners
+  are listed in the Author contributions’ section. Overall, main
+  inconsistencies found in the datasets (and solved by contacting the
+  data owners) were related with 1) region names; 2) locality names; 3)
+  site names; 4) different IDs of unique sampling events; 5) format of
+  sampling day, month and year; 6) Missing sampling day, month, year; 7)
+  lack of geographical information; 8) misspelling of species names; 9)
+  sampling unit identity (e.g., one video plot, photoquadrat).
+- Data owners shared Microsoft Excel spreadsheets (“.csv”, “.xlsx”),
+  often containing data in a wide format. Most data were transformed
+  into a long format, organized, standardized (following the DwC
+  standard) and processed using the R Programming Environment (R Core
+  Team, 2022). Some modifications that could not be easily done in R,
+  regarding the splitting of sample IDs, were done in Microsoft Excel.
+  It consisted in dealing with eventIDs separated by different
+  separators (“ \_ “,” . ” , …) and we used Excel to have more control
+  on what information to get. R routines (scripts) are available at
+  GitHub, together with the raw data.
+- Softwares used to identify benthos were cited in the description of
+  each dataset so the data user is aware of them.
 
 # 2.7 Taxonomic coverage
 
@@ -417,7 +416,7 @@ General taxonomic coverage description
 The seven fish datasets comprise the description of the occurrence of
 379 taxa from 182 genera, 69 families and 2 classes, being them
 TeleosteiandElasmobranchii. The five benthic datasets comprise the
-description of the occurrence of 84 taxa, 182 genera, 69 families, 16,
+description of the occurrence of 84 taxa, 182 genera, 69 families, 15,
 and 4 kingdoms, being them Plantae, Animalia, Bacteria, Chromista.
 Because the photographic identification does not always allow the
 species level identification, the number of genera and families are
@@ -521,26 +520,26 @@ Calamus calamus, Calamus penna, Callionymus bairdi, Cantherhines
 macrocerus, Cantherhines pullus, Canthidermis maculata, Canthidermis
 sufflamen, Canthigaster figueiredoi, Canthigaster rostrata, Canthigaster
 sanctaehelenae, Carangoides bartholomaei, Caranx crysos, Caranx hippos,
-Caranx latus, Caranx lugubris, Caranx ruber, Carcharhinus perezii,
-Carcharhinus plumbeus, Centropomus parallelus, Centropomus undecimalis,
-Centropristis ocyurus, Centropristis striata, Centropyge argi,
-Centropyge aurantonotus, Cephalopholis cruentata, Cephalopholis fulva,
-Chaetodipterus faber, Chaetodon capistratus, Chaetodon ocellatus,
-Chaetodon sanctaehelenae, Chaetodon sedentarius, Chaetodon striatus,
-Channomuraena vittata, Chilomycterus reticulatus, Chilomycterus
-schoepfii, Chilomycterus spinosus, Chloroscombrus chrysurus, Choranthias
-salmopunctatus, Chromis cyanea, Chromis flavicauda, Chromis insolata,
-Chromis jubauna, Chromis limbata, Chromis limbaughi, Chromis
-multilineata, Chromis scotti, Clepticus brasiliensis, Clepticus parrae,
-Coryphopterus dicrus, Coryphopterus glaucofraenum, Coryphopterus thrix,
-Cosmocampus albirostris, Cryptotomus roseus, Ctenogobius saepepallens,
-Dactylopterus volitans, Dasyatis americana, Dasyatis marianae,
-Decapterus macarellus, Decapterus punctatus, Dermatolepis inermis,
-Diapterus auratus, Diodon holacanthus, Diodon holocanthus, Diodon
-hystrix, Diplectrum formosum, Diplectrum radiale, Diplodus argenteus,
-Diplodus holbrookii, Doratonotus megalepis, Dules auriga, Echeneis
-naucrates, Echidna catenata, Elacatinus figaro, Elacatinus
-phthirophagus, Elacatinus pridisi, Emblemariopsis signifer,
+Caranx latus, Caranx lugubris, Caranx ruber, Carcharhinus perezi,
+Carcharhinus perezii, Carcharhinus plumbeus, Centropomus parallelus,
+Centropomus undecimalis, Centropristis ocyurus, Centropristis striata,
+Centropyge argi, Centropyge aurantonotus, Cephalopholis cruentata,
+Cephalopholis fulva, Chaetodipterus faber, Chaetodon capistratus,
+Chaetodon ocellatus, Chaetodon sanctaehelenae, Chaetodon sedentarius,
+Chaetodon striatus, Channomuraena vittata, Chilomycterus reticulatus,
+Chilomycterus schoepfii, Chilomycterus spinosus, Chloroscombrus
+chrysurus, Choranthias salmopunctatus, Chromis cyanea, Chromis
+flavicauda, Chromis insolata, Chromis jubauna, Chromis limbata, Chromis
+limbaughi, Chromis multilineata, Chromis scotti, Clepticus brasiliensis,
+Clepticus parrae, Coryphopterus dicrus, Coryphopterus glaucofraenum,
+Coryphopterus thrix, Cosmocampus albirostris, Cryptotomus roseus,
+Ctenogobius saepepallens, Dactylopterus volitans, Dasyatis americana,
+Dasyatis marianae, Decapterus macarellus, Decapterus punctatus,
+Dermatolepis inermis, Diapterus auratus, Diodon holacanthus, Diodon
+holocanthus, Diodon hystrix, Diplectrum formosum, Diplectrum radiale,
+Diplodus argenteus, Diplodus holbrookii, Doratonotus megalepis, Dules
+auriga, Echeneis naucrates, Echidna catenata, Elacatinus figaro,
+Elacatinus phthirophagus, Elacatinus pridisi, Emblemariopsis signifer,
 Emblemariopsis signifera, Enchelycore anatina, Enchelycore carychroa,
 Enchelycore nigricans, Engraulis anchoita, Enneanectes altivelis,
 Enneanectes smithi, Epinephelus adscensionis, Epinephelus cruentatus,
@@ -578,51 +577,50 @@ brunoi, Malacoctenus delalandii, Malacoctenus lianae, Malacoctenus
 triangulatus, Malacoctenus zaluari, Melichthys niger, Micrognathus
 crinitus, Microgobius carri, Microspathodon chrysurus, Monacanthus
 tuckeri, Mugil curema, Mulloidichthys martinicus, Mullus argentinae,
-Muraena melanotis, Muraena pavonina, Muraena retifera, Mycteroperca
-acutirostris, Mycteroperca bonaci, Mycteroperca interstitialis,
-Mycteroperca microlepis, Mycteroperca phenax, Mycteroperca tigris,
-Mycteroperca venenosa, Myliobatis goodei, Myrichthys breviceps,
-Myrichthys ocellatus, Myripristis jacobus, Narcine brasiliensis,
-Negaprion brevirostris, Neoniphon marianus, Nicholsina collettei,
-Nicholsina usta, Ocyurus chrysurus, Odontoscion dentex, Ogcocephalus
-vespertilio, Ophichthus ophis, Ophioblennius atlanticus, Ophioblennius
-macclurei, Ophioblennius trinitatis, Opistognathus aurifrons,
-Orthopristis ruber, Pagrus pagrus, Parablennius marmoreus, Parablennius
-pilicornis, Paraclinus spectator, Paranthias furcifer, Pareques
-acuminatus, Pareques umbrosus, Pempheris schomburgkii, Phaeoptyx
-pigmentaria, Pinguipes brasilianus, Plectrypops retrospinis, Pomacanthus
-arcuatus, Pomacanthus paru, Pomatomus saltatrix, Porichthys
-porosissimus, Priacanthus arenatus, Priolepis ascensionis, Prognathodes
-brasiliensis, Prognathodes guyanensis, Prognathodes marcellae,
-Prognathodes obliquus, Pronotogrammus martinicensis, Pseudobatos
-horkelii, Pseudocaranx dentex, Pseudupeneus maculatus, Ptereleotris
-randalli, Rachycentron canadum, Rhomboplites aurorubens, Rypticus
-bistrispinus, Rypticus maculatus, Rypticus saponaceus, Sardinella
-brasiliensis, Sargocentron bullisi, Scartella cristata, Scarus
-coelestinus, Scarus guacamaia, Scarus iseri, Scarus taeniopterus, Scarus
-trispinosus, Scarus vetula, Scarus zelindae, Scomberomorus brasiliensis,
-Scomberomorus maculatus, Scomberomorus regalis, Scorpaena brachyptera,
-Scorpaena brasiliensis, Scorpaena dispar, Scorpaena isthmensis,
-Scorpaena plumieri, Scorpaenodes caribbaeus, Selar crumenophthalmus,
-Selene setapinnis, Selene vomer, Seriola dumerili, Seriola lalandi,
-Seriola rivoliana, Serranus aliceae, Serranus atricauda, Serranus
-atrobranchus, Serranus baldwini, Serranus flaviventris, Serranus phoebe,
-Serranus subligarius, Serranus tigrinus, Sparisoma amplum, Sparisoma
-atomarium, Sparisoma aurofrenatum, Sparisoma axillare, Sparisoma
-chrysopterum, Sparisoma frondosum, Sparisoma radians, Sparisoma rocha,
-Sparisoma rubripinne, Sparisoma tuiupiranga, Sparisoma viride,
-Sphoeroides greeleyi, Sphoeroides spengleri, Sphoeroides testudineus,
-Sphyraena barracuda, Sphyraena borealis, Sphyraena guachancho, Sphyraena
-picudilla, Sphyraena tome, Starksia brasiliensis, Stegastes adustus,
-Stegastes fuscus, Stegastes leucorus, Stegastes lubbocki, Stegastes
-partitus, Stegastes pictus, Stegastes planifrons, Stegastes rocasensis,
-Stegastes sanctipauli, Stegastes variabilis, Stenotomus chrysops,
-Stephanolepis hispidus, Strongylura marina, Strongylura timucu, Synodus
-foetens, Synodus intermedius, Synodus synodus, Thalassoma ascensionis,
-Thalassoma bifasciatum, Thalassoma noronhanum, Thalassoma
-sanctaehelenae, Trachinotus falcatus, Trachinotus goodei, Trachinotus
-ovatus, Upeneus parvus, Uraspis secunda, Xyrichtys blanchardi, Xyrichtys
-novacula, Zapteryx brevirostris
+Muraena melanotis, Muraena pavonina, Mycteroperca acutirostris,
+Mycteroperca bonaci, Mycteroperca interstitialis, Mycteroperca
+microlepis, Mycteroperca phenax, Mycteroperca tigris, Mycteroperca
+venenosa, Myliobatis goodei, Myrichthys breviceps, Myrichthys ocellatus,
+Myripristis jacobus, Narcine brasiliensis, Negaprion brevirostris,
+Neoniphon marianus, Nicholsina collettei, Nicholsina usta, Ocyurus
+chrysurus, Odontoscion dentex, Ogcocephalus vespertilio, Ophichthus
+ophis, Ophioblennius atlanticus, Ophioblennius macclurei, Ophioblennius
+trinitatis, Opistognathus aurifrons, Orthopristis ruber, Pagrus pagrus,
+Parablennius marmoreus, Parablennius pilicornis, Paraclinus spectator,
+Paranthias furcifer, Pareques acuminatus, Pareques umbrosus, Pempheris
+schomburgkii, Phaeoptyx pigmentaria, Pinguipes brasilianus, Plectrypops
+retrospinis, Pomacanthus arcuatus, Pomacanthus paru, Pomatomus
+saltatrix, Porichthys porosissimus, Priacanthus arenatus, Priolepis
+ascensionis, Prognathodes brasiliensis, Prognathodes guyanensis,
+Prognathodes marcellae, Prognathodes obliquus, Pronotogrammus
+martinicensis, Pseudobatos horkelii, Pseudocaranx dentex, Pseudupeneus
+maculatus, Ptereleotris randalli, Rachycentron canadum, Rhomboplites
+aurorubens, Rypticus bistrispinus, Rypticus maculatus, Rypticus
+saponaceus, Sardinella brasiliensis, Sargocentron bullisi, Scartella
+cristata, Scarus coelestinus, Scarus guacamaia, Scarus iseri, Scarus
+taeniopterus, Scarus trispinosus, Scarus vetula, Scarus zelindae,
+Scomberomorus brasiliensis, Scomberomorus maculatus, Scomberomorus
+regalis, Scorpaena brachyptera, Scorpaena brasiliensis, Scorpaena
+dispar, Scorpaena isthmensis, Scorpaena plumieri, Scorpaenodes
+caribbaeus, Selar crumenophthalmus, Selene setapinnis, Selene vomer,
+Seriola dumerili, Seriola lalandi, Seriola rivoliana, Serranus aliceae,
+Serranus atricauda, Serranus atrobranchus, Serranus baldwini, Serranus
+flaviventris, Serranus phoebe, Serranus subligarius, Serranus tigrinus,
+Sparisoma amplum, Sparisoma atomarium, Sparisoma aurofrenatum, Sparisoma
+axillare, Sparisoma chrysopterum, Sparisoma frondosum, Sparisoma
+radians, Sparisoma rocha, Sparisoma rubripinne, Sparisoma tuiupiranga,
+Sparisoma viride, Sphoeroides greeleyi, Sphoeroides spengleri,
+Sphoeroides testudineus, Sphyraena barracuda, Sphyraena borealis,
+Sphyraena guachancho, Sphyraena picudilla, Sphyraena tome, Starksia
+brasiliensis, Stegastes adustus, Stegastes fuscus, Stegastes leucorus,
+Stegastes lubbocki, Stegastes partitus, Stegastes pictus, Stegastes
+planifrons, Stegastes rocasensis, Stegastes sanctipauli, Stegastes
+variabilis, Stenotomus chrysops, Stephanolepis hispidus, Strongylura
+marina, Strongylura timucu, Synodus foetens, Synodus intermedius,
+Synodus synodus, Thalassoma ascensionis, Thalassoma bifasciatum,
+Thalassoma noronhanum, Thalassoma sanctaehelenae, Trachinotus falcatus,
+Trachinotus goodei, Trachinotus ovatus, Upeneus parvus, Uraspis secunda,
+Xyrichtys blanchardi, Xyrichtys novacula, Zapteryx brevirostris
 
 ## 2.8.2 Benthos
 
@@ -633,10 +631,9 @@ Kingdom: Animalia, Bacteria, Chromista, Plantae
 Phylum: Annelida, Arthropoda, Bryozoa, Chlorophyta, Chordata, Cnidaria,
 Cyanobacteria, Echinodermata, Mollusca, Ochrophyta, Porifera, Rhodophyta
 
-Class: Anthozoa, Ascidiacea, Asteroidea, Bivalvia, Crinoidea,
-Demospongiae, Echinoidea, Florideophyceae, Gymnolaemata,
-Homoscleromorpha, Hydrozoa, Ophiuroidea, Phaeophyceae, Polychaeta,
-Thecostraca, Ulvophyceae, NA
+Class: Anthozoa, Ascidiacea, Asteroidea, Bivalvia, Demospongiae,
+Echinoidea, Florideophyceae, Gymnolaemata, Homoscleromorpha, Hydrozoa,
+Ophiuroidea, Phaeophyceae, Polychaeta, Thecostraca, Ulvophyceae, NA
 
 Orders: Actiniaria, Agelasida, Amphilepidida, Anthoathecata,
 Aplousobranchia, Bryopsidales, Camarodonta, Ceramiales, Cheilostomatida,

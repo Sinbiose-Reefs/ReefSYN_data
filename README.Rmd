@@ -1,7 +1,7 @@
 ---
 title:  "Standardized datasets of Brazilian reef diversity in space and time"
 author: "Reef Synthesis Working Group; Luza, AL, Cordeiro, CAMM, ..., Aued, AW, Ferreira, CEL, Floeter, SR, Francini-Filho, RB, Longo, GO, Mendes, T., Roos, N, Segal, B, Bender, MG"
-date: "2023/01/24"
+date: "2023/02/06"
 output: github_document #github_document #  
 ---
 
@@ -199,6 +199,10 @@ coords <- lapply (list_benthos, function (i)
 coords <- do.call(rbind, coords)
 coords$Dataset <- factor (coords$Dataset,
                           levels =  c("IX", "X", "XI", "XII", "XIII"))
+coords_unique_sites <- coords %>% 
+  group_by(locality) %>%
+  summarise(decimalLatitude = mean( decimalLatitude,na.rm=T),
+                            decimalLongitude = mean( decimalLongitude,na.rm=T)) 
 
 # map
 # mapa mundi
@@ -244,7 +248,7 @@ wm_data <- wm +  geom_jitter(data = coords,
         legend.key.width= unit(0.1, 'cm'),
         panel.grid = element_blank())+
   scale_colour_viridis_d(option="magma", end=0.8)+
-  ggtitle (paste ("Number of sites with benthic sampling", "n=", nrow(coords), sep=" "))  +
+  ggtitle (paste ("Number of localities with benthic sampling", "n=", nrow(coords_unique_sites), sep=" "))  +
   guides(colour = guide_legend(override.aes = list(alpha=1)))
 
 
@@ -279,7 +283,10 @@ coords_fish <- lapply (list_fish, function (i)
 
 # melt
 coords_fish <- do.call(rbind,coords_fish)
-
+coords_fish_unique_sites <- coords_fish %>% 
+  group_by(locality) %>%
+  summarise(decimalLatitude = mean( decimalLatitude,na.rm=T),
+                            decimalLongitude = mean( decimalLongitude,na.rm=T)) 
 
 # map
 wm_data_fish <- wm + geom_point(data = data.frame(coords_fish), aes(x = decimalLongitude, 
@@ -298,7 +305,7 @@ wm_data_fish <- wm + geom_point(data = data.frame(coords_fish), aes(x = decimalL
         legend.key.height= unit(0.3, 'cm'),
         legend.key.width= unit(0.1, 'cm'),
         panel.grid = element_blank())+
-  ggtitle (paste ("Number of sites with fish sampling", "n=", nrow(coords_fish), sep=" ")) +
+  ggtitle (paste ("Number of localities with fish sampling", "n=", nrow(coords_fish_unique_sites), sep=" ")) +
   guides(colour = guide_legend(override.aes = list(alpha=1))) 
 
 # panel of maps
@@ -307,6 +314,10 @@ gridExtra::grid.arrange(
              wm_data,
              ncol=2)
 
+
+# unique locality names
+#unique(c(coords_fish_unique_sites$locality,
+#coords_unique_sites$locality))
 
 ```
 Fig. 2: Spatial distribution of fish (left) and benthos (right) sampling sites per dataset.

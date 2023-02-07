@@ -214,6 +214,10 @@ alcatrazes_time_series$higherGeography <- "BrazilianCoast"
 
 
 
+# adjust site names
+alcatrazes_time_series$locality[which(alcatrazes_time_series$locality == "oratorio")] <- "saco_do_oratorio"
+alcatrazes_time_series$locality[which(alcatrazes_time_series$locality == "portinho")] <- "portinho_centro"
+ 
 
 # ----------------------------------------------------------------------------
 # CREATING IDS
@@ -323,6 +327,7 @@ event_core <- data.frame (group_by(alcatrazes_time_series,
                                       samplingProtocol = unique(samplingProtocol),
                                       samplingEffort = mean(samplingEffort),
                                       sampleSizeValue = mean(sampleSizeValue),
+                                      sampleSizeUnit = unique(sampleSizeUnit),
                                       decimalLongitude = mean(decimalLongitude),
                                       decimalLatitude = mean(decimalLatitude),
                                       geodeticDatum = unique(geodeticDatum),

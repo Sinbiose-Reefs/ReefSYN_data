@@ -557,6 +557,7 @@ event_core <- data.frame (group_by(francini_bind_data, eventID,higherGeography,s
                                       samplingProtocol = unique(samplingProtocol),
                                       samplingEffort = mean(samplingEffort),
                                       sampleSizeValue = mean(sampleSizeValue),
+                                      sampleSizeUnit = unique(sampleSizeUnit),
                                       decimalLongitude = mean(decimalLongitude),
                                       decimalLatitude = mean(decimalLatitude),
                                       geodeticDatum = unique(geodeticDatum),

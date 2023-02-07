@@ -305,8 +305,6 @@ unique(fish_long_format$SITE )[order(unique(fish_long_format$SITE ))]
 
 
 
-
-
 # geodeticDatum
 fish_long_format$geodeticDatum <- "decimal degrees"
 
@@ -321,14 +319,31 @@ colnames(fish_long_format)[which(colnames(fish_long_format) == "REEF")] <- "site
 # locality
 colnames(fish_long_format)[which(colnames(fish_long_format) == "SITE")] <- "locality"
 
+# effort (we row in the table is a sample (SAMPLE column))
+
+require(dplyr)
+
+fish_long_format <- fish_long_format %>% 
+  group_by(YEAR,site,locality,HAB) %>%
+  summarise(samplingEffort = length(unique(SAMPLE))) %>% 
+  left_join(fish_long_format)
+
+# check 
+fish_long_format %>% 
+  filter (site == "TIMBEBAS" & 
+            YEAR == "2014" &
+            locality == "tim3" &
+            HAB == "pinnacles_top") %>% 
+  select (samplingEffort) %>%
+  unique
+            
+            
 # measurementType
 fish_long_format$measurementType <- "abundance"
 # measurementUnit
 fish_long_format$measurementUnit <- "individuals"
 # method
 fish_long_format$samplingProtocol <- "Stationary visual survey - 4 x 2m" #  
-# effort
-fish_long_format$samplingEffort <- 1 # "one observer per point"
 
 # sampleSizeValue (based on Minte-Vera et al. 2008 MEPS, https://www.int-res.com/abstracts/meps/v367/p283-293/)
 fish_long_format$sampleSizeValue <- 4*2 # plotarea?radii?" (or pi*(4^2))
@@ -360,8 +375,6 @@ fish_long_format$organismQuantityType <- "individuals"
 
 
 
-
-
 # ------------------------------------------------------------------------------------------
 # CREATING IDS
 
@@ -379,8 +392,8 @@ fish_long_format$parentEventID <- paste (
   fish_long_format$locality,
   fish_long_format$year,
   sep="_")
-  
-  
+
+
 
 # creating eventids
 fish_long_format$eventID <- paste (
@@ -390,9 +403,9 @@ fish_long_format$eventID <- paste (
            sep=""),
     fish_long_format$site,sep=":"),
   fish_long_format$locality,
-       fish_long_format$year,
-       fish_long_format$sample,
-       sep="_")
+  fish_long_format$year,
+  fish_long_format$sample,
+  sep="_")
 
 
 # occurrenceID
@@ -411,6 +424,27 @@ fish_long_format$occurrenceID <- paste (
 
 
 
+# ---------------------------------------------------------
+
+# separate abundance from size class
+
+size_classes <- fish_long_format
+size_classes$organismQuantityType <- "individuals"
+size_classes$measurementValue <- size_classes$sizeClass
+size_classes$measurementType <- "total length"
+size_classes$measurementUnit <- "cm"
+
+
+# bind abundance and size
+# abundance into character to avoid error
+fish_long_format$measurementValue<-as.character(fish_long_format$measurementValue)
+fish_long_format <- rbind (fish_long_format,
+                           size_classes)
+# event remark
+fish_long_format$measurementRemarks <- "Authors used categories of total length"
+
+
+
 
 
 # ------------------------------------------------------------------------------------------
@@ -426,7 +460,8 @@ DF_eMOF <- fish_long_format [,c("eventID",
                                 "occurrenceID",
                                  "measurementValue", 
                                 "measurementType",
-                                "measurementUnit")]
+                                "measurementUnit",
+                                "measurementRemarks")]
 
 
 
@@ -454,8 +489,9 @@ event_core <- data.frame (group_by(fish_long_format, eventID,higherGeography,sit
                                            minimumDepthinMeters = mean(minimumDepthinMeters),
                                            maximumDepthinMeters = mean(maximumDepthinMeters),
                                            samplingProtocol = unique(samplingProtocol),
-                                           samplingEffort = unique(samplingEffort),
+                                           samplingEffort = mean(samplingEffort,na.rm=T),
                                            sampleSizeValue = mean(sampleSizeValue),
+                                           sampleSizeUnit = unique(sampleSizeUnit),
                                            decimalLongitude = mean(decimalLongitude),
                                            decimalLatitude = mean(decimalLatitude),
                                            geodeticDatum = unique(geodeticDatum),

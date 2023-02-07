@@ -127,16 +127,16 @@ fish_DF_occ2$genus <-(df_worms_record$genus [match (fish_DF_occ2$scientificName,
 # save
 write.table(fish_DF_occ2, file =here("DwC_output",
                                "PELD_iloc_fish",
-                               "DF_occ.txt"),sep=";",col.names = TRUE,
+                               "DF_occ.txt"),sep=",",col.names = TRUE,
             quote = FALSE)
 write.table(fish_DF_eMOF, file =here("DwC_output",
                                 "PELD_iloc_fish",
-                                "DF_eMOF.txt"),sep=";",col.names = TRUE,
+                                "DF_eMOF.txt"),sep=",",col.names = TRUE,
             quote = FALSE)
 
 write.table(fish_event_core, file =here("DwC_output",
                                    "PELD_iloc_fish",
-                                   "event_core.txt"),sep=";",col.names = TRUE,
+                                   "event_core.txt"),sep=",",col.names = TRUE,
             quote = FALSE)
 
 # end
