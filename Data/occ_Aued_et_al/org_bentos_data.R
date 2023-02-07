@@ -4,20 +4,17 @@
 ## Data also available at DRYAD repository: https://doi.org/10.5061/dryad.f5s90
 
 require(here); require(dplyr); require(worrms); require (reshape)
-
 ## load benthic dataset from Aued et al. 2018 (PloSOne)
 
-bentos_amostras <- read.csv (here ("Data", "occ_Aued_et_al",
+bentos_amostras <- read.csv (here ("Data", 
+                                   "occ_Aued_et_al",
                                    "compiled_quadrats_allsites.csv"),
-                             h=T, fill=T)
-
+                             h=T, fill=T,
+                             fileEncoding = "Latin1", check.names = T)
 
 # ALLuza modified in excel because it was too difficult to separate events from video ids
-bentos_variaveis <- openxlsx::read.xlsx((here("Data", "occ_Aued_et_al",
-                                   "Compiled_quadrats_allsites_Updated_ALLuza_v1.xlsx")))
-
-
-
+bentos_variaveis <- openxlsx::read.xlsx(here("Data", "occ_Aued_et_al",
+                                   "Compiled_quadrats_allsites_Updated_ALLuza_v1.xlsx"))
 
 # ----------------------------------------------------------------------------------------------
 # ORGANIZING DATES, YEARS ...
@@ -30,20 +27,25 @@ bentos_variaveis <- openxlsx::read.xlsx((here("Data", "occ_Aued_et_al",
 
 # transforming data into long format
 # 8 = the first col with taxon data in the original data of Aued et al.
-bentos_long_format <- lapply (seq(8, ncol(bentos_amostras)), function (i) {
-  
-  subset_data <- bentos_variaveis [,c(1:13)] ## sampling descriptors
-  
-  subset_data <- cbind(subset_data, ## bind into the descriptors the
-                       sp=colnames(bentos_amostras)[i], # taxon and its
-                       bentos_amostras[,i]) ## relative cover
-  
-  bentos_long <- melt (subset_data,id=colnames(subset_data)[1:14]) # transf no formato long
+#bentos_long_format <- lapply (seq(8, ncol(bentos_amostras)), function (i) {
+#  
+#  subset_data <- bentos_variaveis [,c(1:13)] ## sampling descriptors
+#  
+#  subset_data <- cbind(subset_data, ## bind into the descriptors the
+#                       sp=colnames(bentos_amostras)[i], # taxon and its
+#                       bentos_amostras[,i]) ## relative cover
+#  
+#  
+#  
+#  
+#  
+#  bentos_long <- melt (subset_data,id=subset_data$modifiedSamples#colnames(subset_data)[1:14]) # transf to  long format
+#
+#}
+#)
 
-}
-)
-bentos_long_format <- do.call (rbind, bentos_long_format) # melt the list
-bentos_long_format <- bentos_long_format [, -grep("variable", colnames(bentos_long_format))] # rm the just created col
+bentos_long_format <- bentos_variaveis# do.call (rbind, bentos_long_format) # melt the list
+#bentos_long_format <- bentos_long_format [, -grep("variable", colnames(bentos_long_format))] # rm the just created col
 
 # verbatim dates
 bentos_long_format$verbatimEventDate <- bentos_long_format$data
@@ -88,9 +90,6 @@ bentos_long_format [is.na(bentos_long_format$year),"year"] <- year_to_input_matc
 
 # ----------------------------------------------------------------------------------------------
 # ORGANIZING DEPTHS, REGIONS, SITES
-
-
-
 
 
 
@@ -176,22 +175,21 @@ bentos_long_format [grep("saco_dagua",bentos_long_format$Sites),"decimalLongitud
 
 ### define an ID for each event (first try to define one)
 bentos_long_format$eventID <- paste (bentos_long_format$Region,
-                                     bentos_long_format$locality,
+                                     bentos_long_format$site,
                                      bentos_long_format$Sites,
                                      bentos_long_format$eventDepth,
                                      bentos_long_format$year,sep=".")
 
 
 # change colnames
-colnames(bentos_long_format) <- c("verbatimSamples", "modifiedSamples", "depth","data",
-                                  "recordedBy", "device", "photoquadrat", 
-                                  "locality", "verbatimSite", "reefType","decimalLongitude", "decimalLatitude",
-                                  "modifiedDepth", "verbatimIdentification", "measurementValue",
-                                  "verbatimEventDate","data","eventDate", "day", "month", "year","verbatimDepth", 
-                                  "eventDepth", "region",
-                                  "verbatimLocality", "Sites" ,
-                                  "eventID")
-
+#colnames(bentos_long_format) <- c("verbatimSamples", "modifiedSamples", "depth","data",
+#                                  "recordedBy", "device", "photoquadrat", 
+#                                  "locality", "verbatimSite", "reefType","decimalLongitude", "decimalLatitude",
+#                                  "modifiedDepth", "verbatimIdentification", "measurementValue",
+#                                  "verbatimEventDate","verbatimEventDay","verbatimEventMonth", 
+#                                  "verbatimEventYear", "verbatimDepth", "region",
+#                                  "eventID", "occurrenceID", "parentEventID", )
+#
 
 
 
@@ -208,7 +206,7 @@ colnames(bentos_long_format) <- c("verbatimSamples", "modifiedSamples", "depth",
 
 
 
-
+bentos_long_format$verbatimIdentification <- bentos_long_format$scientificName
 bentos_long_format$taxonOrGroup  <- bentos_long_format$verbatimIdentification
 bentos_long_format$taxonOrGroup <-  (gsub("\\."," ",bentos_long_format$taxonOrGroup)) # replace dot by space
 bentos_long_format$taxonOrGroup <-(iconv(bentos_long_format$taxonOrGroup, "ASCII", "UTF-8", sub="")) # encoding
@@ -377,14 +375,19 @@ bentos_long_format$genus <-(df_worms_record$genus [match (bentos_long_format$tax
 
 # adjusting colname of sites
 
+site is locality
+
+bentos_long_format$site == bentos_long_format$Sites
+
+(bentos_long_format$locality)
+
+
 # site (less local)
-colnames(bentos_long_format)[which(colnames(bentos_long_format) == "locality")] <- "site"
-
-
+bentos_long_format$verbatimLocality <- bentos_long_format$Sites
+bentos_long_format$verbatimSite <- bentos_long_format$locality
+bentos_long_format$site <- bentos_long_format$verbatimSite
 # locality (more local)
-colnames(bentos_long_format)[which(colnames(bentos_long_format) == "Sites")] <- "locality"
-
-
+bentos_long_format$locality <- bentos_long_format$verbatimLocality
 
 
 # geographic location
@@ -550,6 +553,7 @@ event_core <- data.frame (group_by(bentos_long_format[,-4], eventID,higherGeogra
                                       samplingProtocol = unique(samplingProtocol),
                                       samplingEffort = mean(samplingEffort),
                                       sampleSizeValue = mean(sampleSizeValue),
+                                      sampleSizeUnit = unique(sampleSizeUnit),
                                       decimalLongitude = mean(decimalLongitude),
                                       decimalLatitude = mean(decimalLatitude),
                                       geodeticDatum = unique(geodeticDatum),
