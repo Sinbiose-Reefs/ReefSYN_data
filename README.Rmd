@@ -2,7 +2,7 @@
 title:  "Standardized datasets of Brazilian reef diversity in space and time"
 author: "Reef Synthesis Working Group; Luza, AL, Cordeiro, CAMM, ..., Aued, AW, Ferreira, CEL, Floeter, SR, Francini-Filho, RB, Longo, GO, Mendes, T., Roos, N, Segal, B, Bender, MG"
 date: "2023/02/06"
-output: github_document #github_document #  
+output: word_document #github_document #  
 ---
 
 
@@ -139,7 +139,7 @@ Fig. 1: Institutions and research topics explored by the ReefSYN team members.
 
 ## 2.1 Geographical and temporal coverage
 
-From 2001 up to 2020, we gathered data on fish and benthic organisms (e.g., algae, corals) in more than 400 sites distributed throughout the Brazilian coast and oceanic islands (Fig. 2, Tables 1 and 2). All these data came from geographically replicated, large-scale and long-term ecological monitoring research programs conducted over the last decades in Brazil (SISBOTA-MAR, PELD-ILOC, Abrolhos Bank monitoring), and from novel initiatives such as the monitoring of reef fish and benthos of Rio Grande do Norte (e.g., Ross et al. 2019).
+From 2001 up to 2020, we gathered data on fish and benthic organisms (e.g., algae, corals) in more 344 localities distributed throughout the Brazilian coast and oceanic islands (Fig. 2, Tables 1 and 2). All these data came from geographically replicated, large-scale and long-term ecological monitoring research programs conducted over the last decades in Brazil (SISBOTA-MAR, PELD-ILOC, Abrolhos Bank monitoring), and from novel initiatives such as the monitoring of reef fish and benthos of Rio Grande do Norte (e.g., Ross et al. 2019).
 The Brazilian marine biogeographical province (Briggs, 1974; Floeter et al., 2008; Pinheiro et al., 2018), located in Southwestern Atlantic, host reefs with mostly turbid and nutrient-rich waters due to the sediment discharge from several rivers that flow into the coast (Aued et al., 2018; Loiola et al., 2019; Mies et al., 2020).Coral and rocky reefs are disposed along more than 27 latitude degrees in the narrow continental shelf (0.91N to 27.6S latitude degrees; Fig. 3). These reefs are exposed to varied temperature, productivity and salinity settings, producing a north/northeast and south/southeast regionalization of the coastal biodiversity (Cord et al., 2022; Pinheiro et al., 2018). Far from the coast there are four oceanic islands, which host coralligenous and rocky reefs, with high endemism levels, and a varied similarity in species composition to that of coastal reefs (Cord et al., 2022; Pinheiro et al., 2018). Recent analysis of spatially extensive benthic datasets revealed clear-water reef communities occurring in the oceanic islands and in oligotrophic waters from the Northeast region, whereas turbid-water reef communities occurring throughout the coast (Santana et al. 2023).
 The sampling effort available in the current datasets was not evenly distributed in time. Indeed, since 2001, the number of samples accumulated over time, as well as the number of sampled taxa (Fig. 2). There was a notable increase in sampling effort after 2012-2013, which is associated with the Sisbiota-Mar network, the increase in team members, aggregation of datasets, and the total amount of financial support derived from network cooperative efforts/partners. The ProspeqMar project, for example, which has bioprospection and holobiotic investigation objectives, has been an important contribution to network maintenance from 2013 onwards.
 Notably, the cumulative number of eventIDs (i.e. information associated with a sampling event-- i.e. something that occurs at a place and time-- Darwin Core Task Group (2009)) over time across the datasets show that i) there was an abrupt increase in the number of eventIDs after 2013, mainly for benthos (leveraged by the Sisbiota-Mar project (CNPq)), ii) large projects such as Sisbiota-Mar and PELD ILOC have already made an effort to gather data from previous initiatives (Krajewski & Floeter 2011), iii) there was a nearly constant increase in the number of fish taxa over time. For benthos, in contrast, there were years of constancy amid years of abrupt increase in the number of identified taxa (Figs. 3 and 4), a delay probably caused by the laboratory and computational work required to identify these organisms.
@@ -318,6 +318,8 @@ gridExtra::grid.arrange(
 # unique locality names
 #unique(c(coords_fish_unique_sites$locality,
 #coords_unique_sites$locality))
+# coords_fish_unique_sites
+
 
 ```
 Fig. 2: Spatial distribution of fish (left) and benthos (right) sampling sites per dataset.
