@@ -124,20 +124,27 @@ fish_DF_occ2$genus <-(df_worms_record$genus [match (fish_DF_occ2$scientificName,
                                                      tolower (df_worms_record$scientificname))])
 
 
+# adjust site names
+fish_event_core$island<-tolower (fish_event_core$island)
+fish_event_core$locality <- tolower (fish_event_core$locality)
+
+
 # save
-write.table(fish_DF_occ2, file =here("DwC_output",
+write.csv(fish_DF_occ2, file =here("DwC_output",
                                "PELD_iloc_fish",
-                               "DF_occ.txt"),sep=",",col.names = TRUE,
+                               "DF_occ.csv"),#sep=",",#col.names = TRUE,
             quote = FALSE)
-write.table(fish_DF_eMOF, file =here("DwC_output",
+write.csv(fish_DF_eMOF, file =here("DwC_output",
                                 "PELD_iloc_fish",
-                                "DF_eMOF.txt"),sep=",",col.names = TRUE,
+                                "DF_eMOF.csv"),#sep=",",col.names = TRUE,
             quote = FALSE)
 
-write.table(fish_event_core, file =here("DwC_output",
+write.csv(fish_event_core, file =here("DwC_output",
                                    "PELD_iloc_fish",
-                                   "event_core.txt"),sep=",",col.names = TRUE,
-            quote = FALSE)
+                                   "event_core.csv"),#sep=",",
+            #col.names = TRUE,
+            quote = T
+          )
 
 # end
 rm(list=ls())
