@@ -368,7 +368,7 @@ table_description_data_fish %>%
   
 
 
-  dplyr::relocate("Dataset") %>%
+  knitr::relocate("Dataset") %>%
   
   kable(align="c")
 
@@ -421,7 +421,7 @@ table_description_data_benthos %>%
      
      
      
-  dplyr::relocate("Dataset") %>%
+  knitr::relocate("Dataset") %>%
   kable(align="c")
 
 
