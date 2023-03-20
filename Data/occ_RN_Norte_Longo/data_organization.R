@@ -56,7 +56,7 @@ occ_Ross_et_al$decimalLatitude <- angle2dec(occ_Ross_et_al$latDec)*-1 # below Eq
 occ_Ross_et_al$decimalLongitude <- angle2dec(occ_Ross_et_al$longDec)*-1 # west of Greenwich
 
 # resolve NA taking the coordinate from the previous record (is the same)
-occ_Ross_et_al [which(is.na(occ_Ross_et_al$longitude)),"decimalLongitude"] <- occ_Ross_et_al [which(is.na(occ_Ross_et_al$decimalLongitude))-1,"decimalLongitude"]
+#occ_Ross_et_al [which(is.na(occ_Ross_et_al$longitude)),"decimalLongitude"] <- occ_Ross_et_al [which(is.na(occ_Ross_et_al$decimalLongitude))-1,"decimalLongitude"]
 
 
 # verbatimIdentification
@@ -480,21 +480,13 @@ unique(occ_Ross_et_al_parrachos[is.na(occ_Ross_et_al_parrachos$lat),("site")])
 occ_Ross_et_al_parrachos$latDec <- gsub ("\"", "",gsub ("º", " ", gsub ("'"," ",gsub ("''","",gsub ("°"," ",occ_Ross_et_al_parrachos$lat)))))
 occ_Ross_et_al_parrachos$longDec <- gsub ("\"", "",gsub ("º", " ", gsub ("'"," ",gsub ("''","",gsub ("°"," ",occ_Ross_et_al_parrachos$long)))))
 
-# occ_Ross_et_al_parrachos$latDec[is.na(occ_Ross_et_al_parrachos$decimalLatitude)]
-# removing the additional space 
-occ_Ross_et_al_parrachos$longDec[is.na(occ_Ross_et_al_parrachos$decimalLongitude)] <- substr(occ_Ross_et_al_parrachos$longDec[is.na(occ_Ross_et_al_parrachos$decimalLongitude)],
-                                                                                             2,nchar(occ_Ross_et_al_parrachos$longDec[is.na(occ_Ross_et_al_parrachos$decimalLongitude)]))
-
-
-
 # transform
 occ_Ross_et_al_parrachos$decimalLatitude <- angle2dec(occ_Ross_et_al_parrachos$latDec)*-1 # below Equator
 occ_Ross_et_al_parrachos$decimalLongitude <- angle2dec(occ_Ross_et_al_parrachos$longDec)*-1 # west of Greenwich
+
 # check if coordinates are ok
-# unique(occ_Ross_et_al_parrachos$site[is.na(occ_Ross_et_al_parrachos$decimalLatitude)])
-# unique(occ_Ross_et_al_parrachos$site[is.na(occ_Ross_et_al_parrachos$decimalLongitude)])
-
-
+unique(occ_Ross_et_al_parrachos$site[is.na(occ_Ross_et_al_parrachos$decimalLatitude)])
+unique(occ_Ross_et_al_parrachos$site[is.na(occ_Ross_et_al_parrachos$decimalLongitude)])
 
 
 # verbatimIdentification

@@ -28,6 +28,17 @@ poisson_smooth <- function(...) {
 # from here https://stackoverflow.com/questions/14404596/converting-geo-coordinates-from-degree-to-decimal
 angle2dec <- function(angle) {
   angle <- as.character(angle)
+  
+  # removing the additional space 
+  
+  
+  angle <- ifelse (substr (angle,1,1) == " ",
+          substr(angle,
+                 2,nchar(angle)),
+          angle)
+  
+  
+  # unlist and organize
   x <- do.call(rbind, strsplit(angle, split=' '))
   x <- apply(x, 1L, function(y) {
     y <- as.numeric(y)
