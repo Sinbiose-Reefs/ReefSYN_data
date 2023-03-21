@@ -162,7 +162,7 @@ ds5<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","event_c
 # fish
 ds6<- read.csv (here::here("DwC_output","GLongo_NRoss_spatialData", "event_core_fish.csv"))
 ds7<- read.csv (here::here("DwC_output","GLongo_spatialData", "event_core.csv"))
-ds8<- read.table (here::here("DwC_output","PELD_iloc_fish", "event_core.txt"),h=T, sep= ";")
+ds8<- read.csv (here::here("DwC_output","PELD_iloc_fish", "event_core.csv"))
 colnames(ds8)[which(colnames(ds8) == "island")] <- "site"
 colnames(ds8)[which(colnames(ds8) == "eventYear")] <- "year" # 
 ds8 <- ds8 [which(ds8$site != "Ascension"),] # removing Ascension
@@ -238,9 +238,10 @@ wm_data <- wm +  geom_jitter(data = coords,
                             stat = "identity",
         shape = 19, alpha=0.3,
         stroke=1) +
-  theme (plot.background = element_rect("#EBEBEB"),
+  theme (plot.background = element_rect("white"),
         #panel.background = element_blank(),
-        axis.title = element_text(color = "#292929", face = "bold"),
+        axis.title.x = element_text(color = "#292929", face = "bold"),
+        axis.title.y = element_blank(),
         axis.text = element_text(color = "#292929", face = "bold"),
          legend.text = element_text(size =6),
         legend.title = element_text(size =7),
@@ -296,7 +297,7 @@ wm_data_fish <- wm + geom_point(data = data.frame(coords_fish), aes(x = decimalL
                             size =4, position= "jitter",
         shape = 19, alpha=0.3) + 
   scale_colour_viridis_d(direction=1)+
-  theme (plot.background = element_rect("#EBEBEB"),
+  theme (plot.background = element_rect("white"),
         #panel.background = element_blank(),
         axis.title = element_text(color = "#292929", face = "bold"),
         axis.text = element_text(color = "#292929", face = "bold"),
@@ -368,7 +369,7 @@ table_description_data_fish %>%
   
 
 
-  knitr::relocate("Dataset") %>%
+  dplyr::relocate("Dataset") %>%
   
   kable(align="c")
 
@@ -421,7 +422,7 @@ table_description_data_benthos %>%
      
      
      
-  knitr::relocate("Dataset") %>%
+  dplyr::relocate("Dataset") %>%
   kable(align="c")
 
 
@@ -506,7 +507,7 @@ eventIDs_year_benthos <- bind_rows (eventIDs_year_benthos,
 # benthos
 trend_benthos <- ggplot (data = eventIDs_year_benthos, aes (x=year,y=n_cum)) + 
   geom_area(alpha=0.5, fill = "#FD8235", col = "gray30",size=1) + 
-  theme(plot.background = element_rect("#EBEBEB"),
+  theme(plot.background = element_rect("white"),
         panel.background = element_blank(),
         axis.title = element_text(color = "#292929", face = "bold",size=12),
         axis.text = element_text(color = "#292929", face = "bold",size=12),
@@ -521,12 +522,15 @@ trend_benthos_annotate <- trend_benthos + geom_text(data = begin_data, aes (x= m
                aes(x = min_year, y = 0, xend = min_year, yend = 1500)) + 
   geom_segment(aes(x = 2011, y = -100, xend = 2014, yend = -100),size=3,col="gray30")+
   geom_segment(aes(x = 2013, y = 100, xend = 2022, yend = 100),size=3,col="gray60")+
-  geom_segment(aes(x = 2020, y = 300, xend = 2022, yend = 300),size=3,col="#5A8F7B")
+  geom_segment(aes(x = 2020, y = 300, xend = 2022, yend = 300),size=3,col="#5A8F7B")+
+  ggplot2::annotate("text", x = 2020, y = 600, label = "ReefSYN")+
+  ggplot2::annotate("text", x = 2015, y = 400, label = "PELD-ILOC")+
+  ggplot2::annotate("text", x = 2011, y = 200, label = "SISBIOTAMar")
 
 # fish
 trend_fish <- ggplot (data = eventIDs_year_fish, aes (x=year,y=n_cum)) + 
   geom_area(alpha=0.5, fill = "#6CC4A1", col = "gray30",size=1) + 
-  theme(plot.background = element_rect("#EBEBEB"),
+  theme(plot.background = element_rect("white"),
         panel.background = element_blank(),
         axis.title.y = element_text(color = "#292929", face = "bold",size=12),
         axis.text.y = element_text(color = "#292929", face = "bold",size=12),
@@ -535,7 +539,7 @@ trend_fish <- ggplot (data = eventIDs_year_fish, aes (x=year,y=n_cum)) +
         panel.grid = element_blank()) + 
   xlab ("") + ylab ("") 
 
-trend_fish_annotate <- trend_fish + geom_text_repel(data = begin_data_fish, aes (x= min_year, y = 14000,
+trend_fish_annotate <- trend_fish + geom_text_repel(data = begin_data_fish, aes (x= min_year, y = 12000,
                                                   label = Dataset,
                                                   angle = 0),
                                                   size = 5,
@@ -544,7 +548,11 @@ trend_fish_annotate <- trend_fish + geom_text_repel(data = begin_data_fish, aes 
                aes(x = min_year, y = 0, xend = min_year, yend = 10000)) +
   geom_segment(aes(x = 2011, y = -400, xend = 2014, yend = -400),size=3,col="gray30")+
   geom_segment(aes(x = 2013, y = 500, xend = 2022, yend = 500),size=3,col="gray60")+
-  geom_segment(aes(x = 2020, y = 1300, xend = 2022, yend = 1300),size=3,col="#5A8F7B")
+  geom_segment(aes(x = 2020, y = 1300, xend = 2022, yend = 1300),size=3,col="#5A8F7B")+
+  ggplot2::annotate("text", x = 2020, y = 2400, label = "ReefSYN")+
+  ggplot2::annotate("text", x = 2015, y = 1700, label = "PELD-ILOC")+
+  ggplot2::annotate("text", x = 2011, y = 800, label = "SISBIOTAMar")
+
 #+
  # scale_y_reverse()
 
@@ -558,7 +566,8 @@ gridExtra::grid.arrange (
 
 
 ```
-Fig. 3: The number of sampling events accumulated over time for fish (top) and benthos (bottom). One sampling event consists, for example, on one transect deployed into a locality. The vertical segments indicate the year in which data included in each dataset started to be collected. The horizontal bars depict the main funding sources as follows: dark gray bar: Sisbiota, CNPq; light gray bar: PELD, CNPq; green bar: ReefSYN, SinBiose CNPq.
+Fig. 3: The number of sampling events accumulated over time for fish (top) and benthos (bottom). One sampling event consists, for example, on one transect deployed into a locality. The vertical segments indicate the year in which data included in each dataset started to be collected. The horizontal bars depict the main funding sources as follows: dark gray bar: Sisbiota, CNPq; light gray bar: PELD, CNPq; green bar: ReefSYN, SinBiose CNPq.Databases: I: Fish communities from the Brazilian province; II: Abrolhos Bank monitoring/time series; III: Arraial do Cabo (Rio de Janeiro) monitoring/time series; IV: Oceanic islands’ monitoring/time series; V: Santa Catarina monitoring/time series; VI: Trophic interactions along the Western Atlantic; VII: Alcatrazes monitoring/time series; VIII: Rio Grande do Norte monitoring/time series; IX: Benthic communities’ monitoring in Abrolhos Bank; X: Extended benthic communities from the Brazilian province; XI: Benthic communities from the Brazilian province; XII: Benthic communities’ monitoring/time series from oceanic islands; XIII: Benthic communities from Rio Grande do Norte.
+
 
 
 
@@ -590,7 +599,7 @@ ds6_occ<- read.csv (here::here("DwC_output","GLongo_NRoss_spatialData", "DF_occ_
 ds6_occ$year<- ds6 [match (ds6_occ$eventID, ds6$eventID), "year"]
 ds7_occ<- read.csv (here::here("DwC_output","GLongo_spatialData", "DF_occ.csv"))
 ds7_occ$year<- ds7 [match (ds7_occ$eventID, ds7$eventID), "year"]
-ds8_occ<- read.table (here::here("DwC_output","PELD_iloc_fish", "DF_occ.txt"), h=T, sep = ";")
+ds8_occ<- read.csv (here::here("DwC_output","PELD_iloc_fish", "DF_occ.csv"))
 ds8_occ$higherGeography <- "BrazilianOceanicIslands"
 ds8_occ$year<- ds8 [match (ds8_occ$eventID, ds8$eventID), "year"]
 ds9_occ<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","DF_occ_fish.csv"))
@@ -722,7 +731,7 @@ acc_time_fish <- data.frame(SR = acc_time_fish,
 trend_benthos_SR <- ggplot (data = acc_time, 
                             aes (x= (year),y=SR)) + 
   geom_area(alpha=0.5, fill = "#FD8235", col = "gray30",size=1) + 
-  theme(plot.background = element_rect("#EBEBEB"),
+  theme(plot.background = element_rect("white"),
         panel.background = element_blank(),
         axis.title = element_text(color = "#292929", face = "bold",size=12),
         axis.text = element_text(color = "#292929", face = "bold",size=12),
@@ -741,12 +750,15 @@ trend_benthos_SR <- ggplot (data = acc_time,
   # grants
   geom_segment(aes(x = 2011, y = -5, xend = 2014, yend = -5),size=3,col="gray30")+
   geom_segment(aes(x = 2013, y = 4, xend = 2022, yend = 4),size=3,col="gray60")+
-  geom_segment(aes(x = 2020, y = 12, xend = 2022, yend = 12),size=3,col="#5A8F7B")
+  geom_segment(aes(x = 2020, y = 12, xend = 2022, yend = 12),size=3,col="#5A8F7B")+
+  ggplot2::annotate("text", x = 2020, y = 25, label = "ReefSYN")+
+  ggplot2::annotate("text", x = 2015, y = 18, label = "PELD-ILOC")+
+  ggplot2::annotate("text", x = 2011, y = 10, label = "SISBIOTAMar")
 
 # fish
 trend_fish_SR <- ggplot (data = acc_time_fish, aes (x=year, y=SR)) + 
   geom_area(alpha=0.5, fill = "#6CC4A1", col = "gray30",size=1) + 
-  theme(plot.background = element_rect("#EBEBEB"),
+  theme(plot.background = element_rect("white"),
         panel.background = element_blank(),
         axis.title.y = element_text(color = "#292929", face = "bold",size=12),
         axis.text.y = element_text(color = "#292929", face = "bold",size=12),
@@ -768,7 +780,11 @@ trend_fish_SR <- ggplot (data = acc_time_fish, aes (x=year, y=SR)) +
   # grants
   geom_segment(aes(x = 2011, y = -10, xend = 2014, yend = -10),size=3,col="gray30")+
   geom_segment(aes(x = 2013, y = 13, xend = 2022, yend = 13),size=3,col="gray60")+
-  geom_segment(aes(x = 2020, y = 40, xend = 2022, yend = 40),size=3,col="#5A8F7B")
+  geom_segment(aes(x = 2020, y = 35, xend = 2022, yend = 35),size=3,col="#5A8F7B")+
+  ggplot2::annotate("text", x = 2020, y = 70, label = "ReefSYN")+
+  ggplot2::annotate("text", x = 2015, y = 45, label = "PELD-ILOC")+
+  ggplot2::annotate("text", x = 2011, y = 18, label = "SISBIOTAMar")
+
 
 
 # arrange plots
@@ -855,7 +871,8 @@ list_taxa_show_benthos <- lapply ( ranks_benthos, function (k)  # for each rank
 
 
 ```
-Fig. 4: Trends in the number of scientific names accumulated over time for fish (top) and benthos (bottom). The vertical segments depict the year in which data included in each Dataset started to be collected. The horizontal bars depict the formal funding as follows: dark gray bar: Sisbiota, CNPq; light gray bar: PELD, CNPq; green bar: ReefSYN, SinBiose CNPq.
+Fig. 4: Trends in the number of scientific names accumulated over time for fish (top) and benthos (bottom). The vertical segments depict the year in which data included in each Dataset started to be collected. The horizontal bars depict the formal funding as follows: dark gray bar: Sisbiota, CNPq; light gray bar: PELD, CNPq; green bar: ReefSYN, SinBiose CNPq. Databases: I: Fish communities from the Brazilian province; II: Abrolhos Bank monitoring/time series; III: Arraial do Cabo (Rio de Janeiro) monitoring/time series; IV: Oceanic islands’ monitoring/time series; V: Santa Catarina monitoring/time series; VI: Trophic interactions along the Western Atlantic; VII: Alcatrazes monitoring/time series; VIII: Rio Grande do Norte monitoring/time series; IX: Benthic communities’ monitoring in Abrolhos Bank; X: Extended benthic communities from the Brazilian province; XI: Benthic communities from the Brazilian province; XII: Benthic communities’ monitoring/time series from oceanic islands; XIII: Benthic communities from Rio Grande do Norte.
+
 
 # 2.3 Data sources and sampling protocol
 
