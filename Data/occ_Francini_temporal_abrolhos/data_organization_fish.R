@@ -207,6 +207,18 @@ fish_long_format$genus <-(df_worms_record$genus [match (fish_long_format$namesTo
                                                           tolower(df_worms_record$scientificname))])
 
 
+
+# taxonomic updates
+# species
+fish_long_format$scientificNameAccepted[grep ("multilineata", fish_long_format$scientificNameAccepted)] <- "Azurina multilineata"
+fish_long_format$scientificNameAccepted[grep ("bartholomaei", fish_long_format$scientificNameAccepted)] <- "Caranx bartholomaei"
+fish_long_format$scientificNameAccepted[grep ("polygonius", fish_long_format$scientificNameAccepted)] <- "Acanthostracion polygonium"
+
+# genus
+fish_long_format$genus[grep ("multilineata", fish_long_format$scientificNameAccepted)] <- "Azurina"
+fish_long_format$genus[grep ("bartholomaei", fish_long_format$scientificNameAccepted)] <- "Caranx"
+
+
 # -------------------------------------------------------------
 # ADJUSTING HABITATS, SITES, DEPTHS
 

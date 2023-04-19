@@ -113,6 +113,21 @@ alcatrazes_time_series$genus <-(df_worms_record$genus [match (alcatrazes_time_se
                                                                tolower (df_worms_record$scientificname))])
 
 
+
+
+
+# taxonomic updates
+# species
+alcatrazes_time_series$scientificNameAccepted[grep ("multilineata", alcatrazes_time_series$scientificNameAccepted)] <- "Azurina multilineata"
+alcatrazes_time_series$scientificNameAccepted[grep ("polygonius", alcatrazes_time_series$scientificNameAccepted)] <- "Acanthostracion polygonium"
+
+# genus
+alcatrazes_time_series$genus[grep ("multilineata", alcatrazes_time_series$scientificNameAccepted)] <- "Azurina"
+
+
+
+
+
 # ----------------------------------------------------------------------------
 # ADJUSTING SAMPLING DATES AND METHODOLOGICAL METADATA
 # https://sparkbyexamples.com/r-programming/dates-and-times-in-r/#:~:text=Times%20in%20R%20are%20represented,since%201970%2D01%2D01%20.
@@ -122,11 +137,13 @@ alcatrazes_time_series$genus <-(df_worms_record$genus [match (alcatrazes_time_se
 alcatrazes_time_series$verbatimDay <- alcatrazes_time_series$day
 alcatrazes_time_series$verbatimMonth <- alcatrazes_time_series$month
 
+
 # paste 0 if sole number
 # correct day
 alcatrazes_time_series$day <- (ifelse (alcatrazes_time_series$verbatimMonth<10, 
                                         paste0("0",alcatrazes_time_series$verbatimMonth),
                                        alcatrazes_time_series$verbatimMonth))
+
 # correct month
 alcatrazes_time_series$month <- alcatrazes_time_series$verbatimDay
 

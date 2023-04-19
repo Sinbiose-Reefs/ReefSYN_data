@@ -154,10 +154,21 @@ occ_Ross_et_al$genus <-(df_worms_record$genus [match (occ_Ross_et_al$namesToSear
 
 
 
+
+# taxonomic updates
+# species
+occ_Ross_et_al$scientificNameAccepted[grep ("multilineata", occ_Ross_et_al$scientificNameAccepted)] <- "Azurina multilineata"
+occ_Ross_et_al$scientificNameAccepted[grep ("bartholomaei", occ_Ross_et_al$scientificNameAccepted)] <- "Caranx bartholomaei"
+
+# genus
+occ_Ross_et_al$genus[grep ("multilineata", occ_Ross_et_al$scientificNameAccepted)] <- "Azurina"
+occ_Ross_et_al$genus[grep ("bartholomaei", occ_Ross_et_al$scientificNameAccepted)] <- "Caranx"
+
+
+
+
 # ----------------------------------------------------------------------
 # FORMATING DATES
-
-
 
 
 
@@ -584,6 +595,15 @@ occ_Ross_et_al_parrachos$genus <-(df_worms_record$genus [match (occ_Ross_et_al_p
 
 
 
+# taxonomic updates
+# species
+occ_Ross_et_al_parrachos$scientificNameAccepted[grep ("multilineata", occ_Ross_et_al_parrachos$scientificNameAccepted)] <- "Azurina multilineata"
+occ_Ross_et_al_parrachos$scientificNameAccepted[grep ("bartholomaei", occ_Ross_et_al_parrachos$scientificNameAccepted)] <- "Caranx bartholomaei"
+
+# genus
+occ_Ross_et_al_parrachos$genus[grep ("multilineata", occ_Ross_et_al_parrachos$scientificNameAccepted)] <- "Azurina"
+occ_Ross_et_al_parrachos$genus[grep ("bartholomaei", occ_Ross_et_al_parrachos$scientificNameAccepted)] <- "Caranx"
+
 
 # ----------------------------------------------------------------------
 # FORMATING DATES
@@ -598,6 +618,7 @@ occ_Ross_et_al_parrachos$verbatimMonth <- occ_Ross_et_al_parrachos$month  # mont
 occ_Ross_et_al_parrachos$month <- ifelse(nchar(occ_Ross_et_al_parrachos$month) == 1, # adjust format
        paste ("0", occ_Ross_et_al_parrachos$month,sep=""),
        occ_Ross_et_al_parrachos$month)
+
 # day
 occ_Ross_et_al_parrachos$verbatimDay <- occ_Ross_et_al_parrachos$day  # month
 occ_Ross_et_al_parrachos$day <- ifelse(nchar(occ_Ross_et_al_parrachos$day) == 1, # adjust format
@@ -1186,16 +1207,16 @@ occ_Ross_et_al_benthos$occurrenceStatus <- "presence"
 # geodeticDatum
 occ_Ross_et_al_benthos$geodeticDatum <- "decimal degrees"
 # method
-occ_Ross_et_al_benthos$samplingProtocol <- "Photoquadrats - 1 x 1m"
+occ_Ross_et_al_benthos$samplingProtocol <- "Photoquadrats - 0.25 x 0.25 m"
 # effort
 ## check roos et al. 2020/2019
-occ_Ross_et_al_benthos$samplingEffort <- 1 # one squared meters
+occ_Ross_et_al_benthos$samplingEffort <- 0.25*0.25 # one squared meter
 # sampleSizeValue
-occ_Ross_et_al_benthos$sampleSizeValue <- 10# number of photos
+occ_Ross_et_al_benthos$sampleSizeValue <- 10# number of photos across the 20 m transect
 # sampleSizeUnit
-occ_Ross_et_al_benthos$sampleSizeUnit <- "number of photos per transect"
+occ_Ross_et_al_benthos$sampleSizeUnit <- "squared meters"
 # recordedBy
-occ_Ross_et_al_benthos$recordedBy <- "NataliaRoss"
+occ_Ross_et_al_benthos$recordedBy <- "Natalia Roos"
 # cover
 occ_Ross_et_al_benthos$measurementValue <- occ_Ross_et_al_benthos$`Cov%.per.species`
 # measurementType

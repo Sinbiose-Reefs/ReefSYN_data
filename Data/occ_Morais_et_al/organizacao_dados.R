@@ -389,6 +389,16 @@ dados$genus<-(df_worms_record$genus [match (dados$namesToSearch,
 
 
 
+# taxonomic updates
+# species
+dados$scientificNameAccepted[grep ("multilineata", dados$scientificNameAccepted)] <- "Azurina multilineata"
+dados$scientificNameAccepted[grep ("bartholomaei", dados$scientificNameAccepted)] <- "Caranx bartholomaei"
+dados$scientificNameAccepted[grep ("polygonius", dados$scientificNameAccepted)] <- "Acanthostracion polygonium"
+
+# genus
+dados$genus[grep ("multilineata", dados$scientificNameAccepted)] <- "Azurina"
+dados$genus[grep ("bartholomaei", dados$scientificNameAccepted)] <- "Caranx"
+
 
 # --------------------------------------------------------------------------------------
 # ADJUSTING MEASUREMENT VALUES
@@ -442,7 +452,14 @@ traits_db <- read.csv (here ("Data",
                                 sep=";")
 
 
+# taxonomic updates
+# species
+traits_db$Name[grep ("multilineata", traits_db$Name)] <- "Azurina multilineata"
+traits_db$Name[grep ("bartholomaei", traits_db$Name)] <- "Caranx bartholomaei"
+traits_db$Name[grep ("Acanthostracion polygonius", traits_db$Name)] <- "Acanthostracion polygonium"
+
 traits_db$Body_size <- as.numeric(gsub (",",".", traits_db$Body_size)) # adjust variable
+
 # max size from Quimbayo
 size$measurementUncertainty <- traits_db[match (size$scientificNameAccepted, (traits_db$Name)),"Body_size"]
 

@@ -391,6 +391,20 @@ L.peixes_coord$genus<-(df_worms_record$genus [match (L.peixes_coord$namesToSearc
 unique(L.peixes_coord [is.na(L.peixes_coord$scientificNameAccepted),"namesToSearch"])
 
 
+
+# taxonomic updates
+# species
+L.peixes_coord$scientificNameAccepted[grep ("multilineata", L.peixes_coord$scientificNameAccepted)] <- "Azurina multilineata"
+L.peixes_coord$scientificNameAccepted[grep ("bartholomaei", L.peixes_coord$scientificNameAccepted)] <- "Caranx bartholomaei"
+L.peixes_coord$scientificNameAccepted[grep ("polygonius", L.peixes_coord$scientificNameAccepted)] <- "Acanthostracion polygonium"
+
+# genus
+L.peixes_coord$genus[grep ("multilineata", L.peixes_coord$scientificNameAccepted)] <- "Azurina"
+L.peixes_coord$genus[grep ("bartholomaei", L.peixes_coord$scientificNameAccepted)] <- "Caranx"
+
+
+
+
 # -----------------------------------------------------------------------------------
 # ADJUSTING DATES
 
@@ -549,6 +563,11 @@ L.peixes_coord [is.na(L.peixes_coord$Country),"Country"]<-"Brazil"
 # table(L.peixes_coord$Country, L.peixes_coord$site)
 
 
+
+# remove sites from other regions
+L.peixes_coord <- L.peixes_coord [which( L.peixes_coord$higherGeography != "Caribbean_NorthAmerica"),]
+
+
 # basisOfRecord
 L.peixes_coord$basisOfRecord <- "HumanObservation"
 
@@ -687,6 +706,7 @@ DF_occ <- dados_bind [,c("eventID",
                          "recordedBy", 
                          "organismQuantityType",
                          "basisOfRecord")]
+
 rownames(DF_occ)<-seq(1,nrow(DF_occ))
 
 # aggregate data by eventIDs to have event_core

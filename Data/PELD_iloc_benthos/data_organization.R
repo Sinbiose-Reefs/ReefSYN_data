@@ -217,22 +217,19 @@ benthos_DF_eMOF$eventRemarks <- "Bare substrate, sediment, lost information (sha
 
 
 # save
-write.table(benthos_DF_occ2, file =here("DwC_output",
+write.csv(benthos_DF_occ2, file =here("DwC_output",
                                "PELD_iloc_benthos",
-                               "DF_occ.txt"),sep=",",
-            quote = FALSE,
-            row.names = F)
-write.table(benthos_DF_eMOF, file =here("DwC_output",
+                               "DF_occ.csv"),
+            quote = T)
+write.csv(benthos_DF_eMOF, file =here("DwC_output",
                                 "PELD_iloc_benthos",
-                                "DF_eMOF.txt"),sep=",",
-            quote = FALSE,
-            row.names = F)
+                                "DF_eMOF.csv"),
+            quote = T)
 
-write.table(benthos_event_core, file =here("DwC_output",
+write.csv(benthos_event_core, file =here("DwC_output",
                                    "PELD_iloc_benthos",
-                                   "event_core.txt"),sep=",",
-            quote = FALSE,
-            row.names = F)
+                                   "event_core.csv"),
+            quote = T)
 
 # end
 rm(list=ls())

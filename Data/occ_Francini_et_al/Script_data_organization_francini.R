@@ -449,18 +449,15 @@ years_sites <- table (francini_bind_data$site,francini_bind_data$locality,franci
 colnames(francini_bind_data)[which(colnames(francini_bind_data) == "cover")] <- "measurementValue"
 
 # method
-francini_bind_data$samplingProtocol <- "Photoquadrats - 2 x 1m"
+francini_bind_data$samplingProtocol <- "Photoquadrats - 0.66 x 0.75 m"
 # samplingEffort
 
+# only the range mentioned
+# not sure yet how many per site
+francini_bind_data$samplingEffort <- "5 - 33" # 5 to 33 (Following Santana et al 2023)
 
-
-# CHECK THIS ONCE AGAIN!!!
-francini_bind_data$samplingEffort <- 5 - 33 # 5 to 33 (Following Santana et al 2023) # not sure yet how many per site
-
-
-
-
-
+# eventRemarks
+francini_bind_data$eventRemarks <- "Only the range of # plots across sites provided"
 # sampleSizeValue
 francini_bind_data$sampleSizeValue <- 0.66*0.75 # 5 quadrats, 66 * 75 cm
 
@@ -555,9 +552,10 @@ event_core <- data.frame (group_by(francini_bind_data, eventID,higherGeography,s
                                       minimumDepthinMeters = mean(minimumDepthinMeters),
                                       maximumDepthinMeters = mean(maximumDepthinMeters),
                                       samplingProtocol = unique(samplingProtocol),
-                                      samplingEffort = mean(samplingEffort),
+                                      samplingEffort = unique(samplingEffort),
                                       sampleSizeValue = mean(sampleSizeValue),
                                       sampleSizeUnit = unique(sampleSizeUnit),
+                                      eventRemarks = unique(eventRemarks),
                                       decimalLongitude = mean(decimalLongitude),
                                       decimalLatitude = mean(decimalLatitude),
                                       geodeticDatum = unique(geodeticDatum),

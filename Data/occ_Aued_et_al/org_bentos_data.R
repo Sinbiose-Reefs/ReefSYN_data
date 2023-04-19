@@ -68,6 +68,7 @@ bentos_long_format$eventDate <- as.Date(novas_datas, format="%Y-%m-%d")
 bentos_long_format$day <- format(as.Date(novas_datas, format="%Y-%m-%d"),"%d")
 bentos_long_format$month <- format(as.Date(novas_datas, format="%Y-%m-%d"),"%m")
 bentos_long_format$year <- format(as.Date(novas_datas, format="%Y-%m-%d"),"%Y")
+
 # check year
 bentos_long_format [is.na(bentos_long_format$year),]
 
@@ -373,9 +374,8 @@ bentos_long_format$genus <-(df_worms_record$genus [match (bentos_long_format$tax
 # BrazilianOceanicIslands -> temos alguns monitoramentos em ilhas costeiras
 
 
-# adjusting colname of sites
-
-site is locality
+# adjusting colnames of site
+# site is locality
 
 bentos_long_format$site == bentos_long_format$Sites
 
@@ -440,7 +440,7 @@ bentos_long_format$parentEventID <- paste (
 
 
 # method
-bentos_long_format$samplingProtocol <- "Photoquadrats - 2 x 1m"
+bentos_long_format$samplingProtocol <- "Photoquadrats - 0.25 x 0.25 m"
 
 # samplingEffort
 bentos_long_format$samplingEffort <- 5 # 5 quadrats per plot, 25 * 25 cm
@@ -554,6 +554,7 @@ event_core <- data.frame (group_by(bentos_long_format[,-4], eventID,higherGeogra
                                       samplingEffort = mean(samplingEffort),
                                       sampleSizeValue = mean(sampleSizeValue),
                                       sampleSizeUnit = unique(sampleSizeUnit),
+                                      eventRemarks = unique(eventRemarks),
                                       decimalLongitude = mean(decimalLongitude),
                                       decimalLatitude = mean(decimalLatitude),
                                       geodeticDatum = unique(geodeticDatum),

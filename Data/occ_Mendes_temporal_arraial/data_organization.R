@@ -216,6 +216,19 @@ dados_bind$genus<-(df_worms_record$genus [match ( (dados_bind$namesToSearch),
 unique(dados_bind [is.na(dados_bind$scientificNameAccepted),"namesToSearch"])
 
 
+
+# taxomic updates 
+# spp
+dados_bind$scientificNameAccepted[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina multilineata"
+dados_bind$scientificNameAccepted[grep ("polygonius", dados_bind$scientificNameAccepted)] <- "Acanthostracion polygonium"
+
+# genus too
+dados_bind$genus[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina"
+
+
+
+
+
 # --------------------------------------------------------------------------
 # ADJUSTING SITES
 

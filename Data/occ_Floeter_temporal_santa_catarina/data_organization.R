@@ -207,6 +207,7 @@ df_worms_record <- data.frame(do.call(rbind,worms_record))
 # valid name WORMS
 dados_bind$scientificNameAccepted <- (df_worms_record$scientificname [match (dados_bind$species_to_search,
                                                       tolower (df_worms_record$scientificname))])
+
 # id
 dados_bind$scientificNameID<-(df_worms_record$lsid [match (dados_bind$species_to_search,
                                                       tolower (df_worms_record$scientificname))])
@@ -238,6 +239,17 @@ dados_bind$family<-(df_worms_record$family [match (dados_bind$species_to_search,
 dados_bind$genus<-(df_worms_record$genus [match (dados_bind$species_to_search,
                                                    tolower(df_worms_record$scientificname))])
 
+
+
+# taxonomic updates
+# species
+dados_bind$scientificNameAccepted[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina multilineata"
+dados_bind$scientificNameAccepted[grep ("bartholomaei", dados_bind$scientificNameAccepted)] <- "Caranx bartholomaei"
+dados_bind$scientificNameAccepted[grep ("polygonius", dados_bind$scientificNameAccepted)] <- "Acanthostracion polygonium"
+
+# genus
+dados_bind$genus[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina"
+dados_bind$genus[grep ("bartholomaei", dados_bind$scientificNameAccepted)] <- "Caranx"
 
 
 # ----------------------------------------------------------------------------

@@ -201,16 +201,19 @@ benthos_long_format$occurrenceID <- paste (
 benthos_long_format$year<- benthos_long_format$eventDate
 
 # method
-benthos_long_format$samplingProtocol <- "Point-intercept  lines - 10m"
+benthos_long_format$samplingProtocol <- "Photoquadrats - 0.5 x 0.5 m"# 4 quadrats within point-intercept  lines of 10m"
 
 # samplingEffort
-benthos_long_format$samplingEffort <- 4 # four lines
+benthos_long_format$samplingEffort <- "4 plots per 10 m lines" # four plots
 
 # sampleSizeValue
-benthos_long_format$sampleSizeValue <- 10 # length of each line
+benthos_long_format$sampleSizeValue <- 0.5*0.5 # length of each line
 
 # sampleSizeUnit
-benthos_long_format$sampleSizeUnit <- "meters"
+benthos_long_format$sampleSizeUnit <- "squared meters"
+
+# event remark
+benthos_long_format$eventRemarks <- "Random distribution of plots"
 
 # country and code
 benthos_long_format$Country <- "Brazil"
@@ -384,6 +387,7 @@ event_core <- data.frame (group_by(benthos_long_format, eventID,higherGeography,
                                       samplingEffort = unique(samplingEffort),
                                       sampleSizeValue = unique(sampleSizeValue),
                                       sampleSizeUnit = unique(sampleSizeUnit),
+                                      eventRemarks = unique(eventRemarks),
                                       decimalLongitude = mean(decimalLongitude),
                                       decimalLatitude = mean(decimalLatitude),
                                       geodeticDatum = unique(geodeticDatum),
@@ -702,16 +706,20 @@ benthos_long_format_2006$occurrenceID <- paste (
 benthos_long_format_2006$year<-benthos_long_format_2006$eventDate
 
 # method
-benthos_long_format_2006$samplingProtocol <- "Photoquadrats - 1 x 1m" # Fixed photo-quadrats
+benthos_long_format_2006$samplingProtocol <- "Photoquadrats - 1 X 0.7 m" # Fixed photo-quadrats
 
 # samplingEffort
-benthos_long_format_2006$samplingEffort <- 10 # 10 qudrats, 15 images per quadrat
+benthos_long_format_2006$samplingEffort <- 10 # 10 qudrats, 15 images per quadrat - Final sample
+# size ranged between 7–10 quadrats per habitat per site per year.
 
 # sampleSizeValue
 benthos_long_format_2006$sampleSizeValue <- 0.7
 
 # sampleSizeUnit
 benthos_long_format_2006$sampleSizeUnit <- "squared meters"
+
+# event remark
+benthos_long_format_2006$eventRemarks <- "Fixed plots"
 
 # country and code
 benthos_long_format_2006$Country <- "Brazil"
@@ -834,6 +842,7 @@ event_core_2006 <- data.frame (group_by(benthos_long_format_2006, eventID,higher
                                       samplingEffort = unique(samplingEffort),
                                       sampleSizeValue =unique(sampleSizeValue),
                                       sampleSizeUnit = unique(sampleSizeUnit),
+                                      eventRemarks = unique(eventRemarks),
                                       decimalLongitude = mean(decimalLongitude),
                                       decimalLatitude = mean(decimalLatitude),
                                       geodeticDatum = unique(geodeticDatum),

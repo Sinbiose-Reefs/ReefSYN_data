@@ -35,7 +35,13 @@ fish_event_core <-  read.csv(here ("Data",
 
 
 # identify these sites are in the islands
-fish_event_core$higherGeography <- "BrazilianOceanicIslands"
+fish_event_core$higherGeography <- ifelse (fish_event_core$island == "Ascension", 
+                                           "UnitedKingdomIslands",
+                                           "BrazilianOceanicIslands")
+# remove ascension
+fish_event_core <- fish_event_core [which(fish_event_core$island != "Ascension"),]
+
+
 # tartarugas in Trindade & Rocas
 fish_event_core[grep ("Trindade_Tartarugas",fish_event_core$eventID),"locality"] <- "tartarugas_trindade"
 fish_event_core$locality<-tolower(iconv(fish_event_core$locality, "UTF-8", "ASCII//TRANSLIT", sub=""))
@@ -60,8 +66,15 @@ fish_DF_occ2 <- read.csv(here ("Data",
 # ADJUSTING SCIENTIFIC NAMES
 fish_DF_occ2$scientificName <- tolower (fish_DF_occ2$scientificName)
 
+# comments from Lucas Nunes (email to ALLuza)
+# - Anisotremus virginicus não ocorre nas ilhas, trocar para Anisotremus surinamensis; OK
+# - Existem nomes das espécies que estão errados, por exemplo: "Acanthostracion polygonius" o certo sería: "Acanthostracion polygonium", "Carangoides bartholomaei" -> "Caranx bartholomaei"; "hybrid_cep_ful_par_fur" -> " "Menaphorus punticulatus". Enfim, vale dar uma conferida em tudo e seguir o catalog of fishes. Não entendi muito bem a diferença entre as duas colunas com o nome de espécies, não tive acesso aos metadados.
+# - Também existem alguns updates de taxonomia que merecem uma atenção, por exemplo, "Chromis multilineata" agora é "Azurina multilineata", "Ophioblennius" nas ilhas Brasileiras é "Ophioblennius trinitatis".
 
-# checking
+# correcting
+fish_DF_occ2$scientificName[grep("anisotremus virginicus", fish_DF_occ2$scientificName)] <- "anisotremus surinamensis"
+fish_DF_occ2$scientificName[grep("^ophioblennius$", fish_DF_occ2$scientificName)] <- "ophioblennius trinitatis"
+fish_DF_occ2$scientificName[grep("menaphorus", fish_DF_occ2$scientificName)] <- "menephorus punticulatus"
 
 
 # match with worms
@@ -82,13 +95,9 @@ worms_record <- lapply (unique(fish_DF_occ2$scientificName), function (i)
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 
-
-
-
-
 # valid name WoRMS 
 fish_DF_occ2$scientificNameAccepted <- (df_worms_record$scientificname [match (fish_DF_occ2$scientificName,
-                                                                                  tolower (df_worms_record$scientificname))])
+                                                                                tolower (df_worms_record$scientificname))])
 
 # taxon rank of the identified level
 fish_DF_occ2$taxonRank <- (df_worms_record$rank [match (fish_DF_occ2$scientificName,
@@ -122,6 +131,17 @@ fish_DF_occ2$family<-(df_worms_record$family [match (fish_DF_occ2$scientificName
 # genus
 fish_DF_occ2$genus <-(df_worms_record$genus [match (fish_DF_occ2$scientificName,
                                                      tolower (df_worms_record$scientificname))])
+
+# taxonomic updates
+# species
+fish_DF_occ2$scientificNameAccepted[grep ("multilineata", fish_DF_occ2$scientificNameAccepted)] <- "Azurina multilineata"
+fish_DF_occ2$scientificNameAccepted[grep ("bartholomaei", fish_DF_occ2$scientificNameAccepted)] <- "Caranx bartholomaei"
+fish_DF_occ2$scientificNameAccepted[grep ("polygonius", fish_DF_occ2$scientificNameAccepted)] <- "Acanthostracion polygonium"
+
+# genus
+fish_DF_occ2$genus[grep ("multilineata", fish_DF_occ2$scientificNameAccepted)] <- "Azurina"
+fish_DF_occ2$genus[grep ("bartholomaei", fish_DF_occ2$scientificNameAccepted)] <- "Caranx"
+
 
 
 # adjust site names
