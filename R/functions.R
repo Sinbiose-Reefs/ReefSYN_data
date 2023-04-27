@@ -47,8 +47,9 @@ angle2dec <- function(angle) {
   return(x)
 }
 
-### funcao para organizar o df do wordcloud
 
+
+### funcao para organizar o df do wordcloud
 function_freq_texto_wc <- function (df_freq) {
   
   
@@ -155,6 +156,5 @@ function_freq_texto_wc <- function (df_freq) {
   ## retornar word
   return (word)
 }
-
 
 
