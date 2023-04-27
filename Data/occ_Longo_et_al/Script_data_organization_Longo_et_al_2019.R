@@ -397,18 +397,18 @@ unique(L.peixes_coord [is.na(L.peixes_coord$scientificNameAccepted),"namesToSear
 L.peixes_coord$scientificNameAccepted[grep ("multilineata", L.peixes_coord$scientificNameAccepted)] <- "Azurina multilineata"
 L.peixes_coord$scientificNameAccepted[grep ("bartholomaei", L.peixes_coord$scientificNameAccepted)] <- "Caranx bartholomaei"
 L.peixes_coord$scientificNameAccepted[grep ("polygonius", L.peixes_coord$scientificNameAccepted)] <- "Acanthostracion polygonium"
+L.peixes_coord$scientificNameAccepted[grep ("Hypanus americanus", L.peixes_coord$scientificNameAccepted)] <- "Hypanus berthalutzea"
 
 # genus
 L.peixes_coord$genus[grep ("multilineata", L.peixes_coord$scientificNameAccepted)] <- "Azurina"
 L.peixes_coord$genus[grep ("bartholomaei", L.peixes_coord$scientificNameAccepted)] <- "Caranx"
 
 
+unique(L.peixes_coord$scientificNameAccepted)[order(unique(L.peixes_coord$scientificNameAccepted))]
 
 
 # -----------------------------------------------------------------------------------
 # ADJUSTING DATES
-
-
 
 
 

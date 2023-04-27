@@ -213,10 +213,16 @@ fish_long_format$genus <-(df_worms_record$genus [match (fish_long_format$namesTo
 fish_long_format$scientificNameAccepted[grep ("multilineata", fish_long_format$scientificNameAccepted)] <- "Azurina multilineata"
 fish_long_format$scientificNameAccepted[grep ("bartholomaei", fish_long_format$scientificNameAccepted)] <- "Caranx bartholomaei"
 fish_long_format$scientificNameAccepted[grep ("polygonius", fish_long_format$scientificNameAccepted)] <- "Acanthostracion polygonium"
+fish_long_format$scientificNameAccepted[grep ("Dasyatis americana", fish_long_format$scientificNameAccepted)] <- "Hypanus berthalutzea"
+fish_long_format$scientificNameAccepted[grep ("Emblemariopsis signifera", fish_long_format$scientificNameAccepted)] <- "Emblemariopsis signifer"
+fish_long_format$scientificNameAccepted[grep ("Haemulon plumieri", fish_long_format$scientificNameAccepted)] <- "Haemulon plumierii"
+fish_long_format$scientificNameAccepted[grep ("Labrisomus kalisherae", fish_long_format$scientificNameAccepted)] <- "Goblioclinus kalisherae"
 
 # genus
 fish_long_format$genus[grep ("multilineata", fish_long_format$scientificNameAccepted)] <- "Azurina"
 fish_long_format$genus[grep ("bartholomaei", fish_long_format$scientificNameAccepted)] <- "Caranx"
+fish_long_format$genus[grep ("Hypanus berthalutzea", fish_long_format$scientificNameAccepted)] <- "Hypanus"
+fish_long_format$genus[grep ("Goblioclinus kalisherae", fish_long_format$scientificNameAccepted)] <- "Goblioclinus"
 
 
 # -------------------------------------------------------------

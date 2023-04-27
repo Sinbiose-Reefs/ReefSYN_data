@@ -87,7 +87,7 @@ dados$FunctionalGroup <- lista_grupos_funcionais$FunctionalGroupLabel [match (as
 
 # ------------------------------------------------------------------------------------
 # ADJUSTING DATES
-
+# diverse formats
 
 
 
@@ -151,6 +151,8 @@ dados$month [which (nchar (as.character (dados$verbatimDate)) > 5 & is.na(dados$
 #barplot (table(as.numeric (format (as.Date (dados$eventDate), "%Y"))),
 #        las=2,xlab="Year",ylab="Frequency")
 
+# gather year - month data to find the year
+dados[is.na(dados$year),"year"] <- substr(dados[is.na(dados$year),"month"],1,4)
 
 
 # ------------------------------------------------------------------------------------
@@ -394,6 +396,7 @@ dados$genus<-(df_worms_record$genus [match (dados$namesToSearch,
 dados$scientificNameAccepted[grep ("multilineata", dados$scientificNameAccepted)] <- "Azurina multilineata"
 dados$scientificNameAccepted[grep ("bartholomaei", dados$scientificNameAccepted)] <- "Caranx bartholomaei"
 dados$scientificNameAccepted[grep ("polygonius", dados$scientificNameAccepted)] <- "Acanthostracion polygonium"
+dados$scientificNameAccepted[grep ("Hypanus americanus", dados$scientificNameAccepted)] <- "Hypanus berthalutzea"
 
 # genus
 dados$genus[grep ("multilineata", dados$scientificNameAccepted)] <- "Azurina"

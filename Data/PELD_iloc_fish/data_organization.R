@@ -137,11 +137,13 @@ fish_DF_occ2$genus <-(df_worms_record$genus [match (fish_DF_occ2$scientificName,
 fish_DF_occ2$scientificNameAccepted[grep ("multilineata", fish_DF_occ2$scientificNameAccepted)] <- "Azurina multilineata"
 fish_DF_occ2$scientificNameAccepted[grep ("bartholomaei", fish_DF_occ2$scientificNameAccepted)] <- "Caranx bartholomaei"
 fish_DF_occ2$scientificNameAccepted[grep ("polygonius", fish_DF_occ2$scientificNameAccepted)] <- "Acanthostracion polygonium"
+fish_DF_occ2$scientificNameAccepted[grep ("Anthias salmopunctatus", fish_DF_occ2$scientificNameAccepted)] <- "Choranthias salmopunctatus"
+fish_DF_occ2$scientificNameAccepted[grep ("Hypanus americanus", fish_DF_occ2$scientificNameAccepted)] <- "Hypanus berthalutzea"
 
 # genus
 fish_DF_occ2$genus[grep ("multilineata", fish_DF_occ2$scientificNameAccepted)] <- "Azurina"
 fish_DF_occ2$genus[grep ("bartholomaei", fish_DF_occ2$scientificNameAccepted)] <- "Caranx"
-
+fish_DF_occ2$genus[grep ("Choranthias salmopunctatus", fish_DF_occ2$scientificNameAccepted)] <- "Choranthias"
 
 
 # adjust site names

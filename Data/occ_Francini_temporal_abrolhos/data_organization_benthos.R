@@ -517,6 +517,7 @@ benthos_long_format_2006$taxonOrGroup[grep("crinside",benthos_long_format_2006$t
 benthos_long_format_2006$taxonOrGroup[grep("estrela",benthos_long_format_2006$taxonOrGroup)] <- "asteroidea"
 
 
+
 ### melhor nao indicar grupo morfo-anatomico (MAG) como taxonOrGroup. Esse MAG nao tem compativel pra inseir no DwC/OBIS
 ### Vou indicar o nivel taxonomico compativel com o que tiver e o resto deixamos como estava 
 ### Os grupos morfo-anatomicos podem ser adicionados com merge de tabela referencia depois
@@ -644,6 +645,14 @@ benthos_long_format_2006$genus <-(df_worms_record$genus [match (benthos_long_for
                                                                   tolower(df_worms_record$scientificname))])
 
 
+# taxoomic updates
+# spp
+benthos_long_format_2006$scientificNameAccepted[grep("Montastrea", benthos_long_format_2006$scientificNameAccepted)] <- "Montastraea cavernosa"
+benthos_long_format_2006$scientificNameAccepted[grep("leptophylla", benthos_long_format_2006$scientificNameAccepted)] <- "Mussismilia leptophylla"
+
+# genus
+benthos_long_format_2006$genus[grep("Montastraea", benthos_long_format_2006$scientificNameAccepted)] <- "Montastraea"
+benthos_long_format_2006$genus[grep("leptophylla", benthos_long_format_2006$scientificNameAccepted)] <- "Mussismilia"
 
 
 # ------------------------------------------------------------------------

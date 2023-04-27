@@ -246,10 +246,13 @@ dados_bind$genus<-(df_worms_record$genus [match (dados_bind$species_to_search,
 dados_bind$scientificNameAccepted[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina multilineata"
 dados_bind$scientificNameAccepted[grep ("bartholomaei", dados_bind$scientificNameAccepted)] <- "Caranx bartholomaei"
 dados_bind$scientificNameAccepted[grep ("polygonius", dados_bind$scientificNameAccepted)] <- "Acanthostracion polygonium"
+dados_bind$scientificNameAccepted[grep ("Dasyatis americana", dados_bind$scientificNameAccepted)] <- "Hypanus berthalutzea"
 
 # genus
 dados_bind$genus[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina"
 dados_bind$genus[grep ("bartholomaei", dados_bind$scientificNameAccepted)] <- "Caranx"
+dados_bind$genus[grep ("Hypanus berthalutzea", dados_bind$scientificNameAccepted)] <- "Hypanus"
+
 
 
 # ----------------------------------------------------------------------------

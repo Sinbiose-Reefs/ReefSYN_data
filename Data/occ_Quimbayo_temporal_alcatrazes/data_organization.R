@@ -120,6 +120,7 @@ alcatrazes_time_series$genus <-(df_worms_record$genus [match (alcatrazes_time_se
 # species
 alcatrazes_time_series$scientificNameAccepted[grep ("multilineata", alcatrazes_time_series$scientificNameAccepted)] <- "Azurina multilineata"
 alcatrazes_time_series$scientificNameAccepted[grep ("polygonius", alcatrazes_time_series$scientificNameAccepted)] <- "Acanthostracion polygonium"
+alcatrazes_time_series$scientificNameAccepted[grep ("Emblemariopsis signifera", alcatrazes_time_series$scientificNameAccepted)] <- "Emblemariopsis signifer"
 
 # genus
 alcatrazes_time_series$genus[grep ("multilineata", alcatrazes_time_series$scientificNameAccepted)] <- "Azurina"

@@ -159,11 +159,12 @@ occ_Ross_et_al$genus <-(df_worms_record$genus [match (occ_Ross_et_al$namesToSear
 # species
 occ_Ross_et_al$scientificNameAccepted[grep ("multilineata", occ_Ross_et_al$scientificNameAccepted)] <- "Azurina multilineata"
 occ_Ross_et_al$scientificNameAccepted[grep ("bartholomaei", occ_Ross_et_al$scientificNameAccepted)] <- "Caranx bartholomaei"
+occ_Ross_et_al$scientificNameAccepted[grep ("Hypanus americanus", occ_Ross_et_al$scientificNameAccepted)] <- "Hypanus berthalutzea"
+occ_Ross_et_al$scientificNameAccepted[grep ("Kyphosus vaigensis", occ_Ross_et_al$scientificNameAccepted)] <- "Kyphosus vaigiensis"
 
 # genus
 occ_Ross_et_al$genus[grep ("multilineata", occ_Ross_et_al$scientificNameAccepted)] <- "Azurina"
 occ_Ross_et_al$genus[grep ("bartholomaei", occ_Ross_et_al$scientificNameAccepted)] <- "Caranx"
-
 
 
 
@@ -447,7 +448,7 @@ event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,site,verb
 
 
 # ------------------------------------------------------
-# ORGANIZE THE FISH DATASET (MONITORING OF PARRACHOS -- 2016 - 2022)
+# ORGANIZE THE FISH DATASET (MONITORING OF PARRACHOS -- 2016 - 2023)
 
 
 
@@ -455,7 +456,7 @@ event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,site,verb
 
 # Ross, Longo et al. (RN fish)
 occ_Ross_et_al_parrachos <- read.xlsx(here("Data","occ_RN_Norte_Longo",
-                                 "Censos_Rio do Fogo_10082022.xlsx"),
+                                 "Censos_Rio do Fogo_20042023.xlsx"),
                             sheet = 1, colNames = TRUE,
                             detectDates=F)
 
@@ -464,7 +465,7 @@ occ_Ross_et_al_parrachos$spp <- gsub (" ", "", occ_Ross_et_al_parrachos$spp)
 
 # second sheet, species names
 sp_Ross_et_al <- read.xlsx(here("Data","occ_RN_Norte_Longo",
-                                "Censos_Rio do Fogo_17052022.xlsx"),
+                                "Censos_Rio do Fogo_20042023.xlsx"),
                            sheet = 2, colNames = TRUE,detectDates=T)
 
 # match these last two
@@ -599,6 +600,7 @@ occ_Ross_et_al_parrachos$genus <-(df_worms_record$genus [match (occ_Ross_et_al_p
 # species
 occ_Ross_et_al_parrachos$scientificNameAccepted[grep ("multilineata", occ_Ross_et_al_parrachos$scientificNameAccepted)] <- "Azurina multilineata"
 occ_Ross_et_al_parrachos$scientificNameAccepted[grep ("bartholomaei", occ_Ross_et_al_parrachos$scientificNameAccepted)] <- "Caranx bartholomaei"
+#occ_Ross_et_al_parrachos$scientificNameAccepted[grep ("polygonius", occ_Ross_et_al_parrachos$scientificNameAccepted)] <- "Acanthostracion polygonium"
 
 # genus
 occ_Ross_et_al_parrachos$genus[grep ("multilineata", occ_Ross_et_al_parrachos$scientificNameAccepted)] <- "Azurina"
@@ -1084,7 +1086,9 @@ occ_Ross_et_al_benthos$genus <-(df_worms_record$genus [match (occ_Ross_et_al_ben
 
 unique(occ_Ross_et_al_benthos[is.na(occ_Ross_et_al_benthos$scientificName),"taxonOrGroup"])
 
-
+# update
+occ_Ross_et_al_benthos$scientificNameAccepted[grep ("Montastrea cavernosa", occ_Ross_et_al_benthos$scientificNameAccepted)] <- "Montastraea cavernosa"
+occ_Ross_et_al_benthos$genus[grep ("Montastraea cavernosa", occ_Ross_et_al_benthos$scientificNameAccepted)] <- "Montastraea"
 
 
 # ------------------------------------------------------------------------
@@ -1210,9 +1214,9 @@ occ_Ross_et_al_benthos$geodeticDatum <- "decimal degrees"
 occ_Ross_et_al_benthos$samplingProtocol <- "Photoquadrats - 0.25 x 0.25 m"
 # effort
 ## check roos et al. 2020/2019
-occ_Ross_et_al_benthos$samplingEffort <- 0.25*0.25 # one squared meter
+occ_Ross_et_al_benthos$samplingEffort <- 10# number of photos across the 20 m transect
 # sampleSizeValue
-occ_Ross_et_al_benthos$sampleSizeValue <- 10# number of photos across the 20 m transect
+occ_Ross_et_al_benthos$sampleSizeValue <- 0.25*0.25 # squared meters
 # sampleSizeUnit
 occ_Ross_et_al_benthos$sampleSizeUnit <- "squared meters"
 # recordedBy
