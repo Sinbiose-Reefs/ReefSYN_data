@@ -443,10 +443,10 @@ General taxonomic coverage description
 The seven fish datasets comprise the description of the occurrence of
 318 taxa from 176 genera, 69 families and 2 classes, being them
 TeleosteiandElasmobranchii. The five benthic datasets comprise the
-description of the occurrence of 82 taxa, 176 genera, 68 families, 15,
-and 4 kingdoms, being them Plantae, Animalia, Bacteria, Chromista.
-Because the photographic identification does not always allow the
-species level identification, the number of genera and families are
+description of the occurrence of 82 taxa, 82 genera, 68 families, 15
+classes, and 4 kingdoms, being them Plantae, Animalia, Bacteria,
+Chromista. Because the photographic identification does not always allow
+the species level identification, the number of genera and families are
 comparatively high relative to species richness. In general, the
 datasets with a large spatial coverage (datasets I and X from
 SISBIOTA-Mar project) showed higher taxa richness in comparison with
