@@ -1,8 +1,8 @@
 ---
 title:  "Standardized datasets of Brazilian reef diversity in space and time"
-author: "Reef Synthesis Working Group; Luza, AL, Cordeiro, CAMM, ..., Aued, AW, Ferreira, CEL, Floeter, SR, Francini-Filho, RB, Longo, GO, Mendes, T., Roos, N, Segal, B, Bender, MG"
-date: "2023/02/06"
-output: word_document #github_document #  
+author: "Reef Synthesis Working Group; Luza, AL, Cordeiro, CAMM, ..., Aued, AW, Ferreira, CEL, Floeter, SR, Francini-Filho, RB, Longo, GO, Mendes, T, Roos, N, Segal, B, Bender, MG"
+date: "2023/04/26"
+output: word_document #  
 ---
 
 
@@ -23,7 +23,7 @@ The ReefSYN gathers 22 researchers (20 early-career and senior researchers, assi
 Curating available datasets to a common, globally accepted standard –the Darwin Core Standard–  would enable synthesis to answer ambitious questions on drivers of diversity and functioning of Brazilian reef ecosystems, and quantifying/ assessing anthropogenic impacts on reef biodiversity and ecosystem services. Adequate data standardization and storage enable data to be findable, accessible, interoperable and reusable (the ‘FAIR’ principles, Wilkinson et al. 2016) such that data can be integrated with pre-existing datasets by researchers and/or machine-learning algorithms. Following these principles we hereby present and characterize the 12 datasets gathered by ReefSYN (seven of fish and five of benthos), showing summaries of spatial distribution, sampling effort and methods, gain of data over time, and taxonomic coverage of data.
 
 
-```{r, echo = F, fig.height=6.5,fig.width=6.5,fig.margin=F,fig.align="center", message=F,warning=F,out.width="80%",out.height="80%",dpi=600}
+```{r dev = c("png", "tiff", "pdf"), echo = F, fig.height=6.5,fig.width=6.5,fig.margin=F,fig.align="center", message=F,warning=F,out.width="80%",out.height="80%",dpi=600}
 
 
 ## R code to load data sets and plot points
@@ -74,7 +74,7 @@ wm <- ggplot() +
         axis.title.y = element_text(size=10),
         #title = element_blank(),
         plot.margin = unit(c(0,-0.8,0,0.3), "cm")) +
-  labs (title = "Institutions of ReefSYN team members")
+  labs (title = "A) Institutions of ReefSYN team members")
 
 
 # map
@@ -118,21 +118,25 @@ par(mar = c(4, 4, .1, .1))
 #          colors = RColorBrewer::brewer.pal(8, "Dark2"))
 #
 
-
+#dir.create("output")
+#pdf (here ("output"),file= "fig1A.pdf")
 map_SC
+#dev.off()
 
-# title english
+
+# wordcloud
 wordcloud::wordcloud(words = freq_texto_wc$word, 
           freq = freq_texto_wc$freq.Freq,
           min.freq = 2,scale=c(4, .2),
           max.words=max(freq_texto_wc$freq.Freq)+3, 
           random.order=FALSE, rot.per=0.15, 
-          colors = RColorBrewer::brewer.pal(8, "Dark2"))
+          colors = RColorBrewer::brewer.pal(8, "Dark2"),
+          main = "Title")
 
 
 
 ```
-Fig. 1: Institutions and research topics explored by the ReefSYN team members.
+Fig. 1: Institutions (A) and research topics (B) explored by the ReefSYN team members.
 
 
 # 2 Methodology
@@ -146,16 +150,14 @@ Notably, the cumulative number of eventIDs (i.e. information associated with a s
 
 
 
-```{r, echo = F, fig.height=8, fig.width=8, message=F, warning=F, fig.align= "center", out.width="100%", out.height="100%", dpi=600}
+```{r dev = c("png", "tiff", "pdf"), echo = F, fig.height=8, fig.width=8, message=F, warning=F, fig.align= "center", out.width="100%", out.height="100%", dpi=600}
 
 # load Datasets
 # benthos
 ds1<- read.csv (here::here("DwC_output", "AAued_spatialData", "event_core.csv"))
 ds2<- read.csv (here::here("DwC_output", "GLongo_NRoss_spatialData", "event_core_benthos.csv"))
-ds3<- read.table (here::here("DwC_output","PELD_iloc_benthos", "event_core.txt"),h=T,sep=",")
+ds3<- read.csv (here::here("DwC_output","PELD_iloc_benthos", "event_core.csv"))
 colnames(ds3)[which(colnames(ds3) == "island")] <- "site"
-colnames(ds3)[which(colnames(ds3) == "eventYear")] <- "year"
-ds3$higherGeography <- "BrazilianOceanicIslands"
 ds4<- read.csv (here::here("DwC_output","RFrancini_spatialData", "event_core.csv"))
 ds5<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","event_core_benthos.csv"))
 
@@ -164,9 +166,6 @@ ds6<- read.csv (here::here("DwC_output","GLongo_NRoss_spatialData", "event_core_
 ds7<- read.csv (here::here("DwC_output","GLongo_spatialData", "event_core.csv"))
 ds8<- read.csv (here::here("DwC_output","PELD_iloc_fish", "event_core.csv"))
 colnames(ds8)[which(colnames(ds8) == "island")] <- "site"
-colnames(ds8)[which(colnames(ds8) == "eventYear")] <- "year" # 
-ds8 <- ds8 [which(ds8$site != "Ascension"),] # removing Ascension
-ds8$higherGeography <- "BrazilianOceanicIslands"
 ds9<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","event_core_fish.csv"))
 ds10<- read.csv (here::here("DwC_output","RJ_time_series", "event_core.csv"))
 ds11<- read.csv (here::here("DwC_output","RMorais_spatialData", "event_core.csv"))
@@ -317,9 +316,22 @@ gridExtra::grid.arrange(
 
 
 # unique locality names
-#unique(c(coords_fish_unique_sites$locality,
-#coords_unique_sites$locality))
-# coords_fish_unique_sites
+localities <- length(unique(c(coords_fish_unique_sites$locality,coords_unique_sites$locality)))
+sites <- length(unique(c(coords_fish$site, coords$site)))
+samples_benthos <- length(unique(unlist (sapply (list_benthos, "[[", "eventID"))))
+samples_fish <- length(unique(unlist (sapply (list_fish, "[[", "eventID"))))
+total_samples <- samples_benthos + samples_fish
+years_benthos <- unique(unlist (sapply (list_benthos, "[[", "year")))
+years_benthos <- years_benthos[order(years_benthos)]
+years_fish <- unique(unlist (sapply (list_fish, "[[", "year")))
+years_fish <- years_fish[order(years_fish)]
+range_years <- range (c(years_fish,years_benthos),na.rm=T)
+
+# filming time in BR
+# extracted from here: 
+# https://onlinelibrary.wiley.com/doi/10.1111/geb.12806#support-information-section
+#filming_time <- sum(23, 85, 77, 112, 72, 90, 101, 128)
+#(filming_time*(10/60))
 
 
 ```
@@ -328,7 +340,8 @@ Fig. 2: Spatial distribution of fish (left) and benthos (right) sampling sites p
 
 ## 2.2 Data description
 
-The datasets described here represent different efforts to gather data on reef fish and benthos along the Brazilian biogeographical province. We hereby present 12 datasets of reef fish (n=7) and benthos (n=5). Three out of seven fish datasets and two out of five benthic datasets are time series (Tables 1 and 2). The remaining datasets are spatial snapshots (only one visit to a site) whose data were collected over many years.
+The datasets described here represent different efforts to gather data on reef fish and benthos along the Brazilian biogeographical province. We hereby present 13 datasets, being eight of reef fish and five of benthos. Three out of seven fish datasets and two out of five benthic datasets are time series (Tables 1 and 2). The remaining datasets are spatial snapshots (only one visit to a site) whose data were collected over many years.
+There were a total of `r total_samples` samples distributed throughout the Brazilian biogeographic province (n=`r samples_fish` for fish, and n=`r samples_benthos`) from `r range_years[1]` to `r range_years[2]`. These samples were distributed in a total of `r sites` sites and `r localities` localities.
 
 
 Table 1: Description of reef fish datasets.
@@ -438,7 +451,7 @@ table_description_data_benthos %>%
 <!-- badges: end -->
 
 
-```{r, echo = F, fig.height=5,fig.width=8,message=F, warning=F,fig.align= "center",dpi=600,out.width="100%",out.height="100%"}
+```{r dev = c("png", "tiff", "pdf"), echo = F, fig.height=5,fig.width=8,message=F, warning=F,fig.align= "center",dpi=600,out.width="100%",out.height="100%"}
 
 
 # benthos
@@ -488,11 +501,14 @@ begin_data_fish <- do.call(rbind,eventIDs_yearB) %>%
 
 
 # bind the years in the fish Dataset missing in the benthic Datasets
-to_bind_benthos <- data.frame (year = c(2001, 2002,2020,2021,2022),
+to_bind_benthos <- data.frame (year = c(2001, 2002,2020,2021,2022,2023),
                                sum_cum=c(0,0,max(eventIDs_year_benthos$sum_cum),
                                           max(eventIDs_year_benthos$sum_cum),
-                                          max(eventIDs_year_benthos$sum_cum)),
+                                          max(eventIDs_year_benthos$sum_cum),
+                                         max(eventIDs_year_benthos$sum_cum)),
+                               
                                n_cum=c(0,0,max(eventIDs_year_benthos$n_cum),
+                                       max(eventIDs_year_benthos$n_cum),
                                        max(eventIDs_year_benthos$n_cum),
                                        max(eventIDs_year_benthos$n_cum)))
 
@@ -521,11 +537,17 @@ trend_benthos_annotate <- trend_benthos + geom_text(data = begin_data, aes (x= m
   geom_segment(data = begin_data, 
                aes(x = min_year, y = 0, xend = min_year, yend = 1500)) + 
   geom_segment(aes(x = 2011, y = -100, xend = 2014, yend = -100),size=3,col="gray30")+
-  geom_segment(aes(x = 2013, y = 100, xend = 2022, yend = 100),size=3,col="gray60")+
-  geom_segment(aes(x = 2020, y = 300, xend = 2022, yend = 300),size=3,col="#5A8F7B")+
-  ggplot2::annotate("text", x = 2020, y = 600, label = "ReefSYN")+
-  ggplot2::annotate("text", x = 2015, y = 400, label = "PELD-ILOC")+
-  ggplot2::annotate("text", x = 2011, y = 200, label = "SISBIOTAMar")
+  geom_segment(aes(x = 2013, y = 100, xend = 2023, yend = 100),size=3,col="gray60")+
+  geom_segment(aes(x = 2013, y = 300, xend = 2023, yend = 300),size=3,col="#FFA559")+
+  geom_segment(aes(x = 2020, y = 450, xend = 2023, yend = 450),size=3,col="#5A8F7B")+
+  
+  
+  ggplot2::annotate("text", x = 2009.5, y = 200, label = "SISBIOTAMar")+
+  ggplot2::annotate("text", x = 2015, y = 200, label = "PELD-ILOC")+
+  ggplot2::annotate("text", x = 2015, y = 500, label = "ProspecMar")+
+  ggplot2::annotate("text", x = 2020.5, y = 850, label = "ReefSYN")
+  
+  
 
 # fish
 trend_fish <- ggplot (data = eventIDs_year_fish, aes (x=year,y=n_cum)) + 
@@ -547,12 +569,14 @@ trend_fish_annotate <- trend_fish + geom_text_repel(data = begin_data_fish, aes 
   geom_segment(data = begin_data_fish, 
                aes(x = min_year, y = 0, xend = min_year, yend = 10000)) +
   geom_segment(aes(x = 2011, y = -400, xend = 2014, yend = -400),size=3,col="gray30")+
-  geom_segment(aes(x = 2013, y = 500, xend = 2022, yend = 500),size=3,col="gray60")+
-  geom_segment(aes(x = 2020, y = 1300, xend = 2022, yend = 1300),size=3,col="#5A8F7B")+
-  ggplot2::annotate("text", x = 2020, y = 2400, label = "ReefSYN")+
-  ggplot2::annotate("text", x = 2015, y = 1700, label = "PELD-ILOC")+
-  ggplot2::annotate("text", x = 2011, y = 800, label = "SISBIOTAMar")
-
+  geom_segment(aes(x = 2013, y = 500, xend = 2023, yend = 500),size=3,col="gray60")+
+  geom_segment(aes(x = 2013, y = 1500, xend = 2023, yend = 1500),size=3,col="#FFA559")+
+  geom_segment(aes(x = 2020, y = 2300, xend = 2023, yend = 2300),size=3,col="#5A8F7B")+
+  
+  ggplot2::annotate("text", x = 2009.5, y = 800, label = "SISBIOTAMar")+
+  ggplot2::annotate("text", x = 2015, y = 900, label = "PELD-ILOC")+
+  ggplot2::annotate("text", x = 2015, y = 2500, label = "ProspecMar")+
+  ggplot2::annotate("text", x = 2020.5, y = 3500, label = "ReefSYN")
 #+
  # scale_y_reverse()
 
@@ -572,7 +596,7 @@ Fig. 3: The number of sampling events accumulated over time for fish (top) and b
 
 
 
-```{r, echo = F, fig.height=5,fig.width=8,message=F, dpi=600, warning=F, fig.align= "center",out.width="100%",out.height="100%"}
+```{r dev = c("png", "tiff", "pdf"), echo = F, fig.height=5,fig.width=8,message=F, dpi=600, warning=F, fig.align= "center",out.width="100%",out.height="100%"}
 
 # load Datasets
 # benthos
@@ -581,12 +605,10 @@ ds1_occ$year<- ds1 [match (ds1_occ$eventID, ds1$eventID), "year"]
 ds2_occ<- read.csv (here::here("DwC_output","GLongo_NRoss_spatialData", "DF_occ_benthos.csv"))
 ds2_occ$year<- ds2 [match (ds2_occ$eventID, ds2$eventID), "year"]
 
-ds3_occ<- read.table (here::here("DwC_output","PELD_iloc_benthos", "DF_occ.txt"), sep = ",",h=T) # no meu pc, sep = ";"
+ds3_occ<- read.csv (here::here("DwC_output","PELD_iloc_benthos", "DF_occ.csv")) # no meu pc, sep = ";"
 ds3_occ$year<- ds3 [match (ds3_occ$eventID, ds3$eventID), "year"] 
 ## PROBLEMA -> eventID ESTA COM FORMATO ERRADO (PARTES REPETIDAS, ex. BR:PELD-ILOC:Noronha_Ponta_da_Sapata_2017_noronhaponta_da_sapata2017fundoT1Q7PS_2017_FUNDO_T1_Q7)
-colnames(ds3_occ)[which(colnames(ds3_occ) == "island")] <- "site"
-colnames(ds3_occ)[which(colnames(ds3_occ) == "eventYear")] <- "year"
-ds3_occ$higherGeography <- "BrazilianOceanicIslands"
+#ds3_occ$higherGeography <- "BrazilianOceanicIslands"
 
 ds4_occ<- read.csv (here::here("DwC_output","RFrancini_spatialData", "DF_occ.csv"))
 ds4_occ$year<- ds4 [match (ds4_occ$eventID, ds4$eventID), "year"]
@@ -594,13 +616,11 @@ ds5_occ<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","DF_
 ds5_occ$year<- ds5 [match (ds5_occ$eventID, ds5$eventID), "year"]
 
 # fish
-
 ds6_occ<- read.csv (here::here("DwC_output","GLongo_NRoss_spatialData", "DF_occ_fish.csv"))
 ds6_occ$year<- ds6 [match (ds6_occ$eventID, ds6$eventID), "year"]
 ds7_occ<- read.csv (here::here("DwC_output","GLongo_spatialData", "DF_occ.csv"))
 ds7_occ$year<- ds7 [match (ds7_occ$eventID, ds7$eventID), "year"]
 ds8_occ<- read.csv (here::here("DwC_output","PELD_iloc_fish", "DF_occ.csv"))
-ds8_occ$higherGeography <- "BrazilianOceanicIslands"
 ds8_occ$year<- ds8 [match (ds8_occ$eventID, ds8$eventID), "year"]
 ds9_occ<- read.csv (here::here("DwC_output","RFrancini_timeSeries_abrolhos","DF_occ_fish.csv"))
 ds9_occ$year<- ds9 [match (ds9_occ$eventID, ds9$eventID), "year"]
@@ -683,9 +703,11 @@ acc_time <- lapply (seq (2,nrow(spp_year)), function (i){
 acc_time<- c(agg_data_year1, unlist(acc_time))
 acc_time <- data.frame(SR = acc_time, 
            year = as.numeric(rownames(spp_year)))
-acc_time<-rbind (acc_time,
+acc_time<-rbind (data.frame  (SR=0, 
+                              year=c(2001,2002)),
+                 acc_time,
                  data.frame  (SR=max(acc_time$SR), 
-                              year=c(2020,2021,2022)))
+                              year=c(2020,2021,2022,2023)))
 
 # fish 
 
@@ -720,9 +742,9 @@ acc_time_fish <- lapply (seq (2,nrow(spp_year_fish)), function (i){
         sum_sp <- sum (agg_data>0)
         sum_sp
 })
-acc_time_fish <- c(agg_data_year1_fish, unlist(acc_time_fish))
+acc_time_fish <- unlist(acc_time_fish)#c(agg_data_year1_fish, unlist(acc_time_fish))
 acc_time_fish <- data.frame(SR = acc_time_fish, 
-           year = seq (2000, 2022))
+           year = seq (2001, 2023))
 #acc_time_fish$year <- as.Date(as.character(acc_time_fish$year), format = "%Y")
 
 
@@ -748,13 +770,17 @@ trend_benthos_SR <- ggplot (data = acc_time,
                aes(x = min_year, y = 0, xend = min_year, yend = 60)) + 
   
   # grants
-  geom_segment(aes(x = 2011, y = -5, xend = 2014, yend = -5),size=3,col="gray30")+
-  geom_segment(aes(x = 2013, y = 4, xend = 2022, yend = 4),size=3,col="gray60")+
-  geom_segment(aes(x = 2020, y = 12, xend = 2022, yend = 12),size=3,col="#5A8F7B")+
-  ggplot2::annotate("text", x = 2020, y = 25, label = "ReefSYN")+
-  ggplot2::annotate("text", x = 2015, y = 18, label = "PELD-ILOC")+
-  ggplot2::annotate("text", x = 2011, y = 10, label = "SISBIOTAMar")
-
+  geom_segment(aes(x = 2011, y = -1, xend = 2014, yend = -1),size=3,col="gray30")+
+  geom_segment(aes(x = 2013, y = 4, xend = 2023, yend = 4),size=3,col="gray60")+
+  geom_segment(aes(x = 2013, y = 12, xend = 2023, yend = 12),size=3,col="#FFA559")+
+  geom_segment(aes(x = 2020, y = 20, xend = 2023, yend = 20),size=3,col="#5A8F7B")+
+  
+  
+  ggplot2::annotate("text", x = 2009.5, y = 5, label = "SISBIOTAMar")+
+  ggplot2::annotate("text", x = 2015, y = 9, label = "PELD-ILOC")+
+  ggplot2::annotate("text", x = 2015, y = 20, label = "ProspecMar")+
+  ggplot2::annotate("text", x = 2021.5, y = 30, label = "ReefSYN")
+  
 # fish
 trend_fish_SR <- ggplot (data = acc_time_fish, aes (x=year, y=SR)) + 
   geom_area(alpha=0.5, fill = "#6CC4A1", col = "gray30",size=1) + 
@@ -776,15 +802,19 @@ trend_fish_SR <- ggplot (data = acc_time_fish, aes (x=year, y=SR)) +
                                                   box.padding=0) + 
   geom_segment(data = begin_data_fish, 
                aes(x = min_year, y = 0, xend = min_year, yend = 220)) + 
+  ylim(c(-6,450))+
   
   # grants
-  geom_segment(aes(x = 2011, y = -10, xend = 2014, yend = -10),size=3,col="gray30")+
-  geom_segment(aes(x = 2013, y = 13, xend = 2022, yend = 13),size=3,col="gray60")+
-  geom_segment(aes(x = 2020, y = 35, xend = 2022, yend = 35),size=3,col="#5A8F7B")+
-  ggplot2::annotate("text", x = 2020, y = 70, label = "ReefSYN")+
-  ggplot2::annotate("text", x = 2015, y = 45, label = "PELD-ILOC")+
-  ggplot2::annotate("text", x = 2011, y = 18, label = "SISBIOTAMar")
-
+  geom_segment(aes(x = 2011, y = -1, xend = 2014, yend = -1),size=3,col="gray30")+
+  geom_segment(aes(x = 2013, y = 10, xend = 2023, yend = 10),size=3,col="gray60")+
+  geom_segment(aes(x = 2013, y = 29, xend = 2023, yend = 25),size=3,col="#FFA559")+
+  geom_segment(aes(x = 2020, y = 46, xend = 2023, yend = 46),size=3,col="#5A8F7B")+
+  
+  
+  ggplot2::annotate("text", x = 2009.5, y = 25, label = "SISBIOTAMar")+
+  ggplot2::annotate("text", x = 2015, y = 15, label = "PELD-ILOC")+
+  ggplot2::annotate("text", x = 2015, y = 40, label = "ProspecMar")+
+  ggplot2::annotate("text", x = 2021.5, y = 65, label = "ReefSYN")
 
 
 # arrange plots
@@ -793,6 +823,12 @@ gridExtra::grid.arrange(trend_fish_SR,
              nrow=2,
               left = "Cumulative number of scientificNameAccepted")
 
+
+# recorded by
+fish_rec <- unique(unlist(strsplit (unique (tolower (unlist(sapply (list_occ_fish, "[[", "recordedBy")))),",")))
+benthos_rec <- unique(unlist(strsplit (unique (tolower (unlist(sapply (list_occ_benthos, "[[", "recordedBy")))),",")))
+# N people
+N_people<-length(benthos_rec)+length(fish_rec)
 
 # count the totals of taxa
 # spp benthos
@@ -821,7 +857,7 @@ fish_taxa <-lapply (list_occ_fish, function (i)
 Nspp <- length (unique(unlist(fish_taxa)))
 Species_fish <- unique(unlist(sapply (list_occ_fish, "[[", "scientificNameAccepted")))
 Species_fish<- Species_fish[is.na(Species_fish) != T]
-Ngenera <- length(unique(sapply (strsplit(Species_fish, " "), "[[",1)))
+Ngenera_fish <- length(unique(sapply (strsplit(Species_fish, " "), "[[",1)))
 Nfamfish<-sum(is.na(unique(unlist(sapply (list_occ_fish, "[[", "family"))))!=T)
 Nclafish<-sum(is.na(unique(unlist(sapply (list_occ_fish, "[[", "class"))))!=T)
 fish_class <- unique(unlist(sapply (list_occ_fish, "[[", "class")))
@@ -843,19 +879,21 @@ list_taxa_show <-   lapply (list_occ_fish, function (i)
     taxa_to_show <- taxa_to_show[order(taxa_to_show)] # order
 
     taxa_to_show <- knitr::combine_words(taxa_to_show, and = "") # separate with commas
+    
     taxa_to_show
   }))
 
-
+# length(unique(unlist (sapply (list_taxa_show, "[[", 1))))
+# length(unique(unlist (sapply (list_taxa_show, "[[", 2))))
 
 # benthos to show
 
 ranks_benthos <- unique(unlist(sapply (list_occ_benthos, "[[", "taxonRank")))
 
 # list of taxa
-list_taxa_show_benthos <- lapply ( ranks_benthos, function (k)  # for each rank
+list_taxa_show_benthos <-   lapply (list_occ_benthos, function (i)  # for each dataset
   
-  lapply (list_occ_benthos, function (i) { # for each dataset
+  lapply ( ranks_benthos, function (k)  { # for each rank  
    
 
     
@@ -867,7 +905,8 @@ list_taxa_show_benthos <- lapply ( ranks_benthos, function (k)  # for each rank
     taxa_to_show
   }))
 
-
+# length(unique(unlist (sapply (list_taxa_show_benthos, "[[", 2))))
+# length(unique(unlist (sapply (list_taxa_show_benthos, "[[", 6))))
 
 
 ```
@@ -958,11 +997,11 @@ R routines (scripts) are available at GitHub, together with the raw data.
 
 General taxonomic coverage description
 
-The seven fish datasets comprise the description of the occurrence of `r Nspp` taxa from `r Ngenera` genera, `r Nfamfish` families and `r Nclafish` classes, being them `r paste (fish_class[1],fish_class[2], sep="and") `. The five benthic datasets comprise the description of the occurrence of `r Ntaxa`  taxa, `r Ngenera` genera, `r Nfam` families, `r Ncla`, and `r Nkin` kingdoms, being them `r king_to_show`. Because the photographic identification does not always allow the species level identification, the number of genera and families are  comparatively high relative to species richness.  In general, the datasets with a large spatial coverage (datasets I and X from SISBIOTA-Mar project) showed higher taxa richness in comparison with local monitoring (datasets IV and XI) (Fig. 6).
+The seven fish datasets comprise the description of the occurrence of `r Nspp` taxa from `r Ngenera_fish` genera, `r Nfamfish` families and `r Nclafish` classes, being them `r paste (fish_class[1],fish_class[2], sep="and") `. The five benthic datasets comprise the description of the occurrence of `r Ntaxa`  taxa, `r Ngenera` genera, `r Nfam` families, `r Ncla` classes, and `r Nkin` kingdoms, being them `r king_to_show`. Because the photographic identification does not always allow the species level identification, the number of genera and families are  comparatively high relative to species richness.  In general, the datasets with a large spatial coverage (datasets I and X from SISBIOTA-Mar project) showed higher taxa richness in comparison with local monitoring (datasets IV and XI) (Fig. 6).
 
 
 
-```{r, echo = F, fig.height=6, fig.width=10, message=F, warning=F, fig.align= "center", out.width="100%", out.height="100%", dpi=600}
+```{r dev = c("png", "tiff", "pdf"), echo = F, fig.height=6, fig.width=10, message=F, warning=F, fig.align= "center", out.width="100%", out.height="100%", dpi=600}
 
 # All defaults
 
@@ -1180,4 +1219,17 @@ Santana, E.F.C., Mies, M., Longo, G.O., Menezes, R., Aued, A.W., Luza, A.L., …
 UNESCO (2021) UNESCO Recommendation on Open Science. Available at: https://unesdoc.unesco.org/ark:/48223/pf0000379949. 34 pages
 
 Zamoner JB, Aued AW, Macedo-Soares LCP, Picolotto VAP, Garcia CAE, Segal B (2021) Integrating Oceanographic Data and Benthic Community Structure Temporal Series to Assess the Dynamics of a Marginal Reef. Front. Mar. Sci. 8: 762453 doi:10.3389/fmars.2021.762453
+
+
+
+#### This paper was produced using the following software and associated packages:
+
+```{r pressure, echo=F,warning=F,message=F}
+
+source("R/packages.R")
+sessionInfo()
+
+
+```
+
 
