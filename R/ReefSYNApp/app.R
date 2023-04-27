@@ -84,10 +84,7 @@ all_data <- lapply (all_data, function (i)
       "year",
       "decimalLatitude",
       "decimalLongitude",
-      "scientificNameAccepted") %>%
-    rename(lat = decimalLatitude,
-           lng= decimalLongitude,
-           sp= scientificNameAccepted) 
+      "scientificNameAccepted") 
 )
 
 
@@ -206,7 +203,13 @@ server <- function(input, output) {
   # expression and input$obs, so it will be re-executed whenever
   # input$dataset or input$obs is changed
   output$view <- renderTable({
-    head(datasetInput(), n = input$obs)
+    
+    
+    #head(datasetInput(), n = input$obs)
+    dataset <- datasetInput()
+    unique(dataset$sp)[order(unique(dataset$sp))]
+    
+    
   })
   
 }
