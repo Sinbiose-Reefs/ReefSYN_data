@@ -9,6 +9,7 @@ require(here)
 
 dir.create ("DwC_output")
 dir.create (here ("DwC_output", "AAued_spatialData"))
+dir.create (here ("DwC_output", "Alcatrazes_time_series"))
 dir.create (here ("DwC_output", "GLongo_NRoss_spatialData"))
 dir.create (here ("DwC_output", "GLongo_spatialData"))
 dir.create (here ("DwC_output", "RFrancini_spatialData"))
@@ -29,8 +30,12 @@ source (here ("Data","occ_Aued_et_al", "org_bentos_data.R"))
 
 
 
+# organize data of Alcatrazes
 
-# organize data of FLoeter et al. unpublished
+source (here ("Data","occ_Quimbayo_temporal_alcatrazes", "data_organization.R"))
+
+
+# organize data of Quimbayo et al. 2023 Santa Catarina
 
 source (here ("Data","occ_Floeter_temporal_santa_catarina", "data_organization.R"))
 
@@ -67,38 +72,19 @@ source (here ("Data","occ_Mendes_temporal_arraial", "data_organization.R"))
 
 
 
-
-
-# organize data of Mendes, Ferreira et al unpublished
-
-source (here ("Data","occ_Mendes_temporal_arraial", "data_organization.R"))
-
-
-
-
-
 # organize data of Morais et al. 2017
 
 source (here ("Data","occ_Morais_et_al", "organizacao_dados.R"))
 
 
-
-
-
-
-# organize data of Morais et al. 2017
-# fish and benethos at once
+# fish and benthos at once
 
 source (here ("Data","occ_RN_Norte_Longo", "data_organization.R"))
 
 
-
-
+# PELD ILOC
 # a couple of adjustments in peld iloc datasets
 
-
-# organize data of Morais et al. 2017
-# fish and benethos at once
 
 source (here ("Data","PELD_iloc_benthos", "data_organization.R"))
 source (here ("Data","PELD_iloc_fish", "data_organization.R"))
