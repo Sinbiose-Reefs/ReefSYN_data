@@ -402,7 +402,7 @@ fields were named compliant with Darwin Core (DwC) standards (TDWG,
 (taxonomic data), and extended measurement or fact (environmental
 variables and taxa counts or cover) (Fig. 5).
 
-<img src="DwC_output/dataStructure.png" width="75%" height="75%" style="display: block; margin: auto;" />
+<img src="dataStructure.png" width="75%" height="75%" style="display: block; margin: auto;" />
 Fig. 5: ReefSYN data structure following the Darwin Core Standard.
 Dataset codes in Tables 1 and 2.
 

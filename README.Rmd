@@ -975,7 +975,7 @@ All datasets are available as a Darwin Core Archive (DwC-A), and all fields were
 ```{r include=T,echo=F, warning=F, fig.align='center', out.width="75%",out.height="75%"}
 # All defaults
 
-knitr::include_graphics(here::here ("DwC_output","dataStructure.png"))
+knitr::include_graphics("dataStructure.png")
 
 ```
 Fig. 5: ReefSYN data structure following the Darwin Core Standard. Dataset codes in Tables 1 and 2.
@@ -1222,7 +1222,7 @@ Zamoner JB, Aued AW, Macedo-Soares LCP, Picolotto VAP, Garcia CAE, Segal B (2021
 
 
 
-#### This paper was produced using the following software and associated packages:
+## This paper was produced using the following software and associated packages:
 
 ```{r pressure, echo=F,warning=F,message=F}
 
