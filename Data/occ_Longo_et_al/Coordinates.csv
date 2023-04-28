@@ -1,0 +1,64 @@
+Site;abbreviation;name_data;locality;latitude_original;longitude_original;depth;n_videos;month;year;Long_DD;Lat_DD
+SW Knuckle Buoy;SW;sw;north_carolina_usa;34o24’828’’ N;        76o30’499’’ W;12m;19;September;2013;-76.5275;34.424444
+Station Rock;SR;sr;north_carolina_usa;34o35’160’’ N;        77o03’618’’ W;12-14m;12;September;2013;-76.5275;34.424444
+Monitoring Site;MS;ms;georgia_usa;31o23’791’’ N;        80o53’419’’ W;18m;13;July;2013;-80.999722;31.603056
+BP06N;BP;bp;georgia_usa;31o22’392’’ N;        80o51’999’’ W;18m;9;July;2013;-81.1275;31.475556
+Ledge4;L4;l4;georgia_usa;31o23’819’’ N;        80o53’999’’ W;18m;6;July;2013;-81.160833;31.610833
+FS15;FS15;fs15;georgia_usa;31o22’588’’ N;        80o50’372’’ W;20m;7;July;2013;-80.936667;31.53
+FS17;FS17;fs17;georgia_usa;31o23’943’’ N;        80o54’127’’ W;18m;4;July;2013;-80.935278;31.645278
+Bluffs;BL;bl;central_florida;26o54’179’’ N;        80o01’106’’ W;23m;12;September;2013;-80.016667;26.9
+Captain Mikes;CM;cm;central_florida;26o52’245’’ N;        80o00’875’’ W;24m;11;September;2013;-80;26.866667
+Spadefish;SF;sf;central_florida;26o53’665’’ N;        80o00’933’’ W;25m;12;September;2013;-80;26.883333
+Area 51;A51;a51;central_florida;26o53’665’’ N;        80o00’933’’ W;26m;12;September;2013;-80;26.883333
+Conch Reef;CR;cr;florida_keys;24o57’011’’ N;        80o27’030’’ W;5-17m;15;September;2013;-80.458333;24.953056
+Molasses;MOL;mo;florida_keys;25o00’050’’ N;        80o22’015’’ W;5-14m;20;September;2013;-80.370833;25.013889
+Picles;PI;pr;florida_keys;24o59’015’’ N;        80o24’052’’ W;5-17m;20;September;2013;-80.414444;24.9875
+Moche;MOC;moc;mexico;20o38’419’’ N;        84o18’474’’ W;6-8m;5;October;2013;-86.966667;20.466667
+Jardines;JAR;jar;mexico;20o37’272’’ N;        87o01’553’’ W;6-8m;10;October;2013;-86.966667;20.466667
+Barracudas;BAR;bar;mexico;20o38’419’’ N;        87o02’915’’ W;7-8m;10;October;2013;-86.966667;20.466667
+Sabalos ;SAB;sab;mexico;20o34’872’’ N;        87o06’586’’ W;6-7m;10;October;2013;-86.966667;20.466667
+Chankannaack;CHN;cha;mexico;20o34’869’’ N;        87o06’589’’ W;12m;13;October;2013;-86.966667;20.466667
+Paraiso;PAR;par;mexico;20o28’121’’ N;        86o59’019’’ W;12m;15;October;2013;-86.983333;20.466667
+Carrie Bow 1;CBC1;cbc1;belize;16o48’130’’ N;        88o04’724’’ W;10m;11;November;2013;-87.25553;16.95378
+Carrie Bow 2 (SouthWater);CBSW;cbsw;belize;16o48’965’’ N;        88o04’596’’ W;14m;12;November;2013;-87.25553;16.95378
+Carrie Bow 3;CBC3;cbc3;belize;16o47’241’’ N;        88o04’585’’ W;10m;10;November;2013;-87.25553;16.95378
+Carrie Bow 4;CBC4;cbc4;belize;16o46’632’’ N;        88o04’530’’ W;10m;12;November;2013;-87.25553;16.95378
+Curlew Bank;CUR;cur;belize;16o46’417’’ N;        88o04’523’’ W;4-9m;23;November;2013;-87.25553;16.95378
+Oostpunt1;OO1;oo1;curacao;12o02’140’’ N;        68o47’853’’ W;9-12m;11;October;2013;-68.8;12.033333
+Oostpunt2;OO2;oo2;curacao;12o02’249’’ N;        68o48’319’’ W;9-12m;11;October;2013;-68.816667;12.033333
+Snake Bay;SNB;snake_bay;curacao;12o08’392’’ N;        68o59’825’’ W;9-12m;12;October;2013;-68.983333;12.133333
+Water Factory;WAF;water_factory;curacao;12o06’320’’ N;        68o57’150’’ W;9-12m;12;October;2013;-68.95;12.1
+Westpunt;WEP;west_punt;curacao;12o22’552’’ N;        69o09’490’’ W;9-12m;11;October;2013;-69.15;12.366667
+Anacris;ANA;ana_cristina;manuel_luis;00o52’11.5’’ S;        44o15’51.4’ W;9-12m;20;April;2013;-44.264283;-0.869867
+Basil;BAS;basil;manuel_luis;00o52’11.5’’ S;        44o15’51.4’ W;25-27m;3;April;2013;-44.279033;-0.8703
+Âncoras;ANC;ancoras;rocas;03o52’51’’ S;33o48’16’’ W;2-3m;15;January;2012;-34.04216;-4.076177
+Falsa Barreta;FBA;falsa_barreta;rocas;03o51’64’’ S;33o49’40’’ W;1-4m;15;January;2012;-34.04216;-4.076177
+Podes Crer;PCR;podes_crer;rocas;03o52’20’’ S;33o48’45’’ W;1-3m;16;January;2012;-34.04216;-4.076177
+Rocas;ROC;piscina_das_rocas;rocas;03o51’86’’ S;33o47’49’’ W;1-2m;15;January;2012;-34.04216;-4.076177
+Salão;SAL;salao;rocas;03o52’29’’ S;33o48’33’’ W;8-10m;9;January;2012;-34.04216;-4.076177
+Tartarugas;TAR;tartarugas;rocas;03o52’43’’ S;33o48’59’’ W;2-3m;15;January;2012;-34.04216;-4.076177
+Barreirinha;BAA;barreirinha;rio_grande_do_norte;05o57’22’’ S;35o02’21’’ W;11-15m;23;October-March;2011-2013;-35.363432;-5.262117
+Batente das Agulhas;BAT;batente_das_agulhas;rio_grande_do_norte;05o33’52’’ S;35o04’21’’ W;9-23m;8;March;2013;-35.0725;-5.56435
+Cabeço do Leandro;CAB;cabeco_do_leandro;rio_grande_do_norte;05o57’00’’ S;35o02’14’’ W;14-17m;9;March;2013;-35.037183;-5.950039
+Maracajaú;MAR;maracajau;rio_grande_do_norte;05o23’39’’ S;35o15’32’’ W;1.5-3.5m;15;October;2011;-35.258986;-5.394114
+Pedra do Silva;PSI;pedra_do_silva;rio_grande_do_norte;05o33’52’’ S;35o05’24’’ W;13-21m;12;March;2013;-35.090067;-5.564467
+Rio do Fogo;RFG;parrachos_de_rio_do_fogo;rio_grande_do_norte;05o15’44’’ S;35o21’48’’ W;1-2m;10;March;2013;-35.363432;-5.262117
+Chapeirão;CHA;chapeirao;abrolhos;17o58’38.62’’ S;  38o43’19.40’’ W;6-12m;26;March;2010;-38.6625;-17.96277778
+Mato Verde;MTV;mato_verde;abrolhos;17o57’53.78’’ S;     38o42’04.69’’ W;4-10m;18;March;2010;-38.69527778;-17.96472222
+Portinho Norte;PTN;portinho_norte;abrolhos;17o57’43.52’’ S;     38o41’52.51’’ W;3-10m;46;March;2010;-38.69777778;-17.96138889
+Siriba;SRB;siriba;abrolhos;17o58’10.63’’ S;    38o42’38.19’’ W;4-10m;22;March;2010;-38.71583333;-17.97055556
+Escalvada;ESC;escalvada;espirito_santo;20o41’59’’ S;  40o24’27’’ W;4-12m;24;February;2014;-40.407589;-20.699631
+Rasa;RAS;ilhas_rasas;espirito_santo;20o40’36’’ S;       40o21’58’’ W;4-12m;25;February;2014;-40.366164;-20.676614
+Três Ilhas;TRI;tres_ilhas;espirito_santo;20o36’44’’ S;       40o22’44’’ W;4-12m;23;February;2014;-40.378777;-20.612348
+Anequim;ANE;anequim;arraial;22o58’51.81’’ S; 41o59’03.34’’ W;3-12m;30;April;2011;-41.984482;-22.980484
+Cardeiros;CAR;cardeiros;arraial;22o57’55.27’’ S; 42o00’06.34’’ W;3-12m;30;April;2011;-42.00165556;-22.96514167
+Porcos;POR;porcos_oeste;arraial;22o58’03.27’’ S;41o59’39.11’’W;3-12m;30;April;2011;-41.993723;-22.96573
+Ilha dos Búzios (Saco do Urubu);BUZ;buzios;ilhabela;23o48’21’’ S; 45o09’29’’ W;3-11m;19;February;2013;-45.158123;-23.805783
+Ilha das Cabras;CAB;ilha_das_cabras;ilhabela;23o49’49’’ S; 45o23’38’’ W;3-11m;19;February;2013;-45.393889;-23.830333
+Diogo;DIO;saco_do_diogo;ilhabela;23o56’07’’ S;45o17’01’’W;3-11m;22;February;2013;-45.283621;-23.935384
+Alcatrazes (Portinho Sul);ALC;portinho_sul;ilhabela;24o06’19’’ S;45o42’09’’W;3-11m;21;February;2013;-45.702491;-24.105182
+Saco do Sombrio;SOM;saco_do_sombrio;ilhabela;23o53’36’’ S;45o14’39’’W;3-11m;20;February;2013;-45.243995;-23.893302
+Eastern Arvoredo;ARVE;arve_bt;santa_catarina;27o17’34.15’’ S; 48o21’27.66’’ W;3-12m;25;Feb-Apr;2011;-48.363806;-27.290608
+Western Arvoredo;ARVW;arvw;santa_catarina;27o17’06.23’’ S; 48o22’17.16’’ W;3-12m;40;Feb-Apr;2010/2011;-48.368482;-27.277044
+Deserta;DES;deserta_norte;santa_catarina;27o16’09.23’’ S; 48o19’49.13’’ W;3-12m;33;Feb-Apr;2011;-48.331675;-27.264465
+Xavier;XAV;xavier_ponta_sul;santa_catarina;27o36’32.35’’ S; 48o23’09.27’’ W;3-12m;30;Feb-Apr;2010/2011;-48.387576;-27.603507
