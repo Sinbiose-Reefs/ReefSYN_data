@@ -5,10 +5,10 @@
 DwC_output
 Policy
 Refs
-format_occupancy_models
 **.pdf
 **.doc*
 **.doc
+**.docx
 **.jpg
 **.jpeg
 Data/BioOracle
@@ -17,10 +17,20 @@ Data/brazil-coastline
 Data/MPAs_magris
 Data/researcher_data
 Data/space_BR_MPA_APPrates
-Data/trait_*
+Data/trait_Bleuel*
+Data/trait_Aued*
+Data/occ_Aued_et_al/Updated_*.csv
+Data/occ_Aued_et_al/Updated_*.xlsx
+Data/occ_Aued_et_al/Modified_*.csv
+Data/PELD_iloc_benthos/benthos
+Data/PELD_iloc_benthos/fish
+Data/occ_RN_Norte_Longo/Censos_Rio do Fogo_10082022.xlsx
+Data/occ_RN_Norte_Longo/Censos_Rio do Fogo_17052022.xlsx
+Data/occ_RN_Norte_Longo/Bentos_RN.xlsx
+Data/occ_Longo_et_al/*.xlsx
+Data/occ_Morais_et_al/*.xlsx
 **/.pdf
 **/.doc*
-README - Copia.Rmd
 R/figure6.R
 README_files/figure-gfm/*.tiff
 README_files/figure-gfm/*.svg
