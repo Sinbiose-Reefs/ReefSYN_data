@@ -380,7 +380,7 @@ in Zamoner et al. 2021).
 
 ### 2.3.2.4 Dataset XIII: Benthic communities from Rio Grande do Norte
 
-See 2.3.1.4
+See 2.3.1.8
 
 # 2.4 Data management and standardization
 
