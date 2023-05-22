@@ -334,10 +334,7 @@ contact data providers.
 
 ### 2.3.2.3 Dataset XI: Benthic communities from the Brazilian province
 
-includes site-level cover information of \~100 benthic taxa from 3,855
-photo quadrats deployed in 40 localities from 15 different sites,
-spanning 0° to 27°S latitude degrees. The sampling sites indicated here
-are the same from Morais et al. (2017). Benthic organisms were
+This dataset includes site-level cover information of ~100 benthic taxa from 3,855 photo quadrats deployed in 40 localities from 15 different sites, spanning 0° to 27°S latitude degrees. The data here is the same as in Aued et al. (2018), and sampling sites indicated here are the same from Morais et al. (2017) and Aued et al. (2018). Benthic organisms were
 identified at the lowest possible taxonomic level (i.e., morphotype,
 species, order) according to constraints related to image
 identification. Image processing was done using the Coral Point Count
@@ -383,7 +380,7 @@ in Zamoner et al. 2021).
 
 ### 2.3.2.4 Dataset XIII: Benthic communities from Rio Grande do Norte
 
-See 2.3.1.4
+See 2.3.1.8
 
 # 2.4 Data management and standardization
 
