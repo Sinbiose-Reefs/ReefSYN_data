@@ -207,8 +207,6 @@ occ_Ross_et_al$eventDate <- as.Date (paste(occ_Ross_et_al$year,
 
 
 
-
-
 # ----------------------------------------------------------------------
 # FORMATING SITES, REGIONS, DEPTHS ...
 
@@ -936,7 +934,7 @@ dados_bind_parrachos <- rbind (abundance,
                      size)
 
 
-
+# adjust recordedBy
 
 dados_bind_parrachos <- dados_bind_parrachos %>% 
   mutate(recordedBy = plyr::mapvalues(recordedBy, 

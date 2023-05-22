@@ -146,6 +146,7 @@ mes_ano <- format(as.Date (mes_ano,format="%Y-%m-%d"), "%Y-%m")
 # transformar no formato data 
 dados$month [which (nchar (as.character (dados$verbatimDate)) > 5 & is.na(dados$eventDate) == T)] <- mes_ano
 
+
 # barplot para saber o ano de mais coleta de dados
 # pela contagem do numero de linhas por ano
 #barplot (table(as.numeric (format (as.Date (dados$eventDate), "%Y"))),
@@ -154,6 +155,8 @@ dados$month [which (nchar (as.character (dados$verbatimDate)) > 5 & is.na(dados$
 # gather year - month data to find the year
 dados[is.na(dados$year),"year"] <- substr(dados[is.na(dados$year),"month"],1,4)
 
+dados [which(is.na(dados$year)),]
+dados [which(dados$year == ""),]
 
 # ------------------------------------------------------------------------------------
 # ADJUSTING SITES, DEPTHS

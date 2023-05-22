@@ -354,6 +354,11 @@ fish_long_format %>%
   unique
             
             
+
+# tolower site names
+fish_long_format$site <- tolower (fish_long_format$site)
+
+
 # measurementType
 fish_long_format$measurementType <- "abundance"
 # measurementUnit

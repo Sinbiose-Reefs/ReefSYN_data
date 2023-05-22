@@ -1,9 +1,9 @@
 Standardized datasets of Brazilian reef diversity in space and time
 ================
-Reef Synthesis Working Group; Luza, AL, Cordeiro, CAMM, …, Aued, AW,
-Ferreira, CEL, Floeter, SR, Francini-Filho, RB, Longo, GO, Mendes, T,
-Roos, N, Segal, B, Bender, MG
-2023/04/26
+Reef Synthesis Working Group; Luza, AL, Cordeiro, CAMM, Quimbayo, JP,
+Aued, AW, Ferreira, CEL, Mendes, TC, Roos, NC, Longo, GO,
+Francini-Filho, RB, Segal, B, Floeter, SR, Bender, MG
+2023/05/22
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
@@ -44,7 +44,7 @@ Adequate data standardization and storage enable data to be findable,
 accessible, interoperable and reusable (the ‘FAIR’ principles, Wilkinson
 et al. 2016) such that data can be integrated with pre-existing datasets
 by researchers and/or machine-learning algorithms. Following these
-principles we hereby present and characterize the 12 datasets gathered
+principles we hereby present and characterize the 13 datasets gathered
 by ReefSYN (seven of fish and five of benthos), showing summaries of
 spatial distribution, sampling effort and methods, gain of data over
 time, and taxonomic coverage of data.
@@ -117,10 +117,10 @@ We hereby present 13 datasets, being eight of reef fish and five of
 benthos. Three out of seven fish datasets and two out of five benthic
 datasets are time series (Tables 1 and 2). The remaining datasets are
 spatial snapshots (only one visit to a site) whose data were collected
-over many years. There were a total of 24020 samples distributed
+over many years. There were a total of 23906 samples distributed
 throughout the Brazilian biogeographic province (n=19969 for fish, and
-n=4051) from 2001 to 2023. These samples were distributed in a total of
-55 sites and 316 localities.
+n=3937) from 2001 to 2023. These samples were distributed in a total of
+50 sites and 316 localities.
 
 Table 1: Description of reef fish datasets.
 
@@ -131,7 +131,7 @@ Table 1: Description of reef fish datasets.
 |   IV    | Underwater Visual Survey - 20 x 2m |    3480     | Transect/plot |         40         |        4        |  -20.53, 0.97  | -33.82, -28.86 | 2006-2019 |
 |  VIII   | Underwater visual survey - 20 x 2m |     859     | Transect/plot |         40         |        7        |  -6.38, -4.72  | -36.7, -34.93  | 2016-2023 |
 |    V    | Underwater visual survey - 20 x 2m |    1897     | Transect/plot |         40         |        9        | -27.84, -27.12 | -48.53, -48.33 | 2007-2021 |
-|   III   | Underwater visual survey - 20 x 2m |    2146     | Transect/plot |         40         |        1        | -23.01, -22.96 | -42.04, -41.98 | 2003-2021 |
+|   III   | Underwater visual survey - 20 x 2m |    2159     | Transect/plot |         40         |        1        | -23.01, -22.96 | -42.04, -41.98 | 2003-2021 |
 |   II    | Stationary visual survey - 4 x 2m  |    6422     | Transect/plot |         8          |        5        |  -18, -16.89   | -39.15, -38.65 | 2001-2014 |
 |   VII   | Underwater visual survey - 20 x 2m |     330     | Transect/plot |         40         |        1        | -24.11, -24.1  | -45.71, -45.69 | 2013-2022 |
 
@@ -141,7 +141,7 @@ Table 2: number of sampling events of benthos sampling, per dataset.
 |:-------:|:-----------------------------:|:-----------:|:----------:|:------------------:|:---------------:|:--------------:|:--------------:|:---------:|
 |   XI    | Photoquadrats - 0.25 x 0.25 m |     345     | Plot/point |        0.06        |       15        |  -27.6, -0.87  | -48.39, -29.31 | 2010-2014 |
 |    X    | Photoquadrats - 0.66 x 0.75 m |     24      | Plot/point |        0.50        |        7        |  -24.29, 0.92  | -46.18, -28.86 | 2008-2018 |
-|   XII   |    Photoquadrats 50 X 50cm    |    2748     | Plot/point |        0.25        |        4        |  -20.52, 0.92  | -33.82, -29.32 | 2013-2019 |
+|   XII   |    Photoquadrats 50 X 50cm    |    2634     | Plot/point |        0.25        |        4        |  -20.52, 0.92  | -33.82, -29.32 | 2013-2019 |
 |  XIII   | Photoquadrats - 0.25 x 0.25 m |     285     | Plot/point |        0.06        |        7        |  -6.38, -4.75  | -36.69, -34.93 | 2016-2017 |
 |   IX    |  Photoquadrats - 0.5 x 0.5 m  |     54      | Plot/point |        0.66        |        7        | -17.98, -16.89 | -39.15, -38.66 | 2003-2014 |
 |   IX    |   Photoquadrats - 1 X 0.7 m   |     595     | Plot/point |        0.66        |        7        | -17.98, -16.89 | -39.15, -38.66 | 2003-2014 |
@@ -290,7 +290,7 @@ transect, the divers identified, counted, and estimated the total length
 
 ### 2.3.1.8 Dataset VIII: Rio Grande do Norte monitoring/time series
 
-Data collected by Guilherme Longo and Natália Roos in Rio Grande do
+Data collected by Guilherme Longo and Natália C Roos in Rio Grande do
 Norte, based on fishes and benthos collected in the same spatial unit. A
 transect of 20x2m was used to record fishes, they also deployed 10 photo
 quadrats to register benthic organisms. Data have been collected yearly
@@ -334,7 +334,10 @@ contact data providers.
 
 ### 2.3.2.3 Dataset XI: Benthic communities from the Brazilian province
 
-This dataset includes site-level cover information of ~100 benthic taxa from 3,855 photo quadrats deployed in 40 localities from 15 different sites, spanning 0° to 27°S latitude degrees. The data here is the same as in Aued et al. (2018), and sampling sites indicated here are the same from Morais et al. (2017) and Aued et al. (2018). Benthic organisms were
+includes site-level cover information of \~100 benthic taxa from 3,855
+photo quadrats deployed in 40 localities from 15 different sites,
+spanning 0° to 27°S latitude degrees. The sampling sites indicated here
+are the same from Morais et al. (2017). Benthic organisms were
 identified at the lowest possible taxonomic level (i.e., morphotype,
 species, order) according to constraints related to image
 identification. Image processing was done using the Coral Point Count
@@ -380,7 +383,7 @@ in Zamoner et al. 2021).
 
 ### 2.3.2.4 Dataset XIII: Benthic communities from Rio Grande do Norte
 
-See 2.3.1.8
+See 2.3.1.4
 
 # 2.4 Data management and standardization
 
@@ -438,7 +441,7 @@ Dataset codes in Tables 1 and 2.
 General taxonomic coverage description
 
 The seven fish datasets comprise the description of the occurrence of
-318 taxa from 176 genera, 69 families and 2 classes, being them
+307 taxa from 173 genera, 69 families and 2 classes, being them
 TeleosteiandElasmobranchii. The five benthic datasets comprise the
 description of the occurrence of 82 taxa, 82 genera, 68 families, 15
 classes, and 4 kingdoms, being them Plantae, Animalia, Bacteria,
@@ -496,9 +499,9 @@ Genus: Ablennes, Abudefduf, Acanthistius, Acanthostracion, Acanthurus,
 Aetobatus, Ahlia, Albula, Alectis, Alphestes, Aluterus, Amblycirrhitus,
 Amphichthys, Anchoviella, Anisotremus, Antennarius, Apogon, Archosargus,
 Arcos, Astrapogon, Aulostomus, Azurina, Balistes, Bathygobius, Belone,
-Bodianus, Bothus, Calamus, Callionymus, Cantherhines, Canthidermis,
-Canthigaster, Caranx, Carcharhinus, Centropomus, Centropyge,
-Cephalopholis, Chaetodipterus, Chaetodon, Channomuraena, Chilomycterus,
+Bodianus, Bothus, Brachygenys, Calamus, Callionymus, Cantherhines,
+Canthidermis, Canthigaster, Caranx, Carcharhinus, Centropomus,
+Centropyge, Cephalopholis, Chaetodipterus, Chaetodon, Chilomycterus,
 Chloroscombrus, Choranthias, Chromis, Clepticus, Coryphopterus,
 Cosmocampus, Cryptotomus, Ctenogobius, Dactylopterus, Dasyatis,
 Decapterus, Dermatolepis, Diapterus, Diodon, Diplectrum, Diplodus,
@@ -507,109 +510,107 @@ Emblemariopsis, Enchelycore, Engraulis, Enneanectes, Entomacrodus,
 Epinephelus, Equetus, Eucinostomus, Eugerres, Euthynnus, Fistularia,
 Gerres, Ginglymostoma, Gnatholepis, Gobioclinus, Gobiosoma,
 Goblioclinus, Gramma, Gymnothorax, Gymnura, Haemulon, Halichoeres,
-Harengula, Helcogramma, Hemiramphus, Heteropriacanthus, Hippocampus,
-Holacanthus, Holocentrus, Hypanus, Hypleurochilus, Hyporthodus,
-Hypsoblennius, Kyphosus, Labrisomus, Lactophrys, Lutjanus, Malacanthus,
-Malacoctenus, Melichthys, Micrognathus, Microgobius, Microspathodon,
-Mugil, Mulloidichthys, Mullus, Muraena, Mycteroperca, Myliobatis,
-Myrichthys, Myripristis, Narcine, Negaprion, Nicholsina, Ocyurus,
-Odontoscion, Ogcocephalus, Ophichthus, Ophioblennius, Opistognathus,
-Orthopristis, Pagrus, Parablennius, Paraclinus, Paranthias, Pareques,
-Pempheris, Phaeoptyx, Pinguipes, Platybelone, Plectrypops, Pomacanthus,
-Pomatomus, Porichthys, Priacanthus, Priolepis, Prognathodes,
-Pronotogrammus, Pseudobatos, Pseudocaranx, Pseudupeneus, Ptereleotris,
-Rachycentron, Rhinobatos, Rhomboplites, Rypticus, Sardinella,
-Sargocentron, Scartella, Scarus, Scomberomorus, Scorpaena, Scorpaenodes,
-Selar, Selene, Seriola, Serranus, Sparisoma, Sphoeroides, Sphyraena,
-Starksia, Stegastes, Stephanolepis, Strongylura, Synodus, Thalassoma,
-Trachinotus, Upeneus, Uraspis, Xyrichtys, Zapteryx, NA
+Harengula, Hemiramphus, Heteropriacanthus, Hippocampus, Holacanthus,
+Holocentrus, Hypanus, Hypleurochilus, Hyporthodus, Hypsoblennius,
+Kyphosus, Labrisomus, Lactophrys, Lutjanus, Malacanthus, Malacoctenus,
+Melichthys, Micrognathus, Microgobius, Microspathodon, Mugil,
+Mulloidichthys, Mullus, Muraena, Mycteroperca, Myliobatis, Myrichthys,
+Myripristis, Narcine, Negaprion, Nicholsina, Ocyurus, Odontoscion,
+Ogcocephalus, Ophichthus, Ophioblennius, Opistognathus, Orthopristis,
+Pagrus, Parablennius, Paraclinus, Paranthias, Pareques, Pempheris,
+Phaeoptyx, Pinguipes, Platybelone, Plectrypops, Pomacanthus, Pomatomus,
+Porichthys, Priacanthus, Prognathodes, Pronotogrammus, Pseudobatos,
+Pseudocaranx, Pseudupeneus, Ptereleotris, Rachycentron, Rhinobatos,
+Rhomboplites, Rypticus, Sardinella, Sargocentron, Scartella, Scarus,
+Scomberomorus, Scorpaena, Scorpaenodes, Selar, Selene, Seriola,
+Serranus, Sparisoma, Sphoeroides, Sphyraena, Starksia, Stegastes,
+Stephanolepis, Strongylura, Synodus, Thalassoma, Trachinotus, Upeneus,
+Uraspis, Xyrichtys, Zapteryx, NA
 
 Species: Ablennes hians, Abudefduf saxatilis, Acanthistius brasilianus,
-Acanthostracion polygonia, Acanthostracion polygonium, Acanthostracion
-quadricornis, Acanthurus bahianus, Acanthurus chirurgus, Acanthurus
-coeruleus, Acanthurus monroviae, Aetobatus narinari, Ahlia egmontis,
-Albula vulpes, Alectis ciliaris, Alphestes afer, Aluterus monoceros,
-Aluterus scriptus, Amblycirrhitus earnshawi, Amblycirrhitus pinos,
-Amphichthys cryptocentrus, Anchoviella lepidentostole, Anisotremus
-moricandi, Anisotremus surinamensis, Anisotremus virginicus, Antennarius
-multiocellatus, Apogon americanus, Apogon axillaris, Apogon
-pseudomaculatus, Archosargus probatocephalus, Archosargus rhomboidalis,
-Arcos rhodospilus, Astrapogon puncticulatus, Aulostomus maculatus,
-Aulostomus strigosus, Azurina multilineata, Balistes capriscus, Balistes
-vetula, Bathygobius soporator, Belone belone, Bodianus insularis,
-Bodianus pulchellus, Bodianus rufus, Bothus lunatus, Bothus ocellatus,
-Calamus calamus, Calamus penna, Callionymus bairdi, Cantherhines
-macrocerus, Cantherhines pullus, Canthidermis maculata, Canthidermis
-sufflamen, Canthigaster figueiredoi, Canthigaster sanctaehelenae, Caranx
-bartholomaei, Caranx crysos, Caranx hippos, Caranx latus, Caranx
+Acanthostracion polygonium, Acanthostracion quadricornis, Acanthurus
+bahianus, Acanthurus chirurgus, Acanthurus coeruleus, Acanthurus
+monroviae, Aetobatus narinari, Ahlia egmontis, Albula vulpes, Alectis
+ciliaris, Alphestes afer, Aluterus monoceros, Aluterus scriptus,
+Amblycirrhitus pinos, Amphichthys cryptocentrus, Anchoviella
+lepidentostole, Anisotremus moricandi, Anisotremus surinamensis,
+Anisotremus virginicus, Antennarius multiocellatus, Apogon americanus,
+Apogon pseudomaculatus, Archosargus probatocephalus, Archosargus
+rhomboidalis, Arcos rhodospilus, Astrapogon puncticulatus, Aulostomus
+maculatus, Aulostomus strigosus, Azurina multilineata, Balistes
+capriscus, Balistes vetula, Bathygobius soporator, Belone belone,
+Bodianus insularis, Bodianus pulchellus, Bodianus rufus, Bothus lunatus,
+Bothus ocellatus, Brachygenys chrysargyreum, Calamus calamus, Calamus
+penna, Callionymus bairdi, Cantherhines macrocerus, Cantherhines pullus,
+Canthidermis maculata, Canthidermis sufflamen, Canthigaster figueiredoi,
+Caranx bartholomaei, Caranx crysos, Caranx hippos, Caranx latus, Caranx
 lugubris, Caranx ruber, Carcharhinus perezi, Carcharhinus perezii,
 Centropomus parallelus, Centropomus undecimalis, Centropyge
 aurantonotus, Cephalopholis fulva, Chaetodipterus faber, Chaetodon
-ocellatus, Chaetodon sanctaehelenae, Chaetodon sedentarius, Chaetodon
-striatus, Channomuraena vittata, Chilomycterus reticulatus,
-Chilomycterus spinosus, Chloroscombrus chrysurus, Choranthias
-salmopunctatus, Chromis flavicauda, Chromis jubauna, Chromis limbata,
-Chromis limbaughi, Chromis scotti, Clepticus brasiliensis, Coryphopterus
-dicrus, Coryphopterus glaucofraenum, Coryphopterus thrix, Cosmocampus
+ocellatus, Chaetodon sedentarius, Chaetodon striatus, Chilomycterus
+reticulatus, Chilomycterus spinosus, Chloroscombrus chrysurus,
+Choranthias salmopunctatus, Chromis flavicauda, Chromis jubauna, Chromis
+limbata, Chromis scotti, Clepticus brasiliensis, Coryphopterus dicrus,
+Coryphopterus glaucofraenum, Coryphopterus thrix, Cosmocampus
 albirostris, Cryptotomus roseus, Ctenogobius saepepallens, Dactylopterus
-volitans, Dasyatis marianae, Decapterus macarellus, Decapterus
-punctatus, Dermatolepis inermis, Diapterus auratus, Diodon holocanthus,
-Diodon hystrix, Diplectrum formosum, Diplectrum radiale, Diplodus
-argenteus, Doratonotus megalepis, Dules auriga, Echeneis naucrates,
-Echidna catenata, Elacatinus figaro, Elacatinus phthirophagus,
-Elacatinus pridisi, Elagatis bipinnulata, Emblemariopsis signifer,
-Enchelycore anatina, Enchelycore carychroa, Enchelycore nigricans,
-Engraulis anchoita, Enneanectes altivelis, Enneanectes smithi,
-Epinephelus adscensionis, Epinephelus itajara, Epinephelus marginatus,
-Epinephelus morio, Equetus lanceolatus, Eucinostomus argenteus,
-Eucinostomus lefroyi, Eucinostomus melanopterus, Eugerres brasilianus,
-Euthynnus alletteratus, Fistularia petimba, Fistularia tabacaria, Gerres
-cinereus, Ginglymostoma cirratum, Gnatholepis thompsoni, Gobioclinus
-kalisherae, Gobiosoma hemigymnum, Goblioclinus kalisherae, Gramma
-brasiliensis, Gymnothorax funebris, Gymnothorax miliaris, Gymnothorax
-mordax, Gymnothorax moringa, Gymnothorax vicinus, Gymnura altavela,
-Haemulon atlanticus, Haemulon aurolineatum, Haemulon chrysargyreum,
-Haemulon melanurum, Haemulon parra, Haemulon plumierii, Haemulon
-squamipinna, Haemulon steindachneri, Halichoeres bivittatus, Halichoeres
-brasiliensis, Halichoeres dimidiatus, Halichoeres maculipinna,
-Halichoeres penrosei, Halichoeres poeyi, Halichoeres radiatus,
-Halichoeres rubrovirens, Halichoeres sazimai, Harengula clupeola,
-Harengula jaguana, Helcogramma ascensionis, Hemiramphus brasiliensis,
-Heteropriacanthus cruentatus, Hippocampus reidi, Holacanthus ciliaris,
-Holacanthus tricolor, Holocentrus adscensionis, Hypanus berthalutzea,
-Hypanus marianae, Hypleurochilus brasil, Hypleurochilus fissicornis,
-Hypleurochilus pseudoaequipinnis, Hyporthodus niveatus, Hypsoblennius
-invemar, Kyphosus bigibbus, Kyphosus cinerascens, Kyphosus sectatrix,
-Kyphosus vaigiensis, Labrisomus cricota, Labrisomus nuchipinnis,
-Lactophrys trigonus, Lutjanus alexandrei, Lutjanus analis, Lutjanus
-apodus, Lutjanus cyanopterus, Lutjanus griseus, Lutjanus jocu, Lutjanus
-synagris, Malacanthus plumieri, Malacoctenus brunoi, Malacoctenus
-delalandii, Malacoctenus lianae, Malacoctenus triangulatus, Malacoctenus
-zaluari, Melichthys niger, Micrognathus crinitus, Microgobius carri,
+volitans, Decapterus macarellus, Decapterus punctatus, Dermatolepis
+inermis, Diapterus auratus, Diodon holocanthus, Diodon hystrix,
+Diplectrum formosum, Diplectrum radiale, Diplodus argenteus, Doratonotus
+megalepis, Dules auriga, Echeneis naucrates, Echidna catenata,
+Elacatinus figaro, Elacatinus phthirophagus, Elacatinus pridisi,
+Elagatis bipinnulata, Emblemariopsis signifer, Enchelycore anatina,
+Enchelycore carychroa, Enchelycore nigricans, Engraulis anchoita,
+Enneanectes altivelis, Enneanectes smithi, Epinephelus adscensionis,
+Epinephelus itajara, Epinephelus marginatus, Epinephelus morio, Equetus
+lanceolatus, Eucinostomus argenteus, Eucinostomus lefroyi, Eucinostomus
+melanopterus, Eugerres brasilianus, Euthynnus alletteratus, Fistularia
+petimba, Fistularia tabacaria, Gerres cinereus, Ginglymostoma cirratum,
+Gnatholepis thompsoni, Gobioclinus kalisherae, Gobiosoma hemigymnum,
+Goblioclinus kalisherae, Gramma brasiliensis, Gymnothorax funebris,
+Gymnothorax miliaris, Gymnothorax mordax, Gymnothorax moringa,
+Gymnothorax vicinus, Gymnura altavela, Haemulon atlanticus, Haemulon
+aurolineatum, Haemulon chrysargyreum, Haemulon melanurum, Haemulon
+parra, Haemulon plumierii, Haemulon squamipinna, Haemulon steindachneri,
+Halichoeres bivittatus, Halichoeres brasiliensis, Halichoeres
+dimidiatus, Halichoeres maculipinna, Halichoeres penrosei, Halichoeres
+poeyi, Halichoeres radiatus, Halichoeres rubrovirens, Halichoeres
+sazimai, Harengula clupeola, Harengula jaguana, Hemiramphus
+brasiliensis, Heteropriacanthus cruentatus, Hippocampus reidi,
+Holacanthus ciliaris, Holacanthus tricolor, Holocentrus adscensionis,
+Hypanus berthalutzae, Hypanus berthalutzea, Hypanus marianae,
+Hypleurochilus brasil, Hypleurochilus fissicornis, Hypleurochilus
+pseudoaequipinnis, Hyporthodus niveatus, Hypsoblennius invemar, Kyphosus
+bigibbus, Kyphosus cinerascens, Kyphosus sectatrix, Kyphosus vaigiensis,
+Labrisomus cricota, Labrisomus nuchipinnis, Lactophrys trigonus,
+Lutjanus alexandrei, Lutjanus analis, Lutjanus apodus, Lutjanus
+cyanopterus, Lutjanus griseus, Lutjanus jocu, Lutjanus synagris,
+Malacanthus plumieri, Malacoctenus brunoi, Malacoctenus delalandii,
+Malacoctenus lianae, Malacoctenus triangulatus, Malacoctenus zaluari,
+Melichthys niger, Micrognathus crinitus, Microgobius carri,
 Microspathodon chrysurus, Mugil curema, Mulloidichthys martinicus,
 Mullus argentinae, Muraena melanotis, Muraena pavonina, Muraena
 retifera, Mycteroperca acutirostris, Mycteroperca bonaci, Mycteroperca
-interstitialis, Mycteroperca microlepis, Mycteroperca venenosa,
-Myliobatis goodei, Myrichthys breviceps, Myrichthys ocellatus,
-Myripristis jacobus, Narcine brasiliensis, Negaprion brevirostris,
-Nicholsina collettei, Nicholsina usta, Ocyurus chrysurus, Odontoscion
-dentex, Ogcocephalus vespertilio, Ophichthus ophis, Ophioblennius
-atlanticus, Ophioblennius macclurei, Ophioblennius trinitatis,
-Opistognathus aurifrons, Orthopristis ruber, Pagrus pagrus, Parablennius
-marmoreus, Parablennius pilicornis, Paraclinus spectator, Paranthias
-furcifer, Pareques acuminatus, Pempheris schomburgkii, Phaeoptyx
-pigmentaria, Pinguipes brasilianus, Plectrypops retrospinis, Pomacanthus
-arcuatus, Pomacanthus paru, Pomatomus saltatrix, Porichthys
-porosissimus, Priacanthus arenatus, Priolepis ascensionis, Prognathodes
-brasiliensis, Prognathodes guyanensis, Prognathodes marcellae,
-Prognathodes obliquus, Pronotogrammus martinicensis, Pseudobatos
-horkelii, Pseudocaranx dentex, Pseudupeneus maculatus, Ptereleotris
-randalli, Rachycentron canadum, Rhomboplites aurorubens, Rypticus
-bistrispinus, Rypticus saponaceus, Sardinella brasiliensis, Sargocentron
-bullisi, Scartella cristata, Scarus trispinosus, Scarus zelindae,
-Scomberomorus brasiliensis, Scomberomorus maculatus, Scomberomorus
-regalis, Scorpaena brachyptera, Scorpaena brasiliensis, Scorpaena
-dispar, Scorpaena isthmensis, Scorpaena plumieri, Scorpaenodes
+interstitialis, Mycteroperca marginata, Mycteroperca microlepis,
+Mycteroperca venenosa, Myliobatis goodei, Myrichthys breviceps,
+Myrichthys ocellatus, Myripristis jacobus, Narcine brasiliensis,
+Negaprion brevirostris, Nicholsina collettei, Nicholsina usta, Ocyurus
+chrysurus, Odontoscion dentex, Ogcocephalus vespertilio, Ophichthus
+ophis, Ophioblennius atlanticus, Ophioblennius macclurei, Ophioblennius
+trinitatis, Opistognathus aurifrons, Orthopristis ruber, Pagrus pagrus,
+Parablennius marmoreus, Parablennius pilicornis, Paraclinus spectator,
+Paranthias furcifer, Pareques acuminatus, Pempheris schomburgkii,
+Phaeoptyx pigmentaria, Pinguipes brasilianus, Platybelone argalus,
+Plectrypops retrospinis, Pomacanthus arcuatus, Pomacanthus paru,
+Pomatomus saltatrix, Porichthys porosissimus, Priacanthus arenatus,
+Prognathodes brasiliensis, Prognathodes guyanensis, Prognathodes
+marcellae, Prognathodes obliquus, Pronotogrammus martinicensis,
+Pseudobatos horkelii, Pseudocaranx dentex, Pseudupeneus maculatus,
+Ptereleotris randalli, Rachycentron canadum, Rhomboplites aurorubens,
+Rypticus bistrispinus, Rypticus saponaceus, Sardinella brasiliensis,
+Sargocentron bullisi, Scartella cristata, Scarus trispinosus, Scarus
+zelindae, Scomberomorus brasiliensis, Scomberomorus maculatus,
+Scomberomorus regalis, Scorpaena brachyptera, Scorpaena brasiliensis,
+Scorpaena dispar, Scorpaena isthmensis, Scorpaena plumieri, Scorpaenodes
 caribbaeus, Selar crumenophthalmus, Selene setapinnis, Selene vomer,
 Seriola dumerili, Seriola lalandi, Seriola rivoliana, Serranus aliceae,
 Serranus atricauda, Serranus atrobranchus, Serranus baldwini, Serranus
@@ -618,14 +619,12 @@ Sparisoma frondosum, Sparisoma radians, Sparisoma rocha, Sparisoma
 tuiupiranga, Sparisoma viride, Sphoeroides greeleyi, Sphoeroides
 spengleri, Sphoeroides testudineus, Sphyraena barracuda, Sphyraena
 borealis, Sphyraena guachancho, Sphyraena picudilla, Sphyraena tome,
-Starksia brasiliensis, Stegastes fuscus, Stegastes lubbocki, Stegastes
-partitus, Stegastes pictus, Stegastes rocasensis, Stegastes sanctipauli,
-Stegastes variabilis, Stephanolepis hispidus, Strongylura marina,
-Strongylura timucu, Synodus foetens, Synodus intermedius, Synodus
-synodus, Thalassoma ascensionis, Thalassoma noronhanum, Thalassoma
-sanctaehelenae, Trachinotus falcatus, Trachinotus goodei, Trachinotus
-ovatus, Upeneus parvus, Uraspis secunda, Xyrichtys blanchardi, Xyrichtys
-novacula, Zapteryx brevirostris
+Starksia brasiliensis, Stegastes fuscus, Stegastes partitus, Stegastes
+pictus, Stegastes rocasensis, Stegastes sanctipauli, Stegastes
+variabilis, Stephanolepis hispidus, Strongylura timucu, Synodus foetens,
+Synodus intermedius, Synodus synodus, Thalassoma noronhanum, Trachinotus
+falcatus, Trachinotus goodei, Trachinotus ovatus, Upeneus parvus,
+Uraspis secunda, Xyrichtys novacula, Zapteryx brevirostris
 
 ## 2.8.2 Benthos
 
@@ -865,18 +864,22 @@ B (2021) Integrating Oceanographic Data and Benthic Community Structure
 Temporal Series to Assess the Dynamics of a Marginal Reef. Front.
 Mar. Sci. 8: 762453 <doi:10.3389/fmars.2021.762453>
 
-#### This paper was produced using the following software and associated packages:
+## This paper was produced using the following software and associated packages:
 
-    ## R version 4.2.2 (2022-10-31 ucrt)
+    ## R version 4.3.0 (2023-04-21 ucrt)
     ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-    ## Running under: Windows 10 x64 (build 19044)
+    ## Running under: Windows 10 x64 (build 19045)
     ## 
     ## Matrix products: default
+    ## 
     ## 
     ## locale:
     ## [1] LC_COLLATE=Portuguese_Brazil.utf8  LC_CTYPE=Portuguese_Brazil.utf8   
     ## [3] LC_MONETARY=Portuguese_Brazil.utf8 LC_NUMERIC=C                      
     ## [5] LC_TIME=Portuguese_Brazil.utf8    
+    ## 
+    ## time zone: America/Sao_Paulo
+    ## tzcode source: internal
     ## 
     ## attached base packages:
     ## [1] parallel  stats     graphics  grDevices utils     datasets  methods  
@@ -885,48 +888,36 @@ Mar. Sci. 8: 762453 <doi:10.3389/fmars.2021.762453>
     ## other attached packages:
     ##  [1] patchwork_1.1.2         magrittr_2.0.3          reshape2_1.4.4         
     ##  [4] mapdata_2.3.1           maps_3.4.1              plotly_4.10.1          
-    ##  [7] xts_0.12.2              zoo_1.8-11              dygraphs_1.1.1.6       
-    ## [10] vegan_2.6-4             lattice_0.20-45         permute_0.9-7          
-    ## [13] leaflet_2.1.1           flexdashboard_0.6.1     lubridate_1.9.1        
-    ## [16] rerddap_1.0.1           png_0.1-8               knitr_1.42             
-    ## [19] wordcloud_2.6           RColorBrewer_1.1-3      SnowballC_0.7.0        
-    ## [22] tm_0.7-10               NLP_0.2-1               rgeos_0.6-1            
-    ## [25] sp_1.6-0                sf_1.0-9                scatterpie_0.1.8       
-    ## [28] ggrepel_0.9.2           gridExtra_2.3           rnaturalearthdata_0.1.0
-    ## [31] rnaturalearth_0.3.2     forcats_0.5.2           stringr_1.5.0          
-    ## [34] dplyr_1.1.0             purrr_1.0.1             readr_2.1.3            
-    ## [37] tidyr_1.3.0             tibble_3.1.8            ggplot2_3.4.0          
-    ## [40] tidyverse_1.3.2         openxlsx_4.2.5.1        here_1.0.1             
+    ##  [7] xts_0.13.1              zoo_1.8-12              dygraphs_1.1.1.6       
+    ## [10] vegan_2.6-4             lattice_0.21-8          permute_0.9-7          
+    ## [13] leaflet_2.1.2           flexdashboard_0.6.1     rerddap_1.0.2          
+    ## [16] png_0.1-8               knitr_1.42              wordcloud_2.6          
+    ## [19] RColorBrewer_1.1-3      SnowballC_0.7.1         tm_0.7-11              
+    ## [22] NLP_0.2-1               rgeos_0.6-2             sp_1.6-0               
+    ## [25] sf_1.0-12               scatterpie_0.1.9        ggrepel_0.9.3          
+    ## [28] gridExtra_2.3           rnaturalearthdata_0.1.0 rnaturalearth_0.3.2    
+    ## [31] lubridate_1.9.2         forcats_1.0.0           stringr_1.5.0          
+    ## [34] dplyr_1.1.2             purrr_1.0.1             readr_2.1.4            
+    ## [37] tidyr_1.3.0             tibble_3.2.1            ggplot2_3.4.2          
+    ## [40] tidyverse_2.0.0         openxlsx_4.2.5.2        here_1.0.1             
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] googledrive_2.0.0   colorspace_2.1-0    ellipsis_0.3.2     
-    ##  [4] class_7.3-20        rprojroot_2.0.3     fs_1.6.0           
-    ##  [7] rstudioapi_0.14     httpcode_0.3.0      proxy_0.4-27       
-    ## [10] farver_2.1.1        fansi_1.0.4         xml2_1.3.3         
-    ## [13] splines_4.2.2       ncdf4_1.21          cachem_1.0.6       
-    ## [16] polyclip_1.10-4     jsonlite_1.8.4      broom_1.0.3        
-    ## [19] cluster_2.1.4       dbplyr_2.3.0        ggforce_0.4.1      
-    ## [22] hoardr_0.5.3        compiler_4.2.2      httr_1.4.4         
-    ## [25] backports_1.4.1     lazyeval_0.2.2      Matrix_1.5-1       
-    ## [28] assertthat_0.2.1    fastmap_1.1.0       gargle_1.2.1       
-    ## [31] cli_3.6.0           tweenr_2.0.2        htmltools_0.5.4    
-    ## [34] tools_4.2.2         gtable_0.3.1        glue_1.6.2         
-    ## [37] rappdirs_0.3.3      Rcpp_1.0.10         slam_0.1-50        
-    ## [40] cellranger_1.1.0    jquerylib_0.1.4     vctrs_0.5.2        
-    ## [43] crul_1.3            nlme_3.1-160        crosstalk_1.2.0    
-    ## [46] xfun_0.36           rvest_1.0.3         timechange_0.2.0   
-    ## [49] lifecycle_1.0.3     googlesheets4_1.0.1 MASS_7.3-58.1      
-    ## [52] scales_1.2.1        hms_1.1.2           yaml_2.3.7         
-    ## [55] curl_5.0.0          ggfun_0.0.9         sass_0.4.5         
-    ## [58] stringi_1.7.12      highr_0.10          e1071_1.7-12       
-    ## [61] zip_2.2.2           rlang_1.0.6         pkgconfig_2.0.3    
-    ## [64] evaluate_0.20       labeling_0.4.2      htmlwidgets_1.6.1  
-    ## [67] tidyselect_1.2.0    plyr_1.8.8          R6_2.5.1           
-    ## [70] generics_0.1.3      DBI_1.1.3           mgcv_1.8-41        
-    ## [73] pillar_1.8.1        haven_2.5.1         withr_2.5.0        
-    ## [76] units_0.8-1         modelr_0.1.10       crayon_1.5.2       
-    ## [79] KernSmooth_2.23-20  utf8_1.2.2          tzdb_0.3.0         
-    ## [82] rmarkdown_2.20      grid_4.2.2          readxl_1.4.1       
-    ## [85] data.table_1.14.6   reprex_2.0.2        digest_0.6.31      
-    ## [88] classInt_0.4-8      munsell_0.5.0       viridisLite_0.4.1  
-    ## [91] bslib_0.4.2
+    ##  [1] DBI_1.1.3          rlang_1.1.1        e1071_1.7-13       compiler_4.3.0    
+    ##  [5] mgcv_1.8-42        vctrs_0.6.2        httpcode_0.3.0     pkgconfig_2.0.3   
+    ##  [9] fastmap_1.1.1      labeling_0.4.2     utf8_1.2.3         rmarkdown_2.21    
+    ## [13] tzdb_0.3.0         xfun_0.39          cachem_1.0.8       jsonlite_1.8.4    
+    ## [17] highr_0.10         tweenr_2.0.2       cluster_2.1.4      R6_2.5.1          
+    ## [21] bslib_0.4.2        stringi_1.7.12     hoardr_0.5.3       jquerylib_0.1.4   
+    ## [25] Rcpp_1.0.10        Matrix_1.5-4       splines_4.3.0      timechange_0.2.0  
+    ## [29] tidyselect_1.2.0   rstudioapi_0.14    yaml_2.3.7         curl_5.0.0        
+    ## [33] plyr_1.8.8         withr_2.5.0        evaluate_0.21      units_0.8-2       
+    ## [37] proxy_0.4-27       polyclip_1.10-4    zip_2.3.0          xml2_1.3.4        
+    ## [41] pillar_1.9.0       KernSmooth_2.23-20 ggfun_0.0.9        ncdf4_1.21        
+    ## [45] generics_0.1.3     rprojroot_2.0.3    hms_1.1.3          munsell_0.5.0     
+    ## [49] scales_1.2.1       class_7.3-21       glue_1.6.2         slam_0.1-50       
+    ## [53] lazyeval_0.2.2     tools_4.3.0        data.table_1.14.8  grid_4.3.0        
+    ## [57] crosstalk_1.2.0    colorspace_2.1-0   nlme_3.1-162       ggforce_0.4.1     
+    ## [61] cli_3.6.1          rappdirs_0.3.3     fansi_1.0.4        viridisLite_0.4.2 
+    ## [65] gtable_0.3.3       sass_0.4.6         digest_0.6.31      classInt_0.4-9    
+    ## [69] crul_1.3           htmlwidgets_1.6.2  farver_2.1.1       htmltools_0.5.5   
+    ## [73] lifecycle_1.0.3    httr_1.4.6         MASS_7.3-58.4
