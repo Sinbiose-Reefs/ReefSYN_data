@@ -214,6 +214,23 @@ benthos_DF_occ2<- benthos_DF_occ2[,-which(colnames(benthos_DF_occ2) == "taxonOrG
 benthos_DF_eMOF$eventRemarks <- "Bare substrate, sediment, lost information (shade, quadrat, tape), morpho-anatomical benthic groups and turf were not included in the data because they do not represent taxonomical entities in which DwC standards are based. This implies in a measurementValue which does not add up to 1. Please contact the data curator Cesar Cordeiro to have the complete dataset with verbatimIdentification"
 
 
+# remove ids not matching across datasets (ids removed because we excluded non-biological categories (bare ground, sand ...))
+benthos_DF_eMOF <- benthos_DF_eMOF[which(benthos_DF_eMOF$eventID %in% benthos_DF_occ2$eventID),]
+benthos_event_core <- benthos_event_core[which(benthos_event_core$eventID %in% benthos_DF_occ2$eventID),]
+
+
+# check
+table(unique(benthos_DF_occ2$eventID) %in% unique(benthos_DF_eMOF$eventID))
+table(unique(benthos_DF_occ2$eventID) %in% unique(benthos_event_core$eventID))
+table(unique(benthos_DF_eMOF$eventID) %in% unique(benthos_event_core$eventID))
+table(unique(benthos_event_core$eventID) %in% unique(benthos_DF_eMOF$eventID))
+table(unique(benthos_DF_eMOF$eventID ) %in% unique(benthos_DF_occ2$eventID) )
+
+# remove occurrenceID from eMOF table
+benthos_DF_eMOF <- benthos_DF_eMOF [,-which(colnames(benthos_DF_eMOF )== "occurrenceID")]
+
+# modifiy stpauls rocks
+benthos_event_core$island[which(benthos_event_core$island == "sao_pedro_e_sao_paulo")] <- "stpauls_rocks"
 
 
 # save

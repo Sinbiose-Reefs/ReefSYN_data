@@ -147,8 +147,6 @@ fish_long_format$namesToSearch [which(fish_long_format$identificationQualifier =
 # few adjusts
 fish_long_format$namesToSearch[which(fish_long_format$namesToSearch == "upeneus parvos")] <- "upeneus parvus"
 
-
-
 # worms'checking
 
 worms_record <- lapply (unique(fish_long_format$namesToSearch), function (i) 
@@ -213,7 +211,7 @@ fish_long_format$genus <-(df_worms_record$genus [match (fish_long_format$namesTo
 fish_long_format$scientificNameAccepted[grep ("multilineata", fish_long_format$scientificNameAccepted)] <- "Azurina multilineata"
 fish_long_format$scientificNameAccepted[grep ("bartholomaei", fish_long_format$scientificNameAccepted)] <- "Caranx bartholomaei"
 fish_long_format$scientificNameAccepted[grep ("polygonius", fish_long_format$scientificNameAccepted)] <- "Acanthostracion polygonium"
-fish_long_format$scientificNameAccepted[grep ("Dasyatis americana", fish_long_format$scientificNameAccepted)] <- "Hypanus berthalutzea"
+fish_long_format$scientificNameAccepted[grep ("Dasyatis americana", fish_long_format$scientificNameAccepted)] <- "Hypanus berthalutzae"
 fish_long_format$scientificNameAccepted[grep ("Emblemariopsis signifera", fish_long_format$scientificNameAccepted)] <- "Emblemariopsis signifer"
 fish_long_format$scientificNameAccepted[grep ("Haemulon plumieri", fish_long_format$scientificNameAccepted)] <- "Haemulon plumierii"
 fish_long_format$scientificNameAccepted[grep ("Labrisomus kalisherae", fish_long_format$scientificNameAccepted)] <- "Goblioclinus kalisherae"
@@ -464,6 +462,21 @@ fish_long_format$measurementRemarks <- "Authors used categories of total length"
 
 
 
+# adjusting recordedBy
+
+
+# adjusting scientific name
+fish_SN_observers <- read.xlsx(here ("Data", 
+                           "occ_Francini_temporal_abrolhos",
+                           "Checking.xlsx"),sheet=2)
+
+
+
+# match
+
+fish_long_format$recordedBy <- fish_SN_observers [match (fish_long_format$recordedBy,fish_SN_observers$abbreviation),
+                   "recordedBy"]
+
 
 # ------------------------------------------------------------------------------------------
 # Formatted according to DwC
@@ -475,7 +488,6 @@ fish_long_format$measurementRemarks <- "Authors used categories of total length"
 
 
 DF_eMOF <- fish_long_format [,c("eventID", 
-                                "occurrenceID",
                                  "measurementValue", 
                                 "measurementType",
                                 "measurementUnit",

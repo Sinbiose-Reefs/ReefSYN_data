@@ -40,6 +40,8 @@ fish_event_core$higherGeography <- ifelse (fish_event_core$island == "Ascension"
                                            "BrazilianOceanicIslands")
 # remove ascension
 fish_event_core <- fish_event_core [which(fish_event_core$island != "Ascension"),]
+fish_DF_eMOF <- fish_DF_eMOF[-grep("Ascension", fish_DF_eMOF$eventID),]
+fish_DF_eMOF <- fish_DF_eMOF[,-which(colnames(fish_DF_eMOF) == "occurrenceID")]# remove occurrenceID from fish_DF_eMOF
 
 
 # tartarugas in Trindade & Rocas
@@ -60,6 +62,8 @@ fish_DF_occ2 <- read.csv(here ("Data",
                                   "PELD_iloc_fish",
                                   "DF_occ.txt"),sep=",",encoding= "UTF-8")
 
+# remove Ascension
+fish_DF_occ2 <- fish_DF_occ2[-grep("Ascension", fish_DF_occ2$eventID),]
 
 
 # --------------------------
@@ -148,8 +152,25 @@ fish_DF_occ2$genus[grep ("Choranthias salmopunctatus", fish_DF_occ2$scientificNa
 
 # adjust site names
 fish_event_core$island<-tolower (fish_event_core$island)
+fish_event_core$island[which(fish_event_core$island == "são pedro e são paulo")] <- "stpauls_rocks"
 fish_event_core$locality <- tolower (fish_event_core$locality)
 
+
+
+
+# Ajust Renato A Morais in recordedBy
+fish_DF_occ2$recordedBy [which(fish_DF_occ2$recordedBy == "Renato Morais")] <- "Renato A Morais"
+fish_DF_occ2$recordedBy [which(fish_DF_occ2$recordedBy == "Lucas Nunes")] <- "Lucas T Nunes"
+fish_DF_occ2$recordedBy [which(fish_DF_occ2$recordedBy == "Ana Liedke")] <- "Ana MR Liedke"
+fish_DF_occ2$recordedBy [which(fish_DF_occ2$recordedBy == "Natália Roos")] <- "Natalia C Roos"
+
+
+# checks
+fish_DF_eMOF[grep ("Ascension",fish_DF_eMOF$eventID),]
+setdiff(unique(fish_DF_eMOF$eventID), unique(fish_DF_occ2$eventID))
+table(unique(fish_DF_eMOF$eventID) %in% unique(fish_DF_occ2$eventID))
+table(unique(fish_DF_eMOF$eventID) %in% unique(fish_event_core$eventID))
+table(unique(fish_DF_occ2$eventID) %in% unique(fish_event_core$eventID))
 
 # save
 write.csv(fish_DF_occ2, file =here("DwC_output",

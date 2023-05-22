@@ -10,6 +10,8 @@ arraial_time_series <- read.csv(here ("Data",
                            sep=",")
 
 
+# rm #N/A --> chelonia mydas(che_myd)  & bat_spp -- not fish
+arraial_time_series <- arraial_time_series [which(arraial_time_series$Taxa != "#N/A"),]
 
 
 # --------------------------------------------------------------------------
@@ -113,14 +115,23 @@ dados_bind$month [which(dados_bind$month == "nov")] <- 11
 dados_bind$month [which(dados_bind$month == "dec")] <- 12
 
 # adjust day
-dados_bind$day <- ifelse (dados_bind$day < 10, 
-                          paste0("0", dados_bind$day),
-                          dados_bind$day)
+dados_bind$day <- ifelse (as.numeric(dados_bind$day) < 10, 
+                          paste0("0", as.numeric(dados_bind$day)),
+                          as.numeric(dados_bind$day))
+
+# adjust month
+dados_bind$month <- ifelse (as.numeric(dados_bind$month) < 10, 
+                          paste0("0", dados_bind$month),
+                          dados_bind$month)
+
 
 # date
-dados_bind$eventDate <- as.Date (paste(dados_bind$year, 
-               dados_bind$month,
-               dados_bind$day,sep="-"))
+dados_bind$eventDate <-  (paste(dados_bind$year, 
+                                        dados_bind$month,
+                                        dados_bind$day,sep="-"))
+
+
+dados_bind[is.na(dados_bind$eventDate),]
 
 
 # country and code
@@ -290,6 +301,134 @@ dados_bind$occurrenceID <- paste (
 
 
 
+# ----------------------------------------------------------------------------------------------
+# adjust recordBy
+
+
+dados_bind <- dados_bind %>% 
+  mutate(recordedBy = plyr::mapvalues(recordedBy, 
+                                      from = c("Thiago", "tc_mendes", "mendes_tc","thiago","thiago_mendes"  ,
+                                               "Renato", "morais_ra","renato","ra_morais","renato_morais",
+                                               "Gui","GOL","guilherme","guilherme_longo",
+                                               "ide", "anaide" ,"anaide_aued",
+                                               "ju",
+                                               "luisa", "lu","luisa_fontoura",
+                                               "juan", "quimbayo_jp","jp_quimbayo","juan_quimbayo",
+                                               "davi",
+                                               "edson",
+                                               "renata","r_mazzei","renata_mazzei" ,
+                                               "anderson_batista" , "batista_a",
+                                               "cordeiro_camm", "cesar","camm_cordeiro" ,"cesar_cordeiro",
+                                               "barbosa_m","mc_barbosa",
+                                               "giglio_vj",
+                                               "NCR",
+                                               "JB",
+                                               "GSG",
+                                               "LE","l_eggertsen",    
+                                               "KYI",
+                                               "EAV",
+                                               "MCP",
+                                               "marina",
+                                               "diego","diego_barneche",
+                                               "roberta",
+                                               "max","max_levy",
+                                               "r_noguchi","ramon_noguchi",
+                                               "cel_ferreira",
+                                               "cgw_ferreira",
+                                               "gugaw_ferreira",
+                                               "gabriel_ferreira",
+                                               "jl_gasparini",
+                                               "jp_krajewski",
+                                               "hudson_pinheiro",
+                                               "ana_liedke",
+                                               "sergio_floeter",
+                                               "mb_lucena",
+                                               "cbp_eirado-silva" ,
+                                               NA,
+                                               "go_correal"  ,     "gabriel_correal",
+                                               "bertran_feitoza",
+                                               "eduardo_godoy" ,   
+                                               "ca_rangel",
+                                               "claudio_sampaio",
+                                               "thiony_simon",
+                                               "tiago_albuquerque" ,
+                                               "anchieta_nunes",
+                                               "daniel_dinslaken"   ,
+                                               "osmar_luiz",
+                                               "marcelo_silveira"  , 
+                                               "andrea_dalben" ,
+                                               "alexandre_siqueira" ,
+                                               "athila_bertoncini",
+                                               "otavio_schlickmann",
+                                               "lucas_nunes",
+                                               "thiago_fiuza",
+                                               "debora_ferrari",
+                                               "angela_canterle"
+                                      ),
+                                      to = c("Thiago C Mendes","Thiago C Mendes","Thiago C Mendes","Thiago C Mendes","Thiago C Mendes",
+                                             "Renato A Morais","Renato A Morais","Renato A Morais","Renato A Morais","Renato A Morais",
+                                             "Guilherme O Longo","Guilherme O Longo","Guilherme O Longo","Guilherme O Longo",
+                                             "Anaide W Aued","Anaide W Aued","Anaide W Aued",
+                                             "Júlia Correia", 
+                                             "Luísa Fontoura","Luísa Fontoura","Luísa Fontoura",
+                                             "Juan P Quimbayo","Juan P Quimbayo","Juan P Quimbayo","Juan P Quimbayo",
+                                             "Davi V Candido", 
+                                             "Edson Faria Jr",
+                                             "Renata CB Mazzei","Renata CB Mazzei","Renata CB Mazzei",
+                                             "Anderson Batista","Anderson Batista",
+                                             "Cesar AMM Cordeiro","Cesar AMM Cordeiro","Cesar AMM Cordeiro","Cesar AMM Cordeiro",
+                                             "Moyses C Barbosa","Moyses C Barbosa",
+                                             "Vinícius Giglio",
+                                             "Natalia C Roos",
+                                             "Jéssica Bleuel",
+                                             "Gabriel Santos Garcia",
+                                             "Linda Eggertsen","Linda Eggertsen",
+                                             "Kelly Y Inagaki",
+                                             "Edson A Vieira",
+                                             "Maria Carolina Pacheco",
+                                             "Marina N Sissini",
+                                             "Diego R Barneche","Diego R Barneche",
+                                             "Roberta Bonaldo",
+                                             "Max Levy","Max Levy",
+                                             "Ramon Noguchi","Ramon Noguchi",
+                                             "Carlos EL Ferreira",
+                                             "Carlos GW Ferreira",
+                                             "Carlos GW Ferreira",
+                                             "Gabriel Ferreira",
+                                             "João L Gasparini",
+                                             "João P Krajewski",
+                                             "Hudson Pinheiro",
+                                             "Ana MR Liedke",
+                                             "Sérgio R Floeter",
+                                             "Marcos B Lucena",
+                                             "Clara BP Eirado-Silva" ,
+                                             NA,
+                                             "Gabriel O Correal"  ,   "Gabriel O Correal" ,  
+                                             "Bertran Feitoza",
+                                             "Eduardo Godoy",   
+                                             "Carlos Rangel",
+                                             "Claudio LS Sampaio",
+                                             "Thiony Simon",
+                                             "Tiago Albuquerque" ,
+                                             "Anchieta Nunes",
+                                             "Daniel Dinslaken"   ,
+                                             "Osmar Luiz",
+                                             "Marcelo Silveira"  , 
+                                             "Andrea Dalben" ,
+                                             "Alexandre C Siqueira",
+                                             "Athila Bertoncini",
+                                             "Otavio SR Cardoso",
+                                             "Lucas T Nunes",
+                                             "Thiago MJ Fiuza",
+                                             "Débora S Ferrari",
+                                             "Angela M Canterle")
+  )
+  )
+
+dados_bind$recordedBy[which(dados_bind$recordedBy == "")] <- NA
+
+
+
 
 # --------------------------------------------------------------------------
 # Formatted according to DwC
@@ -300,7 +439,6 @@ dados_bind$occurrenceID <- paste (
 
 
 DF_eMOF <- dados_bind [,c("eventID", 
-                          "occurrenceID",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit")]
@@ -329,7 +467,7 @@ DF_occ <- dados_bind [,c("eventID",
 event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,site,locality) %>% 
                             
                                 summarise(year = mean(year),
-                                          eventDate = mean(eventDate),
+                                          eventDate = unique(eventDate),
                                           minimumDepthinMeters = mean(minimumDepthinMeters),
                                           maximumDepthinMeters = mean(maximumDepthinMeters),
                                           samplingProtocol = unique(samplingProtocol),

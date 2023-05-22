@@ -398,13 +398,24 @@ L.peixes_coord$scientificNameAccepted[grep ("multilineata", L.peixes_coord$scien
 L.peixes_coord$scientificNameAccepted[grep ("bartholomaei", L.peixes_coord$scientificNameAccepted)] <- "Caranx bartholomaei"
 L.peixes_coord$scientificNameAccepted[grep ("polygonius", L.peixes_coord$scientificNameAccepted)] <- "Acanthostracion polygonium"
 L.peixes_coord$scientificNameAccepted[grep ("Hypanus americanus", L.peixes_coord$scientificNameAccepted)] <- "Hypanus berthalutzea"
+L.peixes_coord$scientificNameAccepted[grep ("Serranus atricauda", L.peixes_coord$scientificNameAccepted)] <- "Serranus flaviventris"
+L.peixes_coord$scientificNameAccepted[grep ("Epinephelus marginatus", L.peixes_coord$scientificNameAccepted)] <- "Mycteroperca marginata"
 
 # genus
 L.peixes_coord$genus[grep ("multilineata", L.peixes_coord$scientificNameAccepted)] <- "Azurina"
 L.peixes_coord$genus[grep ("bartholomaei", L.peixes_coord$scientificNameAccepted)] <- "Caranx"
+L.peixes_coord$genus[grep ("Mycteroperca marginata", L.peixes_coord$scientificNameAccepted)] <- "Mycteroperca"
 
 
 unique(L.peixes_coord$scientificNameAccepted)[order(unique(L.peixes_coord$scientificNameAccepted))]
+
+
+
+
+# L.peixes_coord[which(L.peixes_coord$scientificNameAccepted == "Sphyraena borealis"),"identificationQualifier"]  <- "cf."# 
+# L.peixes_coord[which(L.peixes_coord$scientificNameAccepted == "Ophioblennius macclurei"),]
+# L.peixes_coord[which(L.peixes_coord$scientificNameAccepted == "Malacoctenus triangulatus"),]
+
 
 
 # -----------------------------------------------------------------------------------
@@ -609,6 +620,9 @@ bites$measurementType <- "foraging behavior"
 bites$organismQuantityType <- "number of bites"
 # measurementUnit
 bites$measurementUnit <- "counts"
+# measurementRemarks
+bites$measurementRemarks <- "Missing data (NA) indicate detections without interaction with the benthos"
+
 # measurementValue
 colnames(bites)[which(colnames(bites) == "number_of_bites")] <- "measurementValue"
 
@@ -622,6 +636,9 @@ size$measurementType <- "total length"
 size$organismQuantityType <- "total length"
 # measurementUnit
 size$measurementUnit <- "centimeters"
+# measurementRemarks
+size$measurementRemarks <- "Missing data (NA) indicate fish missing size estimates"
+
 # measurementValue
 colnames(size)[which(colnames(size) == "body_size_cm")] <- "measurementValue"
 
@@ -635,6 +652,8 @@ activity$measurementType <- "activity"
 activity$organismQuantityType <- "activity"
 # measurementUnit
 activity$measurementUnit <- "unitless"
+# measurementRemarks
+activity$measurementRemarks <- "Missing data (NA) indicate missing activity record"
 # measurementValue
 colnames(activity)[which(colnames(activity) == "activity")] <- "measurementValue"
 
@@ -648,6 +667,8 @@ time$measurementType <- "time"
 time$organismQuantityType <- "time"
 # measurementUnit
 time$measurementUnit <- "second"
+# measurementRemarks
+time$measurementRemarks <- "Missing data (NA) indicate missing activity record"
 # measurementValue
 colnames(time)[which(colnames(time) == "observation_time")] <- "measurementValue"
 
@@ -670,6 +691,134 @@ dados_bind <- dados_bind [which(is.na(dados_bind$scientificNameAccepted) !=T),]
 
 
 
+# ----------------------------------------------------------------------------------------------
+# adjust recordBy
+
+
+dados_bind <- dados_bind %>% 
+  mutate(recordedBy = plyr::mapvalues(recordedBy, 
+                                      from = c("Thiago", "tc_mendes", "mendes_tc","thiago","thiago_mendes"  ,
+                                               "Renato", "morais_ra","renato","ra_morais","renato_morais",
+                                               "Gui","GOL","guilherme","guilherme_longo",
+                                               "ide", "anaide" ,"anaide_aued",
+                                               "ju",
+                                               "luisa", "lu","luisa_fontoura",
+                                               "juan", "quimbayo_jp","jp_quimbayo","juan_quimbayo",
+                                               "davi",
+                                               "edson",
+                                               "renata","r_mazzei","renata_mazzei" ,
+                                               "anderson_batista" , "batista_a",
+                                               "cordeiro_camm", "cesar","camm_cordeiro" ,"cesar_cordeiro",
+                                               "barbosa_m","mc_barbosa",
+                                               "giglio_vj",
+                                               "NCR",
+                                               "JB",
+                                               "GSG",
+                                               "LE","l_eggertsen",    
+                                               "KYI",
+                                               "EAV",
+                                               "MCP",
+                                               "marina",
+                                               "diego","diego_barneche",
+                                               "roberta",
+                                               "max","max_levy",
+                                               "r_noguchi","ramon_noguchi",
+                                               "cel_ferreira",
+                                               "cgw_ferreira",
+                                               "gugaw_ferreira",
+                                               "gabriel_ferreira",
+                                               "jl_gasparini",
+                                               "jp_krajewski",
+                                               "hudson_pinheiro",
+                                               "ana_liedke",
+                                               "sergio_floeter",
+                                               "mb_lucena",
+                                               "cbp_eirado-silva" ,
+                                               NA,
+                                               "go_correal"  ,     "gabriel_correal",
+                                               "bertran_feitoza",
+                                               "eduardo_godoy" ,   
+                                               "ca_rangel",
+                                               "claudio_sampaio",
+                                               "thiony_simon",
+                                               "tiago_albuquerque" ,
+                                               "anchieta_nunes",
+                                               "daniel_dinslaken"   ,
+                                               "osmar_luiz",
+                                               "marcelo_silveira"  , 
+                                               "andrea_dalben" ,
+                                               "alexandre_siqueira" ,
+                                               "athila_bertoncini",
+                                               "otavio_schlickmann",
+                                               "lucas_nunes",
+                                               "thiago_fiuza",
+                                               "debora_ferrari",
+                                               "angela_canterle"
+                                      ),
+                                      to = c("Thiago C Mendes","Thiago C Mendes","Thiago C Mendes","Thiago C Mendes","Thiago C Mendes",
+                                             "Renato A Morais","Renato A Morais","Renato A Morais","Renato A Morais","Renato A Morais",
+                                             "Guilherme O Longo","Guilherme O Longo","Guilherme O Longo","Guilherme O Longo",
+                                             "Anaide W Aued","Anaide W Aued","Anaide W Aued",
+                                             "Júlia Correia", 
+                                             "Luísa Fontoura","Luísa Fontoura","Luísa Fontoura",
+                                             "Juan P Quimbayo","Juan P Quimbayo","Juan P Quimbayo","Juan P Quimbayo",
+                                             "Davi V Candido", 
+                                             "Edson Faria Jr",
+                                             "Renata CB Mazzei","Renata CB Mazzei","Renata CB Mazzei",
+                                             "Anderson Batista","Anderson Batista",
+                                             "Cesar AMM Cordeiro","Cesar AMM Cordeiro","Cesar AMM Cordeiro","Cesar AMM Cordeiro",
+                                             "Moyses C Barbosa","Moyses C Barbosa",
+                                             "Vinícius Giglio",
+                                             "Natalia C Roos",
+                                             "Jéssica Bleuel",
+                                             "Gabriel Santos Garcia",
+                                             "Linda Eggertsen","Linda Eggertsen",
+                                             "Kelly Y Inagaki",
+                                             "Edson A Vieira",
+                                             "Maria Carolina Pacheco",
+                                             "Marina N Sissini",
+                                             "Diego R Barneche","Diego R Barneche",
+                                             "Roberta Bonaldo",
+                                             "Max Levy","Max Levy",
+                                             "Ramon Noguchi","Ramon Noguchi",
+                                             "Carlos EL Ferreira",
+                                             "Carlos GW Ferreira",
+                                             "Carlos GW Ferreira",
+                                             "Gabriel Ferreira",
+                                             "João L Gasparini",
+                                             "João P Krajewski",
+                                             "Hudson Pinheiro",
+                                             "Ana MR Liedke",
+                                             "Sérgio R Floeter",
+                                             "Marcos B Lucena",
+                                             "Clara BP Eirado-Silva" ,
+                                             NA,
+                                             "Gabriel O Correal"  ,   "Gabriel O Correal" ,  
+                                             "Bertran Feitoza",
+                                             "Eduardo Godoy",   
+                                             "Carlos Rangel",
+                                             "Claudio LS Sampaio",
+                                             "Thiony Simon",
+                                             "Tiago Albuquerque" ,
+                                             "Anchieta Nunes",
+                                             "Daniel Dinslaken"   ,
+                                             "Osmar Luiz",
+                                             "Marcelo Silveira"  , 
+                                             "Andrea Dalben" ,
+                                             "Alexandre C Siqueira",
+                                             "Athila Bertoncini",
+                                             "Otavio SR Cardoso",
+                                             "Lucas T Nunes",
+                                             "Thiago MJ Fiuza",
+                                             "Débora S Ferrari",
+                                             "Angela M Canterle")
+  )
+  )
+
+# missing ids
+dados_bind[which(dados_bind$recordedBy == ""),"recordedBy"] <- NA
+
+
 # -----------------------------------------------------------------------------------
 #  Formatted according to DwC
 
@@ -681,11 +830,11 @@ dados_bind <- dados_bind [which(is.na(dados_bind$scientificNameAccepted) !=T),]
 
 
 DF_eMOF <- dados_bind [,c("eventID", 
-                          "occurrenceID",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit",
                           "measurementTypeID",
+                          "measurementRemarks",
                           "begginingObservationTime",
                           "endingObservationTime")]
 

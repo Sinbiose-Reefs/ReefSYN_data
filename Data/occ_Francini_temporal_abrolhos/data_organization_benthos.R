@@ -350,7 +350,6 @@ benthos_long_format <- benthos_long_format [which(is.na(benthos_long_format$scie
 
 
 DF_eMOF <- benthos_long_format [,c("eventID", 
-                                   "occurrenceID",
                                    "measurementValue", 
                                    "measurementType",
                                    "measurementUnit",
@@ -816,7 +815,6 @@ benthos_long_format_2006 <- benthos_long_format_2006 [which(is.na(benthos_long_f
 
 
 DF_eMOF_2006 <- benthos_long_format_2006 [,c("eventID", 
-                                             "occurrenceID",
                                              "measurementValue", 
                                              "measurementType",
                                              "measurementUnit",

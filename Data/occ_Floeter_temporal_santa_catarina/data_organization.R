@@ -157,6 +157,10 @@ dados_bind$locality[which(dados_bind$locality == "saco_da_agua")] <- "saco_dagua
 dados_bind$locality[which(dados_bind$locality == "saco_do_capim")] <- "capim"
 dados_bind$locality[which(dados_bind$locality == "saco_do_engenho")] <- "engenho"
 unique(dados_bind$locality )[order(unique(dados_bind$locality ))]
+unique(dados_bind$site )[order(unique(dados_bind$site))]
+# adjust site
+dados_bind$site[which(dados_bind$site == "caixa_da\xe7o_beach")] <- "caixadaco_beach"
+
 
 
 
@@ -309,9 +313,137 @@ dados_bind$licence <- "CC BY-NC"
 # language
 dados_bind$language <- "en"
 
+# eventRemarks
+dados_bind$eventRemarks <- "Just published by Quimbayo et al. in Ecology"
+
+dados_bind$bibliographicCitation <- "Quimbayo, J. P., Nunes, L. T., Silva, F. C., Anderson, A. B., Barneche, D. R., Canterle, A. M., Cord, I., Dalben, A., Ferrari, D. S., Fontoura, L., Fiuza, T. M. J., Liedke, A. M. R., Longo, G. O., Morais, R. A., Siqueira, A. C., & Floeter, S. R. (2023). TimeFISH: Long-term assessment of reef fish assemblages in a transition zone in the Southwestern Atlantic. Ecology, 104(3), [e3966]. https://doi.org/10.1002/ecy.3966"
+
+# -------------------------------------------------------
+
+
+# ajust recordedBy
 
 
 
+dados_bind <- dados_bind %>% 
+  mutate(recordedBy = plyr::mapvalues(recordedBy, 
+                                      from = c("Thiago", "tc_mendes", "mendes_tc","thiago","thiago_mendes"  ,
+                                               "Renato", "morais_ra","renato","ra_morais","renato_morais",
+                                               "Gui","GOL","guilherme","guilherme_longo",
+                                               "ide", "anaide" ,"anaide_aued",
+                                               "ju",
+                                               "luisa", "lu","luisa_fontoura",
+                                               "juan", "quimbayo_jp","jp_quimbayo","juan_quimbayo",
+                                               "davi",
+                                               "edson",
+                                               "renata","r_mazzei","renata_mazzei" ,
+                                               "anderson_batista" , "batista_a",
+                                               "cordeiro_camm", "cesar","camm_cordeiro" ,"cesar_cordeiro",
+                                               "barbosa_m","mc_barbosa",
+                                               "giglio_vj",
+                                               "NCR",
+                                               "JB",
+                                               "GSG",
+                                               "LE","l_eggertsen",    
+                                               "KYI",
+                                               "EAV",
+                                               "MCP",
+                                               "marina",
+                                               "diego","diego_barneche",
+                                               "roberta",
+                                               "max","max_levy",
+                                               "r_noguchi","ramon_noguchi",
+                                               "cel_ferreira",
+                                               "cgw_ferreira",
+                                               "gugaw_ferreira",
+                                               "gabriel_ferreira",
+                                               "jl_gasparini",
+                                               "jp_krajewski",
+                                               "hudson_pinheiro",
+                                               "ana_liedke",
+                                               "sergio_floeter",
+                                               "mb_lucena",
+                                               "cbp_eirado-silva" ,
+                                               NA,
+                                               "go_correal"  ,     "gabriel_correal",
+                                               "bertran_feitoza",
+                                               "eduardo_godoy" ,   
+                                               "ca_rangel",
+                                               "claudio_sampaio",
+                                               "thiony_simon",
+                                               "tiago_albuquerque" ,
+                                               "anchieta_nunes",
+                                               "daniel_dinslaken"   ,
+                                               "osmar_luiz",
+                                               "marcelo_silveira"  , 
+                                               "andrea_dalben" ,
+                                               "alexandre_siqueira" ,
+                                               "athila_bertoncini",
+                                               "otavio_schlickmann",
+                                               "lucas_nunes",
+                                               "thiago_fiuza",
+                                               "debora_ferrari",
+                                               "angela_canterle"
+                                      ),
+                                      to = c("Thiago C Mendes","Thiago C Mendes","Thiago C Mendes","Thiago C Mendes","Thiago C Mendes",
+                                             "Renato A Morais","Renato A Morais","Renato A Morais","Renato A Morais","Renato A Morais",
+                                             "Guilherme O Longo","Guilherme O Longo","Guilherme O Longo","Guilherme O Longo",
+                                             "Anaide W Aued","Anaide W Aued","Anaide W Aued",
+                                             "Júlia Correia", 
+                                             "Luísa Fontoura","Luísa Fontoura","Luísa Fontoura",
+                                             "Juan P Quimbayo","Juan P Quimbayo","Juan P Quimbayo","Juan P Quimbayo",
+                                             "Davi V Candido", 
+                                             "Edson Faria Jr",
+                                             "Renata CB Mazzei","Renata CB Mazzei","Renata CB Mazzei",
+                                             "Anderson Batista","Anderson Batista",
+                                             "Cesar AMM Cordeiro","Cesar AMM Cordeiro","Cesar AMM Cordeiro","Cesar AMM Cordeiro",
+                                             "Moyses C Barbosa","Moyses C Barbosa",
+                                             "Vinícius Giglio",
+                                             "Natalia C Roos",
+                                             "Jéssica Bleuel",
+                                             "Gabriel Santos Garcia",
+                                             "Linda Eggertsen","Linda Eggertsen",
+                                             "Kelly Y Inagaki",
+                                             "Edson A Vieira",
+                                             "Maria Carolina Pacheco",
+                                             "Marina N Sissini",
+                                             "Diego R Barneche","Diego R Barneche",
+                                             "Roberta Bonaldo",
+                                             "Max Levy","Max Levy",
+                                             "Ramon Noguchi","Ramon Noguchi",
+                                             "Carlos EL Ferreira",
+                                             "Carlos GW Ferreira",
+                                             "Carlos GW Ferreira",
+                                             "Gabriel Ferreira",
+                                             "João L Gasparini",
+                                             "João P Krajewski",
+                                             "Hudson Pinheiro",
+                                             "Ana MR Liedke",
+                                             "Sérgio R Floeter",
+                                             "Marcos B Lucena",
+                                             "Clara BP Eirado-Silva" ,
+                                             NA,
+                                             "Gabriel O Correal"  ,   "Gabriel O Correal" ,  
+                                             "Bertran Feitoza",
+                                             "Eduardo Godoy",   
+                                             "Carlos Rangel",
+                                             "Claudio LS Sampaio",
+                                             "Thiony Simon",
+                                             "Tiago Albuquerque" ,
+                                             "Anchieta Nunes",
+                                             "Daniel Dinslaken"   ,
+                                             "Osmar Luiz",
+                                             "Marcelo Silveira"  , 
+                                             "Andrea Dalben" ,
+                                             "Alexandre C Siqueira",
+                                             "Athila Bertoncini",
+                                             "Otavio SR Cardoso",
+                                             "Lucas T Nunes",
+                                             "Thiago MJ Fiuza",
+                                             "Débora S Ferrari",
+                                             "Angela M Canterle")
+  )
+  )
 
 # ----------------------------------------------------------------------------
 #  Formatted according to DwC
@@ -319,13 +451,11 @@ dados_bind$language <- "en"
 
 
 
-
-
-
-DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
+DF_eMOF <- dados_bind [,c("eventID", 
                           "measurementValue", 
                           "measurementType",
-                          "measurementUnit")]
+                          "measurementUnit",
+                          "eventRemarks")]
 
 
 
@@ -347,7 +477,8 @@ DF_occ <- dados_bind [,c("eventID",
                          "organismQuantityType", 
                          "occurrenceStatus",
                          "licence",
-                         "language")]
+                         "language",
+                         "bibliographicCitation")]
 
 
 

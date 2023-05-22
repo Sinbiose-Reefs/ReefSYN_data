@@ -473,7 +473,7 @@ francini_bind_data$basisOfRecord <- "HumanObservation"
 francini_bind_data$occurrenceStatus <- "presence"
 
 # recordedBy
-francini_bind_data$recordedBy <- "R Francini-Filho, E Santana, A Aued"
+francini_bind_data$recordedBy <- "Ronaldo Francini-Filho, Erika FC Santana, Anaíde W Aued"
 
 # organismQuantityType
 francini_bind_data$organismQuantityType <- "Percentage cover"
@@ -517,7 +517,6 @@ francini_bind_data <- francini_bind_data [which(is.na(francini_bind_data$scienti
 
 # Formatted according to DwC
 DF_eMOF <- francini_bind_data [,c("eventID", 
-                                  "occurrenceID",
                                   "measurementValue", 
                                   "measurementType",
                                   "measurementUnit",
