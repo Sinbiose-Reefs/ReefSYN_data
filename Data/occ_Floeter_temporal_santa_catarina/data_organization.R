@@ -178,6 +178,10 @@ dados_bind$species_to_search <- gsub ("_", " ", dados_bind$scientificName)
 # solve a couple of problems in identification
 dados_bind$species_to_search [grep ("decapteru macarellus", dados_bind$species_to_search)] <- "decapterus macarellus"
 
+# remove stegastes partitus (comment Sergio: Temos amostras do Caribe nesse datapaper? Ste partitus é só do Caribe. Tem um registro só em SC, mas não é para estar em nenhuma amostra, double check it)
+
+dados_bind <- dados_bind [-grep("partitus",dados_bind$species_to_search),]
+
 # non identified species
 dados_bind$identificationQualifier <- ifelse (sapply (strsplit (dados_bind$verbatimIdentification, " "), "[[", 2) == "sp",
         "sp",
@@ -201,7 +205,6 @@ worms_record <- lapply (unique(dados_bind$species_to_search), function (i)
   )
   
 )
-
 
 
 # two rows
