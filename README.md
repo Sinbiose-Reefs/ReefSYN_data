@@ -334,7 +334,7 @@ contact data providers.
 
 ### 2.3.2.3 Dataset XI: Benthic communities from the Brazilian province
 
-includes site-level cover information of \~100 benthic taxa from 3,855
+includes site-level cover information of ~100 benthic taxa from 3,855
 photo quadrats deployed in 40 localities from 15 different sites,
 spanning 0° to 27°S latitude degrees. The sampling sites indicated here
 are the same from Morais et al. (2017). Benthic organisms were
@@ -619,9 +619,9 @@ Sparisoma frondosum, Sparisoma radians, Sparisoma rocha, Sparisoma
 tuiupiranga, Sparisoma viride, Sphoeroides greeleyi, Sphoeroides
 spengleri, Sphoeroides testudineus, Sphyraena barracuda, Sphyraena
 borealis, Sphyraena guachancho, Sphyraena picudilla, Sphyraena tome,
-Starksia brasiliensis, Stegastes fuscus, Stegastes partitus, Stegastes
-pictus, Stegastes rocasensis, Stegastes sanctipauli, Stegastes
-variabilis, Stephanolepis hispidus, Strongylura timucu, Synodus foetens,
+Starksia brasiliensis, Stegastes fuscus, Stegastes pictus, Stegastes
+rocasensis, Stegastes sanctipauli, Stegastes variabilis, Stephanolepis
+hispidus, Strongylura marina, Strongylura timucu, Synodus foetens,
 Synodus intermedius, Synodus synodus, Thalassoma noronhanum, Trachinotus
 falcatus, Trachinotus goodei, Trachinotus ovatus, Upeneus parvus,
 Uraspis secunda, Xyrichtys novacula, Zapteryx brevirostris
@@ -905,7 +905,7 @@ Mar. Sci. 8: 762453 <doi:10.3389/fmars.2021.762453>
     ##  [1] DBI_1.1.3          rlang_1.1.1        e1071_1.7-13       compiler_4.3.0    
     ##  [5] mgcv_1.8-42        vctrs_0.6.2        httpcode_0.3.0     pkgconfig_2.0.3   
     ##  [9] fastmap_1.1.1      labeling_0.4.2     utf8_1.2.3         rmarkdown_2.21    
-    ## [13] tzdb_0.3.0         xfun_0.39          cachem_1.0.8       jsonlite_1.8.4    
+    ## [13] tzdb_0.4.0         xfun_0.39          cachem_1.0.8       jsonlite_1.8.4    
     ## [17] highr_0.10         tweenr_2.0.2       cluster_2.1.4      R6_2.5.1          
     ## [21] bslib_0.4.2        stringi_1.7.12     hoardr_0.5.3       jquerylib_0.1.4   
     ## [25] Rcpp_1.0.10        Matrix_1.5-4       splines_4.3.0      timechange_0.2.0  

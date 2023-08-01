@@ -2,7 +2,7 @@
 title:  "Standardized datasets of Brazilian reef diversity in space and time"
 author: "Reef Synthesis Working Group; Luza, AL, Cordeiro, CAMM, Quimbayo, JP, Aued, AW, Ferreira, CEL, Mendes, TC, Roos, NC, Longo, GO, Francini-Filho, RB, Segal, B, Floeter, SR, Bender, MG"
 date: "2023/05/22"
-output: word_document #  
+output: github_document #  github_document
 ---
 
 
