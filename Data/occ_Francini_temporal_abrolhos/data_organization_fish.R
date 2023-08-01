@@ -439,7 +439,9 @@ fish_long_format$occurrenceID <- paste (
   fish_long_format$locality,
   fish_long_format$year,
   fish_long_format$sample,
-  paste ("occ",seq(1,nrow(fish_long_format)),sep=""),
+  paste ("occ",seq(1,
+                   nrow(fish_long_format %>% 
+                          filter (measurementType == "abundance"))),sep=""),
   sep="_")
 
 
@@ -523,6 +525,7 @@ event_core <- data.frame (group_by(fish_long_format, eventID,higherGeography,sit
                                            eventDate = mean(eventDate),
                                            minimumDepthinMeters = mean(minimumDepthinMeters),
                                            maximumDepthinMeters = mean(maximumDepthinMeters),
+                                           habitat = unique(habitat),
                                            samplingProtocol = unique(samplingProtocol),
                                            samplingEffort = mean(samplingEffort,na.rm=T),
                                            sampleSizeValue = mean(sampleSizeValue),

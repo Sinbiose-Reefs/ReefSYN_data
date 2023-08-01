@@ -304,7 +304,9 @@ dados_bind$occurrenceID <- paste (paste (paste ("BR:ReefSYN:SC-TIME-SERIES:",
                                   dados_bind$locality, 
                                   dados_bind$year,
                                   substr (dados_bind$transect_id,6,nchar(dados_bind$transect_id)),
-                             paste ("occ",seq(1,nrow(dados_bind)),sep=""),
+                                  paste ("occ",seq(1,
+                                                   nrow(dados_bind %>% 
+                                                          filter (measurementType == "abundance"))),sep=""),
                              sep="_")
 
 

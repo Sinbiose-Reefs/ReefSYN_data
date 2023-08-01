@@ -294,7 +294,9 @@ dados_bind$occurrenceID <- paste (
                                   dados_bind$locality,
                                   dados_bind$year,
                                   dados_bind$unique_id,
-                             paste ("occ",seq(1,nrow(dados_bind)),sep=""),
+                                  paste ("occ",seq(1,
+                                                   nrow(dados_bind %>% 
+                                                          filter (measurementType == "abundance"))),sep=""),
                              sep="_")
 
 

@@ -6,7 +6,6 @@ require(here); require(openxlsx); require(worrms); require(dplyr)
 
 
 
-
 # fish data
 alcatrazes_time_series <- read.xlsx(here ("Data",
                                  "occ_Quimbayo_temporal_alcatrazes",
@@ -281,7 +280,9 @@ alcatrazes_time_series$occurrenceID <- paste (paste (paste ("BR:ReefSYN:ALCATRAZ
                                               alcatrazes_time_series$locality,
                                               alcatrazes_time_series$year,
                                               alcatrazes_time_series$transect_id_locality,
-                             paste ("occ",seq(1,nrow(alcatrazes_time_series)),sep=""),
+                                              paste ("occ",seq(1,
+                                                               nrow(alcatrazes_time_series %>% 
+                                                                      filter (measurementType == "abundance"))),sep=""),
                              sep="_")
 
 
