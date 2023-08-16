@@ -473,7 +473,7 @@ francini_bind_data$basisOfRecord <- "HumanObservation"
 francini_bind_data$occurrenceStatus <- "presence"
 
 # recordedBy
-francini_bind_data$recordedBy <- "Ronaldo Francini-Filho, Erika FC Santana, Anaíde W Aued"
+francini_bind_data$recordedBy <- "Ronaldo Francini-Filho | Erika FC Santana | Anaide W Aued"
 
 # organismQuantityType
 francini_bind_data$organismQuantityType <- "Percentage cover"
