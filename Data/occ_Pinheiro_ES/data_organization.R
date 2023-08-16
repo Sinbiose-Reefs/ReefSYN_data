@@ -1,35 +1,92 @@
 
-# load Floeter et al. data
+# ToDo:
+# PS: Stil did not work on the spreadsheet of site variables (work for the future)
 
-# SC time series
-require(here); require(openxlsx); require(worrms); require(dplyr)
 
+# load Pinheiro et al.  dataset
+# ES - Fish
+require(here); require(openxlsx); require(worrms); require(dplyr); require(reshape)
 
 
 # fish data
-sc_time_series <- read.csv(here ("Data",
-                                 "occ_Floeter_temporal_santa_catarina",
-                                 "censos_sc.csv"),
-                           sep=";")
+ES_data_raw <- read.xlsx(here ("Data",
+                                 "occ_Pinheiro_ES",
+                                 "Litoral Sul ES.xlsx"),
+                           sheet=1,
+                           detectDates =T)
 
-# location
-sc_location <- read.xlsx(here ("Data",
-                                 "occ_Floeter_temporal_santa_catarina",
-                                 "location.xlsx"),
-                           sep=";")
+# following whatsapp messages of Hudson, 'ponto1' is the site, 'ponto2' and 'area' depict locality
+# Message 1: POnto 1 é o arquipélago ou ilha ou naufrágio, maior escala, e ponto 2 é o local especifico dentro do arquipélago
+# Message 2: Ponto 1 seria Site, e Ponto 2 locality
+#### difference of ponto 1 and ponto 2: Isso, acho que só muda em relação as Ilhas rasas, que tem duas ilhas, a de dentro e a de fora
+# Message 3: vendo aqui, area das ilhas seria locality tb
+# Message 4: subarea seria microhabitat ou porção no costão ou recife artificial. No costão seria como raso, meio, interface.
+
+# copy of the dataset to edit
+ES_data <- ES_data_raw
+
+# remove the last columns as they are parameters derived from counts and size estimates
+ES_data <- ES_data[,-which(colnames (ES_data) %in% c(
+                                                        "tamanho.medio.(cm)",
+                                                        "FL.and.SL",
+                                                        "A",
+                                                        "B",
+                                                        "biom_censo",
+                                                        "Total.Biomass",
+                                                        "abund_m2",
+                                                        "biom_m2",
+                                                        "peso_total_formula",
+                                                        "Trophic.Guild",
+                                                        "Family",
+                                                        "Order",
+                                                        "Ameaça",
+                                                        "Captura"))]
 
 
-
-
-# ----------------------------------------------------------------------------
-# ADJUSTING MEASUREMENT VALUE
-
-
-
-
+# -------------------------------------------------------------------
 
 # split abundance and size data
-abundance <- sc_time_series[,which(colnames(sc_time_series) != "total_lenght")] # abundance
+
+# first need to melt data to define 'size' as a variable (rows) not a descriptor (cols)
+# I will use melt function of reshape package
+
+abundance_size <- melt (ES_data, id.vars = c("seq_censo",
+                                  "saida",
+                                  "data",
+                                  "municipio",
+                                  "Ponto",
+                                  "Ponto.1", 
+                                  "Habitat",
+                                  "GR_Bentos",
+                                  "observador",
+                                  "mergulho",
+                                  "censo",
+                                  "ambiente",
+                                  "amb.resumido",
+                                  "Região",
+                                  "Area",
+                                  "prof..(m)",
+                                  "classe.prof..(m)",
+                                  "rugosidade",
+                                  "seq_sp",
+                                  "especie",
+                                  "observador",
+                                 "observação",
+                                   "abund_censo"))
+
+# filter abundance
+abundance_size <- abundance_size %>%
+  filter (is.na(value) != T) 
+
+# event remark
+abundance_size$measurementRemarks <- "Authors used categories of total length"
+
+# The original count (abund_censo) will differ from the 'value' because the melt divides the number of individuals across size categories
+# abundance_size$value == abundance_size$abund_censo
+
+# abundance dataset
+abundance <- abundance_size [,which(colnames(abundance_size) %in% c("variable", "abund_censo") != T)]
+
 # measurementType
 abundance$measurementType <- "abundance"
 # organismQuantityType
@@ -37,11 +94,14 @@ abundance$organismQuantityType <- "abundance"
 # measurementUnit
 abundance$measurementUnit <- "individuals"
 # measurementValue
-colnames(abundance)[which(colnames(abundance) == "abundance")] <- "measurementValue"
+colnames(abundance)[which(colnames(abundance) == "value")] <- "measurementValue"
+
+
 
 # size
-size <- sc_time_series[,which(colnames(sc_time_series) != "abundance")]
-size$total_lenght <- as.numeric(gsub (",", ".",size$total_lenght))
+# remove abundance to make 'melt' easier
+size <- abundance_size [,-which(colnames(abundance_size) %in% c("value", "abund_censo"))]
+
 # measurementType
 size$measurementType <- "total length"
 # organismQuantityType
@@ -49,284 +109,69 @@ size$organismQuantityType <- "total length"
 # measurementUnit
 size$measurementUnit <- "cm"
 # measurementValue
-colnames(size)[which(colnames(size) == "total_lenght")] <- "measurementValue"
+colnames(size)[which(colnames(size) == "variable")] <- "measurementValue"
+
+
+# check if all is ok
+table(size$measurementValue == abundance_size$variable)
+table(abundance$measurementValue == abundance_size$value)
 
 # bind edited data
 dados_bind <- rbind (abundance,
                      size)
 
-# method
-dados_bind$samplingProtocol <- "Underwater visual survey - 20 x 2m"
-# effort
-dados_bind$samplingEffort <- 1#"one observer per transect"
-# sampleSizeValue (based on Minte-Vera et al. 2008 MEPS)
-dados_bind$sampleSizeValue <- 40 # area
-# sampleSizeUnit
-dados_bind$sampleSizeUnit <- "squared meters"
-# recordedBy
-colnames(dados_bind)[which(colnames(dados_bind) == "observer")] <- "recordedBy"
-# depth
-colnames(dados_bind)[which(colnames(dados_bind) == "depth")] <- "depthInMeters"
-# into number
-dados_bind$depthInMeters<- gsub(",",".",dados_bind$depthInMeters)
-dados_bind$depthInMeters <- as.numeric((dados_bind$depthInMeters))
-# set min and max
-colnames(dados_bind)[which(colnames(dados_bind) == "depthInMeters")] <- "minimumDepthinMeters"
-dados_bind$maximumDepthinMeters <- dados_bind$minimumDepthinMeters
-# occurrenceStatus
-dados_bind$occurrenceStatus <- "presence"
-
-# coordinates
-dados_bind$decimalLongitude<- gsub(",",".",dados_bind$longitude)# long
-dados_bind$decimalLongitude <- as.numeric((dados_bind$decimalLongitude))
-dados_bind$decimalLatitude<- gsub(",",".",dados_bind$latitude) #lat
-dados_bind$decimalLatitude <- as.numeric((dados_bind$decimalLatitude))
 
 
+# ------------------------------------------ 
+# edit other variables
 
+# define sites and localities
+dados_bind$site <- "espirito_santo"
 
-# ----------------------------------------------------------------------------
-# ADJUSTING COLNAMES, DATES
+# adjust municipality
+dados_bind$municipality <- tolower (dados_bind$municipio)
+dados_bind$municipality[which(dados_bind$municipality == "marataízes")] <- "marataizes"
 
+# paste locality
+# it was the combination of municipality and point
+dados_bind$locality <- paste (dados_bind$municipality,
+                              tolower (dados_bind$Ponto),
+                                  sep = "_")
 
+# change colnames
+colnames (dados_bind)[which(colnames (dados_bind) == "Ponto")] <- "verbatimLocality"
 
-# scientificName
-colnames(dados_bind)[which(colnames(dados_bind) == "species")] <- "scientificName"
-# locality
-colnames(dados_bind)[which(colnames(dados_bind) == "site")] <- "locality"
-# more general == site
-colnames(dados_bind)[which(colnames(dados_bind) == "location")] <- "site"
+# scientific names
+colnames (dados_bind)[which(colnames (dados_bind) == "especie")] <- "verbatimIdentification"
+dados_bind$verbatimIdentification<- tolower (dados_bind$verbatimIdentification)
 
-# editing month
-dados_bind$month [which(dados_bind$month == "december")] <- 12
-dados_bind$month [which(dados_bind$month == "april")] <- 04
-dados_bind$month [which(dados_bind$month == "march")] <- 03
-dados_bind$month [which(dados_bind$month == "january")] <- 01
-dados_bind$month [which(dados_bind$month == "february")] <- 02
-dados_bind$month [which(dados_bind$month == "november")] <- 11
-dados_bind$month [which(dados_bind$month == "may")] <- 05
-dados_bind$month [which(dados_bind$month == "july")] <- 07
-dados_bind$month [which(dados_bind$month == "august")] <- 08
-dados_bind$month [which(dados_bind$month == "september")] <- 09
-dados_bind$month [which(dados_bind$month == "october")] <- 10
+# date
+colnames (dados_bind)[which(colnames (dados_bind) == "data")] <- "eventDate"
 
-# adjust day
-dados_bind$day <- ifelse(dados_bind$day < 10, 
-                         paste0("0", dados_bind$day),
-                         dados_bind$day)
+# adjust dates
+dados_bind$year <- format (dados_bind$eventDate, "%Y")
+dados_bind$month <- format (dados_bind$eventDate, "%m")
+dados_bind$day <- format (dados_bind$eventDate, "%d")
 
-# eventDate
-dados_bind$eventDate <- as.Date (paste(dados_bind$year, 
-               dados_bind$month,
-               dados_bind$day,sep="-"))
-
-
-
-# country and code
-dados_bind$Country <- "Brazil"
-dados_bind$countryCode <- "BR"
-# basisOfRecord
-dados_bind$basisOfRecord <- "HumanObservation"
-# geodeticDatum
-dados_bind$geodeticDatum <- "decimal degrees"
-# geographic location
-dados_bind$higherGeography <- "BrazilianCoast"
-
-
-
-
+# observers
+colnames (dados_bind)[which(colnames (dados_bind) == "observador")] <- "recordedBy"
 
 # ----------------------------------------------------------------------------
-# ADJUSTING SITES
+# ADJUSTING Depth
 
+depth <- strsplit(dados_bind$`classe.prof..(m)`, "-")
+depth <- do.call(rbind.data.frame,depth) # melt
+colnames(depth) <- c("minimumDepthinMeters", "maximumDepthinMeters")
 
+# bind to the main dataset
+dados_bind <- cbind (dados_bind,
+                         depth)
 
+dados_bind$minimumDepthinMeters <- as.numeric(dados_bind$minimumDepthinMeters)
+dados_bind$maximumDepthinMeters <- as.numeric(dados_bind$maximumDepthinMeters)
 
-# verbatimLocality
-dados_bind$verbatimLocality<- dados_bind$locality
-
-
-# adjusting species scientific name
-# replacing "_" by " "
-dados_bind$locality <-(iconv(dados_bind$locality, "ASCII", "UTF-8", sub=""))
-dados_bind$locality <- tolower(dados_bind$locality)
-
-
-# adjust
-dados_bind$locality[which(dados_bind$locality == "saco_da_agua")] <- "saco_dagua"
-dados_bind$locality[which(dados_bind$locality == "saco_do_capim")] <- "capim"
-dados_bind$locality[which(dados_bind$locality == "saco_do_engenho")] <- "engenho"
-unique(dados_bind$locality )[order(unique(dados_bind$locality ))]
-unique(dados_bind$site )[order(unique(dados_bind$site))]
-# adjust site
-dados_bind$site[which(dados_bind$site == "caixa_da\xe7o_beach")] <- "caixadaco_beach"
-
-
-
-
-
-# ----------------------------------------------------------------------------
-# ADJUSTING SCIENTIFIC NAME
-
-
-
-# replace "_"
-dados_bind$verbatimIdentification <- gsub ("_", " ", dados_bind$scientificName)
-dados_bind$species_to_search <- gsub ("_", " ", dados_bind$scientificName)
-
-
-# solve a couple of problems in identification
-dados_bind$species_to_search [grep ("decapteru macarellus", dados_bind$species_to_search)] <- "decapterus macarellus"
-
-# remove stegastes partitus (comment Sergio: Temos amostras do Caribe nesse datapaper? Ste partitus é só do Caribe. Tem um registro só em SC, mas não é para estar em nenhuma amostra, double check it)
-
-dados_bind <- dados_bind [-grep("partitus",dados_bind$species_to_search),]
-
-# non identified species
-dados_bind$identificationQualifier <- ifelse (sapply (strsplit (dados_bind$verbatimIdentification, " "), "[[", 2) == "sp",
-        "sp",
-        NA)
-
-# species to search
-dados_bind$species_to_search [which(dados_bind$identificationQualifier == "sp")] <- gsub (" sp",
-                                                                                          "",
-                                                                                          dados_bind$species_to_search [which(dados_bind$identificationQualifier == "sp")])
-
-# matching with worms
-worms_record <- lapply (unique(dados_bind$species_to_search), function (i) 
-  
-  tryCatch (
-    
-    wm_records_taxamatch(i, fuzzy = TRUE, marine_only = TRUE)[[1]],
-    
-    error = function (e) print(NA)
-    
-    
-  )
-  
-)
-
-
-# two rows
-df_worms_record <- data.frame(do.call(rbind,worms_record))
-
-
-# valid name WORMS
-dados_bind$scientificNameAccepted <- (df_worms_record$scientificname [match (dados_bind$species_to_search,
-                                                      tolower (df_worms_record$scientificname))])
-
-# id
-dados_bind$scientificNameID<-(df_worms_record$lsid [match (dados_bind$species_to_search,
-                                                      tolower (df_worms_record$scientificname))])
-
-# taxon rank of the identified level
-dados_bind$taxonRank <- (df_worms_record$rank [match (dados_bind$species_to_search,
-                                                      tolower (df_worms_record$scientificname))])
-
-# kingdom
-dados_bind$kingdom <-(df_worms_record$kingdom [match (dados_bind$species_to_search,
-                                                      tolower (df_worms_record$scientificname))])
-# phylum
-dados_bind$phylum <-(df_worms_record$phylum [match (dados_bind$species_to_search,
-                                                      tolower (df_worms_record$scientificname))])
-
-
-# class
-dados_bind$class<-(df_worms_record$class [match (dados_bind$species_to_search,
-                                                 tolower(df_worms_record$scientificname))])
-# order
-dados_bind$order<-(df_worms_record$order [match (dados_bind$species_to_search,
-                                                 tolower(df_worms_record$scientificname))])
-
-# family
-dados_bind$family<-(df_worms_record$family [match (dados_bind$species_to_search,
-                                                   tolower(df_worms_record$scientificname))])
-
-# genus
-dados_bind$genus<-(df_worms_record$genus [match (dados_bind$species_to_search,
-                                                   tolower(df_worms_record$scientificname))])
-
-
-
-# taxonomic updates
-# species
-dados_bind$scientificNameAccepted[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina multilineata"
-dados_bind$scientificNameAccepted[grep ("bartholomaei", dados_bind$scientificNameAccepted)] <- "Caranx bartholomaei"
-dados_bind$scientificNameAccepted[grep ("polygonius", dados_bind$scientificNameAccepted)] <- "Acanthostracion polygonium"
-dados_bind$scientificNameAccepted[grep ("Dasyatis americana", dados_bind$scientificNameAccepted)] <- "Hypanus berthalutzea"
-
-# genus
-dados_bind$genus[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina"
-dados_bind$genus[grep ("bartholomaei", dados_bind$scientificNameAccepted)] <- "Caranx"
-dados_bind$genus[grep ("Hypanus berthalutzea", dados_bind$scientificNameAccepted)] <- "Hypanus"
-
-
-
-# ----------------------------------------------------------------------------
-# CREATING IDS
-
-
-
-
-
-
-
-# IDs
-# creating parentIDs
-dados_bind$parentEventID <- paste (paste (paste ("BR:ReefSYN:SC-TIME-SERIES:", 
-                                                 dados_bind$higherGeography,
-                                                 sep=""),
-                                          dados_bind$site,sep=":"), 
-                                           dados_bind$locality, 
-                                          dados_bind$year,
-                              sep="_")
-
-
-
-# creating eventIds
-dados_bind$eventID <- paste (paste (paste ("BR:ReefSYN:SC-TIME-SERIES:", 
-                                           dados_bind$higherGeography,
-                                           sep=""),
-                                    dados_bind$site,sep=":"),  
-                                    dados_bind$locality, 
-                                    dados_bind$year,
-                                    substr (dados_bind$transect_id,6,nchar(dados_bind$transect_id)),
-                        sep="_")
-
-
-
-
-# creating occurrenceIDs
-dados_bind$occurrenceID <- paste (paste (paste ("BR:ReefSYN:SC-TIME-SERIES:", 
-                                                dados_bind$higherGeography,
-                                                sep=""),
-                                         dados_bind$site,sep=":"),  
-                                  dados_bind$locality, 
-                                  dados_bind$year,
-                                  substr (dados_bind$transect_id,6,nchar(dados_bind$transect_id)),
-                             paste ("occ",seq(1,nrow(dados_bind)),sep=""),
-                             sep="_")
-
-
-
-
-# licence
-dados_bind$licence <- "CC BY-NC"
-
-# language
-dados_bind$language <- "en"
-
-# eventRemarks
-dados_bind$eventRemarks <- "Just published by Quimbayo et al. in Ecology"
-
-dados_bind$bibliographicCitation <- "Quimbayo, J. P., Nunes, L. T., Silva, F. C., Anderson, A. B., Barneche, D. R., Canterle, A. M., Cord, I., Dalben, A., Ferrari, D. S., Fontoura, L., Fiuza, T. M. J., Liedke, A. M. R., Longo, G. O., Morais, R. A., Siqueira, A. C., & Floeter, S. R. (2023). TimeFISH: Long-term assessment of reef fish assemblages in a transition zone in the Southwestern Atlantic. Ecology, 104(3), [e3966]. https://doi.org/10.1002/ecy.3966"
-
-# -------------------------------------------------------
-
-
+# ------------------------------------------------------------------------------
 # ajust recordedBy
-
-
 
 dados_bind <- dados_bind %>% 
   mutate(recordedBy = plyr::mapvalues(recordedBy, 
@@ -362,7 +207,7 @@ dados_bind <- dados_bind %>%
                                                "gabriel_ferreira",
                                                "jl_gasparini",
                                                "jp_krajewski",
-                                               "hudson_pinheiro",
+                                               "hudson_pinheiro", "hudson",
                                                "ana_liedke",
                                                "sergio_floeter",
                                                "mb_lucena",
@@ -373,7 +218,7 @@ dados_bind <- dados_bind %>%
                                                "eduardo_godoy" ,   
                                                "ca_rangel",
                                                "claudio_sampaio",
-                                               "thiony_simon",
+                                               "thiony_simon","thiony",
                                                "tiago_albuquerque" ,
                                                "anchieta_nunes",
                                                "daniel_dinslaken"   ,
@@ -420,7 +265,7 @@ dados_bind <- dados_bind %>%
                                              "Gabriel Ferreira",
                                              "João L Gasparini",
                                              "João P Krajewski",
-                                             "Hudson Pinheiro",
+                                             "Hudson Pinheiro","Hudson Pinheiro",
                                              "Ana MR Liedke",
                                              "Sérgio R Floeter",
                                              "Marcos B Lucena",
@@ -431,7 +276,7 @@ dados_bind <- dados_bind %>%
                                              "Eduardo Godoy",   
                                              "Carlos Rangel",
                                              "Claudio LS Sampaio",
-                                             "Thiony Simon",
+                                             "Thiony Simon","Thiony Simon",
                                              "Tiago Albuquerque" ,
                                              "Anchieta Nunes",
                                              "Daniel Dinslaken"   ,
@@ -448,6 +293,194 @@ dados_bind <- dados_bind %>%
   )
   )
 
+
+# method
+dados_bind$samplingProtocol <- "Underwater visual survey - 20 x 2m"
+
+# effort
+dados_bind$samplingEffort <- 1#"one observer per transect"
+
+# sampleSizeValue (based on Minte-Vera et al. 2008 MEPS)
+dados_bind$sampleSizeValue <- 40 # area
+
+# sampleSizeUnit
+dados_bind$sampleSizeUnit <- "squared meters"
+
+
+# country and code
+dados_bind$Country <- "Brazil"
+dados_bind$countryCode <- "BR"
+# basisOfRecord
+dados_bind$basisOfRecord <- "HumanObservation"
+# geodeticDatum
+dados_bind$geodeticDatum <- "decimal degrees"
+# geographic location
+dados_bind$higherGeography <- "BrazilianCoast"
+
+
+# occurrenceStatus
+dados_bind$occurrenceStatus <- "presence"
+
+# coordinates ?????????????
+
+
+
+
+
+
+# ----------------------------------------------------------------------------
+# taxonmic checking 
+# remove NAs
+dados_bind <- dados_bind [which(is.na(dados_bind$verbatimIdentification)!= T),]
+
+# species to search
+species_to_search <- unique(dados_bind$verbatimIdentification)
+species_to_search<-  (species_to_search[order(species_to_search)])
+
+# matching with worms
+worms_record <- lapply (species_to_search, function (i) 
+  
+  tryCatch (
+    
+    wm_records_taxamatch(i, fuzzy = TRUE, marine_only = TRUE)[[1]],
+    
+    error = function (e) print(NA)
+    
+    
+  )
+  
+)
+
+
+# two rows
+df_worms_record <- data.frame(do.call(rbind,worms_record))
+
+# data to match
+data_to_match <- data.frame(originalname=species_to_search,
+                            lsid=df_worms_record$lsid,
+                            scientificname=df_worms_record$scientificname,
+                            scientificNameID = df_worms_record$lsid,
+                            taxonRank=df_worms_record$rank,
+                            kingdom=df_worms_record$kingdom,
+                            phylum=df_worms_record$phylum,
+                            class=df_worms_record$class,
+                            order=df_worms_record$order,
+                            family=df_worms_record$family,
+                            genus=df_worms_record$genus)
+
+# valid name WORMS
+dados_bind$scientificNameAccepted <- (data_to_match$scientificname [match (dados_bind$verbatimIdentification,
+                                                                           (data_to_match$originalname))])
+
+# id
+dados_bind$scientificNameID<-(data_to_match$lsid [match (dados_bind$verbatimIdentification,
+                                                       (data_to_match$originalname))])
+
+# taxon rank of the identified level
+dados_bind$taxonRank <- (data_to_match$taxonRank [match (dados_bind$verbatimIdentification,
+                                                      (data_to_match$originalname))])
+
+# kingdom
+dados_bind$kingdom <-(data_to_match$kingdom [match (dados_bind$verbatimIdentification,
+                                                      (data_to_match$originalname))])
+
+# phylum
+dados_bind$phylum <-(data_to_match$phylum [match (dados_bind$verbatimIdentification,
+                                                      (data_to_match$originalname))])
+
+# class
+dados_bind$class<-(data_to_match$class [match (dados_bind$verbatimIdentification,
+                                                 data_to_match$originalname)])
+# order
+dados_bind$order<-(data_to_match$order [match (dados_bind$verbatimIdentification,
+                                                 (data_to_match$originalname))])
+
+# family
+dados_bind$family<-(data_to_match$family [match (dados_bind$verbatimIdentification,
+                                                (data_to_match$originalname))])
+
+# genus
+dados_bind$genus<-(data_to_match$genus [match (dados_bind$verbatimIdentification,
+                                                 (data_to_match$originalname))])
+
+# taxonomic updates
+# species
+dados_bind$scientificNameAccepted[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina multilineata"
+dados_bind$scientificNameAccepted[grep ("polygonius", dados_bind$scientificNameAccepted)] <- "Acanthostracion polygonium"
+dados_bind$scientificNameAccepted[grep ("Dasyatis centroura", dados_bind$scientificNameAccepted)] <- "Bathytoshia centroura"
+dados_bind$scientificNameAccepted[grep ("Haemulon plumieri", dados_bind$scientificNameAccepted)] <- "Haemulon plumierii"
+dados_bind$scientificNameAccepted[grep ("Labrisomus kalisherae", dados_bind$scientificNameAccepted)] <- "Goblioclinus kalisherae"
+
+# genus
+dados_bind$genus[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina"
+dados_bind$genus[grep ("Bathytoshia centroura", dados_bind$scientificNameAccepted)] <- "Bathytoshia"
+dados_bind$genus[grep ("Goblioclinus kalisherae", dados_bind$scientificNameAccepted)] <- "Goblioclinus"
+
+
+
+dados_bind[is.na(dados_bind$class),]
+
+
+# ----------------------------------------------------------------------------
+# CREATING IDS
+
+# IDs
+# creating parentIDs
+dados_bind$parentEventID <- paste (paste (paste ("BR:ReefSYN:SouthernEspiritoSanto-ES:", 
+                                                 dados_bind$higherGeography,
+                                                 sep=""),
+                                          dados_bind$site,sep=":"), 
+                                           dados_bind$locality, 
+                                          dados_bind$year,
+                              sep="_")
+
+
+# creating eventIds
+dados_bind$eventID <- paste (paste (paste ("BR:ReefSYN:SouthernEspiritoSanto-ES:", 
+                                           dados_bind$higherGeography,
+                                           sep=""),
+                                    dados_bind$site,sep=":"),  
+                                    dados_bind$locality, 
+                                    dados_bind$year,
+                                    dados_bind$seq_censo, # check this
+                        sep="_")
+
+
+# creating occurrenceIDs
+dados_bind$occurrenceID <- paste (paste (paste ("BR:ReefSYN:SouthernEspiritoSanto-ES:", 
+                                                dados_bind$higherGeography,
+                                                sep=""),
+                                         dados_bind$site,sep=":"),  
+                                  dados_bind$locality, 
+                                  dados_bind$year,
+                                  dados_bind$seq_censo,# check this
+                             
+                                  paste ("occ",seq(1,
+                                                   nrow(dados_bind %>% 
+                                                          filter (measurementType == "abundance"))),sep=""),
+                             
+                             sep="_")
+
+
+# licence
+dados_bind$licence <- "CC BY-NC"
+
+# language
+dados_bind$language <- "en"
+
+# eventRemarks
+#dados_bind$bibliographicCitation <- "Simon T, Joyeux JC, Pinheiro HT. Fish assemblages on shipwrecks and natural rocky reefs strongly differ in trophic structure. Mar Environ Res. 2013 Sep;90:55-65. doi: 10.1016/j.marenvres.2013.05.012. Epub 2013 Jun 7. PMID: 23796542."
+
+
+# edit habitat (reef type)
+dados_bind$habitat <- dados_bind$Habitat
+dados_bind$habitat <- recode(dados_bind$habitat, 
+       "Recifes rochosos" = "Rocky reefs",
+       "Recifes biogênicos" = "Biogenic reefs",
+       "Fundo biogênico" = "Biogenic bottom",
+       "Fundo de algas" = "Seaweed bottom")
+
+
 # ----------------------------------------------------------------------------
 #  Formatted according to DwC
 
@@ -458,7 +491,9 @@ DF_eMOF <- dados_bind [,c("eventID",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit",
-                          "eventRemarks")]
+                          "measurementRemarks"
+                          #"eventRemarks"
+                          )]
 
 
 
@@ -467,7 +502,6 @@ DF_occ <- dados_bind [,c("eventID",
                          "basisOfRecord",
                          "verbatimIdentification",
                          "scientificNameID",
-                         "scientificName",
                          "scientificNameAccepted",
                          "taxonRank",
                          "kingdom",
@@ -480,8 +514,9 @@ DF_occ <- dados_bind [,c("eventID",
                          "organismQuantityType", 
                          "occurrenceStatus",
                          "licence",
-                         "language",
-                         "bibliographicCitation")]
+                         "language"#,
+                         #"bibliographicCitation"
+                         )]
 
 
 
@@ -489,17 +524,18 @@ DF_occ <- dados_bind [,c("eventID",
 
 event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,site,verbatimLocality,locality) %>% 
                             
-                            summarise(year = mean(year),
-                                      eventDate = mean(eventDate),
+                            summarise(year = unique(year),
+                                      eventDate = unique(eventDate),
                                       minimumDepthinMeters = mean(minimumDepthinMeters),
                                       maximumDepthinMeters = mean(maximumDepthinMeters),
                                       samplingProtocol = unique(samplingProtocol),
                                       samplingEffort = mean(samplingEffort),
                                       sampleSizeValue = mean(sampleSizeValue),
                                       sampleSizeUnit = unique(sampleSizeUnit),
-                                      decimalLongitude = mean(decimalLongitude),
-                                      decimalLatitude = mean(decimalLatitude),
-                                      geodeticDatum = unique(geodeticDatum),
+                                      habitat = unique(habitat),
+                                      decimalLongitude = NA,#mean(decimalLongitude),
+                                      decimalLatitude =NA, #mean(decimalLatitude),
+                                      geodeticDatum = NA,#unique(geodeticDatum),
                                       Country = unique(Country),
                                       countryCode = unique(countryCode))
 )
@@ -514,19 +550,22 @@ output <- list (DF_occ = DF_occ,
 
 
 # save
+dir.create(here ("DwC_output", "Pinheiro_ES"))
+
 # write to txt format
 write.csv(DF_occ, file =here("DwC_output",
-                               "SC_time_series",
+                               "Pinheiro_ES",
                                "DF_occ.csv"))
 
 write.csv(DF_eMOF, file =here("DwC_output",
-                                "SC_time_series",
+                                "Pinheiro_ES",
                                 "DF_eMOF.csv"))
 
 
 write.csv(event_core, file =here("DwC_output",
-                                   "SC_time_series",
+                                   "Pinheiro_ES",
                                    "event_core.csv"))
+
 
 ## end
 rm(list=ls())

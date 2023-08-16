@@ -1,35 +1,57 @@
 
-# load Floeter et al. data
+# -------------------------------------------
+ 
+# martin vaz and trindade
+# fish
 
-# SC time series
-require(here); require(openxlsx); require(worrms); require(dplyr)
+# snapshots prior peld-iloc
 
+# ToDo:
+# PS: Still did not work on the spreadsheet of site variables (work for the future)
+
+
+# load Pinheiro, Joyeaux et al.  dataset
+require(here); require(openxlsx); require(worrms); require(dplyr); require(reshape)
 
 
 # fish data
-sc_time_series <- read.csv(here ("Data",
-                                 "occ_Floeter_temporal_santa_catarina",
-                                 "censos_sc.csv"),
-                           sep=";")
+TMVaz_data_raw <- read.xlsx(here ("Data",
+                                 "occ_Pinheiro_Trindade",
+                                 "Base Trindade 2007 e 2009.xlsx"),
+                           sheet="Base",
+                           detectDates =T)
 
-# location
-sc_location <- read.xlsx(here ("Data",
-                                 "occ_Floeter_temporal_santa_catarina",
-                                 "location.xlsx"),
-                           sep=";")
+# following whatsapp messages of Hudson, 'ponto1' is the site, 'ponto2' and 'area' depict locality
+# Message 1: POnto 1 é o arquipélago ou ilha ou naufrágio, maior escala, e ponto 2 é o local especifico dentro do arquipélago
+# Message 2: Ponto 1 seria Site, e Ponto 2 locality
+#### difference of ponto 1 and ponto 2: Isso, acho que só muda em relação as Ilhas rasas, que tem duas ilhas, a de dentro e a de fora
+# Message 3: vendo aqui, area das ilhas seria locality tb
+# Message 4: subarea seria microhabitat ou porção no costão ou recife artificial. No costão seria como raso, meio, interface.
 
+# copy of the dataset to edit
+TMVaz_data <- TMVaz_data_raw
 
+# change colnames
+colnames(TMVaz_data)[which(colnames(TMVaz_data) == "quantidade")] <- "abundance"
+colnames(TMVaz_data)[which(colnames(TMVaz_data) == "TL")] <- "total length"
+colnames(TMVaz_data)[which(colnames(TMVaz_data) == "espécie")] <- "verbatimIdentification"
+colnames(TMVaz_data)[which(colnames(TMVaz_data) == "Ano")] <- "year"
+colnames(TMVaz_data)[which(colnames(TMVaz_data) == "Habitat")] <- "habitat"
+TMVaz_data$habitat <- recode(TMVaz_data$habitat, 
+                             "Costão" = "Rocky shore",
+                             "costão" = "Rocky shore",
+                             "Patch" = "Reef patch",
+                             "Plato de tras" = "Fringing reef (back)", # check
+                             "Plato da borda" = "Fringing reef (crest)") # check
 
+# remove some columns we don't need
+TMVaz_data <- TMVaz_data[,-which(colnames(TMVaz_data) %in% c("G.trofico","complexidade","familia",
+                                                             "A","B", "peso.especiefico","Peso.total", "X21",
+                                                             "conversão"))]
 
-# ----------------------------------------------------------------------------
-# ADJUSTING MEASUREMENT VALUE
+# abundance dataset
+abundance <- TMVaz_data [,which(colnames(TMVaz_data) %in% c("total length") != T)]
 
-
-
-
-
-# split abundance and size data
-abundance <- sc_time_series[,which(colnames(sc_time_series) != "total_lenght")] # abundance
 # measurementType
 abundance$measurementType <- "abundance"
 # organismQuantityType
@@ -39,9 +61,12 @@ abundance$measurementUnit <- "individuals"
 # measurementValue
 colnames(abundance)[which(colnames(abundance) == "abundance")] <- "measurementValue"
 
+
+
 # size
-size <- sc_time_series[,which(colnames(sc_time_series) != "abundance")]
-size$total_lenght <- as.numeric(gsub (",", ".",size$total_lenght))
+# remove abundance to make 'melt' easier
+size <- TMVaz_data [,-which(colnames(TMVaz_data) %in% c("abundance"))]
+
 # measurementType
 size$measurementType <- "total length"
 # organismQuantityType
@@ -49,77 +74,77 @@ size$organismQuantityType <- "total length"
 # measurementUnit
 size$measurementUnit <- "cm"
 # measurementValue
-colnames(size)[which(colnames(size) == "total_lenght")] <- "measurementValue"
+colnames(size)[which(colnames(size) == "total length")] <- "measurementValue"
+
+
 
 # bind edited data
 dados_bind <- rbind (abundance,
                      size)
 
-# method
-dados_bind$samplingProtocol <- "Underwater visual survey - 20 x 2m"
-# effort
-dados_bind$samplingEffort <- 1#"one observer per transect"
-# sampleSizeValue (based on Minte-Vera et al. 2008 MEPS)
-dados_bind$sampleSizeValue <- 40 # area
-# sampleSizeUnit
-dados_bind$sampleSizeUnit <- "squared meters"
-# recordedBy
-colnames(dados_bind)[which(colnames(dados_bind) == "observer")] <- "recordedBy"
-# depth
-colnames(dados_bind)[which(colnames(dados_bind) == "depth")] <- "depthInMeters"
-# into number
-dados_bind$depthInMeters<- gsub(",",".",dados_bind$depthInMeters)
-dados_bind$depthInMeters <- as.numeric((dados_bind$depthInMeters))
-# set min and max
-colnames(dados_bind)[which(colnames(dados_bind) == "depthInMeters")] <- "minimumDepthinMeters"
-dados_bind$maximumDepthinMeters <- dados_bind$minimumDepthinMeters
-# occurrenceStatus
-dados_bind$occurrenceStatus <- "presence"
-
-# coordinates
-dados_bind$decimalLongitude<- gsub(",",".",dados_bind$longitude)# long
-dados_bind$decimalLongitude <- as.numeric((dados_bind$decimalLongitude))
-dados_bind$decimalLatitude<- gsub(",",".",dados_bind$latitude) #lat
-dados_bind$decimalLatitude <- as.numeric((dados_bind$decimalLatitude))
-
-
-
 
 # ----------------------------------------------------------------------------
-# ADJUSTING COLNAMES, DATES
+# ADJUSTING Depth
+dados_bind$minimumDepthinMeters <- dados_bind$profundidade
+dados_bind$maximumDepthinMeters <- dados_bind$profundidade
+
+# ------------------------------------------ 
+# edit other variables
+
+# define sites and localities
+dados_bind$site <- "NA"
+
+# paste locality
+# it was the combination of municipality and point
+dados_bind$verbatimLocality <- dados_bind$local
+dados_bind$locality <- tolower (dados_bind$local)
+
+# recode sites
+dados_bind$site <- recode(dados_bind$locality,
+        "lixo"               = "trindade",
+        "martin vaz (oeste)"  = "martin vaz",
+        "calheta"            = "trindade",
+        "tartarugas"      =  "trindade",
+        "parcel"            =  "trindade" ,
+        "cabritas"           =  "trindade" ,
+        "racha"              =  "trindade" ,
+        "parcel"             =  "trindade" ,
+        "tunel"              =  "trindade" ,
+        "ponta norte"        =  "trindade" ,
+        "orelhas"           =  "trindade" ,
+        "cabritas"           =  "trindade" ,
+        "farol"            =  "trindade" ,
+        "eme" = "trindade")
+
+# recode localities
+dados_bind$locality <- recode(dados_bind$locality,
+                          "lixo"               = "lixo",
+                          "martin vaz (oeste)"  = "martin_vaz_oeste",
+                          "calheta"            = "calheta",
+                          "tartarugas"      =  "tartarugas_trindade",
+                          "parcel"            =  "parcel" ,
+                          "cabritas"           =  "praia_das_cabritas" ,
+                          "racha"              =  "racha" ,
+                          "parcel"             =  "parcel" ,
+                          "tunel"              =  "tunel" ,
+                          "ponta norte"        =  "ponta_norte" ,
+                          "orelhas"           =  "orelhas" ,
+                          "cabritas"           =  "praia_das_cabritas" ,
+                          "farol"            =  "farol" ,
+                          "eme" = "eme")
 
 
+# method
+dados_bind$samplingProtocol <- "Underwater visual survey - 20 x 2m"
 
-# scientificName
-colnames(dados_bind)[which(colnames(dados_bind) == "species")] <- "scientificName"
-# locality
-colnames(dados_bind)[which(colnames(dados_bind) == "site")] <- "locality"
-# more general == site
-colnames(dados_bind)[which(colnames(dados_bind) == "location")] <- "site"
+# effort
+dados_bind$samplingEffort <- 1#"one observer per transect"
 
-# editing month
-dados_bind$month [which(dados_bind$month == "december")] <- 12
-dados_bind$month [which(dados_bind$month == "april")] <- 04
-dados_bind$month [which(dados_bind$month == "march")] <- 03
-dados_bind$month [which(dados_bind$month == "january")] <- 01
-dados_bind$month [which(dados_bind$month == "february")] <- 02
-dados_bind$month [which(dados_bind$month == "november")] <- 11
-dados_bind$month [which(dados_bind$month == "may")] <- 05
-dados_bind$month [which(dados_bind$month == "july")] <- 07
-dados_bind$month [which(dados_bind$month == "august")] <- 08
-dados_bind$month [which(dados_bind$month == "september")] <- 09
-dados_bind$month [which(dados_bind$month == "october")] <- 10
+# sampleSizeValue
+dados_bind$sampleSizeValue <- 40 # area
 
-# adjust day
-dados_bind$day <- ifelse(dados_bind$day < 10, 
-                         paste0("0", dados_bind$day),
-                         dados_bind$day)
-
-# eventDate
-dados_bind$eventDate <- as.Date (paste(dados_bind$year, 
-               dados_bind$month,
-               dados_bind$day,sep="-"))
-
+# sampleSizeUnit
+dados_bind$sampleSizeUnit <- "squared meters"
 
 
 # country and code
@@ -130,70 +155,113 @@ dados_bind$basisOfRecord <- "HumanObservation"
 # geodeticDatum
 dados_bind$geodeticDatum <- "decimal degrees"
 # geographic location
-dados_bind$higherGeography <- "BrazilianCoast"
+dados_bind$higherGeography <- "BrazilianOceanicIslands"
 
 
+# occurrenceStatus
+dados_bind$occurrenceStatus <- "presence"
 
-
-
-# ----------------------------------------------------------------------------
-# ADJUSTING SITES
-
-
-
-
-# verbatimLocality
-dados_bind$verbatimLocality<- dados_bind$locality
-
-
-# adjusting species scientific name
-# replacing "_" by " "
-dados_bind$locality <-(iconv(dados_bind$locality, "ASCII", "UTF-8", sub=""))
-dados_bind$locality <- tolower(dados_bind$locality)
-
-
-# adjust
-dados_bind$locality[which(dados_bind$locality == "saco_da_agua")] <- "saco_dagua"
-dados_bind$locality[which(dados_bind$locality == "saco_do_capim")] <- "capim"
-dados_bind$locality[which(dados_bind$locality == "saco_do_engenho")] <- "engenho"
-unique(dados_bind$locality )[order(unique(dados_bind$locality ))]
-unique(dados_bind$site )[order(unique(dados_bind$site))]
-# adjust site
-dados_bind$site[which(dados_bind$site == "caixa_da\xe7o_beach")] <- "caixadaco_beach"
-
-
-
-
+# coordinates are missing
 
 # ----------------------------------------------------------------------------
-# ADJUSTING SCIENTIFIC NAME
+
+# adjust scientific names
+dados_bind$verbatimIdentification<- tolower (dados_bind$verbatimIdentification)
 
 
+# recode abbreviations
+dados_bind$verbatimIdentification<- recode (dados_bind$verbatimIdentification, 
+  "abu sax"    = "Abudefduf saxatilis",
+  "aca bah"    = "Acanthurus bahianus",
+  "aca coe"    = "Acanthurus coeruleus",
+  "aca pol"    = "Acanthostracion polygonium",
+  "aca qua"    = "Acanthostracion quadricornis",
+  "alu scr"    = "Aluterus scriptus",
+  "amb pin"    = "Amblycirrhitus pinos",
+  "ani sur"    = "Anisotremus surinamensis",
+  "apo ame"    = "Apogon americanus",
+  "bal vet" = "Balistes vetula",
+  "blenniidae" = "Blenniidae",
+  "bod pul"    = "Bodianus pulchellus",
+  "bod ruf"    = "Bodianus rufus",
+  "can fig"    = "Canthigaster figueiredoi",
+  "can mac"    = "Canthidermis maculata",
+  "can pul"    = "Cantherhines pullus",
+  "can suf"    = "Canthidermis sufflamen",
+  "car cry"    = "Caranx crysos",
+  "car lat"    = "Caranx latus",
+  "car lug"  = "Caranx lugubris",
+  "car rub"= "Caranx ruber",
+  "cep ful"    = "Cephalopholis fulva",
+  "cha str"    = "Chaetodon striatus",
+  "chr mul"    = "Chromis multilineata",
+  "clupeidae"  = "Clupeidae",
+  "cory sp"    = "Coryphopterus sp.",
+  "dac vol"    = "Dactylopterus volitans",
+  "dio hol"    = "Diodon holocanthus",
+  "dip arg"    = "Diplodus argenteus",
+  "ech cat"= "Echidna catenata",
+  "ela pri"   = "Elacatinus pridisi",
+  "enc car"    = "Enchelycore carychroa",
+  "enc nig"    = "Enchelycore nigricans",
+  "ent sp"     = "Entomacrodon sp.",
+  "epi ads"    = "Epinephelus adscensionis",
+  "gna tho"= "Gnatholepis thompsoni",
+  "gym mil"    = "Gymnothorax miliaris",
+  "gym mor"    = "Gymnothorax moringa", # OU "Gymnothorax mordax"
+  "gyn cir"    = "Gynglimostoma cirratum",
+  "hal bra" = "Halichoeres brasiliensis",
+  "hal pen"   = "Halichoeres penrosei", 
+  "hal poe"= "Halichoeres poeyi",
+  "hal sp"= "Halichoeres sp.",
+  "hal sp "= "Halichoeres sp.",
+  "hem bra"    ="Hemiramphus brasiliensis",
+  "het cru"    = "Heteropriacanthus cruentatus",
+  "hol ads"    = "Holocentrus adscensionis",
+  "hol tri"    = "Holacanthus tricolor",
+  "kyph sp"    = "Kyphosus sp.",
+  "lab nuq"= "Labrisomus nuchipinnis",
+  "lagosta"   = "Panulirus sp.",
+  "mal plu"    = "Malacanthus plumieri",
+  "mal sp"     = "Malacanthus sp.",
+  "mel nig"    = "Melichthys niger",
+  "menephorus" = "Menephorus punticulatus", # hybrid (adjust after) otherwise worms will report two (wrong) matches
+  "Menephorus" = "Menephorus punticulatus", # hybrid (adjust after)
+  "mic chr"    = "Microspathodon chrysurus",
+  "mul mar"    = "Mulloidichthys martinicus",
+  "myc int"    = "Mycteroperca interstitialis",
+  "myc vem"= "Mycteroperca venenosa",
+  "myr bre"  = "Myrichthys breviceps",
+  "myr jac" = "Myripristis jacobus",
+  "oph atl"    = "Ophioblennius atlanticus",
+  "opi aur"    = "Opistognathus aurifrons",
+  "par bai"    = "Paradiplogramus bairdi",
+  "par fur"    = "Paranthias furcifer",
+  "pla arg"    = "Platybelone argalus",
+  "pro bra"    = "Prognathodes brasiliensis",
+  "pse mac"    = "Pseudupeneus maculatus",
+  "ryp sap" = "Rypticus saponaceus",
+  "sar bul"= "Sargocentron bullisi",
+  "sco plu"    = "Scorpaena plumieri",
+  "ser riv"    = "Seriola rivoliana",
+  "spa amp"= "Sparisoma amplum",
+  "spa axi"    = "Sparisoma axillare",
+  "spa pit"= "Scarinae", # still need to check
+  "sph bar"    = "Sphyraena barracuda",
+  "sph spe"    = "Sphoeroides spengleri",
+  "ste pic"    = "Stegastes pictus",
+  "ste tri"   = "Stegastes trindadensis",
+  "syn syn"    = "Synodus synodus",
+  "tha nor" = "Thalassoma noronhanum"
+)  
 
-# replace "_"
-dados_bind$verbatimIdentification <- gsub ("_", " ", dados_bind$scientificName)
-dados_bind$species_to_search <- gsub ("_", " ", dados_bind$scientificName)
-
-
-# solve a couple of problems in identification
-dados_bind$species_to_search [grep ("decapteru macarellus", dados_bind$species_to_search)] <- "decapterus macarellus"
-
-# remove stegastes partitus (comment Sergio: Temos amostras do Caribe nesse datapaper? Ste partitus é só do Caribe. Tem um registro só em SC, mas não é para estar em nenhuma amostra, double check it)
-
-dados_bind <- dados_bind [-grep("partitus",dados_bind$species_to_search),]
-
-# non identified species
-dados_bind$identificationQualifier <- ifelse (sapply (strsplit (dados_bind$verbatimIdentification, " "), "[[", 2) == "sp",
-        "sp",
-        NA)
-
+# taxonmic checking 
 # species to search
-dados_bind$species_to_search [which(dados_bind$identificationQualifier == "sp")] <- gsub (" sp",
-                                                                                          "",
-                                                                                          dados_bind$species_to_search [which(dados_bind$identificationQualifier == "sp")])
+species_to_search <- unique(dados_bind$verbatimIdentification)
+species_to_search<-  (species_to_search[order(species_to_search)])
 
 # matching with worms
-worms_record <- lapply (unique(dados_bind$species_to_search), function (i) 
+worms_record <- lapply (species_to_search, function (i) 
   
   tryCatch (
     
@@ -206,74 +274,119 @@ worms_record <- lapply (unique(dados_bind$species_to_search), function (i)
   
 )
 
-
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 
+# data to match
+data_to_match <- data.frame(originalname=species_to_search,
+                            lsid=df_worms_record$lsid,
+                            scientificname=df_worms_record$scientificname,
+                            scientificNameID = df_worms_record$lsid,
+                            taxonRank=df_worms_record$rank,
+                            kingdom=df_worms_record$kingdom,
+                            phylum=df_worms_record$phylum,
+                            class=df_worms_record$class,
+                            order=df_worms_record$order,
+                            family=df_worms_record$family,
+                            genus=df_worms_record$genus)
 
 # valid name WORMS
-dados_bind$scientificNameAccepted <- (df_worms_record$scientificname [match (dados_bind$species_to_search,
-                                                      tolower (df_worms_record$scientificname))])
+dados_bind$scientificNameAccepted <- (data_to_match$scientificname [match (dados_bind$verbatimIdentification,
+                                                                           (data_to_match$originalname))])
 
 # id
-dados_bind$scientificNameID<-(df_worms_record$lsid [match (dados_bind$species_to_search,
-                                                      tolower (df_worms_record$scientificname))])
+dados_bind$scientificNameID<-(data_to_match$lsid [match (dados_bind$verbatimIdentification,
+                                                       (data_to_match$originalname))])
 
 # taxon rank of the identified level
-dados_bind$taxonRank <- (df_worms_record$rank [match (dados_bind$species_to_search,
-                                                      tolower (df_worms_record$scientificname))])
+dados_bind$taxonRank <- (data_to_match$taxonRank [match (dados_bind$verbatimIdentification,
+                                                      (data_to_match$originalname))])
 
 # kingdom
-dados_bind$kingdom <-(df_worms_record$kingdom [match (dados_bind$species_to_search,
-                                                      tolower (df_worms_record$scientificname))])
-# phylum
-dados_bind$phylum <-(df_worms_record$phylum [match (dados_bind$species_to_search,
-                                                      tolower (df_worms_record$scientificname))])
+dados_bind$kingdom <-(data_to_match$kingdom [match (dados_bind$verbatimIdentification,
+                                                      (data_to_match$originalname))])
 
+# phylum
+dados_bind$phylum <-(data_to_match$phylum [match (dados_bind$verbatimIdentification,
+                                                      (data_to_match$originalname))])
 
 # class
-dados_bind$class<-(df_worms_record$class [match (dados_bind$species_to_search,
-                                                 tolower(df_worms_record$scientificname))])
+dados_bind$class<-(data_to_match$class [match (dados_bind$verbatimIdentification,
+                                                 data_to_match$originalname)])
 # order
-dados_bind$order<-(df_worms_record$order [match (dados_bind$species_to_search,
-                                                 tolower(df_worms_record$scientificname))])
+dados_bind$order<-(data_to_match$order [match (dados_bind$verbatimIdentification,
+                                                 (data_to_match$originalname))])
 
 # family
-dados_bind$family<-(df_worms_record$family [match (dados_bind$species_to_search,
-                                                   tolower(df_worms_record$scientificname))])
+dados_bind$family<-(data_to_match$family [match (dados_bind$verbatimIdentification,
+                                                (data_to_match$originalname))])
 
 # genus
-dados_bind$genus<-(df_worms_record$genus [match (dados_bind$species_to_search,
-                                                   tolower(df_worms_record$scientificname))])
-
-
+dados_bind$genus<-(data_to_match$genus [match (dados_bind$verbatimIdentification,
+                                                 (data_to_match$originalname))])
 
 # taxonomic updates
 # species
 dados_bind$scientificNameAccepted[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina multilineata"
-dados_bind$scientificNameAccepted[grep ("bartholomaei", dados_bind$scientificNameAccepted)] <- "Caranx bartholomaei"
 dados_bind$scientificNameAccepted[grep ("polygonius", dados_bind$scientificNameAccepted)] <- "Acanthostracion polygonium"
-dados_bind$scientificNameAccepted[grep ("Dasyatis americana", dados_bind$scientificNameAccepted)] <- "Hypanus berthalutzea"
+dados_bind$scientificNameAccepted[grep ("Dasyatis centroura", dados_bind$scientificNameAccepted)] <- "Bathytoshia centroura"
+dados_bind$scientificNameAccepted[grep ("Haemulon plumieri", dados_bind$scientificNameAccepted)] <- "Haemulon plumierii"
+dados_bind$scientificNameAccepted[grep ("Labrisomus kalisherae", dados_bind$scientificNameAccepted)] <- "Goblioclinus kalisherae"
 
 # genus
 dados_bind$genus[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina"
-dados_bind$genus[grep ("bartholomaei", dados_bind$scientificNameAccepted)] <- "Caranx"
-dados_bind$genus[grep ("Hypanus berthalutzea", dados_bind$scientificNameAccepted)] <- "Hypanus"
+dados_bind$genus[grep ("Bathytoshia centroura", dados_bind$scientificNameAccepted)] <- "Bathytoshia"
+dados_bind$genus[grep ("Goblioclinus kalisherae", dados_bind$scientificNameAccepted)] <- "Goblioclinus"
 
+# bind identification remarks
+# Sergio: Menephorus é um nome utilizado para o híbrido entre 
+# Sergio: Deixar ele na base de dados pois é um cara interessante sim de ter nas planilhas, e colocar assim: Menephorus (hybrid)
+
+dados_bind[is.na(dados_bind$class),"verbatimIdentification"] <- "Menephorus (hybrid)"
+dados_bind$identificationRemarks <- NA
+dados_bind [is.na(dados_bind$class),"identificationRemarks"] <- "Menephorus is an hybrid between Cephalopholis fulva and Paranthias furcifer"
+dados_bind [is.na(dados_bind$class),"taxonRank"] <- "Hybrid"
+dados_bind [is.na(dados_bind$class),"kingdom"] <- "Animalia"
+dados_bind [is.na(dados_bind$class),"phylum"] <- "Chordata"
+dados_bind [is.na(dados_bind$class),"class"] <- "Teleostei"
+
+# remove panulirus sp. (Malacostraca)
+dados_bind <- dados_bind %>% 
+  filter (class != "Malacostraca")
+
+
+
+
+# ----------------------------------------------------------------------------
+# ADJUSTING GEOGRAPHIC COORDINATES
+
+
+
+# coordinates (gather coordinates from PELD Dataset)
+PELD_coords <- read.csv (here ("\\.","Pos_Doc_Sinbiose", "ReefSYN_data", "DwC_output","PELD_iloc_fish","event_core.csv"))
+PELD_coords_trindade <- PELD_coords %>% 
+                      
+  filter (island == "trindade")  
+# aggregate at locality level
+PELD_coords_trindade <- data.frame (decimalLatitude = tapply(PELD_coords_trindade$decimalLatitude,
+               PELD_coords_trindade$locality,"mean"),
+            decimalLongitude = tapply(PELD_coords_trindade$decimalLongitude,
+                                      PELD_coords_trindade$locality,"mean"))
+
+# match
+dados_bind <- cbind (dados_bind,
+                    PELD_coords_trindade [match (dados_bind$locality,
+                   rownames(PELD_coords_trindade)),])
+
+dados_bind$georeferenceRemarks <-  "Coordinates gathered from PELD dataset, Dataset IV"
 
 
 # ----------------------------------------------------------------------------
 # CREATING IDS
 
-
-
-
-
-
-
 # IDs
 # creating parentIDs
-dados_bind$parentEventID <- paste (paste (paste ("BR:ReefSYN:SC-TIME-SERIES:", 
+dados_bind$parentEventID <- paste (paste (paste ("BR:ReefSYN:TrindadeMartinVaz:", 
                                                  dados_bind$higherGeography,
                                                  sep=""),
                                           dados_bind$site,sep=":"), 
@@ -282,32 +395,31 @@ dados_bind$parentEventID <- paste (paste (paste ("BR:ReefSYN:SC-TIME-SERIES:",
                               sep="_")
 
 
-
 # creating eventIds
-dados_bind$eventID <- paste (paste (paste ("BR:ReefSYN:SC-TIME-SERIES:", 
+dados_bind$eventID <- paste (paste (paste ("BR:ReefSYN:TrindadeMartinVaz:", 
                                            dados_bind$higherGeography,
                                            sep=""),
                                     dados_bind$site,sep=":"),  
                                     dados_bind$locality, 
                                     dados_bind$year,
-                                    substr (dados_bind$transect_id,6,nchar(dados_bind$transect_id)),
+                                    dados_bind$seq_censo, # check this
                         sep="_")
 
 
-
-
 # creating occurrenceIDs
-dados_bind$occurrenceID <- paste (paste (paste ("BR:ReefSYN:SC-TIME-SERIES:", 
+dados_bind$occurrenceID <- paste (paste (paste ("BR:ReefSYN:TrindadeMartinVaz:", 
                                                 dados_bind$higherGeography,
                                                 sep=""),
                                          dados_bind$site,sep=":"),  
                                   dados_bind$locality, 
                                   dados_bind$year,
-                                  substr (dados_bind$transect_id,6,nchar(dados_bind$transect_id)),
-                             paste ("occ",seq(1,nrow(dados_bind)),sep=""),
+                                  dados_bind$seq_censo,# check this
+                             
+                                  paste ("occ",seq(1,
+                                                   nrow(dados_bind %>% 
+                                                          filter (measurementType == "abundance"))),sep=""),
+                             
                              sep="_")
-
-
 
 
 # licence
@@ -317,136 +429,11 @@ dados_bind$licence <- "CC BY-NC"
 dados_bind$language <- "en"
 
 # eventRemarks
-dados_bind$eventRemarks <- "Just published by Quimbayo et al. in Ecology"
+dados_bind$bibliographicCitation <- "Pinheiro H, Camilato JLV, Joyeaux J-C. (2009) New records of fishes for Trindade-Martin Vaz oceanic insular complex, Brazil. Zootaxa, 2298. DOI: 10.11646/zootaxa.2298.1.3"
 
-dados_bind$bibliographicCitation <- "Quimbayo, J. P., Nunes, L. T., Silva, F. C., Anderson, A. B., Barneche, D. R., Canterle, A. M., Cord, I., Dalben, A., Ferrari, D. S., Fontoura, L., Fiuza, T. M. J., Liedke, A. M. R., Longo, G. O., Morais, R. A., Siqueira, A. C., & Floeter, S. R. (2023). TimeFISH: Long-term assessment of reef fish assemblages in a transition zone in the Southwestern Atlantic. Ecology, 104(3), [e3966]. https://doi.org/10.1002/ecy.3966"
+# recordedBy
+dados_bind$recordedBy <- "Hudson Pinheiro | Jean-Christophe Joyeaux"
 
-# -------------------------------------------------------
-
-
-# ajust recordedBy
-
-
-
-dados_bind <- dados_bind %>% 
-  mutate(recordedBy = plyr::mapvalues(recordedBy, 
-                                      from = c("Thiago", "tc_mendes", "mendes_tc","thiago","thiago_mendes"  ,
-                                               "Renato", "morais_ra","renato","ra_morais","renato_morais",
-                                               "Gui","GOL","guilherme","guilherme_longo",
-                                               "ide", "anaide" ,"anaide_aued",
-                                               "ju",
-                                               "luisa", "lu","luisa_fontoura",
-                                               "juan", "quimbayo_jp","jp_quimbayo","juan_quimbayo",
-                                               "davi",
-                                               "edson",
-                                               "renata","r_mazzei","renata_mazzei" ,
-                                               "anderson_batista" , "batista_a",
-                                               "cordeiro_camm", "cesar","camm_cordeiro" ,"cesar_cordeiro",
-                                               "barbosa_m","mc_barbosa",
-                                               "giglio_vj",
-                                               "NCR",
-                                               "JB",
-                                               "GSG",
-                                               "LE","l_eggertsen",    
-                                               "KYI",
-                                               "EAV",
-                                               "MCP",
-                                               "marina",
-                                               "diego","diego_barneche",
-                                               "roberta",
-                                               "max","max_levy",
-                                               "r_noguchi","ramon_noguchi",
-                                               "cel_ferreira",
-                                               "cgw_ferreira",
-                                               "gugaw_ferreira",
-                                               "gabriel_ferreira",
-                                               "jl_gasparini",
-                                               "jp_krajewski",
-                                               "hudson_pinheiro",
-                                               "ana_liedke",
-                                               "sergio_floeter",
-                                               "mb_lucena",
-                                               "cbp_eirado-silva" ,
-                                               NA,
-                                               "go_correal"  ,     "gabriel_correal",
-                                               "bertran_feitoza",
-                                               "eduardo_godoy" ,   
-                                               "ca_rangel",
-                                               "claudio_sampaio",
-                                               "thiony_simon",
-                                               "tiago_albuquerque" ,
-                                               "anchieta_nunes",
-                                               "daniel_dinslaken"   ,
-                                               "osmar_luiz",
-                                               "marcelo_silveira"  , 
-                                               "andrea_dalben" ,
-                                               "alexandre_siqueira" ,
-                                               "athila_bertoncini",
-                                               "otavio_schlickmann",
-                                               "lucas_nunes",
-                                               "thiago_fiuza",
-                                               "debora_ferrari",
-                                               "angela_canterle"
-                                      ),
-                                      to = c("Thiago C Mendes","Thiago C Mendes","Thiago C Mendes","Thiago C Mendes","Thiago C Mendes",
-                                             "Renato A Morais","Renato A Morais","Renato A Morais","Renato A Morais","Renato A Morais",
-                                             "Guilherme O Longo","Guilherme O Longo","Guilherme O Longo","Guilherme O Longo",
-                                             "Anaide W Aued","Anaide W Aued","Anaide W Aued",
-                                             "Júlia Correia", 
-                                             "Luísa Fontoura","Luísa Fontoura","Luísa Fontoura",
-                                             "Juan P Quimbayo","Juan P Quimbayo","Juan P Quimbayo","Juan P Quimbayo",
-                                             "Davi V Candido", 
-                                             "Edson Faria Jr",
-                                             "Renata CB Mazzei","Renata CB Mazzei","Renata CB Mazzei",
-                                             "Anderson Batista","Anderson Batista",
-                                             "Cesar AMM Cordeiro","Cesar AMM Cordeiro","Cesar AMM Cordeiro","Cesar AMM Cordeiro",
-                                             "Moyses C Barbosa","Moyses C Barbosa",
-                                             "Vinícius Giglio",
-                                             "Natalia C Roos",
-                                             "Jéssica Bleuel",
-                                             "Gabriel Santos Garcia",
-                                             "Linda Eggertsen","Linda Eggertsen",
-                                             "Kelly Y Inagaki",
-                                             "Edson A Vieira",
-                                             "Maria Carolina Pacheco",
-                                             "Marina N Sissini",
-                                             "Diego R Barneche","Diego R Barneche",
-                                             "Roberta Bonaldo",
-                                             "Max Levy","Max Levy",
-                                             "Ramon Noguchi","Ramon Noguchi",
-                                             "Carlos EL Ferreira",
-                                             "Carlos GW Ferreira",
-                                             "Carlos GW Ferreira",
-                                             "Gabriel Ferreira",
-                                             "João L Gasparini",
-                                             "João P Krajewski",
-                                             "Hudson Pinheiro",
-                                             "Ana MR Liedke",
-                                             "Sérgio R Floeter",
-                                             "Marcos B Lucena",
-                                             "Clara BP Eirado-Silva" ,
-                                             NA,
-                                             "Gabriel O Correal"  ,   "Gabriel O Correal" ,  
-                                             "Bertran Feitoza",
-                                             "Eduardo Godoy",   
-                                             "Carlos Rangel",
-                                             "Claudio LS Sampaio",
-                                             "Thiony Simon",
-                                             "Tiago Albuquerque" ,
-                                             "Anchieta Nunes",
-                                             "Daniel Dinslaken"   ,
-                                             "Osmar Luiz",
-                                             "Marcelo Silveira"  , 
-                                             "Andrea Dalben" ,
-                                             "Alexandre C Siqueira",
-                                             "Athila Bertoncini",
-                                             "Otavio SR Cardoso",
-                                             "Lucas T Nunes",
-                                             "Thiago MJ Fiuza",
-                                             "Débora S Ferrari",
-                                             "Angela M Canterle")
-  )
-  )
 
 # ----------------------------------------------------------------------------
 #  Formatted according to DwC
@@ -457,8 +444,10 @@ dados_bind <- dados_bind %>%
 DF_eMOF <- dados_bind [,c("eventID", 
                           "measurementValue", 
                           "measurementType",
-                          "measurementUnit",
-                          "eventRemarks")]
+                          "measurementUnit"#,
+                          #"measurementRemarks"
+                          #"eventRemarks"
+                          )]
 
 
 
@@ -467,7 +456,6 @@ DF_occ <- dados_bind [,c("eventID",
                          "basisOfRecord",
                          "verbatimIdentification",
                          "scientificNameID",
-                         "scientificName",
                          "scientificNameAccepted",
                          "taxonRank",
                          "kingdom",
@@ -476,12 +464,14 @@ DF_occ <- dados_bind [,c("eventID",
                          "order",
                          "family",
                          "genus",
+                         "identificationRemarks",
                          "recordedBy",
                          "organismQuantityType", 
                          "occurrenceStatus",
                          "licence",
                          "language",
-                         "bibliographicCitation")]
+                         "bibliographicCitation"
+                         )]
 
 
 
@@ -489,17 +479,19 @@ DF_occ <- dados_bind [,c("eventID",
 
 event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,site,verbatimLocality,locality) %>% 
                             
-                            summarise(year = mean(year),
-                                      eventDate = mean(eventDate),
+                            summarise(year = unique(year),
+                                      #eventDate = unique(eventDate),
                                       minimumDepthinMeters = mean(minimumDepthinMeters),
                                       maximumDepthinMeters = mean(maximumDepthinMeters),
                                       samplingProtocol = unique(samplingProtocol),
                                       samplingEffort = mean(samplingEffort),
                                       sampleSizeValue = mean(sampleSizeValue),
                                       sampleSizeUnit = unique(sampleSizeUnit),
+                                      habitat = unique(habitat),
                                       decimalLongitude = mean(decimalLongitude),
                                       decimalLatitude = mean(decimalLatitude),
                                       geodeticDatum = unique(geodeticDatum),
+                                      georeferenceRemarks = unique(georeferenceRemarks),
                                       Country = unique(Country),
                                       countryCode = unique(countryCode))
 )
@@ -514,19 +506,22 @@ output <- list (DF_occ = DF_occ,
 
 
 # save
+dir.create(here ("DwC_output", "Pinheiro_TrindadeMVaz"))
+
 # write to txt format
 write.csv(DF_occ, file =here("DwC_output",
-                               "SC_time_series",
+                               "Pinheiro_TrindadeMVaz",
                                "DF_occ.csv"))
 
 write.csv(DF_eMOF, file =here("DwC_output",
-                                "SC_time_series",
+                                "Pinheiro_TrindadeMVaz",
                                 "DF_eMOF.csv"))
 
 
 write.csv(event_core, file =here("DwC_output",
-                                   "SC_time_series",
+                                   "Pinheiro_TrindadeMVaz",
                                    "event_core.csv"))
+
 
 ## end
 rm(list=ls())

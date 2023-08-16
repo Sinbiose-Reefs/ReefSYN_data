@@ -132,7 +132,6 @@ dados_bind$locality <- paste (dados_bind$ponto2,
                                   sep = "_")
 
 # change colnames
-colnames (dados_bind)[which(colnames (dados_bind) == "ponto1")] <- "verbatimSite"
 colnames (dados_bind)[which(colnames (dados_bind) == "ponto2")] <- "verbatimLocality"
 colnames (dados_bind)[which(colnames (dados_bind) == "area")] <- "verbatimLocalityWithinPonto2"
 
@@ -314,12 +313,20 @@ dados_bind$higherGeography <- "BrazilianCoast"
 # occurrenceStatus
 dados_bind$occurrenceStatus <- "presence"
 
-# coordinates ?????????????
+# coordinates
+dados_bind$decimalLatitude<-NA
+dados_bind$decimalLongitude<-NA
+dados_bind$georeferenceRemarks <- NA
 
+# coordinates (gather coordinates from Aued et al. from Escalvada -- the only site that names match)
+Aued_coords <- read.csv (here ("\\.","Pos_Doc_Sinbiose", "ReefSYN_data", "DwC_output","AAued_spatialData","event_core.csv"))
 
+# bind
+dados_bind [grep("escalvada",dados_bind$locality), "decimalLatitude"] <- mean(Aued_coords [which(Aued_coords$locality == "escalvada"),"decimalLatitude"])
+dados_bind [grep("escalvada",dados_bind$locality), "decimalLongitude"] <- mean(Aued_coords [which(Aued_coords$locality == "escalvada"),"decimalLongitude"])
+dados_bind [grep("escalvada",dados_bind$locality), "georeferenceRemarks"] <- "Coordinates gathered from Aued et al. (2018), Dataset XIV"
 
-
-
+# check islands == ilhas rasas?
 
 # ----------------------------------------------------------------------------
 # taxonmic checking 
@@ -455,7 +462,7 @@ dados_bind$licence <- "CC BY-NC"
 dados_bind$language <- "en"
 
 # eventRemarks
-#dados_bind$bibliographicCitation <- "Simon T, Joyeux JC, Pinheiro HT. Fish assemblages on shipwrecks and natural rocky reefs strongly differ in trophic structure. Mar Environ Res. 2013 Sep;90:55-65. doi: 10.1016/j.marenvres.2013.05.012. Epub 2013 Jun 7. PMID: 23796542."
+dados_bind$bibliographicCitation <- "Simon T,Joyeux JC,Pinheiro HT.Fish assemblages on shipwrecks and natural rocky reefs strongly differ in trophic structure. Mar Environ Res. 2013,90:55-65.doi: 10.1016/j.marenvres.2013.05.012. Epub 2013 Jun 7. PMID: 23796542."
 
 
 # edit habitat (reef type)
@@ -497,8 +504,8 @@ DF_occ <- dados_bind [,c("eventID",
                          "organismQuantityType", 
                          "occurrenceStatus",
                          "licence",
-                         "language"#,
-                         #"bibliographicCitation"
+                         "language",
+                         "bibliographicCitation"
                          )]
 
 
@@ -516,9 +523,9 @@ event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,site,verb
                                       sampleSizeValue = mean(sampleSizeValue),
                                       sampleSizeUnit = unique(sampleSizeUnit),
                                       habitat = unique(habitat),
-                                      #decimalLongitude = mean(decimalLongitude),
-                                      #decimalLatitude = mean(decimalLatitude),
-                                      #geodeticDatum = unique(geodeticDatum),
+                                      decimalLongitude = mean(decimalLongitude,na.rm=T),
+                                      decimalLatitude = mean(decimalLatitude,na.rm=T),
+                                      geodeticDatum = unique(geodeticDatum),
                                       Country = unique(Country),
                                       countryCode = unique(countryCode))
 )
