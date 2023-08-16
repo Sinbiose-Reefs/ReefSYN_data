@@ -82,6 +82,15 @@ dados_bind$decimalLongitude <- as.numeric((dados_bind$decimalLongitude))
 dados_bind$decimalLatitude<- gsub(",",".",dados_bind$latitude) #lat
 dados_bind$decimalLatitude <- as.numeric((dados_bind$decimalLatitude))
 
+# bind coordinates from moleques_do_sul (missing in data shared by SFloeter)
+# coordinates based on Quimbayo et al. 2022
+# https://esajournals.onlinelibrary.wiley.com/doi/10.1002/ecy.3966
+unique(dados_bind[grep ("moleques",dados_bind$location),"longitude"])
+unique(dados_bind[grep ("moleques",dados_bind$location),"latitude"])
+
+# bind
+dados_bind[grep ("moleques",dados_bind$location),"decimalLatitude"] <- -27.844774
+dados_bind[grep ("moleques",dados_bind$location),"decimalLongitude"] <- -48.432854	
 
 
 
@@ -259,6 +268,7 @@ dados_bind$scientificNameAccepted[grep ("Dasyatis americana", dados_bind$scienti
 dados_bind$genus[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina"
 dados_bind$genus[grep ("bartholomaei", dados_bind$scientificNameAccepted)] <- "Caranx"
 dados_bind$genus[grep ("Hypanus berthalutzea", dados_bind$scientificNameAccepted)] <- "Hypanus"
+
 
 
 
