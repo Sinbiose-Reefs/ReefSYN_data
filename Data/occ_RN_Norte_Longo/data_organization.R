@@ -253,10 +253,10 @@ occ_Ross_et_al$locality[which(occ_Ross_et_al$locality == "mestrevicente")] <- "m
 unique(occ_Ross_et_al$locality )[order(unique(occ_Ross_et_al$locality ))]
 
 
+
 # event depth
 occ_Ross_et_al$minimumDepthInMeters <- occ_Ross_et_al$depth
 occ_Ross_et_al$maximumDepthInMeters <-occ_Ross_et_al$minimumDepthInMeters 
-
 
 
 
@@ -798,7 +798,7 @@ occ_Ross_et_al_parrachos$verbatimLocality <- (occ_Ross_et_al_parrachos$site)
 occ_Ross_et_al_parrachos$site <- "parrachos_de_rio_do_fogo"
 occ_Ross_et_al_parrachos$locality <- occ_Ross_et_al_parrachos$verbatimLocality
 occ_Ross_et_al_parrachos$locality <- gsub ("/", "_", occ_Ross_et_al_parrachos$locality)
-
+occ_Ross_et_al_parrachos$locality <- gsub (" ", "", occ_Ross_et_al_parrachos$locality)
 
 # event depth
 occ_Ross_et_al_parrachos$minimumDepthInMeters <- occ_Ross_et_al_parrachos$depth
@@ -935,7 +935,6 @@ dados_bind_parrachos <- rbind (abundance,
 
 
 # adjust recordedBy
-
 dados_bind_parrachos <- dados_bind_parrachos %>% 
   mutate(recordedBy = plyr::mapvalues(recordedBy, 
                                       from = c("Thiago", "tc_mendes", "mendes_tc","thiago","thiago_mendes"  ,
@@ -1462,16 +1461,22 @@ occ_Ross_et_al_benthos$parentEventID <- paste (
 # country and code
 occ_Ross_et_al_benthos$Country <- "Brazil"
 occ_Ross_et_al_benthos$countryCode <- "BR"
+
 # organismQuantityType
 occ_Ross_et_al_benthos$organismQuantityType <- "Percentage cover"
+
 # basisOfRecord
 occ_Ross_et_al_benthos$basisOfRecord <- "HumanObservation"
+
 # occurrenceStatus
 occ_Ross_et_al_benthos$occurrenceStatus <- "presence"
+
 # geodeticDatum
 occ_Ross_et_al_benthos$geodeticDatum <- "decimal degrees"
+
 # method
 occ_Ross_et_al_benthos$samplingProtocol <- "Photoquadrats - 0.25 x 0.25 m"
+
 # effort
 ## check roos et al. 2020/2019
 occ_Ross_et_al_benthos$samplingEffort <- 10# number of photos across the 20 m transect
