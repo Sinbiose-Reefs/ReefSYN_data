@@ -233,11 +233,17 @@ unique(dados_bind [is.na(dados_bind$scientificNameAccepted),"namesToSearch"])
 dados_bind$scientificNameAccepted[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina multilineata"
 dados_bind$scientificNameAccepted[grep ("polygonius", dados_bind$scientificNameAccepted)] <- "Acanthostracion polygonium"
 dados_bind$scientificNameAccepted[grep ("holacanthus", dados_bind$scientificNameAccepted)] <- "Diodon holocanthus"
+dados_bind$scientificNameAccepted[grep ("Haemulon steindachneri", dados_bind$scientificNameAccepted)] <- "Haemulon atlanticus"
+dados_bind$scientificNameAccepted[grep ("Sphoeroides spengleri", dados_bind$scientificNameAccepted)] <- "Sphoeroides camila"
+
+
 
 # genus too
 dados_bind$genus[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina"
 
 
+# adjust family
+dados_bind$family[which(dados_bind$family == "Scaridae")] <- "Labridae"
 
 
 

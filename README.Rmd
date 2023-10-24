@@ -1,7 +1,7 @@
 ---
 title:  "Standardized datasets of Brazilian reef diversity in space and time"
 author: "Reef Synthesis Working Group"
-date: "2023/08/14"
+date: "2023/08/0"
 output: github_document
 ---
 
@@ -21,13 +21,13 @@ Here we present the raw figures of the datapaper. We adopted the Darwin Core Sta
 
 Folders in this project:
 
-- **Data**: raw datasets. Each folder of dataset has its own R script to organize datasets into DwC standard;
+- **Data**: raw datasets. Each dataset folder has its own R script to organize data (DwC standard);
 
-- **DwC_output**: the processed data, after run the organization scripts for each dataset;
+- **DwC_output**: the processed data, after running each organization script;
 
-- **Policy**: policies of autorship and data sharing (only Portuguese);
+- **Policy**: policies of authorship and data sharing (only Portuguese);
 
-- **R**: folder with R script to be applied to the processed data. Scratch of a Shiny App;
+- **R**: folder with R scripts. Scratch of a Shiny App;
 
 
 ## Figures

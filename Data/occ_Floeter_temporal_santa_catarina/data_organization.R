@@ -262,13 +262,19 @@ dados_bind$genus<-(df_worms_record$genus [match (dados_bind$species_to_search,
 dados_bind$scientificNameAccepted[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina multilineata"
 dados_bind$scientificNameAccepted[grep ("bartholomaei", dados_bind$scientificNameAccepted)] <- "Caranx bartholomaei"
 dados_bind$scientificNameAccepted[grep ("polygonius", dados_bind$scientificNameAccepted)] <- "Acanthostracion polygonium"
-dados_bind$scientificNameAccepted[grep ("Dasyatis americana", dados_bind$scientificNameAccepted)] <- "Hypanus berthalutzea"
+dados_bind$scientificNameAccepted[grep ("Dasyatis americana", dados_bind$scientificNameAccepted)] <- "Hypanus berthalutzae"
+dados_bind$scientificNameAccepted[grep ("Haemulon steindachneri", dados_bind$scientificNameAccepted)] <- "Haemulon atlanticus"
+dados_bind$scientificNameAccepted[grep ("Sphoeroides spengleri", dados_bind$scientificNameAccepted)] <- "Sphoeroides camila"
+
 
 # genus
 dados_bind$genus[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina"
 dados_bind$genus[grep ("bartholomaei", dados_bind$scientificNameAccepted)] <- "Caranx"
-dados_bind$genus[grep ("Hypanus berthalutzea", dados_bind$scientificNameAccepted)] <- "Hypanus"
+dados_bind$genus[grep ("Hypanus berthalutzae", dados_bind$scientificNameAccepted)] <- "Hypanus"
 
+
+# adjust family
+dados_bind$family[which(dados_bind$family == "Scaridae")] <- "Labridae"
 
 
 

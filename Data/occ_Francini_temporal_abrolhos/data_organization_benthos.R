@@ -653,6 +653,8 @@ benthos_long_format_2006$scientificNameAccepted[grep("leptophylla", benthos_long
 benthos_long_format_2006$genus[grep("Montastraea", benthos_long_format_2006$scientificNameAccepted)] <- "Montastraea"
 benthos_long_format_2006$genus[grep("leptophylla", benthos_long_format_2006$scientificNameAccepted)] <- "Mussismilia"
 
+# change meandrina
+benthos_long_format_2006$scientificNameAccepted[grep ("Meandrina braziliensis", benthos_long_format_2006$scientificNameAccepted)] <- "Meandrina brasiliensis"
 
 # ------------------------------------------------------------------------
 # creating eventID

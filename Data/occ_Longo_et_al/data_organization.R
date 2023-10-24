@@ -308,7 +308,7 @@ L.peixes_coord[which(L.peixes_coord$site == "pirambu"),"Long_DD"] <- coord_to_co
 
 
 L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Platybelone_argalus")] <- "Platybelone_argalus_argalus"
-L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Nicholsina_usta_collettei")] <- "Nicholsina_collettei"
+L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Nicholsina_usta_collettei")] <- "Nicholsina_usta"
 L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Labrisomus_kalisherae")] <- "Gobioclinus_kalisherae"
 L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Diplodus_argenteus_argenteus")] <- "Diplodus_argenteus"
 L.peixes_coord$namesToSearch [which(L.peixes_coord$namesToSearch == "Eucinostomus_lefroyi")] <- "Ulaema_lefroyi"
@@ -397,9 +397,10 @@ unique(L.peixes_coord [is.na(L.peixes_coord$scientificNameAccepted),"namesToSear
 L.peixes_coord$scientificNameAccepted[grep ("multilineata", L.peixes_coord$scientificNameAccepted)] <- "Azurina multilineata"
 L.peixes_coord$scientificNameAccepted[grep ("bartholomaei", L.peixes_coord$scientificNameAccepted)] <- "Caranx bartholomaei"
 L.peixes_coord$scientificNameAccepted[grep ("polygonius", L.peixes_coord$scientificNameAccepted)] <- "Acanthostracion polygonium"
-L.peixes_coord$scientificNameAccepted[grep ("Hypanus americanus", L.peixes_coord$scientificNameAccepted)] <- "Hypanus berthalutzea"
+L.peixes_coord$scientificNameAccepted[grep ("Hypanus americanus", L.peixes_coord$scientificNameAccepted)] <- "Hypanus berthalutzae"
 L.peixes_coord$scientificNameAccepted[grep ("Serranus atricauda", L.peixes_coord$scientificNameAccepted)] <- "Serranus flaviventris"
-L.peixes_coord$scientificNameAccepted[grep ("Epinephelus marginatus", L.peixes_coord$scientificNameAccepted)] <- "Mycteroperca marginata"
+L.peixes_coord$scientificNameAccepted[grep ("Haemulon steindachneri", L.peixes_coord$scientificNameAccepted)] <- "Haemulon atlanticus"
+L.peixes_coord$scientificNameAccepted[grep ("Sphoeroides spengleri", L.peixes_coord$scientificNameAccepted)] <- "Sphoeroides camila"
 
 # genus
 L.peixes_coord$genus[grep ("multilineata", L.peixes_coord$scientificNameAccepted)] <- "Azurina"
@@ -410,6 +411,8 @@ L.peixes_coord$genus[grep ("Mycteroperca marginata", L.peixes_coord$scientificNa
 unique(L.peixes_coord$scientificNameAccepted)[order(unique(L.peixes_coord$scientificNameAccepted))]
 
 
+# adjust family
+L.peixes_coord$family[which(L.peixes_coord$family == "Scaridae")] <- "Labridae"
 
 
 # L.peixes_coord[which(L.peixes_coord$scientificNameAccepted == "Sphyraena borealis"),"identificationQualifier"]  <- "cf."# 

@@ -67,7 +67,7 @@ occ_Ross_et_al$verbatimIdentification <- occ_Ross_et_al$namesToSearch
 
 # taxonomic issues
 occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Platybelone argalus")] <- "Platybelone argalus argalus"
-occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Nicholsina usta collettei")] <- "Nicholsina collettei"
+occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Nicholsina usta collettei")] <- "Nicholsina usta"
 occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Labrisomus kalisherae")] <- "Gobioclinus kalisherae"
 occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Diplodus argenteus argenteus")] <- "Diplodus argenteus"
 occ_Ross_et_al$namesToSearch [which(occ_Ross_et_al$namesToSearch == "Eucinostomus lefroyi")] <- "Ulaema lefroyi"
@@ -165,8 +165,11 @@ occ_Ross_et_al$genus <-(df_worms_record$genus [match (occ_Ross_et_al$namesToSear
 # species
 occ_Ross_et_al$scientificNameAccepted[grep ("multilineata", occ_Ross_et_al$scientificNameAccepted)] <- "Azurina multilineata"
 occ_Ross_et_al$scientificNameAccepted[grep ("bartholomaei", occ_Ross_et_al$scientificNameAccepted)] <- "Caranx bartholomaei"
-occ_Ross_et_al$scientificNameAccepted[grep ("Hypanus americanus", occ_Ross_et_al$scientificNameAccepted)] <- "Hypanus berthalutzea"
+occ_Ross_et_al$scientificNameAccepted[grep ("Hypanus americanus", occ_Ross_et_al$scientificNameAccepted)] <- "Hypanus berthalutzae"
 occ_Ross_et_al$scientificNameAccepted[grep ("Kyphosus vaigensis", occ_Ross_et_al$scientificNameAccepted)] <- "Kyphosus vaigiensis"
+occ_Ross_et_al$scientificNameAccepted[grep ("Haemulon steindachneri", occ_Ross_et_al$scientificNameAccepted)] <- "Haemulon atlanticus"
+occ_Ross_et_al$scientificNameAccepted[grep ("Sphoeroides spengleri", occ_Ross_et_al$scientificNameAccepted)] <- "Sphoeroides camila"
+
 
 # genus
 occ_Ross_et_al$genus[grep ("multilineata", occ_Ross_et_al$scientificNameAccepted)] <- "Azurina"
@@ -175,6 +178,9 @@ occ_Ross_et_al$genus[grep ("bartholomaei", occ_Ross_et_al$scientificNameAccepted
 
 unique(occ_Ross_et_al$scientificNameAccepted)[order(unique(occ_Ross_et_al$scientificNameAccepted)
                                                     )]
+# adjust family
+occ_Ross_et_al$family[which(occ_Ross_et_al$family == "Scaridae")] <- "Labridae"
+
 
 
 # ----------------------------------------------------------------------
@@ -637,7 +643,7 @@ occ_Ross_et_al_parrachos$verbatimIdentification <- occ_Ross_et_al_parrachos$name
 
 # taxonomic issues
 occ_Ross_et_al_parrachos$namesToSearch [which(occ_Ross_et_al_parrachos$namesToSearch == "Platybelone argalus")] <- "Platybelone argalus argalus"
-occ_Ross_et_al_parrachos$namesToSearch [which(occ_Ross_et_al_parrachos$namesToSearch == "Nicholsina usta collettei")] <- "Nicholsina collettei"
+occ_Ross_et_al_parrachos$namesToSearch [which(occ_Ross_et_al_parrachos$namesToSearch == "Nicholsina usta collettei")] <- "Nicholsina usta"
 occ_Ross_et_al_parrachos$namesToSearch [which(occ_Ross_et_al_parrachos$namesToSearch == "Labrisomus kalisherae")] <- "Gobioclinus kalisherae"
 occ_Ross_et_al_parrachos$namesToSearch [which(occ_Ross_et_al_parrachos$namesToSearch == "Diplodus argenteus argenteus")] <- "Diplodus argenteus"
 occ_Ross_et_al_parrachos$namesToSearch [which(occ_Ross_et_al_parrachos$namesToSearch == "Eucinostomus lefroyi")] <- "Ulaema lefroyi"
@@ -739,10 +745,15 @@ occ_Ross_et_al_parrachos$genus <-(df_worms_record$genus [match (occ_Ross_et_al_p
 # species
 occ_Ross_et_al_parrachos$scientificNameAccepted[grep ("multilineata", occ_Ross_et_al_parrachos$scientificNameAccepted)] <- "Azurina multilineata"
 occ_Ross_et_al_parrachos$scientificNameAccepted[grep ("bartholomaei", occ_Ross_et_al_parrachos$scientificNameAccepted)] <- "Caranx bartholomaei"
+occ_Ross_et_al_parrachos$scientificNameAccepted[grep ("Sphoeroides spengleri", occ_Ross_et_al_parrachos$scientificNameAccepted)] <- "Sphoeroides camila"
 
 # genus
 occ_Ross_et_al_parrachos$genus[grep ("multilineata", occ_Ross_et_al_parrachos$scientificNameAccepted)] <- "Azurina"
 occ_Ross_et_al_parrachos$genus[grep ("bartholomaei", occ_Ross_et_al_parrachos$scientificNameAccepted)] <- "Caranx"
+
+
+# family
+occ_Ross_et_al_parrachos$family[which(occ_Ross_et_al_parrachos$family == "Scaridae")] <- "Labridae"
 
 
 

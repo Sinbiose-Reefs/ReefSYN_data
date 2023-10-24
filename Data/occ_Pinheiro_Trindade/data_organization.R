@@ -332,11 +332,18 @@ dados_bind$scientificNameAccepted[grep ("polygonius", dados_bind$scientificNameA
 dados_bind$scientificNameAccepted[grep ("Dasyatis centroura", dados_bind$scientificNameAccepted)] <- "Bathytoshia centroura"
 dados_bind$scientificNameAccepted[grep ("Haemulon plumieri", dados_bind$scientificNameAccepted)] <- "Haemulon plumierii"
 dados_bind$scientificNameAccepted[grep ("Labrisomus kalisherae", dados_bind$scientificNameAccepted)] <- "Goblioclinus kalisherae"
+dados_bind$scientificNameAccepted[grep ("Sphoeroides spengleri", dados_bind$scientificNameAccepted)] <- "Sphoeroides camila"
 
 # genus
 dados_bind$genus[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina"
 dados_bind$genus[grep ("Bathytoshia centroura", dados_bind$scientificNameAccepted)] <- "Bathytoshia"
 dados_bind$genus[grep ("Goblioclinus kalisherae", dados_bind$scientificNameAccepted)] <- "Goblioclinus"
+
+
+# adjust family
+dados_bind$family[which(dados_bind$family == "Scaridae")] <- "Labridae"
+
+
 
 # bind identification remarks
 # Sergio: Menephorus é um nome utilizado para o híbrido entre 

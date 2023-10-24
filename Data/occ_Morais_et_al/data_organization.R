@@ -303,7 +303,7 @@ dados$namesToSearch <- firstup(gsub ("\\.","_", dados$namesToSearch))
 
 # check taxonomic issues
 # dados$namesToSearch [which(dados$namesToSearch == "Platybelone_argalus")] <- "Platybelone_argalus_argalus"
-dados$namesToSearch [which(dados$namesToSearch == "Nicholsina_usta_collettei")] <- "Nicholsina_collettei"
+dados$namesToSearch [which(dados$namesToSearch == "Nicholsina_usta_collettei")] <- "Nicholsina_usta"
 dados$namesToSearch [which(dados$namesToSearch == "Labrisomus_kalisherae")] <- "Gobioclinus_kalisherae"
 dados$namesToSearch [which(dados$namesToSearch == "Eucinostomus_lefroyi")] <- "Ulaema_lefroyi"
 dados$namesToSearch [which(dados$namesToSearch == "Haemulon_plumieri")] <- "Haemulon_plumierii"
@@ -324,7 +324,7 @@ dados$namesToSearch [which(dados$namesToSearch == "Kyphosus_bigibbus" )] <-  "Ky
 dados$namesToSearch [which(dados$namesToSearch == "Malacoctenus_sp1" )] <-  "Malacoctenus_brunoi"
 dados$namesToSearch [which(dados$namesToSearch == "Malacoctenus_sp2" )] <-  "Malacoctenus_lianae"
 dados$namesToSearch [which(dados$namesToSearch == "Malacoctenus_sp3" )] <-  "Malacoctenus lianae"
-dados$namesToSearch [which(dados$namesToSearch == "Nicholsina_usta_usta" )] <-  "Nicholsina_usta_usta"
+dados$namesToSearch [which(dados$namesToSearch == "Nicholsina_usta_usta" )] <-  "Nicholsina_usta"
 dados$namesToSearch [which(dados$namesToSearch == "Nicholsina_usta_collettei" )] <-  "Nicholsina_usta"
 dados$namesToSearch [which(dados$namesToSearch == "Anthias_salmopuntatus" )] <- "Choranthias_salmopunctatus"
 dados$namesToSearch [which(dados$namesToSearch == "Emblemariosis_sp" )] <- "Emblemariopsis_sp"
@@ -345,7 +345,7 @@ dados$namesToSearch [which(dados$identificationQualifier == "sp")] <- gsub (" sp
 
 
 
-
+dados[which(dados$namesToSearch == "sparisoma viride"),]
 
 # matching with worms
 worms_record <- lapply (unique(dados$namesToSearch), function (i) 
@@ -399,11 +399,18 @@ dados$genus<-(df_worms_record$genus [match (dados$namesToSearch,
 dados$scientificNameAccepted[grep ("multilineata", dados$scientificNameAccepted)] <- "Azurina multilineata"
 dados$scientificNameAccepted[grep ("bartholomaei", dados$scientificNameAccepted)] <- "Caranx bartholomaei"
 dados$scientificNameAccepted[grep ("polygonius", dados$scientificNameAccepted)] <- "Acanthostracion polygonium"
-dados$scientificNameAccepted[grep ("Hypanus americanus", dados$scientificNameAccepted)] <- "Hypanus berthalutzea"
+dados$scientificNameAccepted[grep ("Hypanus americanus", dados$scientificNameAccepted)] <- "Hypanus berthalutzae"
+dados$scientificNameAccepted[grep ("Haemulon steindachneri", dados$scientificNameAccepted)] <- "Haemulon atlanticus"
+dados$scientificNameAccepted[grep ("Sphoeroides spengleri", dados$scientificNameAccepted)] <- "Sphoeroides camila"
+
 
 # genus
 dados$genus[grep ("multilineata", dados$scientificNameAccepted)] <- "Azurina"
 dados$genus[grep ("bartholomaei", dados$scientificNameAccepted)] <- "Caranx"
+
+
+# adjust family
+dados$family[which(dados$family == "Scaridae")] <- "Labridae"
 
 
 # --------------------------------------------------------------------------------------
@@ -471,7 +478,7 @@ size$measurementUncertainty <- traits_db[match (size$scientificNameAccepted, (tr
 
 # flag
 size$measurementUncertainty<-(ifelse (size$measurementValue <= size$measurementUncertainty, 
-        "size_OK",
+        "size_within_maximum_reported",
         "larger_than_reported_in_Quimbayo_et_al"
         ))
 
@@ -479,61 +486,63 @@ size$measurementUncertainty<-(ifelse (size$measurementValue <= size$measurementU
 
 # use fishbase for remaining species
 
-fish_to_search <- unique(size [which(size$measurementUncertainty == "larger_than_reported_in_Quimbayo_et_al"),
-                               "scientificNameAccepted"])
-# search
-search_fish<-data.frame (fb_tbl("species",version = "latest") %>% 
-                        mutate(sci_name = paste(Genus, Species)) %>%
-                        filter(sci_name %in% fish_to_search)) #%>% 
-                                #dplyr::select(sci_name, Length))
-
-
-
-# flag based on fishbase
-subset_larger <- size[which(size$measurementUncertainty == "larger_than_reported_in_Quimbayo_et_al"),]
-subset_larger$measurementUncertainty <- (search_fish[match (subset_larger$scientificNameAccepted,
-                                                            (search_fish$sci_name)),
-                                                     "Length"])
-# check
-subset_larger$measurementUncertainty<-(ifelse (subset_larger$measurementValue <= subset_larger$measurementUncertainty, 
-                                                                      "size_OK",
-                                                                      "larger_than_reported_in_fishbase"
-))
-
-# flag
-size[which(rownames(size) %in% rownames(subset_larger)),"measurementUncertainty"] <- subset_larger$measurementUncertainty
-
-# finally try to find NAs
-fish_to_search_NA<- unique(size[is.na(size$measurementUncertainty),"scientificNameAccepted"])
-
-# search
-search_fish_NA<-data.frame (fb_tbl("species") %>% 
-                                 mutate(sci_name = paste(Genus, Species)) %>%
-                                 filter(sci_name %in% fish_to_search_NA) %>% 
-                                    dplyr::select(sci_name, Length))
-
-# by hand following fishbase
-search_fish_NA [which(search_fish_NA$sci_name == "Malacoctenus brunoi"), "Length"] <- 4.4
-search_fish_NA [which(search_fish_NA$sci_name == "Acanthurus bahianus"), "Length"] <- 38.1
-search_fish_NA [which(search_fish_NA$sci_name == "Prognathodes brasiliensis"), "Length"] <- 12
-
-# flag based on fishbase
-subset_NA <- size[is.na(size$measurementUncertainty),]
-subset_NA$measurementUncertainty <- (search_fish_NA[match (subset_NA$scientificNameAccepted, 
-                                                           (search_fish_NA$sci_name)),"Length"])
-# Malacoctenus lianae by hand usingfishbase
-subset_NA [which(subset_NA$scientificNameAccepted == "Malacoctenus lianae"), "measurementUncertainty"] <- 4.5
-subset_NA [which(subset_NA$scientificNameAccepted == "Stephanolepis hispidus"), "measurementUncertainty"] <- 36.9
-subset_NA [which(subset_NA$scientificNameAccepted == "Carcharhinus perezii"), "measurementUncertainty"] <- 300
-
-# check
-subset_NA$measurementUncertainty<-(ifelse (subset_NA$measurementValue <= subset_NA$measurementUncertainty, 
-                                               "size_OK",
-                                               "larger_than_reported_in_fishbase"
-))
-
-# flag
-size[which(rownames(size) %in% rownames(subset_NA)),"measurementUncertainty"] <- subset_NA$measurementUncertainty
+#fish_to_search <- unique(size [which(size$measurementUncertainty == "larger_than_reported_in_Quimbayo_et_al"),
+#                               "scientificNameAccepted"])
+## search
+#search_fish<-data.frame (rfishbase::fb_tbl("species",
+#                                version = "latest"
+#                                ) %>% 
+#                        mutate(sci_name = paste(Genus, Species)) %>%
+#                        filter(sci_name %in% fish_to_search)) #%>% 
+#                                #dplyr::select(sci_name, Length))
+#
+#
+#
+## flag based on fishbase
+#subset_larger <- size[which(size$measurementUncertainty == "larger_than_reported_in_Quimbayo_et_al"),]
+#subset_larger$measurementUncertainty <- (search_fish[match (subset_larger$scientificNameAccepted,
+#                                                            (search_fish$sci_name)),
+#                                                     "Length"])
+## check
+#subset_larger$measurementUncertainty<-(ifelse (subset_larger$measurementValue <= subset_larger$measurementUncertainty, 
+#                                                                      "size_within_maximum_reported",
+#                                                                      "larger_than_reported_in_fishbase"
+#))
+#
+## flag
+#size[which(rownames(size) %in% rownames(subset_larger)),"measurementUncertainty"] <- subset_larger$measurementUncertainty
+#
+## finally try to find NAs
+#fish_to_search_NA<- unique(size[is.na(size$measurementUncertainty),"scientificNameAccepted"])
+#
+## search
+#search_fish_NA<-data.frame (rfishbase::fb_tbl("species") %>% 
+#                                 mutate(sci_name = paste(Genus, Species)) %>%
+#                                 filter(sci_name %in% fish_to_search_NA) %>% 
+#                                    dplyr::select(sci_name, Length))
+#
+## by hand following fishbase
+#search_fish_NA [which(search_fish_NA$sci_name == "Malacoctenus brunoi"), "Length"] <- 4.4
+#search_fish_NA [which(search_fish_NA$sci_name == "Acanthurus bahianus"), "Length"] <- 38.1
+#search_fish_NA [which(search_fish_NA$sci_name == "Prognathodes brasiliensis"), "Length"] <- 12
+#
+## flag based on fishbase
+#subset_NA <- size[is.na(size$measurementUncertainty),]
+#subset_NA$measurementUncertainty <- (search_fish_NA[match (subset_NA$scientificNameAccepted, 
+#                                                           (search_fish_NA$sci_name)),"Length"])
+## Malacoctenus lianae by hand usingfishbase
+#subset_NA [which(subset_NA$scientificNameAccepted == "Malacoctenus lianae"), "measurementUncertainty"] <- 4.5
+#subset_NA [which(subset_NA$scientificNameAccepted == "Stephanolepis hispidus"), "measurementUncertainty"] <- 36.9
+#subset_NA [which(subset_NA$scientificNameAccepted == "Carcharhinus perezii"), "measurementUncertainty"] <- 300
+#
+## check
+#subset_NA$measurementUncertainty<-(ifelse (subset_NA$measurementValue <= subset_NA$measurementUncertainty, 
+#                                               "size_OK",
+#                                               "larger_than_reported_in_fishbase"
+#))
+#
+## flag
+#size[which(rownames(size) %in% rownames(subset_NA)),"measurementUncertainty"] <- subset_NA$measurementUncertainty
 
 
 # bind edited data

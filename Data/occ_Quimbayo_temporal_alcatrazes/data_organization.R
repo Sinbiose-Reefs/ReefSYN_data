@@ -124,11 +124,18 @@ alcatrazes_time_series$genus <-(df_worms_record$genus [match (alcatrazes_time_se
 alcatrazes_time_series$scientificNameAccepted[grep ("multilineata", alcatrazes_time_series$scientificNameAccepted)] <- "Azurina multilineata"
 alcatrazes_time_series$scientificNameAccepted[grep ("polygonius", alcatrazes_time_series$scientificNameAccepted)] <- "Acanthostracion polygonium"
 alcatrazes_time_series$scientificNameAccepted[grep ("Emblemariopsis signifera", alcatrazes_time_series$scientificNameAccepted)] <- "Emblemariopsis signifer"
+alcatrazes_time_series$scientificNameAccepted[grep ("Sphoeroides spengleri", alcatrazes_time_series$scientificNameAccepted)] <- "Sphoeroides camila"
+
+
 
 # genus
 alcatrazes_time_series$genus[grep ("multilineata", alcatrazes_time_series$scientificNameAccepted)] <- "Azurina"
 
 
+
+
+# adjust family
+alcatrazes_time_series$family[which(alcatrazes_time_series$family == "Scaridae")] <- "Labridae"
 
 
 

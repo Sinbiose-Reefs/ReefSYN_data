@@ -408,11 +408,18 @@ dados_bind$scientificNameAccepted[grep ("polygonius", dados_bind$scientificNameA
 dados_bind$scientificNameAccepted[grep ("Dasyatis centroura", dados_bind$scientificNameAccepted)] <- "Bathytoshia centroura"
 dados_bind$scientificNameAccepted[grep ("Emblemariopsis signifera", dados_bind$scientificNameAccepted)] <- "Emblemariopsis signifer"
 dados_bind$scientificNameAccepted[grep ("Haemulon plumieri", dados_bind$scientificNameAccepted)] <- "Haemulon plumierii"
+dados_bind$scientificNameAccepted[grep ("Haemulon steindachneri", dados_bind$scientificNameAccepted)] <- "Haemulon atlanticus"
+dados_bind$scientificNameAccepted[grep ("Pempheris schomburgki", dados_bind$scientificNameAccepted)] <- "Pempheris schomburgkii"
+dados_bind$scientificNameAccepted[grep ("Malacoctenus delalandei", dados_bind$scientificNameAccepted)] <- "Malacoctenus delalandii"
+dados_bind$scientificNameAccepted[grep ("Sphoeroides spengleri", dados_bind$scientificNameAccepted)] <- "Sphoeroides camila"
 
 # genus
 dados_bind$genus[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina"
 dados_bind$genus[grep ("Bathytoshia centroura", dados_bind$scientificNameAccepted)] <- "Bathytoshia"
 
+
+# adjust family
+dados_bind$family[which(dados_bind$family == "Scaridae")] <- "Labridae"
 
 # ----------------------------------------------------------------------------
 # CREATING IDS

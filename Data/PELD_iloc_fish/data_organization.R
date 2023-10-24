@@ -142,13 +142,15 @@ fish_DF_occ2$scientificNameAccepted[grep ("multilineata", fish_DF_occ2$scientifi
 fish_DF_occ2$scientificNameAccepted[grep ("bartholomaei", fish_DF_occ2$scientificNameAccepted)] <- "Caranx bartholomaei"
 fish_DF_occ2$scientificNameAccepted[grep ("polygonius", fish_DF_occ2$scientificNameAccepted)] <- "Acanthostracion polygonium"
 fish_DF_occ2$scientificNameAccepted[grep ("Anthias salmopunctatus", fish_DF_occ2$scientificNameAccepted)] <- "Choranthias salmopunctatus"
-fish_DF_occ2$scientificNameAccepted[grep ("Hypanus americanus", fish_DF_occ2$scientificNameAccepted)] <- "Hypanus berthalutzea"
+fish_DF_occ2$scientificNameAccepted[grep ("Hypanus americanus", fish_DF_occ2$scientificNameAccepted)] <- "Hypanus berthalutzae"
 
 # genus
 fish_DF_occ2$genus[grep ("multilineata", fish_DF_occ2$scientificNameAccepted)] <- "Azurina"
 fish_DF_occ2$genus[grep ("bartholomaei", fish_DF_occ2$scientificNameAccepted)] <- "Caranx"
 fish_DF_occ2$genus[grep ("Choranthias salmopunctatus", fish_DF_occ2$scientificNameAccepted)] <- "Choranthias"
 
+# adjust family
+fish_DF_occ2$family[which(fish_DF_occ2$family == "Scaridae")] <- "Labridae"
 
 # adjust site names
 fish_event_core$island<-tolower (fish_event_core$island)
