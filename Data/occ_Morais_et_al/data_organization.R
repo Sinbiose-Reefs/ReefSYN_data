@@ -328,6 +328,7 @@ dados$namesToSearch [which(dados$namesToSearch == "Nicholsina_usta_usta" )] <-  
 dados$namesToSearch [which(dados$namesToSearch == "Nicholsina_usta_collettei" )] <-  "Nicholsina_usta"
 dados$namesToSearch [which(dados$namesToSearch == "Anthias_salmopuntatus" )] <- "Choranthias_salmopunctatus"
 dados$namesToSearch [which(dados$namesToSearch == "Emblemariosis_sp" )] <- "Emblemariopsis_sp"
+dados$namesToSearch [which(dados$namesToSearch == "Sparisoma_viride" )] <- "Sparisoma_amplum"
 
 # replacing "_" by " "
 dados$namesToSearch<-gsub ("_"," ",dados$namesToSearch)
@@ -344,8 +345,6 @@ dados$namesToSearch [which(dados$identificationQualifier == "sp")] <- gsub (" sp
                                                                             dados$namesToSearch [which(dados$identificationQualifier == "sp")])
 
 
-
-dados[which(dados$namesToSearch == "sparisoma viride"),]
 
 # matching with worms
 worms_record <- lapply (unique(dados$namesToSearch), function (i) 
