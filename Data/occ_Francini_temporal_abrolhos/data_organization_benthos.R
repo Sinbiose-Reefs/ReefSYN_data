@@ -77,9 +77,6 @@ benthos_long_format$taxonOrGroup[which(benthos_long_format$taxonOrGroup == "ZO")
 benthos_long_format$taxonOrGroup[which(benthos_long_format$taxonOrGroup == "CV+MI")]  <- "scleractinia"
 
 
-
-
-
 # adjusting spp names
 # matching with worms
 
@@ -245,8 +242,6 @@ benthos_long_format$verbatimLocality <- benthos_long_format$locality
 benthos_long_format$site <- benthos_long_format$verbatimLocality
 benthos_long_format$locality <- benthos_long_format$verbatimSite
 
-
-
 # depth
 # set min and max
 colnames(benthos_long_format)[which(colnames(benthos_long_format) == "depthInMeters")] <- "minimumDepthinMeters"
@@ -349,7 +344,7 @@ benthos_long_format <- benthos_long_format [which(is.na(benthos_long_format$scie
 
 
 
-DF_eMOF <- benthos_long_format [,c("eventID", 
+DF_eMOF <- benthos_long_format [,c("eventID", "occurrenceID",
                                    "measurementValue", 
                                    "measurementType",
                                    "measurementUnit",
@@ -716,14 +711,14 @@ benthos_long_format_2006$occurrenceID <- paste (
 benthos_long_format_2006$year<-benthos_long_format_2006$eventDate
 
 # method
-benthos_long_format_2006$samplingProtocol <- "Photoquadrats - 1 X 0.7 m" # Fixed photo-quadrats
+benthos_long_format_2006$samplingProtocol <- "Photoquadrats - 0.66 X 0.75 m" # Fixed photo-quadrats
 
 # samplingEffort
 benthos_long_format_2006$samplingEffort <- 10 # 10 qudrats, 15 images per quadrat - Final sample
 # size ranged between 7–10 quadrats per habitat per site per year.
 
 # sampleSizeValue
-benthos_long_format_2006$sampleSizeValue <- 0.7
+benthos_long_format_2006$sampleSizeValue <- 0.66 * 0.75
 
 # sampleSizeUnit
 benthos_long_format_2006$sampleSizeUnit <- "squared meters"
@@ -816,7 +811,7 @@ benthos_long_format_2006 <- benthos_long_format_2006 [which(is.na(benthos_long_f
 
 
 
-DF_eMOF_2006 <- benthos_long_format_2006 [,c("eventID", 
+DF_eMOF_2006 <- benthos_long_format_2006 [,c("eventID", "occurrenceID",
                                              "measurementValue", 
                                              "measurementType",
                                              "measurementUnit",
