@@ -472,7 +472,7 @@ dados_bind <- dados_bind %>%
 
 
 
-DF_eMOF <- dados_bind [,c("eventID", 
+DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit",

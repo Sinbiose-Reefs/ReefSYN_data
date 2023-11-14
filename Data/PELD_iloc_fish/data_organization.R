@@ -41,7 +41,7 @@ fish_event_core$higherGeography <- ifelse (fish_event_core$island == "Ascension"
 # remove ascension
 fish_event_core <- fish_event_core [which(fish_event_core$island != "Ascension"),]
 fish_DF_eMOF <- fish_DF_eMOF[-grep("Ascension", fish_DF_eMOF$eventID),]
-fish_DF_eMOF <- fish_DF_eMOF[,-which(colnames(fish_DF_eMOF) == "occurrenceID")]# remove occurrenceID from fish_DF_eMOF
+#fish_DF_eMOF <- fish_DF_eMOF[,-which(colnames(fish_DF_eMOF) == "occurrenceID")]# remove occurrenceID from fish_DF_eMOF
 
 
 # tartarugas in Trindade & Rocas

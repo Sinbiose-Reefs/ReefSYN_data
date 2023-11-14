@@ -640,7 +640,7 @@ bentos_long_format <- bentos_long_format %>%
 
 # Formatted according to DwC
 # measurement or facts
-DF_eMOF <- bentos_long_format [,c("eventID", 
+DF_eMOF <- bentos_long_format [,c("eventID", "occurrenceID",
                                   "measurementValue", 
                                   "measurementType",
                                   "measurementUnit",

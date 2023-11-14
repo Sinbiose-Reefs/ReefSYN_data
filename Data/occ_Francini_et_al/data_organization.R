@@ -516,7 +516,7 @@ francini_bind_data <- francini_bind_data [which(is.na(francini_bind_data$scienti
 
 
 # Formatted according to DwC
-DF_eMOF <- francini_bind_data [,c("eventID", 
+DF_eMOF <- francini_bind_data [,c("eventID", "occurrenceID",
                                   "measurementValue", 
                                   "measurementType",
                                   "measurementUnit",

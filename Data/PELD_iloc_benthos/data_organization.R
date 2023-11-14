@@ -227,7 +227,7 @@ table(unique(benthos_event_core$eventID) %in% unique(benthos_DF_eMOF$eventID))
 table(unique(benthos_DF_eMOF$eventID ) %in% unique(benthos_DF_occ2$eventID) )
 
 # remove occurrenceID from eMOF table
-benthos_DF_eMOF <- benthos_DF_eMOF [,-which(colnames(benthos_DF_eMOF )== "occurrenceID")]
+benthos_DF_eMOF <- benthos_DF_eMOF# [,-which(colnames(benthos_DF_eMOF )== "occurrenceID")]
 
 # modifiy stpauls rocks
 benthos_event_core$island[which(benthos_event_core$island == "sao_pedro_e_sao_paulo")] <- "stpauls_rocks"
