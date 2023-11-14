@@ -448,7 +448,7 @@ dados_bind$recordedBy <- "Hudson Pinheiro | Jean-Christophe Joyeaux"
 
 
 
-DF_eMOF <- dados_bind [,c("eventID", 
+DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit"#,

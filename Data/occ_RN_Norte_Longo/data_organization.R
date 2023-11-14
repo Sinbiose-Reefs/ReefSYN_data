@@ -523,7 +523,7 @@ dados_bind <- dados_bind %>%
 
 
 
-DF_eMOF <- dados_bind [,c("eventID", 
+DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit",
@@ -1077,7 +1077,7 @@ dados_bind_parrachos <- dados_bind_parrachos %>%
 
 
 
-DF_eMOF_parrachos <- dados_bind_parrachos [,c("eventID", 
+DF_eMOF_parrachos <- dados_bind_parrachos [,c("eventID", "occurrenceID",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit",
@@ -1529,7 +1529,7 @@ occ_Ross_et_al_benthos <- occ_Ross_et_al_benthos [which(is.na(occ_Ross_et_al_ben
 
 
 
-DF_eMOF <- occ_Ross_et_al_benthos [,c("eventID", 
+DF_eMOF <- occ_Ross_et_al_benthos [,c("eventID", "occurrenceID",
                                       "measurementValue",
                                       "measurementType",
                                       "measurementUnit",

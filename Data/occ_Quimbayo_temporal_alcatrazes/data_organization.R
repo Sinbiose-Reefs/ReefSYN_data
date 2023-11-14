@@ -440,7 +440,7 @@ alcatrazes_time_series <- alcatrazes_time_series %>%
 
 
 
-DF_eMOF <- alcatrazes_time_series [,c("eventID", 
+DF_eMOF <- alcatrazes_time_series [,c("eventID", "occurrenceID",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit")]
