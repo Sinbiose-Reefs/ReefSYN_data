@@ -345,21 +345,19 @@ colnames(fish_long_format)[which(colnames(fish_long_format) == "SITE")] <- "loca
 
 # effort (we row in the table is a sample (SAMPLE column))
 
-require(dplyr)
-
 fish_long_format <- fish_long_format %>% 
   group_by(YEAR,site,locality,HAB) %>%
   summarise(samplingEffort = length(unique(SAMPLE))) %>% 
   left_join(fish_long_format)
 
 # check 
-fish_long_format %>% 
-  filter (site == "TIMBEBAS" & 
-            YEAR == "2014" &
-            locality == "tim3" &
-            HAB == "pinnacles_top") %>% 
-  select (samplingEffort) %>%
-  unique
+#fish_long_format %>% 
+#  filter (site == "TIMBEBAS" & 
+#            YEAR == "2014" &
+#            locality == "tim3" &
+#            HAB == "pinnacles_top") %>% 
+#  select (samplingEffort) %>%
+#  unique
             
             
 
@@ -437,6 +435,7 @@ fish_long_format$eventID <- paste (
   sep="_")
 
 
+
 # occurrenceID
 fish_long_format$occurrenceID <- paste (
   paste ( 
@@ -500,7 +499,7 @@ fish_long_format$recordedBy <- fish_SN_observers [match (fish_long_format$record
 
 
 
-DF_eMOF <- fish_long_format [,c("eventID", 
+DF_eMOF <- fish_long_format [,c("eventID", "occurrenceID",
                                  "measurementValue", 
                                 "measurementType",
                                 "measurementUnit",

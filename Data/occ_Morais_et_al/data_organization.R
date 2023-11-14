@@ -738,7 +738,7 @@ dados_bind$recordedBy[which(dados_bind$recordedBy == "")] <- NA
 
 
 # measurement or facts
-DF_eMOF <- dados_bind [,c("eventID", 
+DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit",
