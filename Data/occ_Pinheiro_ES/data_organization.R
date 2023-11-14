@@ -75,7 +75,7 @@ abundance_size <- melt (ES_data, id.vars = c("seq_censo",
                                    "abund_censo"))
 
 # filter abundance
-abundance_size <- abundance_size %>%
+abundance_size <- abundance_size[,-21] %>%
   filter (is.na(value) != T) 
 
 # event remark
@@ -125,12 +125,12 @@ dados_bind <- rbind (abundance,
 # ------------------------------------------ 
 # edit other variables
 
-# define sites and localities
-dados_bind$site <- "espirito_santo"
-
 # adjust municipality
 dados_bind$municipality <- tolower (dados_bind$municipio)
 dados_bind$municipality[which(dados_bind$municipality == "marataízes")] <- "marataizes"
+
+# define sites and localities
+dados_bind$site <- dados_bind$municipality
 
 # paste locality
 # it was the combination of municipality and point
@@ -321,11 +321,20 @@ dados_bind$higherGeography <- "BrazilianCoast"
 # occurrenceStatus
 dados_bind$occurrenceStatus <- "presence"
 
-# coordinates ?????????????
+# coordinates
+# extracted using google earth.
+# overlaping the picture of page 20 of this document on the google  earth map
+# https://hudsonpinheiro.files.wordpress.com/2015/11/diagnc3b3stico-ambiental-do-litoral-sul-do-es-voz-da-natureza.pdf
 
+coords <- read.xlsx(here ("Data",
+                          "occ_Pinheiro_ES",
+                          "coords_pts.xlsx"),
+                    sheet=1,
+                    detectDates =T)
 
-
-
+# bind lat and long
+dados_bind$decimalLatitude <- coords$decimalLatitude [match (dados_bind$locality,coords$locality)]
+dados_bind$decimalLongitude <- coords$decimalLongitude [match (dados_bind$locality,coords$locality)]
 
 
 # ----------------------------------------------------------------------------
@@ -431,6 +440,7 @@ dados_bind[is.na(dados_bind$scientificNameAccepted),]
 # ----------------------------------------------------------------------------
 # CREATING IDS
 
+
 # IDs
 # creating parentIDs
 dados_bind$parentEventID <- paste (paste (paste ("BR:ReefSYN:SouthernEspiritoSanto-ES:", 
@@ -475,9 +485,6 @@ dados_bind$licence <- "CC BY-NC"
 # language
 dados_bind$language <- "en"
 
-# eventRemarks
-#dados_bind$bibliographicCitation <- "Simon T, Joyeux JC, Pinheiro HT. Fish assemblages on shipwrecks and natural rocky reefs strongly differ in trophic structure. Mar Environ Res. 2013 Sep;90:55-65. doi: 10.1016/j.marenvres.2013.05.012. Epub 2013 Jun 7. PMID: 23796542."
-
 
 # edit habitat (reef type)
 dados_bind$habitat <- dados_bind$Habitat
@@ -494,7 +501,7 @@ dados_bind$habitat <- recode(dados_bind$habitat,
 
 
 
-DF_eMOF <- dados_bind [,c("eventID", 
+DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit",
@@ -540,9 +547,9 @@ event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,site,verb
                                       sampleSizeValue = mean(sampleSizeValue),
                                       sampleSizeUnit = unique(sampleSizeUnit),
                                       habitat = unique(habitat),
-                                      decimalLongitude = NA,#mean(decimalLongitude),
-                                      decimalLatitude =NA, #mean(decimalLatitude),
-                                      geodeticDatum = NA,#unique(geodeticDatum),
+                                      decimalLongitude = mean(decimalLongitude,na.rm=T),
+                                      decimalLatitude =mean(decimalLatitude,na.rm=T),
+                                      geodeticDatum = unique(geodeticDatum),
                                       Country = unique(Country),
                                       countryCode = unique(countryCode))
 )
@@ -562,16 +569,16 @@ dir.create(here ("DwC_output", "Pinheiro_ES"))
 # write to txt format
 write.csv(DF_occ, file =here("DwC_output",
                                "Pinheiro_ES",
-                               "DF_occ.csv"))
+                               "DF_occ.csv"),fileEncoding = "latin1")
 
 write.csv(DF_eMOF, file =here("DwC_output",
                                 "Pinheiro_ES",
-                                "DF_eMOF.csv"))
+                                "DF_eMOF.csv"),fileEncoding = "latin1")
 
 
 write.csv(event_core, file =here("DwC_output",
                                    "Pinheiro_ES",
-                                   "event_core.csv"))
+                                   "event_core.csv"),fileEncoding = "latin1")
 
 
 ## end

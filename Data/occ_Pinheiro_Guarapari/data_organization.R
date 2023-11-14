@@ -112,7 +112,7 @@ dados_bind <- rbind (abundance,
 # edit other variables
 
 # define sites and localities
-dados_bind$site <- "espirito_santo"
+dados_bind$site <- "guarapari"
 
 # paste islands to dados_bind$ponto2
 #### Hudson: difference of ponto 1 and ponto 2: Isso, acho que só muda em relação as Ilhas rasas, que tem duas ilhas, a de dentro e a de fora
@@ -326,7 +326,76 @@ dados_bind [grep("escalvada",dados_bind$locality), "decimalLatitude"] <- mean(Au
 dados_bind [grep("escalvada",dados_bind$locality), "decimalLongitude"] <- mean(Aued_coords [which(Aued_coords$locality == "escalvada"),"decimalLongitude"])
 dados_bind [grep("escalvada",dados_bind$locality), "georeferenceRemarks"] <- "Coordinates gathered from Aued et al. (2018), Dataset XIV"
 
-# check islands == ilhas rasas?
+# gather other coordinates in Google Earth
+# also considering Simon et al. 2013
+# https://ictiolab.files.wordpress.com/2017/07/2013-mere-simon-joyeux-pinheiro.pdf
+
+unique(dados_bind[is.na(dados_bind$decimalLatitude),"locality"])
+
+coords_input <- rbind (
+  data.frame ("locality" = "island_offshore_leste",
+            "decimalLatitude" = -20.677894,
+            "decimalLongitude" = -40.365082),
+  data.frame ("locality" = "island_offshore_oeste",
+              "decimalLatitude" = -20.677894,
+              "decimalLongitude" = -40.365082),
+  data.frame ("locality" = "island_inshore_sul",
+              "decimalLatitude" = -20.677894,
+              "decimalLongitude" = -40.365082),
+  data.frame ("locality" = "island_offshore_norte",
+              "decimalLatitude" = -20.677894,
+              "decimalLongitude" = -40.365082),
+  data.frame ("locality" = "island_inshore_leste",
+              "decimalLatitude" = -20.677894,
+              "decimalLongitude" = -40.365082),
+  data.frame ("locality" = "island_inshore_oeste",
+              "decimalLatitude" = -20.677894,
+              "decimalLongitude" = -40.365082),
+  data.frame ("locality" = "island_inshore_norte",
+              "decimalLatitude" = -20.677894,
+              "decimalLongitude" = -40.365082),
+  data.frame ("locality" = "island_offshore_sul",
+              "decimalLatitude" = -20.677894,
+              "decimalLongitude" = -40.365082),
+  data.frame ("locality" = "island_offshore_sul",
+              "decimalLatitude" = -20.677894,
+              "decimalLongitude" = -40.365082),
+  # bellucia
+  # https://www.naufragiosdobrasil.com.br/naufbellucia.htm
+  data.frame ("locality" = "bellucia_proa",
+              "decimalLatitude" = -20.679951,
+              "decimalLongitude" = -40.360867),
+  data.frame ("locality" = "bellucia_popa",
+              "decimalLatitude" = -20.679009,
+              "decimalLongitude" = -40.361500),
+  # victory
+  # https://www.naufragiosdobrasil.com.br/naufvictory8b.htm 
+  data.frame ("locality" = "victory_popa",
+              "decimalLatitude" = -20.690488,
+              "decimalLongitude" = -40.389700),
+  data.frame ("locality" = "victory_proa",
+              "decimalLatitude" = -20.690488,
+              "decimalLongitude" = -40.389700)
+  
+)
+
+# input coords
+dados_bind [which(dados_bind$locality %in% coords_input$locality[1]),c("decimalLatitude", "decimalLongitude")] <- coords_input[1,c("decimalLatitude", "decimalLongitude")]
+dados_bind [which(dados_bind$locality %in% coords_input$locality[2]),c("decimalLatitude", "decimalLongitude")] <- coords_input[2,c("decimalLatitude", "decimalLongitude")]
+dados_bind [which(dados_bind$locality %in% coords_input$locality[3]),c("decimalLatitude", "decimalLongitude")] <- coords_input[3,c("decimalLatitude", "decimalLongitude")]
+dados_bind [which(dados_bind$locality %in% coords_input$locality[4]),c("decimalLatitude", "decimalLongitude")] <- coords_input[4,c("decimalLatitude", "decimalLongitude")]
+dados_bind [which(dados_bind$locality %in% coords_input$locality[5]),c("decimalLatitude", "decimalLongitude")] <- coords_input[5,c("decimalLatitude", "decimalLongitude")]
+dados_bind [which(dados_bind$locality %in% coords_input$locality[6]),c("decimalLatitude", "decimalLongitude")] <- coords_input[6,c("decimalLatitude", "decimalLongitude")]
+dados_bind [which(dados_bind$locality %in% coords_input$locality[7]),c("decimalLatitude", "decimalLongitude")] <- coords_input[7,c("decimalLatitude", "decimalLongitude")]
+dados_bind [which(dados_bind$locality %in% coords_input$locality[8]),c("decimalLatitude", "decimalLongitude")] <- coords_input[8,c("decimalLatitude", "decimalLongitude")]
+dados_bind [which(dados_bind$locality %in% coords_input$locality[9]),c("decimalLatitude", "decimalLongitude")] <- coords_input[9,c("decimalLatitude", "decimalLongitude")]
+dados_bind [which(dados_bind$locality %in% coords_input$locality[10]),c("decimalLatitude", "decimalLongitude")] <- coords_input[10,c("decimalLatitude", "decimalLongitude")]
+dados_bind [which(dados_bind$locality %in% coords_input$locality[11]),c("decimalLatitude", "decimalLongitude")] <- coords_input[11,c("decimalLatitude", "decimalLongitude")]
+dados_bind [which(dados_bind$locality %in% coords_input$locality[12]),c("decimalLatitude", "decimalLongitude")] <- coords_input[12,c("decimalLatitude", "decimalLongitude")]
+dados_bind [which(dados_bind$locality %in% coords_input$locality[13]),c("decimalLatitude", "decimalLongitude")] <- coords_input[13,c("decimalLatitude", "decimalLongitude")]
+
+# check
+unique(dados_bind[is.na(dados_bind$decimalLatitude),"locality"])
 
 # ----------------------------------------------------------------------------
 # taxonmic checking 
@@ -484,7 +553,7 @@ dados_bind$habitat <- ifelse (dados_bind$habitat == "natural",
 
 
 
-DF_eMOF <- dados_bind [,c("eventID", 
+DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit",

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Folder>
+	<name>Lugares temporários</name>
+	<open>1</open>
+	<PhotoOverlay>
+		<name>Captura de tela 2023-11-10 145333.jpg</name>
+		<Camera>
+			<longitude>-40.68772192429408</longitude>
+			<latitude>-20.99742245382064</latitude>
+			<altitude>46584.81724209424</altitude>
+			<heading>-0.1295424214157666</heading>
+			<tilt>0</tilt>
+			<roll>0</roll>
+			<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+		</Camera>
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>camera_mode.png</href>
+				</Icon>
+			</IconStyle>
+			<ListStyle>
+				<listItemType>check</listItemType>
+				<ItemIcon>
+					<state>open closed error fetching0 fetching1 fetching2</state>
+					<href>http://maps.google.com/mapfiles/kml/shapes/camera-lv.png</href>
+				</ItemIcon>
+				<bgColor>00ffffff</bgColor>
+				<maxSnippetLines>2</maxSnippetLines>
+			</ListStyle>
+		</Style>
+		<Icon>
+			<href>Captura de tela 2023-11-10 145333_0.jpg</href>
+		</Icon>
+		<ViewVolume>
+			<leftFov>-25</leftFov>
+			<rightFov>25</rightFov>
+			<bottomFov>-25.34</bottomFov>
+			<topFov>25.34</topFov>
+			<near>16141.6</near>
+		</ViewVolume>
+		<Point>
+			<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			<coordinates>-40.68772192429408,-20.99742245382064,46584.81724209424</coordinates>
+		</Point>
+	</PhotoOverlay>
+</Folder>
+</kml>
