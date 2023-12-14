@@ -430,6 +430,8 @@ alcatrazes_time_series <- alcatrazes_time_series %>%
 
 
 
+# sites into locations
+colnames(alcatrazes_time_series)[which(colnames(alcatrazes_time_series) == "site")] <- "location"
 
 # ----------------------------------------------------------------------------
 #  Formatted according to DwC
@@ -471,7 +473,7 @@ DF_occ <- alcatrazes_time_series [,c("eventID",
 # aggregate data by eventIDs to have event_core
 
 event_core <- data.frame (group_by(alcatrazes_time_series, 
-                                   eventID,higherGeography,site,locality) %>% 
+                                   eventID,higherGeography,location,locality) %>% 
                             
                             summarise(year = mean(year),
                                       eventDate = mean(eventDate),

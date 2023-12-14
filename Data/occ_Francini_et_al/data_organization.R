@@ -508,6 +508,8 @@ francini_bind_data$eventRemarks <- "Bare substrate, sediment, lost information (
 francini_bind_data <- francini_bind_data [which(is.na(francini_bind_data$scientificNameAccepted) !=T),]
 
 
+# sites into locations
+colnames(francini_bind_data)[which(colnames(francini_bind_data) == "site")] <- "location"
 
 # ----------------------------------------------------------------------------------------------
 # DWC FORMAT
@@ -542,7 +544,7 @@ DF_occ <- francini_bind_data [,c("eventID",
 
 
 # aggregate data by eventIDs to have event_core
-event_core <- data.frame (group_by(francini_bind_data, eventID,higherGeography,site,verbatimLocality,locality) %>% 
+event_core <- data.frame (group_by(francini_bind_data, eventID,higherGeography,location,verbatimLocality,locality) %>% 
                             
                             summarise(year = unique(year),
                                       eventDate = unique(eventDate),

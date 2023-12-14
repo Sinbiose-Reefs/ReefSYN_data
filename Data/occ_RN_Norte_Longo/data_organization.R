@@ -514,6 +514,14 @@ dados_bind <- dados_bind %>%
   )
 
 
+
+
+# sites into locations
+colnames(dados_bind)[which(colnames(dados_bind) == "site")] <- "location"
+
+
+
+
 # -----------------------------------------------------------------------------
 # DwC FORMAT
 
@@ -557,7 +565,7 @@ DF_occ <- dados_bind [,c("eventID",
 # do the lines have the same information? (check this by calculating the sd of depth)
 # sd(fish_long_format[which(fish_long_format$eventID == unique_eventIDs[100]),"depthInMeters"])
 
-event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,site,verbatimLocality,locality) %>% 
+event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,location,verbatimLocality,locality) %>% 
                             
                             summarise(year = mean(year),
                                       eventDate = mean(eventDate),
@@ -1067,6 +1075,12 @@ dados_bind_parrachos <- dados_bind_parrachos %>%
   )
 
 
+# sites into locations
+colnames(dados_bind_parrachos)[which(colnames(dados_bind_parrachos) == "site")] <- "location"
+
+
+
+
 
 # -----------------------------------------------------------------------------
 # DwC FORMAT
@@ -1112,7 +1126,7 @@ DF_occ_parrachos <- dados_bind_parrachos [,c("eventID",
 # sd(fish_long_format[which(fish_long_format$eventID == unique_eventIDs[100]),"depthInMeters"])
 
 event_core_parrachos <- data.frame (group_by(dados_bind_parrachos, 
-                                             eventID,higherGeography,site,verbatimLocality,locality) %>% 
+                                             eventID,higherGeography,location,verbatimLocality,locality) %>% 
                             
                             summarise(year = mean(year),
                                       eventDate = mean(eventDate),
@@ -1521,6 +1535,9 @@ occ_Ross_et_al_benthos$verbatimIdentification[ is.na(occ_Ross_et_al_benthos$scie
 occ_Ross_et_al_benthos <- occ_Ross_et_al_benthos [which(is.na(occ_Ross_et_al_benthos$scientificNameAccepted) !=T),]
 
 
+# sites into locations
+colnames(occ_Ross_et_al_benthos)[which(colnames(occ_Ross_et_al_benthos) == "site")] <- "location"
+
 
 # --------------------------------------------------------------------
 # Formatted according to DwC
@@ -1560,7 +1577,7 @@ DF_occ <- occ_Ross_et_al_benthos [,c("eventID",
 # aggregate data by eventIDs to have event_core
 # do the lines have the same information? (check this by calculating the sd of depth)
 
-event_core <- data.frame (group_by(occ_Ross_et_al_benthos, eventID,higherGeography,site,verbatimLocality, locality) %>% 
+event_core <- data.frame (group_by(occ_Ross_et_al_benthos, eventID,higherGeography,location,verbatimLocality, locality) %>% 
                             
                             summarise(year = mean(year),
                                       eventDate = mean(eventDate),

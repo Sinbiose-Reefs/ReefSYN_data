@@ -490,6 +490,10 @@ fish_long_format$recordedBy <- fish_SN_observers [match (fish_long_format$record
                    "recordedBy"]
 
 
+# sites into locations
+colnames(fish_long_format)[which(colnames(fish_long_format) == "site")] <- "location"
+
+
 # ------------------------------------------------------------------------------------------
 # Formatted according to DwC
 
@@ -524,7 +528,7 @@ DF_occ <- fish_long_format  [,c("eventID", "occurrenceID","basisOfRecord",
 
 # aggregate data by eventIDs to have event_core
 
-event_core <- data.frame (group_by(fish_long_format, eventID,higherGeography,site,locality) %>% 
+event_core <- data.frame (group_by(fish_long_format, eventID,higherGeography,location,locality) %>% 
                                  
                                  summarise(year = mean(year),
                                            eventDate = mean(eventDate),

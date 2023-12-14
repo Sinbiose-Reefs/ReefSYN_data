@@ -335,6 +335,9 @@ benthos_long_format$eventRemarks <- "Bare substrate, sediment, lost information 
 benthos_long_format <- benthos_long_format [which(is.na(benthos_long_format$scientificNameAccepted) !=T),]
 
 
+# sites into locations
+colnames(benthos_long_format)[which(colnames(benthos_long_format) == "site")] <- "location"
+
 # ------------------------------------------------------------------------
 # Formatted according to DwC
 
@@ -371,7 +374,7 @@ DF_occ <- benthos_long_format [,c("eventID", "occurrenceID","basisOfRecord",
 # aggregate data by eventIDs to have event_core
 # do the lines have the same information? (check this by calculating the sd of depth)
 # sd(fish_long_format[which(fish_long_format$eventID == unique_eventIDs[100]),"depthInMeters"])
-event_core <- data.frame (group_by(benthos_long_format, eventID,higherGeography,site,locality) %>% 
+event_core <- data.frame (group_by(benthos_long_format, eventID,higherGeography,location,locality) %>% 
                             
                             summarise(year = mean(year),
                                       eventDate = mean(eventDate),
@@ -802,9 +805,14 @@ benthos_long_format_2006$eventRemarks <- "Bare substrate, sediment, lost informa
 # remove these MAGs
 benthos_long_format_2006 <- benthos_long_format_2006 [which(is.na(benthos_long_format_2006$scientificNameAccepted) !=T),]
 
+
+
+# sites into locations
+colnames(benthos_long_format_2006)[which(colnames(benthos_long_format_2006) == "site")] <- "location"
+
+
 # ------------------------------------------------------------------------
 # Formatted according to DwC
-
 
 
 
@@ -836,7 +844,7 @@ DF_occ_2006 <- benthos_long_format_2006 [,c("eventID",
 
 
 # aggregate data by eventIDs to have event_core
-event_core_2006 <- data.frame (group_by(benthos_long_format_2006, eventID,higherGeography,site,locality) %>% 
+event_core_2006 <- data.frame (group_by(benthos_long_format_2006, eventID,higherGeography,location,locality) %>% 
                             
                             summarise(year = mean(year),
                                       eventDate = mean(eventDate),

@@ -822,6 +822,11 @@ dados_bind <- dados_bind %>%
 dados_bind[which(dados_bind$recordedBy == ""),"recordedBy"] <- NA
 
 
+# sites into locations
+colnames(dados_bind)[which(colnames(dados_bind) == "location")] <- "verbatimLocation"
+colnames(dados_bind)[which(colnames(dados_bind) == "site")] <- "location"
+
+
 # -----------------------------------------------------------------------------------
 #  Formatted according to DwC
 
@@ -863,7 +868,8 @@ rownames(DF_occ)<-seq(1,nrow(DF_occ))
 
 # aggregate data by eventIDs to have event_core
 
-event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,verbatimLocality,site,locality) %>% 
+event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,verbatimLocality,
+                                   location,locality) %>% 
                             
                             summarise(year = mean(as.numeric(year)),
                                       eventDate = mean(eventDate),

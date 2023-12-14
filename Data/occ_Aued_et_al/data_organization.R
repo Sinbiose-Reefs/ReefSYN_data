@@ -627,7 +627,8 @@ bentos_long_format <- bentos_long_format %>%
 
         
          
-
+# sites into locations
+colnames(bentos_long_format)[which(colnames(bentos_long_format) == "site")] <- "location"
 
 
 
@@ -668,7 +669,12 @@ DF_occ <- bentos_long_format [,c("eventID", "occurrenceID",
                                  )]
 
 # aggregate data by eventIDs to have event_core
-event_core <- data.frame (group_by(bentos_long_format[,-4], eventID,higherGeography,site,verbatimLocality,locality) %>% 
+event_core <- data.frame (group_by(bentos_long_format[,-4], 
+                                   eventID,
+                                   higherGeography,
+                                   location,
+                                   verbatimLocality,
+                                   locality) %>% 
                             
                             summarise(year = mean(as.numeric(year)),
                                       eventDate = mean(eventDate),

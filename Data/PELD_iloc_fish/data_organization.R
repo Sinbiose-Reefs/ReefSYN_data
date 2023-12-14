@@ -1,13 +1,11 @@
 
+# ------------------------------------------------------
+# ORGANIZE THE FISH DATASET (PELD ILOC)
+
 source("R/functions.R") # function for coordinate transformation
 
 
 require(here); require(openxlsx); require(dplyr); require(reshape); require(worrms)
-
-
-
-# ------------------------------------------------------
-# ORGANIZE THE FISH DATASET (PELD ILOC)
 
 
 
@@ -143,6 +141,7 @@ fish_DF_occ2$scientificNameAccepted[grep ("bartholomaei", fish_DF_occ2$scientifi
 fish_DF_occ2$scientificNameAccepted[grep ("polygonius", fish_DF_occ2$scientificNameAccepted)] <- "Acanthostracion polygonium"
 fish_DF_occ2$scientificNameAccepted[grep ("Anthias salmopunctatus", fish_DF_occ2$scientificNameAccepted)] <- "Choranthias salmopunctatus"
 fish_DF_occ2$scientificNameAccepted[grep ("Hypanus americanus", fish_DF_occ2$scientificNameAccepted)] <- "Hypanus berthalutzae"
+fish_DF_occ2$scientificNameAccepted[grep ("Sphoeroides spengleri", fish_DF_occ2$scientificNameAccepted)] <- "Sphoeroides camila"
 
 # genus
 fish_DF_occ2$genus[grep ("multilineata", fish_DF_occ2$scientificNameAccepted)] <- "Azurina"
@@ -156,8 +155,6 @@ fish_DF_occ2$family[which(fish_DF_occ2$family == "Scaridae")] <- "Labridae"
 fish_event_core$island<-tolower (fish_event_core$island)
 fish_event_core$island[which(fish_event_core$island == "são pedro e são paulo")] <- "stpauls_rocks"
 fish_event_core$locality <- tolower (fish_event_core$locality)
-
-
 
 
 # Ajust Renato A Morais in recordedBy
