@@ -1,7 +1,7 @@
 Standardized datasets of Brazilian reef diversity in space and time
 ================
 Reef Synthesis Working Group
-2023/08/0
+2023/12/14
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
@@ -33,18 +33,18 @@ Folders in this project:
 
 ## Figure: Team members’ Institutes and Research Topics
 
-<img src="README_files/figure-gfm/unnamed-chunk-1-1.png" width="80%" height="80%" style="display: block; margin: auto;" /><img src="README_files/figure-gfm/unnamed-chunk-1-2.png" width="80%" height="80%" style="display: block; margin: auto;" />
-Institutes and research topics explored by ReefSYN team members and
-collaborators. Abbreviations: AIMS: Australian Institute Of Marine
-Science; CDU: Charles Darwin University; CEBIMar: Centro de Biologia
-Marinha of the University of São Paulo; ICMBio: Chico Mendes Institute
-for Biodiversity Conservation; IO-USP: Oceanographic Institute of the
-University of São Paulo; PSL: Paris Sciences et Lettres University;
-UENF: Universidade Federal do Norte Fluminense; UFES: Universidade
-Federal do Espírito Santo; UFF: Universidade Federal Fluminense; UFOP:
-Universidade Federal do Oeste do Pará; UFRN: Universidade Federal do Rio
-Grande do Norte; UFSC: Universidade Federal de Santa Catarina; UFSM:
-Universidade Federal de Santa Maria; UnB: Universidade de Brasília.
+<img src="README_files/figure-gfm/fig1.png" width="100%" height="100%" style="display: block; margin: auto;" />
+Institutes (A) and research topics (B) explored by ReefSYN.
+Abbreviations: AIMS: Australian Institute of Marine Science; CDU:
+Charles Darwin University; CEBIMar: Centre for Marine Biology of the
+University of São Paulo; ICMBio: Chico Mendes Institute for Biodiversity
+Conservation; IO-USP: Oceanographic Institute of the University of São
+Paulo; PSL: Paris Sciences et Lettres University; UENF: North Fluminense
+State University; UFES: Federal University of Espírito Santo; UFF:
+Fluminense Federal University; UFOPA: Federal University of Western
+Pará; UFRN: Federal University of Rio Grande do Norte; UFSC: Federal
+University of Santa Catarina; UFSM: Federal University of Santa Maria;
+UnB: University of Brasília.
 
 ## ReefSYN Data Structure
 
@@ -60,8 +60,7 @@ These data are published under CC BY-NC license. “Policy of data sharing
 and use” can be found in the ReefSYN Organization in Github (available
 at
 [here::here](https://github.com/Sinbiose-Reefs/reefsyn_site/blob/master/DataPolicy_SINBIOSE.pdf)).
-Data embargo goes up to January 2024, one year after the end of ReefSYN
-funding by the SinBiose.
+Data embargo goes up to January 2025.
 
 # Acknowledgements
 
@@ -93,7 +92,7 @@ Institute (Grant No. Serra-1708-15364) for continued research support.
 
 ## This paper was produced using the following software and associated packages:
 
-    ## R version 4.3.0 (2023-04-21 ucrt)
+    ## R version 4.3.2 (2023-10-31 ucrt)
     ## Platform: x86_64-w64-mingw32/x64 (64-bit)
     ## Running under: Windows 10 x64 (build 19045)
     ## 
@@ -113,38 +112,38 @@ Institute (Grant No. Serra-1708-15364) for continued research support.
     ## [8] base     
     ## 
     ## other attached packages:
-    ##  [1] patchwork_1.1.2         magrittr_2.0.3          reshape2_1.4.4         
-    ##  [4] mapdata_2.3.1           maps_3.4.1              plotly_4.10.1          
+    ##  [1] patchwork_1.1.3         magrittr_2.0.3          reshape2_1.4.4         
+    ##  [4] mapdata_2.3.1           maps_3.4.1.1            plotly_4.10.3          
     ##  [7] xts_0.13.1              zoo_1.8-12              dygraphs_1.1.1.6       
-    ## [10] vegan_2.6-4             lattice_0.21-8          permute_0.9-7          
-    ## [13] leaflet_2.1.2           flexdashboard_0.6.1     rerddap_1.0.2          
-    ## [16] png_0.1-8               knitr_1.42              wordcloud_2.6          
+    ## [10] vegan_2.6-4             lattice_0.22-5          permute_0.9-7          
+    ## [13] leaflet_2.2.1           flexdashboard_0.6.2     rerddap_1.0.4          
+    ## [16] png_0.1-8               knitr_1.45              wordcloud_2.6          
     ## [19] RColorBrewer_1.1-3      SnowballC_0.7.1         tm_0.7-11              
-    ## [22] NLP_0.2-1               rgeos_0.6-2             sp_1.6-0               
-    ## [25] sf_1.0-12               scatterpie_0.1.9        ggrepel_0.9.3          
-    ## [28] gridExtra_2.3           rnaturalearthdata_0.1.0 rnaturalearth_0.3.2    
-    ## [31] lubridate_1.9.2         forcats_1.0.0           stringr_1.5.0          
-    ## [34] dplyr_1.1.2             purrr_1.0.1             readr_2.1.4            
-    ## [37] tidyr_1.3.0             tibble_3.2.1            ggplot2_3.4.2          
+    ## [22] NLP_0.2-1               rgeos_0.6-2             sp_2.1-1               
+    ## [25] sf_1.0-14               scatterpie_0.2.1        ggrepel_0.9.4          
+    ## [28] gridExtra_2.3           rnaturalearthdata_0.1.0 rnaturalearth_0.3.4    
+    ## [31] lubridate_1.9.3         forcats_1.0.0           stringr_1.5.1          
+    ## [34] dplyr_1.1.4             purrr_1.0.2             readr_2.1.4            
+    ## [37] tidyr_1.3.0             tibble_3.2.1            ggplot2_3.4.4          
     ## [40] tidyverse_2.0.0         openxlsx_4.2.5.2        here_1.0.1             
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] DBI_1.1.3          rlang_1.1.1        e1071_1.7-13       compiler_4.3.0    
-    ##  [5] mgcv_1.8-42        vctrs_0.6.2        httpcode_0.3.0     pkgconfig_2.0.3   
-    ##  [9] fastmap_1.1.1      utf8_1.2.3         rmarkdown_2.21     tzdb_0.4.0        
-    ## [13] xfun_0.39          cachem_1.0.8       jsonlite_1.8.4     highr_0.10        
-    ## [17] tweenr_2.0.2       cluster_2.1.4      R6_2.5.1           bslib_0.4.2       
-    ## [21] stringi_1.7.12     hoardr_0.5.3       jquerylib_0.1.4    Rcpp_1.0.10       
-    ## [25] Matrix_1.6-1       splines_4.3.0      timechange_0.2.0   tidyselect_1.2.0  
-    ## [29] rstudioapi_0.14    yaml_2.3.7         curl_5.0.0         plyr_1.8.8        
-    ## [33] withr_2.5.0        evaluate_0.21      units_0.8-2        proxy_0.4-27      
-    ## [37] polyclip_1.10-4    zip_2.3.0          xml2_1.3.4         pillar_1.9.0      
-    ## [41] KernSmooth_2.23-20 ggfun_0.0.9        ncdf4_1.21         generics_0.1.3    
-    ## [45] rprojroot_2.0.3    hms_1.1.3          munsell_0.5.0      scales_1.2.1      
-    ## [49] class_7.3-21       glue_1.6.2         slam_0.1-50        lazyeval_0.2.2    
-    ## [53] tools_4.3.0        data.table_1.14.8  grid_4.3.0         crosstalk_1.2.0   
-    ## [57] colorspace_2.1-0   nlme_3.1-162       ggforce_0.4.1      cli_3.6.1         
-    ## [61] rappdirs_0.3.3     fansi_1.0.4        viridisLite_0.4.2  gtable_0.3.3      
-    ## [65] sass_0.4.6         digest_0.6.31      classInt_0.4-9     crul_1.3          
-    ## [69] htmlwidgets_1.6.2  farver_2.1.1       htmltools_0.5.5    lifecycle_1.0.3   
-    ## [73] httr_1.4.6         MASS_7.3-58.4
+    ##  [1] DBI_1.1.3          rlang_1.1.2        e1071_1.7-13       compiler_4.3.2    
+    ##  [5] mgcv_1.9-0         vctrs_0.6.4        httpcode_0.3.0     pkgconfig_2.0.3   
+    ##  [9] fastmap_1.1.1      utf8_1.2.4         rmarkdown_2.25     tzdb_0.4.0        
+    ## [13] xfun_0.41          cachem_1.0.8       jsonlite_1.8.7     highr_0.10        
+    ## [17] tweenr_2.0.2       cluster_2.1.4      R6_2.5.1           bslib_0.6.0       
+    ## [21] stringi_1.8.1      hoardr_0.5.3       jquerylib_0.1.4    Rcpp_1.0.10       
+    ## [25] Matrix_1.6-3       splines_4.3.2      timechange_0.2.0   tidyselect_1.2.0  
+    ## [29] rstudioapi_0.15.0  yaml_2.3.7         curl_5.1.0         plyr_1.8.9        
+    ## [33] withr_2.5.2        evaluate_0.23      units_0.8-4        proxy_0.4-27      
+    ## [37] polyclip_1.10-6    zip_2.3.0          xml2_1.3.5         pillar_1.9.0      
+    ## [41] KernSmooth_2.23-22 ggfun_0.1.3        ncdf4_1.21         generics_0.1.3    
+    ## [45] rprojroot_2.0.4    hms_1.1.3          munsell_0.5.0      scales_1.2.1      
+    ## [49] class_7.3-22       glue_1.6.2         slam_0.1-50        lazyeval_0.2.2    
+    ## [53] tools_4.3.2        data.table_1.14.8  grid_4.3.2         crosstalk_1.2.1   
+    ## [57] colorspace_2.1-0   nlme_3.1-163       ggforce_0.4.1      cli_3.6.1         
+    ## [61] rappdirs_0.3.3     fansi_1.0.5        viridisLite_0.4.2  gtable_0.3.4      
+    ## [65] sass_0.4.7         digest_0.6.33      classInt_0.4-10    crul_1.4.0        
+    ## [69] htmlwidgets_1.6.3  farver_2.1.1       htmltools_0.5.7    lifecycle_1.0.4   
+    ## [73] httr_1.4.7         MASS_7.3-60

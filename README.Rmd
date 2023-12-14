@@ -1,7 +1,7 @@
 ---
 title:  "Standardized datasets of Brazilian reef diversity in space and time"
 author: "Reef Synthesis Working Group"
-date: "2023/08/0"
+date: "2023/12/14"
 output: github_document
 ---
 
@@ -39,110 +39,16 @@ Folders in this project:
 
 source("R/packages.R")
 source("R/functions.R")
+```
 
-# open researcher data
-researcher_data <- read.xlsx(here::here("Data","researcher_data","PLANILHA_CONSOLIDADA.xlsx"), sheet = 1, colNames = TRUE, detectDates=F)
+```{r include=T,echo=F, warning=F, fig.align='center', out.width="100%",out.height="100%"}
+# All defaults
 
-# formatting data
-researcher_data$objetivos <- as.character (researcher_data$objetivos)
-researcher_data$titulo_portugues <- as.character (researcher_data$titulo_portugues)
-researcher_data$titulo_ingles <- as.character (researcher_data$titulo_ingles)
-
-## extrair as colunas que desejo analaisar
-institution <- strsplit(researcher_data$instituicao,",")
-institution <- unlist(strsplit(unlist(institution), "/"))
-institution <- gsub (" ","",institution)
-
-# df for word-cloud
-institution <- data.frame (inst=unique(institution) [order (unique(institution))],
-                           freq=table(institution) [order (names(table(institution)))])
-
-# map institutions
-# mapa mundi
-world <- ne_countries(scale = "medium", returnclass = "sf")
-world$colour_Country <- ifelse (world$name_sort %in% researcher_data$country, "orange","gray90")
-
-# cortar o mapa para ver a america do Sul e parte da central
-wm <- ggplot() + 
-  geom_sf (data=world, size = 0.1, 
-           fill= world$colour_Country,
-           colour="gray40") +
-  #coord_sf (xlim = c(-50, -25),  ylim = c(-30, 4), expand = FALSE) +
-  theme_bw() + #xlab ("Longitude")  + ylab ("Latitude") +
-  theme(panel.border = element_blank(), 
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        panel.background = element_rect(fill = "#f4f9f9",#darkslategray1
-                                        colour = "#f4f9f9"),
-        axis.text.x = element_text(size=8),
-        axis.ticks.x=element_line(size=1),
-        axis.text.y = element_text(size=8),
-        axis.ticks.y=element_line(size=1),
-        axis.title.x = element_text(size=10),
-        axis.title.y = element_text(size=10),
-        #title = element_blank(),
-        plot.margin = unit(c(0,-0.8,0,0.3), "cm")) +
-  labs (title = "A) Institutions of ReefSYN team members")
-
-# map
-map_SC <- wm + geom_point(data  = researcher_data %>%
-                                    select (instituicao, lat,long) %>%
-                                    group_by(instituicao) %>%
-                            summarise (lat = mean(lat,na.rm=T),
-                                       long=mean(long,na.rm=T)),aes (x=long,y=lat), 
-                size=3) + 
-  geom_label_repel(data = researcher_data%>%
-                                    select (instituicao, lat,long) %>%
-                                    group_by(instituicao) %>%
-                            summarise (lat = mean(lat,na.rm=T),
-                                       long=mean(long,na.rm=T)), aes(x=long, 
-                                  y=lat,
-                                  label = instituicao),
-                  size = 3,
-                  fill = "white",
-                  alpha=0.8,
-                  min.segment.length = 0,
-                  box.padding = 0.3,
-                  max.overlaps=100)+
-  xlab("") + ylab("") + 
-  theme(legend.position = "none") 
-
-
-### english title
-titulo_ingles <- as.character (researcher_data$titulo_ingles [which(researcher_data$titulo_ingles != "Indefinido")])
-##  df for wcloud
-freq_texto_wc <-  function_freq_texto_wc (titulo_ingles)
-
-par(mar = c(4, 4, .1, .1))
-
-## institutions
-
-#wordcloud::wordcloud(words = institution$inst, freq = institution$freq.Freq,
-#          min.freq = 1,scale=c(4, .2),
-#          max.words=50, 
-#          random.order=FALSE, rot.per=0.15, 
-#          colors = RColorBrewer::brewer.pal(8, "Dark2"))
-#
-
-#dir.create("output")
-#pdf (here ("output"),file= "fig1A.pdf")
-map_SC
-#dev.off()
-
-
-# wordcloud
-wordcloud::wordcloud(words = freq_texto_wc$word, 
-          freq = freq_texto_wc$freq.Freq,
-          min.freq = 2,scale=c(4, .2),
-          max.words=max(freq_texto_wc$freq.Freq)+3, 
-          random.order=FALSE, rot.per=0.15, 
-          colors = RColorBrewer::brewer.pal(8, "Dark2"),
-          main = "Title")
-
+knitr::include_graphics("README_files/figure-gfm/fig1.png")
 
 
 ```
-Institutes and research topics explored by ReefSYN team members and collaborators. Abbreviations: AIMS: Australian Institute Of Marine Science; CDU: Charles Darwin University; CEBIMar: Centro de Biologia Marinha of the University of São Paulo; ICMBio: Chico Mendes Institute for Biodiversity Conservation; IO-USP: Oceanographic Institute of the University of São Paulo; PSL: Paris Sciences et Lettres University; UENF: Universidade Federal do Norte Fluminense; UFES: Universidade Federal do Espírito Santo; UFF: Universidade Federal Fluminense; UFOP: Universidade Federal do Oeste do Pará; UFRN: Universidade Federal do Rio Grande do Norte; UFSC: Universidade Federal de Santa Catarina; UFSM: Universidade Federal de Santa Maria; UnB: Universidade de Brasília.
+Institutes (A) and research topics (B) explored by ReefSYN. Abbreviations: AIMS: Australian Institute of Marine Science; CDU: Charles Darwin University; CEBIMar: Centre for Marine Biology of the University of São Paulo; ICMBio: Chico Mendes Institute for Biodiversity Conservation; IO-USP: Oceanographic Institute of the University of São Paulo; PSL: Paris Sciences et Lettres University; UENF: North Fluminense State University; UFES: Federal University of Espírito Santo; UFF: Fluminense Federal University; UFOPA: Federal University of Western Pará; UFRN: Federal University of Rio Grande do Norte; UFSC: Federal University of Santa Catarina; UFSM: Federal University of Santa Maria; UnB: University of Brasília.
 
 
 ## ReefSYN Data Structure
@@ -156,7 +62,7 @@ Structure of the datasets gathered by the ReefSYN working group, showing the Dar
 
 
 # Data availability
-These data are published under CC BY-NC license. “Policy of data sharing and use” can be found in the ReefSYN Organization in Github (available at  [here::here](https://github.com/Sinbiose-Reefs/reefsyn_site/blob/master/DataPolicy_SINBIOSE.pdf)). Data embargo goes up to January 2024, one year after the end of ReefSYN funding by the SinBiose.
+These data are published under CC BY-NC license. “Policy of data sharing and use” can be found in the ReefSYN Organization in Github (available at  [here::here](https://github.com/Sinbiose-Reefs/reefsyn_site/blob/master/DataPolicy_SINBIOSE.pdf)). Data embargo goes up to January 2025.
 
 # Acknowledgements
 Students and researchers that collected the data. ReefSYN was supported by the Center for Synthesis in Biodiversity and Ecosystem Services (SinBiose, CNPq). Thiago Silveira and Marina Sissini (PELD-ILOC team).
