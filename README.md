@@ -34,17 +34,19 @@ Folders in this project:
 ## Figure: Team members’ Institutes and Research Topics
 
 <img src="README_files/figure-gfm/fig1.png" width="100%" height="100%" style="display: block; margin: auto;" />
-Institutes (A) and research topics (B) explored by ReefSYN.
-Abbreviations: AIMS: Australian Institute of Marine Science; CDU:
-Charles Darwin University; CEBIMar: Centre for Marine Biology of the
-University of São Paulo; ICMBio: Chico Mendes Institute for Biodiversity
-Conservation; IO-USP: Oceanographic Institute of the University of São
-Paulo; PSL: Paris Sciences et Lettres University; UENF: North Fluminense
-State University; UFES: Federal University of Espírito Santo; UFF:
-Fluminense Federal University; UFOPA: Federal University of Western
-Pará; UFRN: Federal University of Rio Grande do Norte; UFSC: Federal
-University of Santa Catarina; UFSM: Federal University of Santa Maria;
-UnB: University of Brasília.
+
+Institutes and research topics explored by ReefSYN team members and
+collaborators. Abbreviations: AIMS: Australian Institute Of Marine
+Science; CDU: Charles Darwin University; CEBIMar: Centro de Biologia
+Marinha of the University of São Paulo; ICMBio: Chico Mendes Institute
+for Biodiversity Conservation; IO-USP: Oceanographic Institute of the
+University of São Paulo; PSL: Paris Sciences et Lettres University;
+UENF: Universidade Federal do Norte Fluminense; UFES: Universidade
+Federal do Espírito Santo; UFF: Universidade Federal Fluminense; UFOP:
+Universidade Federal do Oeste do Pará; UFRN: Universidade Federal do Rio
+Grande do Norte; UFSC: Universidade Federal de Santa Catarina; UFSM:
+Universidade Federal de Santa Maria; UnB: Universidade de Brasília.
+
 
 ## ReefSYN Data Structure
 
