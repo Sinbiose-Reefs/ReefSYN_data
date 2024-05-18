@@ -11,6 +11,7 @@ source("R/functions.R")
 ### dados dos peixes (Longo et al)
 L.peixes <- read.csv(here("Data","occ_Longo_et_al",
                           "Data_Trophic_Interactions_WAtlantic_GLongo_clean.csv"),
+                     sep=";",
                    header = T)
 
 
@@ -105,6 +106,7 @@ occ_Aued_et_al <- read.xlsx(here("Data","occ_Aued_et_al",
 ## add region
 L.peixes$region <- occ_Aued_et_al$region [match(L.peixes$location, 
                                                 occ_Aued_et_al$locality)]
+
 # mismatches
 L.peixes$region [which(L.peixes$site == "cabeco_do_leandro")] <- "ne_reefs"
 L.peixes$region [which(L.peixes$site == "barreirinha")] <- "ne_reefs"
@@ -156,7 +158,6 @@ todas_sp_Longo <-  (L.peixes$species_code)
 # corresponder siglas de Longo com nomes completos de Quimbayo
 traits_peixes <- read.csv(here("Data","trait_Quimbayo_et_al","Atributos_especies_Atlantico_&_Pacifico_Oriental_2020_04_28.csv"),
                          h=T,sep=";")
-
 split_names_JPQ <- lapply (strsplit(traits_peixes$Name," ",fixed=F), substr, 1,3)
 split_names_JPQ <- lapply (split_names_JPQ,tolower)
 siglas_JPQ <- unlist(lapply (split_names_JPQ, function (i) paste(i[1],i[2],sep="_")))
@@ -369,8 +370,6 @@ worms_record <- lapply (unique(L.peixes_coord$namesToSearch), function (i)
   
 )
 
-
-
 # two rows
 df_worms_record <- data.frame(do.call(rbind,worms_record))
 
@@ -520,7 +519,8 @@ L.peixes_coord$occurrenceID <- paste (
                              sep="_")
 
 
-
+# creating organismIDs
+L.peixes_coord$organismID <- paste0 ("indiv_", L.peixes_coord$individual_ID)
 
 
 
@@ -575,12 +575,6 @@ L.peixes_coord [which(L.peixes_coord$locality %in% curacao_sites),"Country"] <- 
 L.peixes_coord [is.na(L.peixes_coord$Country),"Country"]<-"Brazil"
 # check
 # table(L.peixes_coord$Country, L.peixes_coord$site)
-
-
-
-# remove sites from other regions
-L.peixes_coord <- L.peixes_coord [which( L.peixes_coord$higherGeography != "Caribbean_NorthAmerica"),]
-
 
 # basisOfRecord
 L.peixes_coord$basisOfRecord <- "HumanObservation"
@@ -837,7 +831,9 @@ colnames(dados_bind)[which(colnames(dados_bind) == "site")] <- "location"
 
 
 
-DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
+DF_eMOF <- dados_bind [,c("eventID", 
+                          "occurrenceID",
+                          "organismID",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit",
@@ -850,6 +846,7 @@ rownames(DF_eMOF)<-seq(1,nrow(DF_eMOF))
 
 DF_occ <- dados_bind [,c("eventID", 
                          "occurrenceID",
+                         "organismID",
                          "verbatimIdentification",
                          "scientificNameAccepted",
                          "scientificNameID",
