@@ -389,7 +389,9 @@ colnames(fish_long_format)[which(colnames(fish_long_format) == "SAMPLE")] <- "sa
 # basisOfRecord
 fish_long_format$basisOfRecord <- "HumanObservation"
 # occurrenceStatus
-fish_long_format$occurrenceStatus <- "presence"
+fish_long_format$occurrenceStatus <- ifelse (fish_long_format$measurementValue==0,
+                                             "absence",
+                                             "presence")
 # country and code
 fish_long_format$Country <- "Brazil"
 fish_long_format$countryCode <- "BR"
@@ -494,6 +496,10 @@ fish_long_format$recordedBy <- fish_SN_observers [match (fish_long_format$record
 colnames(fish_long_format)[which(colnames(fish_long_format) == "site")] <- "location"
 
 
+
+
+
+
 # ------------------------------------------------------------------------------------------
 # Formatted according to DwC
 
@@ -512,7 +518,7 @@ DF_eMOF <- fish_long_format [,c("eventID", "occurrenceID",
 
 
 DF_occ <- fish_long_format  [,c("eventID", "occurrenceID","basisOfRecord",
-                                "verbatimIdentification",
+                                #"verbatimIdentification",
                                 "scientificNameAccepted",
                                 "scientificNameID",
                                 "taxonRank",
@@ -573,6 +579,174 @@ write.csv(DF_eMOF, file =here("DwC_output",
 write.csv(event_core, file =here("DwC_output",
                                    "RFrancini_timeSeries_abrolhos",
                                    "event_core_fish.csv"))
+
+
+
+
+# tentar separar datasets em presenca e ausencia
+
+
+DF_eMOF_presence <- fish_long_format%>%
+  
+  filter (occurrenceStatus == "presence") %>%
+  
+  select (c("eventID", "occurrenceID",
+                                "measurementValue", 
+                                "measurementType",
+                                "measurementUnit",
+                                "measurementRemarks"))
+
+
+
+DF_occ_presence <- fish_long_format%>%
+  
+  filter (occurrenceStatus == "presence") %>%
+  select (c("eventID", "occurrenceID","basisOfRecord",
+                                #"verbatimIdentification",
+                                "scientificNameAccepted",
+                                "scientificNameID",
+                                "taxonRank",
+                                "kingdom",
+                                "phylum",
+                                "class",
+                                "order",
+                                "family",
+                                "genus",
+                                "recordedBy", 
+                                "organismQuantityType", 
+                                "occurrenceStatus"))
+
+# aggregate data by eventIDs to have event_core
+
+event_core_presence <- data.frame (group_by(fish_long_format%>%
+                                             
+                                             filter (occurrenceStatus == "presence")
+                                           , eventID,higherGeography,location,locality) %>% 
+                            
+                            summarise(year = mean(year),
+                                      eventDate = mean(eventDate),
+                                      minimumDepthinMeters = mean(minimumDepthinMeters),
+                                      maximumDepthinMeters = mean(maximumDepthinMeters),
+                                      habitat = unique(habitat),
+                                      samplingProtocol = unique(samplingProtocol),
+                                      samplingEffort = mean(samplingEffort,na.rm=T),
+                                      sampleSizeValue = mean(sampleSizeValue),
+                                      sampleSizeUnit = unique(sampleSizeUnit),
+                                      decimalLongitude = mean(decimalLongitude),
+                                      decimalLatitude = mean(decimalLatitude),
+                                      geodeticDatum = unique(geodeticDatum),
+                                      Country = unique(Country),
+                                      countryCode = unique(countryCode))
+)
+
+
+
+
+# write to txt
+
+write.csv(DF_occ_presence, file =here("DwC_output",
+                             "RFrancini_timeSeries_abrolhos",
+                             "DF_occ_fish_presence.csv"))
+
+
+
+write.csv(DF_eMOF_presence, file =here("DwC_output",
+                              "RFrancini_timeSeries_abrolhos",
+                              "DF_eMOF_fish_presence.csv"))
+
+
+
+write.csv(event_core_presence, file =here("DwC_output",
+                                 "RFrancini_timeSeries_abrolhos",
+                                 "event_core_fish_presence.csv"))
+
+
+
+
+
+# absences
+
+
+
+
+DF_eMOF_absence <- fish_long_format%>%
+  
+  filter (occurrenceStatus == "absence") %>%
+  
+  select (c("eventID", "occurrenceID",
+            "measurementValue", 
+            "measurementType",
+            "measurementUnit",
+            "measurementRemarks"))
+
+
+
+DF_occ_absence <- fish_long_format%>%
+  
+  filter (occurrenceStatus == "absence") %>%
+  select (c("eventID", "occurrenceID","basisOfRecord",
+            #"verbatimIdentification",
+            "scientificNameAccepted",
+            "scientificNameID",
+            "taxonRank",
+            "kingdom",
+            "phylum",
+            "class",
+            "order",
+            "family",
+            "genus",
+            "recordedBy", 
+            "organismQuantityType", 
+            "occurrenceStatus"))
+
+# aggregate data by eventIDs to have event_core
+
+event_core_absence <- data.frame (group_by(fish_long_format%>%
+                                              
+                                              filter (occurrenceStatus == "absence")
+                                            , eventID,higherGeography,location,locality) %>% 
+                                     
+                                     summarise(year = mean(year),
+                                               eventDate = mean(eventDate),
+                                               minimumDepthinMeters = mean(minimumDepthinMeters),
+                                               maximumDepthinMeters = mean(maximumDepthinMeters),
+                                               habitat = unique(habitat),
+                                               samplingProtocol = unique(samplingProtocol),
+                                               samplingEffort = mean(samplingEffort,na.rm=T),
+                                               sampleSizeValue = mean(sampleSizeValue),
+                                               sampleSizeUnit = unique(sampleSizeUnit),
+                                               decimalLongitude = mean(decimalLongitude),
+                                               decimalLatitude = mean(decimalLatitude),
+                                               geodeticDatum = unique(geodeticDatum),
+                                               Country = unique(Country),
+                                               countryCode = unique(countryCode))
+)
+
+
+
+
+# write to txt
+
+write.csv(DF_occ_absence, file =here("DwC_output",
+                                      "RFrancini_timeSeries_abrolhos",
+                                      "DF_occ_fish_absence.csv"))
+
+
+
+write.csv(DF_eMOF_absence, file =here("DwC_output",
+                                       "RFrancini_timeSeries_abrolhos",
+                                       "DF_eMOF_fish_absence.csv"))
+
+
+
+write.csv(event_core_absence, file =here("DwC_output",
+                                          "RFrancini_timeSeries_abrolhos",
+                                          "event_core_fish_absence.csv"))
+
+
+
+
+
 
 # end
 rm (list=ls())
