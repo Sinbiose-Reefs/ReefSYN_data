@@ -8,7 +8,7 @@ require(openxlsx); require(here); require(worrms); require(dplyr)
 # load packages and functions
 source("R/functions.R")
 
-### dados dos peixes (Longo et al)
+### fish data (Longo et al)
 L.peixes <- read.csv(here("Data","occ_Longo_et_al",
                           "Data_Trophic_Interactions_WAtlantic_GLongo_clean.csv"),
                      sep=";",
@@ -30,8 +30,8 @@ L.peixes$verbatimLocality <- L.peixes$site
 
 
 
-## adequar os nomes das localidades e sitios da base de Longo, de acordo com Aued
-# localidades
+## adjust site and location names following Aued et al. data
+# locations
 L.peixes$location [which (L.peixes$location == "alagoas")] <- "costa_corais"
 L.peixes$location [which (L.peixes$location == "pernambuco")] <- "costa_corais"
 L.peixes$location [which (L.peixes$location == "atol_das_rocas")] <- "rocas"
@@ -40,7 +40,7 @@ L.peixes$location [which (L.peixes$location == "arraial_do_cabo")] <- "arraial"
 L.peixes$location [which (L.peixes$location == "sao_paulo")] <- "ilhabela"
 L.peixes$location [which (L.peixes$location == "parcel_manoel_luis")] <- "manuel_luis"
 
-# separar as localidades do rio grande do norte
+# differentiate between locations in RIo Grande do Norte
 L.peixes$location [which (L.peixes$site == "batente_das_agulhas")] <- "rgnor_natal"
 L.peixes$location [which (L.peixes$site == "pedra_do_silva")] <- "rgnor_natal"
 L.peixes$location [which (L.peixes$site == "barreirinha")] <- "rgnor_sul"
@@ -48,7 +48,7 @@ L.peixes$location [which (L.peixes$site == "cabeco_do_leandro")] <- "rgnor_sul"
 L.peixes$location [which (L.peixes$site == "maracajau")] <- "rgnor_parrachos"
 L.peixes$location [which (L.peixes$site == "parrachos")] <- "rgnor_parrachos"
 
-# separar os sitios de santa catarina
+# separate sites of Santa Catarina
 L.peixes$location [which (L.peixes$site == "deserta")] <- "ilhasc_norte"
 L.peixes$location [which (L.peixes$site == "saco_d'agua")] <- "ilhasc_norte"
 L.peixes$location [which (L.peixes$site == "baia_da_tartaruga")] <- "ilhasc_norte"
@@ -57,7 +57,7 @@ L.peixes$location [which (L.peixes$site == "engenho")] <- "ilhasc_norte"
 L.peixes$location [which (L.peixes$site == "xavier")] <- "ilhasc_sul"
 
 
-### organizar os sitios
+### organize site names
 L.peixes$site [which(L.peixes$site == "anacris")] <- "ana_cristina"
 L.peixes$site [which(L.peixes$site == "parrachos")] <- 'parrachos_de_rio_do_fogo'
 L.peixes$site [which(L.peixes$site == "rocas")] <- 'piscina_das_rocas'
@@ -79,7 +79,7 @@ L.peixes$site<-(iconv(L.peixes$site, "ASCII", "UTF-8", sub=""))
 L.peixes$site <- tolower(L.peixes$site)
 unique(L.peixes$site )[order(unique(L.peixes$site ))]
 
-## modificar a profundidade
+## edit depth factor
 L.peixes$depthCategorical <- ifelse (L.peixes$depth_m >= 8, "deep","shallow") #   (categorical)
 L.peixes$depthInMeters <- L.peixes$depth_m  # continuous
 
@@ -152,10 +152,10 @@ L.peixes$eventTime [which(L.peixes$eventTime == "00/01/1900Z")] <- NA
 
 
 
-## OBTER A ID DE TODAS AS ESPECIES DE PEIXES ENCONTRADAS POR Longo
+## get the IDs of all fish species detected by Longo et al.
 todas_sp_Longo <-  (L.peixes$species_code)
 
-# corresponder siglas de Longo com nomes completos de Quimbayo
+# correspondence of abbreviations using Quimbayo et al. data
 traits_peixes <- read.csv(here("Data","trait_Quimbayo_et_al","Atributos_especies_Atlantico_&_Pacifico_Oriental_2020_04_28.csv"),
                          h=T,sep=";")
 split_names_JPQ <- lapply (strsplit(traits_peixes$Name," ",fixed=F), substr, 1,3)
@@ -166,10 +166,10 @@ siglas_JPQ <- unlist(lapply (split_names_JPQ, function (i) paste(i[1],i[2],sep="
 # verbatimIdentification
 L.peixes$verbatimIdentification <- L.peixes$species_code
 
-## inserir uma tabela em Longo, com o nome completo das spp
+## add to the table
 L.peixes$namesToSearch <- traits_peixes$Name [match(todas_sp_Longo,siglas_JPQ)]
 
-# encontrar quais especies estao em longo, mas nao estao em Morais
+# names not found
 unique (todas_sp_Longo [which(todas_sp_Longo %in% siglas_JPQ == F)])
 
 
