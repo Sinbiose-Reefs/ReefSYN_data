@@ -36,3 +36,8 @@ README_files/figure-gfm/*.tiff
 README_files/figure-gfm/*.svg
 R/check_data_ReefSyn.R
 Manuscript*
+check_data_ReefSyn.R
+R/function_*.R
+R/mussismilia_assess.R
+R/time_series_formatting.R
+R/figure6.R
