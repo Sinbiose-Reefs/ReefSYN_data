@@ -329,7 +329,7 @@ dados_bind$occurrenceID <- paste (paste (paste ("BR:ReefSYN:SC-TIME-SERIES:",
 
 
 # licence
-dados_bind$licence <- "CC BY-NC"
+dados_bind$licence <- "CC BY"
 
 # language
 dados_bind$language <- "en"

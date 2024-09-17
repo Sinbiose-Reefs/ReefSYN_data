@@ -1,0 +1,364 @@
+    <eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1"
+             xmlns:dc="http://purl.org/dc/terms/"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://rs.gbif.org/schema/eml-gbif-profile/1.2/eml.xsd"
+             packageId="4c57a341-b2dc-4756-8468-b6b8f42d6ee7/v2.1" system="http://gbif.org" scope="system"
+    xml:lang="eng">
+
+        <dataset>
+                <alternateIdentifier>10.25607/c2c37e</alternateIdentifier>
+                <alternateIdentifier>4c57a341-b2dc-4756-8468-b6b8f42d6ee7</alternateIdentifier>
+                <alternateIdentifier>https://ipt.iobis.org/wsaobis/resource?r=reefsyn_benthosrn</alternateIdentifier>
+                <title xml:lang="eng">ReefSYN | Standardized datasets of Brazilian reef diversity in space and time - Dataset XVI: Benthic communities from Rio Grande do Norte</title>
+                    <creator>
+            <individualName>
+                    <givenName>Guilherme O.</givenName>
+                <surName>Longo</surName>
+            </individualName>
+            <organizationName>Universidade Federal do Rio Grande do Norte</organizationName>
+            <positionName>Professor</positionName>
+            <electronicMailAddress>guilherme.o.longo@gmail.com</electronicMailAddress>
+                    </creator>
+                    <creator>
+            <individualName>
+                    <givenName>Natalia C.</givenName>
+                <surName>Roos</surName>
+            </individualName>
+            <organizationName>Universidade Federal do Rio Grande do Norte</organizationName>
+            <positionName>Post-doctoral fellow</positionName>
+            <electronicMailAddress>nataliaroos@gmail.com</electronicMailAddress>
+                    </creator>
+                    <metadataProvider>
+            <individualName>
+                    <givenName>Guilherme O.</givenName>
+                <surName>Longo</surName>
+            </individualName>
+            <organizationName>Universidade Federal do Rio Grande do Norte</organizationName>
+            <positionName>Professor</positionName>
+            <electronicMailAddress>guilherme.o.longo@gmail.com</electronicMailAddress>
+                    </metadataProvider>
+                    <metadataProvider>
+            <individualName>
+                    <givenName>André L.</givenName>
+                <surName>Luza</surName>
+            </individualName>
+            <organizationName>Universidade Federal de Santa Maria</organizationName>
+            <positionName>Post-doctoral fellow</positionName>
+            <address>
+                    <country>BR</country>
+            </address>
+                    </metadataProvider>
+                    <associatedParty>
+            <individualName>
+                    <givenName>Guilherme O.</givenName>
+                <surName>Longo</surName>
+            </individualName>
+            <organizationName>Universidade Federal do Rio Grande do Norte</organizationName>
+            <positionName>Professor</positionName>
+            <electronicMailAddress>guilherme.o.longo@gmail.com</electronicMailAddress>
+            <role>contentProvider</role>
+                    </associatedParty>
+                    <associatedParty>
+            <individualName>
+                    <givenName>Natalia C.</givenName>
+                <surName>Roos</surName>
+            </individualName>
+            <organizationName>Universidade Federal do Rio Grande do Norte</organizationName>
+            <positionName>Post-doctoral fellow</positionName>
+            <role>contentProvider</role>
+                    </associatedParty>
+                    <associatedParty>
+            <individualName>
+                    <givenName>Cesar A. M. M.</givenName>
+                <surName>Cordeiro</surName>
+            </individualName>
+            <organizationName>Universidade Estadual do Norte Fluminense</organizationName>
+            <positionName>Professor</positionName>
+            <address>
+                    <country>BR</country>
+            </address>
+            <electronicMailAddress>cesarcordeiro@uenf.br</electronicMailAddress>
+                    <userId directory="https://orcid.org/">0000-0003-4960-4502</userId>
+            <role>curator</role>
+                    </associatedParty>
+            <pubDate>
+                    2024-07-03
+            </pubDate>
+            <language>eng</language>
+                <abstract>
+                            <para>This dataset was collected by Guilherme Longo and Natália Roos, and includes the relative benthic cover of reef formations in northeast coast of Brazil (Rio Grande do Norte state) sampled with photoquadrats along transects at different depths.</para>
+                </abstract>
+                        <keywordSet>
+                                    <keyword>Samplingevent</keyword>
+                            <keywordThesaurus>GBIF Dataset Type Vocabulary: http://rs.gbif.org/vocabulary/gbif/dataset_type_2015-07-10.xml</keywordThesaurus>
+                        </keywordSet>
+                        <keywordSet>
+                                    <keyword>Observation</keyword>
+                            <keywordThesaurus>GBIF Dataset Subtype Vocabulary: http://rs.gbif.org/vocabulary/gbif/dataset_subtype.xml</keywordThesaurus>
+                        </keywordSet>
+                <intellectualRights>
+                    <para>This work is licensed under a <ulink url="http://creativecommons.org/licenses/by/4.0/legalcode"><citetitle>Creative Commons Attribution (CC-BY 4.0) License</citetitle></ulink>.</para>
+                </intellectualRights>
+                <coverage>
+                        <geographicCoverage>
+                                <geographicDescription>This data is relative to seven reefs along the Rio Grande do Norte coast (Brazil).</geographicDescription>
+                            <boundingCoordinates>
+                                <westBoundingCoordinate>-36.694</westBoundingCoordinate>
+                                <eastBoundingCoordinate>-34.932</eastBoundingCoordinate>
+                                <northBoundingCoordinate>-4.75</northBoundingCoordinate>
+                                <southBoundingCoordinate>-6.379</southBoundingCoordinate>
+                            </boundingCoordinates>
+                        </geographicCoverage>
+                                <temporalCoverage>
+                                        <rangeOfDates>
+                                                <beginDate>
+                                                    <calendarDate>2016-01-13</calendarDate>
+                                                </beginDate>
+                                            <endDate>
+                                                <calendarDate>2017-10-15</calendarDate>
+                                            </endDate>
+                                        </rangeOfDates>
+                                </temporalCoverage>
+                                <taxonomicCoverage>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Agaricia agaricites</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Agaricia fragilis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Agelas dispar</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Aiolochroia crassa</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Amphimedon</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Amphiroa</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Amphiroideae</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Aplysina fulva</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Aplysina lactuca</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Aplysina lacunosa</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Astrangia rathbuni</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Bryozoa</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Callyspongia vaginalis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Canistrocarpus cervicornis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Carijoa riisei</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Caulerpa racemosa</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Caulerpa verticillata</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Cliona delitrix</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Corallinales</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Cyanobacteria</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Dictyopteris</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Dictyopteris jolyana</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Dictyopteris justii</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Dictyopteris plagiogramma</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Dictyota</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Dictyota menstrualis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Dictyota mertensii</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Digenea simplex</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Echinoidea</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Favia gravida</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Gelidium floridanum</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Gelidium pusillum</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Halimeda discoidea</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Halimeda opuntia</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Halymenia</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Hydrozoa</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Ircinia felix</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Ircinia strobilina</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Jania</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Lobophora variegata</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Madracis decactis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Millepora alcicornis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Millepora braziliensis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Monanchora arbuscula</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Montastraea cavernosa</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Mussismilia hispida</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Palythoa caribaeorum</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Palythoa grandiflora</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Palythoa variabilis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Plakinastrella microspiculifera</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Polychaeta</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Porifera</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Porites astreoides</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Pseudosuberites</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Sargassum</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Siderastrea</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Ulva</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Valonia ventricosa</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Zoanthus sociatus</taxonRankValue>
+                                        </taxonomicClassification>
+                                </taxonomicCoverage>
+                </coverage>
+                <maintenance>
+                    <description>
+                        <para></para>
+                    </description>
+                    <maintenanceUpdateFrequency>notPlanned</maintenanceUpdateFrequency>
+                </maintenance>
+
+                    <contact>
+            <individualName>
+                    <givenName>Cesar A. M. M.</givenName>
+                <surName>Cordeiro</surName>
+            </individualName>
+            <organizationName>Universidade Estadual do Norte Fluminense</organizationName>
+            <positionName>Professor</positionName>
+            <address>
+                    <country>BR</country>
+            </address>
+            <electronicMailAddress>cesarcordeiro@uenf.br</electronicMailAddress>
+                    <userId directory="https://orcid.org/">0000-0003-4960-4502</userId>
+                    </contact>
+                    <contact>
+            <individualName>
+                    <givenName>Guilherme O.</givenName>
+                <surName>Longo</surName>
+            </individualName>
+            <organizationName>Universidade Federal do Rio Grande do Norte</organizationName>
+            <positionName>Professor</positionName>
+            <electronicMailAddress>guilherme.o.longo@gmail.com</electronicMailAddress>
+                    </contact>
+                <methods>
+                            <methodStep>
+                                <description>
+                                    <para>Each belt transect had 10 photos, which were analyzed with the software ‘photoQuad’ (Trygonis and Sini 2012) by randomly laying 30 points over the phoquadrat area. The organisms below each point were identified into morpho-functional groups, and to species or genus level when possible. This dataset contains 285 photoquadrats (benthic data gathered around UVCs of dataset VIII) between 2016 and 2017 at seven distinct locations.</para>
+                                </description>
+                            </methodStep>
+                        <sampling>
+                            <studyExtent>
+                                <description>
+                                    <para>This dataset was collected at the same spatial unit from the Dataset XI by Guilherme Longo and Natália Roos. Benthic cover was sampled with photoquadrats of 25 × 25 cm every 2 m within the 40 m² (20 × 2 m) belt transects, resulting in 10 photos per transect.</para>
+                                </description>
+                            </studyExtent>
+                            <samplingDescription>
+                                <para>These data were used in the same publication indicated in the fish monitoring data (Roos et al. 2019). Since then, the Marine Ecology Laboratory Team (https://twitter.com/MarineEcoBR) continued monitoring two localities within the shallow patchy reefs from the municipality of Rio do Fogo with this same method until August 2023. As more images are processed and temporal data are generated, these will be organized accordingly and added to this repository.
+
+Roos NC, Pennino MG, Carvalho AR, Longo GO (2019) Drivers of abundance and biomass of Brazilian parrotfishes. Marine Ecology Progress Series, 623:117-130. doi: 10.3354/meps13005</para>
+                            </samplingDescription>
+                        </sampling>
+                </methods>
+                <project >
+                    <title>Not informed</title>
+                </project>
+        </dataset>
+            <additionalMetadata>
+                <metadata>
+                    <gbif>
+                            <dateStamp>2024-03-28T21:54:34.716+01:00</dateStamp>
+                            <hierarchyLevel>dataset</hierarchyLevel>
+                                <citation identifier="https://doi.org/10.25607/c2c37e">Longo G O, Roos N C, Luza A L (2024). ReefSYN | Standardized datasets of Brazilian reef diversity in space and time - Dataset XVI: Benthic communities from Rio Grande do Norte. Version 2.1. Tropical and Subtropical Western South Atlantic OBIS. Samplingevent dataset. https://doi.org/10.25607/c2c37e</citation>
+                            <dc:replaces>4c57a341-b2dc-4756-8468-b6b8f42d6ee7/v2.1.xml</dc:replaces>
+                    </gbif>
+                </metadata>
+            </additionalMetadata>
+    </eml:eml>

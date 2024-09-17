@@ -1,0 +1,275 @@
+    <eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1"
+             xmlns:dc="http://purl.org/dc/terms/"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://rs.gbif.org/schema/eml-gbif-profile/1.2/eml.xsd"
+             packageId="c231aa6b-1363-49a6-b6b8-0e4dbcb6672b/v2.1" system="http://gbif.org" scope="system"
+    xml:lang="eng">
+
+        <dataset>
+                <alternateIdentifier>10.25607/tbymqb</alternateIdentifier>
+                <alternateIdentifier>c231aa6b-1363-49a6-b6b8-0e4dbcb6672b</alternateIdentifier>
+                <alternateIdentifier>https://ipt.iobis.org/wsaobis/resource?r=reefsyn_abrolhos_benthos_spatial</alternateIdentifier>
+                <title xml:lang="eng">ReefSYN | Standardized datasets of Brazilian reef diversity in space and time - Dataset XIII: Extended benthic communities from the Brazilian province</title>
+                    <creator>
+            <individualName>
+                    <givenName>Erica FC</givenName>
+                <surName>Santana</surName>
+            </individualName>
+            <organizationName>Universidade Federal da Paraíba</organizationName>
+            <positionName>Researcher</positionName>
+            <address>
+                    <country>BR</country>
+            </address>
+            <onlineUrl>http://lattes.cnpq.br/6810019737040006</onlineUrl>
+                    </creator>
+                    <creator>
+            <individualName>
+                    <givenName>Anaide W.</givenName>
+                <surName>Aued</surName>
+            </individualName>
+            <organizationName>Brown University</organizationName>
+            <positionName>Post-doctoral fellow</positionName>
+            <address>
+                    <country>BR</country>
+            </address>
+                    </creator>
+                    <creator>
+            <individualName>
+                    <givenName>Ronaldo</givenName>
+                <surName>Francini-Filho</surName>
+            </individualName>
+            <organizationName>Universidade de São Paulo</organizationName>
+            <positionName>Professor</positionName>
+            <electronicMailAddress>francinifilho@usp.br</electronicMailAddress>
+                    </creator>
+                    <metadataProvider>
+            <individualName>
+                    <givenName>Ronaldo</givenName>
+                <surName>Francini-Filho</surName>
+            </individualName>
+            <organizationName>Universidade de São Paulo</organizationName>
+            <positionName>Professor</positionName>
+            <electronicMailAddress>francinifilho@usp.br</electronicMailAddress>
+                    </metadataProvider>
+                    <metadataProvider>
+            <individualName>
+                    <givenName>André L.</givenName>
+                <surName>Luza</surName>
+            </individualName>
+            <organizationName>Universidade Federal de Santa Maria</organizationName>
+            <positionName>Post-doctoral fellow</positionName>
+            <address>
+                    <country>BR</country>
+            </address>
+                    </metadataProvider>
+                    <associatedParty>
+            <individualName>
+                    <givenName>Ronaldo</givenName>
+                <surName>Francini-Filho</surName>
+            </individualName>
+            <organizationName>Universidade de São Paulo</organizationName>
+            <positionName>Professor</positionName>
+            <role>owner</role>
+                    </associatedParty>
+            <pubDate>
+                    2024-07-03
+            </pubDate>
+            <language>eng</language>
+                <abstract>
+                            <para>This dataset is part of a broader compilation named &apos;Standardized datasets of Brazilian reef diversity in space and time&apos; created from a research network of reef scientists within several projects and collaborations and finally gathered and published by the ReefSYN group.
+This dataset was compiled by Erika Santana, Anaide W. Aued, and Ronaldo Francini-Filho, and consists of data on benthic organisms sampled in photoquadrats deployed in several locations disposed along the Brazilian coast and oceanic islands (see Santana et al. 2023). This dataset is complementary to the dataset of Aued et al. (2018).
+
+Aued AW, Smith F, Quimbayo JP, Cândido DV, Longo GO, Ferreira CEL, … Segal B (2018). Large-scale patterns of benthic marine communities in the Brazilian Province. PLoS ONE, 13(6), e0198452. doi: 10.1371/journal.pone.0198452
+
+Santana EFC, Mies M, Longo GO, Menezes R, Aued AW, Luza AL, … Francini-Filho RB (2023). Turbidity shapes shallow Southwestern Atlantic benthic reef communities. Marine Environmental Research, 183, 105807. doi: 10.1016/j.marenvres.2022.105807</para>
+                </abstract>
+                        <keywordSet>
+                                    <keyword>Samplingevent</keyword>
+                            <keywordThesaurus>GBIF Dataset Type Vocabulary: http://rs.gbif.org/vocabulary/gbif/dataset_type_2015-07-10.xml</keywordThesaurus>
+                        </keywordSet>
+                        <keywordSet>
+                                    <keyword>Observation</keyword>
+                            <keywordThesaurus>GBIF Dataset Subtype Vocabulary: http://rs.gbif.org/vocabulary/gbif/dataset_subtype.xml</keywordThesaurus>
+                        </keywordSet>
+                <intellectualRights>
+                    <para>This work is licensed under a <ulink url="http://creativecommons.org/licenses/by/4.0/legalcode"><citetitle>Creative Commons Attribution (CC-BY 4.0) License</citetitle></ulink>.</para>
+                </intellectualRights>
+                <coverage>
+                        <geographicCoverage>
+                                <geographicDescription>This dataset was compiled by Erika Santana, Anaide W. Aued, and Ronaldo Francini-Filho, and consists of data on benthic organisms sampled in photoquadrats deployed in several locations disposed along the Brazilian coast and oceanic islands (see Santana et al. 2023). This dataset is complementary to the dataset of Aued et al. (2018).</geographicDescription>
+                            <boundingCoordinates>
+                                <westBoundingCoordinate>-46.177</westBoundingCoordinate>
+                                <eastBoundingCoordinate>-28.856</eastBoundingCoordinate>
+                                <northBoundingCoordinate>0.917</northBoundingCoordinate>
+                                <southBoundingCoordinate>-24.293</southBoundingCoordinate>
+                            </boundingCoordinates>
+                        </geographicCoverage>
+                                <taxonomicCoverage>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Mussismilia hispida</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Mussismilia harttii</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Mussismilia braziliensis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Agaricia fragilis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Agaricia humilis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>genus</taxonRankName>
+                                            <taxonRankValue>Siderastrea</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Montastraea cavernosa</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Madracis decactis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Mussismilia leptophylla</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Favia gravida</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Meandrina brasiliensis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Porites branneri</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Porites astreoides</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Stephanocoenia intersepta</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Astrangia solitaria</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Millepora</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>genus</taxonRankName>
+                                            <taxonRankValue>Palythoa</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>class</taxonRankName>
+                                            <taxonRankValue>Zoantharia</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>phylum</taxonRankName>
+                                            <taxonRankValue>Porifera</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>order</taxonRankName>
+                                            <taxonRankValue>Corallinales</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>phylum</taxonRankName>
+                                            <taxonRankValue>Cyanobacteria</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>subphylum</taxonRankName>
+                                            <taxonRankValue>Octocorallia</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>phylum</taxonRankName>
+                                            <taxonRankValue>Bryozoa</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>class</taxonRankName>
+                                            <taxonRankValue>Ascidiacea</taxonRankValue>
+                                        </taxonomicClassification>
+                                </taxonomicCoverage>
+                </coverage>
+                <maintenance>
+                    <description>
+                        <para></para>
+                    </description>
+                    <maintenanceUpdateFrequency>notPlanned</maintenanceUpdateFrequency>
+                </maintenance>
+
+                    <contact>
+            <individualName>
+                    <givenName>Cesar A. M. M.</givenName>
+                <surName>Cordeiro</surName>
+            </individualName>
+            <organizationName>Universidade Estadual do Norte Fluminense</organizationName>
+            <positionName>Professor</positionName>
+            <address>
+                    <country>BR</country>
+            </address>
+            <electronicMailAddress>cesarcordeiro@uenf.br</electronicMailAddress>
+                    </contact>
+                    <contact>
+            <individualName>
+                    <givenName>Anaide W.</givenName>
+                <surName>Aued</surName>
+            </individualName>
+            <organizationName>Brown University</organizationName>
+            <positionName>Post-doctoral fellow</positionName>
+            <address>
+                    <country>BR</country>
+            </address>
+                    </contact>
+                    <contact>
+            <individualName>
+                    <givenName>Ronaldo</givenName>
+                <surName>Francini-Filho</surName>
+            </individualName>
+            <organizationName>Universidade de São Paulo</organizationName>
+            <positionName>Professor</positionName>
+            <electronicMailAddress>francinifilho@usp.br</electronicMailAddress>
+                    </contact>
+                <methods>
+                            <methodStep>
+                                <description>
+                                    <para>Image processing was done using the Coral Point Count with Excel extensions software (CPCe v. 4.1) (Kohler and Gill, 2006).</para>
+                                </description>
+                            </methodStep>
+                        <sampling>
+                            <studyExtent>
+                                <description>
+                                    <para>This dataset was compiled by Erika Santana, Anaide W. Aued, and Ronaldo Francini-Filho, and consists of data on benthic organisms sampled in photoquadrats deployed in several locations disposed along the Brazilian coast and oceanic islands (see Santana et al. 2023). This dataset is complementary to the dataset of Aued et al. (2018).</para>
+                                </description>
+                            </studyExtent>
+                            <samplingDescription>
+                                <para>Data was collected using photoquadrats of different sizes, described in Aued et al. (2018). and Santana et al. (2023).
+Benthic organisms were identified at different taxonomic levels (morphotype, species, order). Morphotypes were adapted from Steneck and Dethier (1994) whereby algae are grouped according to morpho-anatomical characteristics. However, morphotype, bare substrate, sediment, lost information (shade, quadrat, tape) and turf were not included in the data because they do not represent taxonomic entities in which DCS standards are based.</para>
+                            </samplingDescription>
+                        </sampling>
+                </methods>
+                <project >
+                    <title>ReefSYN | Standardized datasets of Brazilian reef diversity in space and time - Dataset XIII: Extended benthic communities from the Brazilian province</title>
+                </project>
+        </dataset>
+            <additionalMetadata>
+                <metadata>
+                    <gbif>
+                            <dateStamp>2024-03-28T21:54:34.676+01:00</dateStamp>
+                            <hierarchyLevel>dataset</hierarchyLevel>
+                                <citation identifier="https://doi.org/10.25607/tbymqb">Santana E F, Aued A W, Francini-Filho R, Luza A L (2024). ReefSYN | Standardized datasets of Brazilian reef diversity in space and time - Dataset XIII: Extended benthic communities from the Brazilian province. Version 2.1. Tropical and Subtropical Western South Atlantic OBIS. Samplingevent dataset. https://doi.org/10.25607/tbymqb</citation>
+                            <dc:replaces>c231aa6b-1363-49a6-b6b8-0e4dbcb6672b/v2.1.xml</dc:replaces>
+                    </gbif>
+                </metadata>
+            </additionalMetadata>
+    </eml:eml>

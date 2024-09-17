@@ -1,0 +1,291 @@
+    <eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1"
+             xmlns:dc="http://purl.org/dc/terms/"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://rs.gbif.org/schema/eml-gbif-profile/1.2/eml.xsd"
+             packageId="9a8ae2a8-0a90-413d-876a-9577b46ab9e2/v2.2" system="http://gbif.org" scope="system"
+    xml:lang="eng">
+
+        <dataset>
+                <alternateIdentifier>10.25607/jjm2eh</alternateIdentifier>
+                <alternateIdentifier>9a8ae2a8-0a90-413d-876a-9577b46ab9e2</alternateIdentifier>
+                <alternateIdentifier>https://ipt.iobis.org/wsaobis/resource?r=reefsyn_abrolhos_benthos</alternateIdentifier>
+                <title xml:lang="eng">ReefSYN | Standardized datasets of Brazilian reef diversity in space and time - Dataset XII: Benthic communities’ monitoring in Abrolhos Bank</title>
+                    <creator>
+            <individualName>
+                    <givenName>Ronaldo</givenName>
+                <surName>Francini-Filho</surName>
+            </individualName>
+            <organizationName>Universidade de São Paulo</organizationName>
+            <positionName>Professor</positionName>
+            <electronicMailAddress>francinifilho@usp.br</electronicMailAddress>
+                    </creator>
+                    <metadataProvider>
+            <individualName>
+                    <givenName>Ronaldo</givenName>
+                <surName>Francini-Filho</surName>
+            </individualName>
+            <organizationName>Universidade de São Paulo</organizationName>
+            <positionName>Professor</positionName>
+                    </metadataProvider>
+                    <metadataProvider>
+            <individualName>
+                    <givenName>André L.</givenName>
+                <surName>Luza</surName>
+            </individualName>
+            <organizationName>Universidade Federal de Santa Maria</organizationName>
+            <positionName>Post-doctoral fellow</positionName>
+                    </metadataProvider>
+                    <associatedParty>
+            <individualName>
+                    <givenName>Ronaldo</givenName>
+                <surName>Francini</surName>
+            </individualName>
+            <organizationName>Universidade de São Paulo</organizationName>
+            <positionName>Professor</positionName>
+            <address>
+                    <country>BR</country>
+            </address>
+            <electronicMailAddress>francinifilho@usp.br</electronicMailAddress>
+                    <userId directory="http://scholar.google.com/citations?user=">ZKaYQO4AAAAJ&amp;hl=pt-BR</userId>
+            <role>author</role>
+                    </associatedParty>
+            <pubDate>
+                    2024-07-03
+            </pubDate>
+            <language>eng</language>
+                <abstract>
+                            <para>This dataset is part of a broader compilation named &apos;Standardized datasets of Brazilian reef diversity in space and time&apos; created from a research network of reef scientists within several projects and collaborations and finally gathered and published by the ReefSYN group.
+Data from the Abrolhos Bank was collected by several collaborators under the coordination of Ronaldo Francini-Filho from 2001 to 2014. The data was obtained with support from Conservation International (CI) and FAPESP between 2001 and 2005, and exclusively by CI from 2006 to 2009, within the Marine Management Areas Science Program.  Between 2010-2014, RBFF continued to coordinate the Abrolhos monitoring program within the Abrolhos-SISBIOTA project (under general coordination of Dr. Alex Bastos) (see Francini-Filho &amp; Moura 2008, Francini-Filho et al. 2013, 2019, Roos et al. 2020). This dataset includes samples of five locations and 28 localities nested within locations, but not evenly distributed in space. Depth of sampling varied among localities and ranged between 2 and 15 m.</para>
+                </abstract>
+                        <keywordSet>
+                                    <keyword>Samplingevent</keyword>
+                            <keywordThesaurus>GBIF Dataset Type Vocabulary: http://rs.gbif.org/vocabulary/gbif/dataset_type_2015-07-10.xml</keywordThesaurus>
+                        </keywordSet>
+                        <keywordSet>
+                                    <keyword>Observation</keyword>
+                            <keywordThesaurus>GBIF Dataset Subtype Vocabulary: http://rs.gbif.org/vocabulary/gbif/dataset_subtype.xml</keywordThesaurus>
+                        </keywordSet>
+                <intellectualRights>
+                    <para>This work is licensed under a <ulink url="http://creativecommons.org/licenses/by/4.0/legalcode"><citetitle>Creative Commons Attribution (CC-BY 4.0) License</citetitle></ulink>.</para>
+                </intellectualRights>
+                <coverage>
+                        <geographicCoverage>
+                                <geographicDescription>All data was sampled within the Abrolhos bank region.</geographicDescription>
+                            <boundingCoordinates>
+                                <westBoundingCoordinate>-39.15</westBoundingCoordinate>
+                                <eastBoundingCoordinate>-38.66</eastBoundingCoordinate>
+                                <northBoundingCoordinate>-16.89</northBoundingCoordinate>
+                                <southBoundingCoordinate>-17.98</southBoundingCoordinate>
+                            </boundingCoordinates>
+                        </geographicCoverage>
+                                <temporalCoverage>
+                                        <rangeOfDates>
+                                                <beginDate>
+                                                    <calendarDate>2001-01-01</calendarDate>
+                                                </beginDate>
+                                            <endDate>
+                                                <calendarDate>2007-12-01</calendarDate>
+                                            </endDate>
+                                        </rangeOfDates>
+                                </temporalCoverage>
+                                <temporalCoverage>
+                                        <rangeOfDates>
+                                                <beginDate>
+                                                    <calendarDate>2008-01-01</calendarDate>
+                                                </beginDate>
+                                            <endDate>
+                                                <calendarDate>2014-12-01</calendarDate>
+                                            </endDate>
+                                        </rangeOfDates>
+                                </temporalCoverage>
+                                <taxonomicCoverage>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Agaricia agaricites</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Agaricia fragilis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>family</taxonRankName>
+                                            <taxonRankValue>Ascidiacea</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>phylum</taxonRankName>
+                                            <taxonRankValue>Bryozoa</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Carijoa riisei</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Cyanobacteria</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>class</taxonRankName>
+                                            <taxonRankValue>Echinoidea</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Favia gravida</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>genus</taxonRankName>
+                                            <taxonRankValue>Halimeda</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Madracis decactis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Meandrina braziliensis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>genus</taxonRankName>
+                                            <taxonRankValue>Millepora</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Millepora alcicornis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                            <taxonRankValue>Montastraea cavernosa</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Muricea flamma</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Mussismilia braziliensis</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Mussismilia harttii</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Mussismilia hispida</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Mussismilia leptophylla</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Neospongodes atlantica</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>subclass</taxonRankName>
+                                            <taxonRankValue>Octocorallia</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>genus</taxonRankName>
+                                            <taxonRankValue>Palythoa</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Phyllogorgia dilatata</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Plexaurella grandiflora</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Plexaurella regia</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>phylum</taxonRankName>
+                                            <taxonRankValue>Porifera</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Porites astreoides</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>species</taxonRankName>
+                                            <taxonRankValue>Porites branneri</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>class</taxonRankName>
+                                            <taxonRankValue>Scleractinia</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>genus</taxonRankName>
+                                            <taxonRankValue>Siderastrea</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>subfamily</taxonRankName>
+                                            <taxonRankValue>Spirorbinae</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>order</taxonRankName>
+                                            <taxonRankValue>Zoantharia</taxonRankValue>
+                                        </taxonomicClassification>
+                                        <taxonomicClassification>
+                                                <taxonRankName>genus</taxonRankName>
+                                            <taxonRankValue>Zoanthus</taxonRankValue>
+                                        </taxonomicClassification>
+                                </taxonomicCoverage>
+                </coverage>
+                <maintenance>
+                    <description>
+                        <para></para>
+                    </description>
+                    <maintenanceUpdateFrequency>notPlanned</maintenanceUpdateFrequency>
+                </maintenance>
+
+                    <contact>
+            <individualName>
+                    <givenName>Cesar A. M. M.</givenName>
+                <surName>Cordeiro</surName>
+            </individualName>
+            <organizationName>Universidade Estadual do Norte Fluminense</organizationName>
+            <positionName>Professor</positionName>
+            <address>
+                    <country>BR</country>
+            </address>
+            <electronicMailAddress>cesarcordeiro@uenf.br</electronicMailAddress>
+                    <userId directory="https://orcid.org/">0000-0003-4960-4502</userId>
+                    </contact>
+                    <contact>
+            <individualName>
+                    <givenName>Ronaldo</givenName>
+                <surName>Francini-Filho</surName>
+            </individualName>
+            <organizationName>Universidade de São Paulo</organizationName>
+            <positionName>Professor</positionName>
+                    </contact>
+                <methods>
+                            <methodStep>
+                                <description>
+                                    <para>Relative coral cover was estimated through the identification of organisms below 300 randomly distributed points per quadrat (i.e., 20 points per photograph) using the Coral Point Count with Excel extensions software (CPCe v.4.1) (Kohler and Gill, 2006). The counts of benthic organisms (i.e. random points) were converted to percentages.</para>
+                                </description>
+                            </methodStep>
+                        <sampling>
+                            <studyExtent>
+                                <description>
+                                    <para>This dataset includes samples of five locations and 28 localities nested within locations, but not evenly distributed in space.</para>
+                                </description>
+                            </studyExtent>
+                            <samplingDescription>
+                                <para>Benthic communities assessments were performed at the same locations, localities and depths as fish stationary censuses (Dataset II), using either point-intersect technique (four 10- m -transects in each depth and locality, with organisms identified in situ) or photoquadrats (~10 quadrats, 0.49 m²; the sample size (effort) varies across locations and years, see Francini-Filho et al. 2013) (Table 2). For the photoquadrat method, a mosaic of 15 high-resolution digital images totaling 0.3 m² constituted each sample (Francini-Filho et al. 2013). Quadrats were haphazardly set between 2001-2007 along a 20–50 m axis on the tops and walls of reef pinnacles and permanently delimited by fixed metal pins from 2008-2014.</para>
+                            </samplingDescription>
+                        </sampling>
+                </methods>
+                <project >
+                    <title>Marine Management Areas Science Program - Abrolhos</title>
+                </project>
+        </dataset>
+            <additionalMetadata>
+                <metadata>
+                    <gbif>
+                            <dateStamp>2024-03-28T21:54:34.671+01:00</dateStamp>
+                            <hierarchyLevel>dataset</hierarchyLevel>
+                                <citation identifier="https://doi.org/10.25607/jjm2eh">Francini-Filho R, Luza A L (2024). ReefSYN | Standardized datasets of Brazilian reef diversity in space and time - Dataset XII: Benthic communities’ monitoring in Abrolhos Bank. Version 2.2. Tropical and Subtropical Western South Atlantic OBIS. Samplingevent dataset. https://doi.org/10.25607/jjm2eh</citation>
+                            <dc:replaces>9a8ae2a8-0a90-413d-876a-9577b46ab9e2/v2.2.xml</dc:replaces>
+                    </gbif>
+                </metadata>
+            </additionalMetadata>
+    </eml:eml>

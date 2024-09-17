@@ -597,7 +597,7 @@ dados_bind$decimalLongitude <- dados_bind$lon # long
 
 
 # licence
-dados_bind$licence <- "CC BY-NC"
+dados_bind$licence <- "CC BY"
 # language
 dados_bind$language <- "en"
 # citation

@@ -250,7 +250,7 @@ benthos_long_format$maximumDepthinMeters <- benthos_long_format$minimumDepthinMe
 
 
 # licence
-benthos_long_format$licence <- "CC BY-NC"
+benthos_long_format$licence <- "CC BY"
 
 # language
 benthos_long_format$language <- "en"

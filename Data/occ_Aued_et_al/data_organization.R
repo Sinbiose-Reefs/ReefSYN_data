@@ -172,14 +172,22 @@ bentos_long_format [grep("saco_dagua",bentos_long_format$Sites),"decimalLongitud
 
 
 
-
-
 ### define an ID for each event (first try to define one)
 bentos_long_format$eventID <- paste (bentos_long_format$Region,
                                      bentos_long_format$site,
                                      bentos_long_format$Sites,
                                      bentos_long_format$eventDepth,
+                                     bentos_long_format$photoquadrat,
                                      bentos_long_format$year,sep=".")
+
+# check whether the sum of one event ID reaches 100
+#test_id <- unique(bentos_long_format$eventID)
+#test <- (bentos_long_format[which(bentos_long_format$eventID == test_id[1]) ,]) %>%
+#  
+#  group_by(eventID, scientificName) %>%
+#  summarize(cover = mean(measurementValue)) # 
+#
+#sum(test$cover)
 
 
 # change colnames
@@ -373,7 +381,6 @@ bentos_long_format$genus <-(df_worms_record$genus [match (bentos_long_format$tax
 # site is locality
 
 bentos_long_format$site == bentos_long_format$Sites
-
 (bentos_long_format$locality)
 
 
@@ -472,12 +479,12 @@ bentos_long_format$geodeticDatum <- "decimal degrees"
 
 # depth
 # range of 1-7 m, and 8-15 meters
-bentos_long_format$minimumDepthinMeters <- NA
-bentos_long_format$maximumDepthinMeters <- NA
-bentos_long_format$minimumDepthinMeters[which(bentos_long_format$eventDepth %in% c("shallow"))] <- 1
-bentos_long_format$maximumDepthinMeters[which(bentos_long_format$eventDepth %in% c("shallow"))] <- 7
-bentos_long_format$minimumDepthinMeters[which(bentos_long_format$eventDepth %in% c("deep"))] <- 8
-bentos_long_format$maximumDepthinMeters[which(bentos_long_format$eventDepth %in% c("deep"))] <- 15
+bentos_long_format$minimumDepthInMeters <- NA
+bentos_long_format$maximumDepthInMeters <- NA
+bentos_long_format$minimumDepthInMeters[which(bentos_long_format$eventDepth %in% c("shallow"))] <- 1
+bentos_long_format$maximumDepthInMeters[which(bentos_long_format$eventDepth %in% c("shallow"))] <- 7
+bentos_long_format$minimumDepthInMeters[which(bentos_long_format$eventDepth %in% c("deep"))] <- 8
+bentos_long_format$maximumDepthInMeters[which(bentos_long_format$eventDepth %in% c("deep"))] <- 15
 
 
 # habitat
@@ -486,7 +493,7 @@ bentos_long_format$habitat <- paste (bentos_long_format$habitat, "-reef", sep = 
 
 
 # licence
-bentos_long_format$licence <- "CC BY-NC"
+bentos_long_format$licence <- "CC BY"
 # language
 bentos_long_format$language <- "en"
 # citation
@@ -633,6 +640,34 @@ colnames(bentos_long_format)[which(colnames(bentos_long_format) == "site")] <- "
 
 
 # ----------------------------------------------------------------------------------------------
+
+
+
+# check whether the sum of one event ID reaches 100
+test_id <- unique(bentos_long_format$eventID)
+
+test <- (bentos_long_format[which(bentos_long_format$eventID == test_id[100]) ,]) %>%
+  
+  group_by(eventID, scientificName) %>%
+  summarize(cover = sum(measurementValue)) # 
+
+(test$cover)
+
+test <- bentos_long_format %>%
+  
+  group_by(eventID) %>%
+  summarize(cover = sum(measurementValue)) # 
+
+range(test$cover)
+
+test %>%
+  filter (cover >1)
+
+View(bentos_long_format[bentos_long_format$eventID == "BR:ReefSYN:SISBIOTA-MAR:BrazilianCoast:arraial_anequim_2010_",])
+
+
+
+# ----------------------------------------------------------------------------------------------
 # DWC FORMAT
 
 
@@ -641,14 +676,18 @@ colnames(bentos_long_format)[which(colnames(bentos_long_format) == "site")] <- "
 
 # Formatted according to DwC
 # measurement or facts
-DF_eMOF <- bentos_long_format [,c("eventID", "occurrenceID",
+DF_eMOF <- bentos_long_format [,c("eventID", 
+                                  "occurrenceID",
                                   "measurementValue", 
                                   "measurementType",
                                   "measurementUnit",
                                   "eventRemarks")]
 
+
+
 # occurrence
-DF_occ <- bentos_long_format [,c("eventID", "occurrenceID",
+DF_occ <- bentos_long_format [,c("eventID", 
+                                 "occurrenceID",
                                  "basisOfRecord",
                                  "verbatimIdentification",
                                  "scientificNameID",
@@ -678,8 +717,8 @@ event_core <- data.frame (group_by(bentos_long_format[,-4],
                             
                             summarise(year = mean(as.numeric(year)),
                                       eventDate = mean(eventDate),
-                                      minimumDepthinMeters = mean(minimumDepthinMeters),
-                                      maximumDepthinMeters = mean(maximumDepthinMeters),
+                                      minimumDepthInMeters = mean(minimumDepthInMeters),
+                                      maximumDepthInMeters = mean(maximumDepthInMeters),
                                       samplingProtocol = unique(samplingProtocol),
                                       samplingEffort = mean(samplingEffort),
                                       sampleSizeValue = mean(sampleSizeValue),
@@ -691,6 +730,18 @@ event_core <- data.frame (group_by(bentos_long_format[,-4],
                                       Country = unique(Country),
                                       countryCode = unique(countryCode))
 )
+
+
+
+data_all <- left_join(DF_eMOF, event_core) %>% 
+  left_join(., DF_occ) %>% # Problem on the join with many-to-many relationship
+  
+  group_by(eventID, scientificNameAccepted) %>%
+  summarize(total = sum(measurementValue)) %>% 
+  ungroup()
+
+hist(data_all$total) # Problem: the sum is not equal to 100 for most sampling units
+
 
 # save
 # csv format

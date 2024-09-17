@@ -5,13 +5,16 @@
 # load packages and functions
 require(here); require (openxlsx); require(reshape); require(dplyr); require(worrms)
 
+
 # open  data to match region
 occ_Francini_et_al <- read.xlsx(here("Data","occ_Francini_et_al",
                                  "Compiled_quadrats_benthic_versao2.0_ate30m.xlsx"),
                             sheet = 1, colNames = TRUE,detectDates=F)
 
+
 # remove data from Aued et al. 2018 (no year)
 occ_Francini_et_al <- occ_Francini_et_al[which(is.na(occ_Francini_et_al$YEAR)!= T),]
+
 
 
 # remove data from Abrolhos 2008 - already in the time series
@@ -32,6 +35,7 @@ target_cols_sites <- c("REGION","REEF","SITE","HAB",
       "MONTH","YEAR","DEPTH","LAT","LONG","DIST_OFFSHORE","DIST_100M_ISO",  
       "KD_medio","NSST_media","PAR_media","Salinity.Mean",     
       "Nitrate.Mean.Surface")
+
 
 
 # extract taxa cover data
@@ -190,10 +194,12 @@ francini_bind_data <- cbind(var_data,
 
 # remove plot data
 francini_bind_data <-francini_bind_data[which(francini_bind_data$taxonOrGroup %in% 
-                                                c("sand","rock") != T),]
+                                                c("Sand","Rock") != T),]
 
 
-# validation of species name (worms)
+
+
+# validation of species name (worms) ----------------------------------
 # matching with worms
 
 
@@ -402,6 +408,8 @@ francini_bind_data$eventID <- paste (paste (
 
 
 
+
+
 # creating occurrenceID
 francini_bind_data$occurrenceID <- paste (paste ( 
   paste ("BR:ReefSYN:RonaldoFrancini-Filho-USP:", 
@@ -446,6 +454,9 @@ years_sites <- table (francini_bind_data$site,francini_bind_data$locality,franci
 # measurementType
 colnames(francini_bind_data)[which(colnames(francini_bind_data) == "cover")] <- "measurementValue"
 
+# 0 - 1
+francini_bind_data$measurementValue <- francini_bind_data$measurementValue/100
+
 # method
 francini_bind_data$samplingProtocol <- "Photoquadrats - 0.66 x 0.75 m"
 # samplingEffort
@@ -488,21 +499,21 @@ francini_bind_data$measurementUnit <- "dimensionless"
 francini_bind_data$geodeticDatum <- "decimal degrees"
 
 # set min and max
-colnames(francini_bind_data)[which(colnames(francini_bind_data) == "depthInMeters")] <- "minimumDepthinMeters"
-francini_bind_data$maximumDepthinMeters <- francini_bind_data$minimumDepthinMeters
+colnames(francini_bind_data)[which(colnames(francini_bind_data) == "depthInMeters")] <- "minimumDepthInMeters"
+francini_bind_data$maximumDepthInMeters <- francini_bind_data$minimumDepthInMeters
 
 
 # licence
-francini_bind_data$licence <- "CC BY-NC"
+francini_bind_data$licence <- "CC BY"
 
 # language
 francini_bind_data$language <- "en"
 
 
-
-
 # eventRemarks
 francini_bind_data$eventRemarks <- "Bare substrate, sediment, lost information (shade, quadrat, tape), morpho-anatomical benthic groups and turf were not included in the data because they do not represent taxonomical entities in which DwC standards are based. This implies in a measurementValue which does not add up to 1. Please contact the data curators Andre Luza and Cesar Cordeiro to have the complete dataset with verbatimIdentification"
+
+
 
 # remove these MAGs
 francini_bind_data <- francini_bind_data [which(is.na(francini_bind_data$scientificNameAccepted) !=T),]
@@ -511,6 +522,44 @@ francini_bind_data <- francini_bind_data [which(is.na(francini_bind_data$scienti
 # sites into locations
 colnames(francini_bind_data)[which(colnames(francini_bind_data) == "site")] <- "location"
 
+
+
+# check whether the sum of one event ID reaches 100
+# for one ID
+test_id <- unique(francini_bind_data$eventID)
+
+test <- (francini_bind_data[which(francini_bind_data$eventID == test_id[1]) ,]) %>%
+  
+  group_by(eventID, scientificName) %>%
+  summarize(cover = sum(measurementValue)) # 
+
+hist(test$cover)
+
+test <- francini_bind_data %>%
+  
+  group_by(eventID) %>%
+  summarize(cover = sum(measurementValue)) # 
+
+range(test$cover)
+
+test %>%
+  filter (cover >1)
+
+
+# for all event IDs
+data_all <- francini_bind_data %>% # Problem on the join with many-to-many relationship
+  
+  group_by(eventID, scientificName) %>%
+  summarize(total = sum(measurementValue)) %>% 
+  ungroup()
+
+data_all %>%
+  filter (total >1)
+
+hist(data_all$total) # Problem: the sum is not equal to 100 for most sampling units
+
+
+
 # ----------------------------------------------------------------------------------------------
 # DWC FORMAT
 
@@ -518,7 +567,8 @@ colnames(francini_bind_data)[which(colnames(francini_bind_data) == "site")] <- "
 
 
 # Formatted according to DwC
-DF_eMOF <- francini_bind_data [,c("eventID", "occurrenceID",
+DF_eMOF <- francini_bind_data [,c("eventID",
+                                  "occurrenceID",
                                   "measurementValue", 
                                   "measurementType",
                                   "measurementUnit",
@@ -548,8 +598,8 @@ event_core <- data.frame (group_by(francini_bind_data, eventID,higherGeography,l
                             
                             summarise(year = unique(year),
                                       eventDate = unique(eventDate),
-                                      minimumDepthinMeters = mean(minimumDepthinMeters),
-                                      maximumDepthinMeters = mean(maximumDepthinMeters),
+                                      minimumDepthInMeters = mean(minimumDepthInMeters),
+                                      maximumDepthInMeters = mean(maximumDepthInMeters),
                                       samplingProtocol = unique(samplingProtocol),
                                       samplingEffort = unique(samplingEffort),
                                       sampleSizeValue = mean(sampleSizeValue),
@@ -561,6 +611,20 @@ event_core <- data.frame (group_by(francini_bind_data, eventID,higherGeography,l
                                       Country = unique(Country),
                                       countryCode = unique(countryCode))
 )
+
+
+
+data_all <- left_join(DF_eMOF, event_core) %>% 
+  left_join(., DF_occ) %>% # Problem on the join with many-to-many relationship
+  
+  group_by(eventID, scientificNameAccepted) %>%
+  summarize(total = sum(measurementValue)) %>% 
+  ungroup()
+
+hist(data_all$total) # Problem: the sum is not equal to 100 for most sampling units
+
+
+
 
 # make a list with files in DwC
 output <- list (DF_occ = DF_occ,

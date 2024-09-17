@@ -1,0 +1,558 @@
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1"
+         xmlns:dc="http://purl.org/dc/terms/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 http://rs.gbif.org/schema/eml-gbif-profile/1.1/eml.xsd"
+         packageId="http://ipt.iobis.org/wsaobis/resource?id=peld-iloc_benthic-community/v1.0" system="http://gbif.org" scope="system"
+         xml:lang="eng">
+
+<dataset>
+  <alternateIdentifier>doi:10.25607/yrfths</alternateIdentifier>
+  <alternateIdentifier>http://ipt.iobis.org/wsaobis/resource?r=peld-iloc_benthic-community</alternateIdentifier>
+  <title xml:lang="eng">Long-term Ecological Monitoring Research Brazilian Oceanic Islands (benthic community)</title>
+      <creator>
+    <individualName>
+        <givenName>Cesar Augusto Marcelino Mendes</givenName>
+      <surName>Cordeiro</surName>
+    </individualName>
+    <organizationName>Universidade Estadual do Norte Fluminense</organizationName>
+    <positionName>Associate Professor</positionName>
+    <address>
+        <city>Campos dos Goytacazes</city>
+        <administrativeArea>Rio de Janeiro</administrativeArea>
+        <country>BR</country>
+    </address>
+    <electronicMailAddress>cammcordeiro@id.uff.br</electronicMailAddress>
+    <onlineUrl>https://peldiloc.sites.ufsc.br/</onlineUrl>
+          <userId directory="http://orcid.org/">0000-0003-4960-4502</userId>
+      </creator>
+      <creator>
+    <individualName>
+        <givenName>Thiago</givenName>
+      <surName>Silveira</surName>
+    </individualName>
+    <organizationName>Universidade Federal de Santa Catarina</organizationName>
+    <positionName>Post-doctoral fellow</positionName>
+    <address>
+        <country>BR</country>
+    </address>
+      </creator>
+      <creator>
+    <individualName>
+        <givenName>Julia B</givenName>
+      <surName>Zamoner</surName>
+    </individualName>
+    <organizationName>Universidade Federal de Santa Catarina</organizationName>
+    <positionName>Collaborator</positionName>
+    <address>
+        <country>BR</country>
+    </address>
+      </creator>
+      <creator>
+    <individualName>
+        <givenName>Vitor</givenName>
+      <surName>Picolotto</surName>
+    </individualName>
+    <organizationName>Universidade Federal de Santa Catarina</organizationName>
+    <positionName>Collaborator</positionName>
+      </creator>
+      <creator>
+    <individualName>
+        <givenName>Carolina</givenName>
+      <surName>Medeiros</surName>
+    </individualName>
+    <organizationName>Universidade de São Paulo</organizationName>
+    <positionName>Collaborator</positionName>
+      </creator>
+      <creator>
+    <individualName>
+        <givenName>Diana</givenName>
+      <surName>Vergara</surName>
+    </individualName>
+    <organizationName>Universidade Federal Fluminense</organizationName>
+    <positionName>Collaborator</positionName>
+      </creator>
+      <creator>
+    <individualName>
+        <givenName>Manoela</givenName>
+      <surName>Birolli</surName>
+    </individualName>
+    <organizationName>Universidade Federal de Santa Catarina</organizationName>
+    <positionName>Collaborator</positionName>
+      </creator>
+      <creator>
+    <individualName>
+        <givenName>Ana </givenName>
+      <surName>Monteiro-Leonel</surName>
+    </individualName>
+    <organizationName>Universidade de São Paulo</organizationName>
+    <positionName>PhD candidate</positionName>
+      </creator>
+      <metadataProvider>
+    <individualName>
+        <givenName>Cesar Augusto Marcelino Mendes</givenName>
+      <surName>Cordeiro</surName>
+    </individualName>
+    <organizationName>Universidade Estadual do Norte Fluminense</organizationName>
+    <positionName>Associate Professor</positionName>
+    <address>
+        <city>Campos dos Goytacazes</city>
+        <administrativeArea>Rio de Janeiro</administrativeArea>
+        <country>BR</country>
+    </address>
+    <electronicMailAddress>cammcordeiro@id.uff.br</electronicMailAddress>
+    <onlineUrl>https://peldiloc.sites.ufsc.br/</onlineUrl>
+          <userId directory="http://orcid.org/">0000-0003-4960-4502</userId>
+      </metadataProvider>
+      <associatedParty>
+    <individualName>
+        <givenName>Cesar Augusto Marcelino Mendes</givenName>
+      <surName>Cordeiro</surName>
+    </individualName>
+    <organizationName>Universidade Estadual do Norte Fluminense</organizationName>
+    <positionName>Associate Professor</positionName>
+    <address>
+        <city>Campos dos Goytacazes</city>
+        <administrativeArea>Rio de Janeiro</administrativeArea>
+        <country>BR</country>
+    </address>
+    <electronicMailAddress>cammcordeiro@id.uff.br</electronicMailAddress>
+    <onlineUrl>https://peldiloc.sites.ufsc.br/</onlineUrl>
+          <userId directory="http://orcid.org/">0000-0003-4960-4502</userId>
+    <role>author</role>
+      </associatedParty>
+      <associatedParty>
+    <individualName>
+        <givenName>Carlos Eduardo Leite</givenName>
+      <surName>Ferreira</surName>
+    </individualName>
+    <organizationName>Universidade Federal Fluminense</organizationName>
+    <positionName>Professor</positionName>
+    <address>
+        <country>BR</country>
+    </address>
+    <role>principalInvestigator</role>
+      </associatedParty>
+      <associatedParty>
+    <individualName>
+        <givenName>Bárbara</givenName>
+      <surName>Segal</surName>
+    </individualName>
+    <organizationName>Universidade Federal de Santa Catarina</organizationName>
+    <positionName>Professor</positionName>
+    <electronicMailAddress>segal.barbara@gmail.com</electronicMailAddress>
+    <role>editor</role>
+      </associatedParty>
+      <associatedParty>
+    <individualName>
+        <givenName>Tito M</givenName>
+      <surName>Lotufo</surName>
+    </individualName>
+    <organizationName>Universidade de São Paulo</organizationName>
+    <positionName>Professor</positionName>
+    <address>
+        <country>BR</country>
+    </address>
+    <electronicMailAddress>tmlotufo@usp.br</electronicMailAddress>
+    <role>editor</role>
+      </associatedParty>
+  <pubDate>
+      2022-02-02
+  </pubDate>
+  <language>eng</language>
+  <abstract>
+    <para>Brazil has four tropical oceanic islands: St. Peter and St. Paul’s Archipelago, Fernando de Noronha Archipelago, Rocas Atoll and Trindade Island and Martin Vaz Archipelago. These islands are geographically highly isolated, experience less harmful human-driven impacts than the coastal area, and encompass different levels of protection. Therefore, these more pristine islands represent a fundamental reservoir of marine biodiversity not only to the country but to the whole world. However, the Brazilian oceanic islands remain unknown to the majority of the population. Our mission is to increase the awareness and interest among Brazil’s population, providing knowledge to support governmental decisions and thereby help to protect and preserve the diversity, manifoldness and health of the unique marine ecosystems of our oceanic islands.</para>
+  </abstract>
+      <keywordSet>
+            <keyword>Occurrence</keyword>
+        <keywordThesaurus>GBIF Dataset Type Vocabulary: http://rs.gbif.org/vocabulary/gbif/dataset_type.xml</keywordThesaurus>
+      </keywordSet>
+  <intellectualRights>
+    <para>This work is licensed under a <ulink url="http://creativecommons.org/licenses/by-nc/4.0/legalcode"><citetitle>Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License</citetitle></ulink>.</para>
+  </intellectualRights>
+  <distribution scope="document">
+    <online>
+      <url function="information">https://peldiloc.sites.ufsc.br/</url>
+    </online>
+  </distribution>
+  <coverage>
+      <geographicCoverage>
+          <geographicDescription>This dataset includes relative benthic cover information of the Brazilian four oceanic islands: St. Peter and St. Paul’s Archipelago, Fernando de Noronha Archipelago, Rocas Atoll and Trindade Island and Martin Vaz Archipelago. </geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-52.031</westBoundingCoordinate>
+          <eastBoundingCoordinate>-19.688</eastBoundingCoordinate>
+          <northBoundingCoordinate>8.407</northBoundingCoordinate>
+          <southBoundingCoordinate>-27.059</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+          <temporalCoverage>
+              <rangeOfDates>
+                  <beginDate>
+                    <calendarDate>2013</calendarDate>
+                  </beginDate>
+                <endDate>
+                  <calendarDate>2019</calendarDate>
+                </endDate>
+              </rangeOfDates>
+          </temporalCoverage>
+          <taxonomicCoverage>
+              <generalTaxonomicCoverage>Relative cover includes 51 taxa identified at the lowest taxonomical level, which varied from Phylum to species level. Also, some classifications are linked to the morpho-anatomical characteristics of the observed taxa (e.g., foliose macroalgae, turf). Uncolonized substrate and unknown taxa relative  contribution is available.</generalTaxonomicCoverage>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Aiolochroia crassa</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Amphiroa</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>subfamily</taxonRankName>
+                <taxonRankValue>Amphiroideae</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>class</taxonRankName>
+                <taxonRankValue>Asteroidea</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>class</taxonRankName>
+                <taxonRankValue>Bivalvia</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Bryopsis</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>phylum</taxonRankName>
+                <taxonRankValue>Bryozoa</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Caulerpa</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Caulerpa cupressoides</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Caulerpa mexicana</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Caulerpa racemosa</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Caulerpa verticillata</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Chaetomorpha</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Chondrilla nucula</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Cladophora</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Clathria</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>phylum</taxonRankName>
+                <taxonRankValue>Cyanobacteria</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Diadema antillarum</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Dictyopteris</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Dictyosphaeria versluysii</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Dictyota</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Digenea simplex</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Echinometra lucunter</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Favia gravida</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Galaxaura</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Halimeda discoidea</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Hypnea musciformis</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Ircinia strobilina</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>subfamily</taxonRankName>
+                <taxonRankValue>Lithophylloideae</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Mesophyllum erubescens</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Millepora</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Monanchora brasiliensis</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Montastraea cavernosa</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Mussismilia</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Neomeris annulata</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Padina</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Palythoa</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Peyssonnelia</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>class</taxonRankName>
+                <taxonRankValue>Polychaeta</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>phylum</taxonRankName>
+                <taxonRankValue>Porifera</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Porites astreoides</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Sargassum</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>order</taxonRankName>
+                <taxonRankValue>Scleractinia</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Siderastrea</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>genus</taxonRankName>
+                <taxonRankValue>Tubastraea</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>subphylum</taxonRankName>
+                <taxonRankValue>Tunicata</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Valonia ventricosa</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Verongula gigantea</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Verongula rigida</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>species</taxonRankName>
+                <taxonRankValue>Xestospongia muta</taxonRankValue>
+              </taxonomicClassification>
+              <taxonomicClassification>
+                  <taxonRankName>order</taxonRankName>
+                <taxonRankValue>Zoantharia</taxonRankValue>
+              </taxonomicClassification>
+          </taxonomicCoverage>
+  </coverage>
+  <purpose>
+    <para>Our objective is to understand how ecosystem structures of reef communities at the four Brazilian oceanic islands change under a variety of human-driven impacts, such as fishing, pollution or climate change. Hence, PELD – ILOC monitors the Brazilian oceanic islands to continuously assess the dynamics of reef communities and populations and the processes driving these dynamics.
+</para>
+  </purpose>
+  <maintenance>
+    <description>
+      <para>PELD-ILOC is a Long-Term Ecological Research program, and data from monitoring surveys and related projects will be added to the complete dataset after being checked for quality control, at least, once a year. </para>
+    </description>
+    <maintenanceUpdateFrequency>unkown</maintenanceUpdateFrequency>
+  </maintenance>
+
+      <contact>
+    <individualName>
+        <givenName>Cesar Augusto Marcelino Mendes</givenName>
+      <surName>Cordeiro</surName>
+    </individualName>
+    <organizationName>Universidade Estadual do Norte Fluminense</organizationName>
+    <positionName>Associate Professor</positionName>
+    <address>
+        <city>Campos dos Goytacazes</city>
+        <administrativeArea>Rio de Janeiro</administrativeArea>
+        <country>BR</country>
+    </address>
+    <electronicMailAddress>cammcordeiro@id.uff.br</electronicMailAddress>
+    <onlineUrl>https://peldiloc.sites.ufsc.br/</onlineUrl>
+          <userId directory="http://orcid.org/">0000-0003-4960-4502</userId>
+      </contact>
+  <methods>
+        <methodStep>
+          <description>
+            <para>Details about the data processing can be found at: https://github.com/peld-iloc//Dwc-A_benthic_PELD</para>
+          </description>
+        </methodStep>
+      <sampling>
+        <studyExtent>
+          <description>
+            <para>All Brazilian Oceanic islands have been surveyed once a year since the start of the PELD ILOC project in 2013, with the exception of TI 2014.</para>
+          </description>
+        </studyExtent>
+        <samplingDescription>
+          <para>At each site three to six 20 m-transects were placed on the reefs in parallel to the coastline and spaced apart by 2 m. We sampled 10 to 11 quadrats (50 x 50 cm) photoquadrats at each transect each year. The variability in the number of transects and photoquadrats is due to the possibility of distributing transects on the reef while keeping their orientation in relation to the coastline and the distance between them, considering the different geomorphological features of each site. Also, SPSPA only has one site with one transect at different depths because of the restricted area of the inlet of the main island.
+The posterior image processing consisted on the identification of taxonomic and morpho-anatomical benthic groups and on the estimate of their percentage cover in each sampling year. For those analyses, the Coral Point Count with Excel extensions software (CPCe v. 4.1) or photoQuad softwares were applied,
+by overlaying 50 random points on each image and visually identifying the organisms below each point.</para>
+        </samplingDescription>
+      </sampling>
+      <qualityControl>
+        <description>
+          <para>Details about the quality control can be found at: https://github.com/peld-iloc//Dwc-A_benthic_PELD</para>
+        </description>
+      </qualityControl>
+  </methods>
+  <project id="PELD-ILOC">
+    <title>Long-term Ecological Monitoring Research Brazilian Oceanic Islands</title>
+      <personnel>
+        <individualName>
+            <givenName>Cesar Augusto</givenName>
+          <surName>Cordeiro</surName>
+        </individualName>
+              <userId directory="http://orcid.org/">0000-0003-4960-4502</userId>
+        <role>author</role>
+      </personnel>
+      <personnel>
+        <individualName>
+            <givenName>Julia B</givenName>
+          <surName>Zamoner</surName>
+        </individualName>
+        <role>contentProvider</role>
+      </personnel>
+      <personnel>
+        <individualName>
+            <givenName>Vitor</givenName>
+          <surName>Picolotto</surName>
+        </individualName>
+        <role>contentProvider</role>
+      </personnel>
+      <personnel>
+        <individualName>
+            <givenName>Diana</givenName>
+          <surName>Vergara</surName>
+        </individualName>
+        <role>contentProvider</role>
+      </personnel>
+      <personnel>
+        <individualName>
+            <givenName>Carolina</givenName>
+          <surName>Medeiro</surName>
+        </individualName>
+        <role>contentProvider</role>
+      </personnel>
+      <personnel>
+        <individualName>
+            <givenName>Manoela</givenName>
+          <surName>Birolli</surName>
+        </individualName>
+        <role>contentProvider</role>
+      </personnel>
+      <personnel>
+        <individualName>
+            <givenName>Ana</givenName>
+          <surName>Monteiro-Leonel</surName>
+        </individualName>
+        <role>contentProvider</role>
+      </personnel>
+      <personnel>
+        <individualName>
+            <givenName>Bárbara </givenName>
+          <surName>Segal</surName>
+        </individualName>
+        <role>editor</role>
+      </personnel>
+      <personnel>
+        <individualName>
+            <givenName>Tito M</givenName>
+          <surName>Lotufo</surName>
+        </individualName>
+        <role>editor</role>
+      </personnel>
+      <abstract>
+        <para>Brazil has four tropical oceanic islands: St. Peter and St. Paul’s Archipelago, Fernando de Noronha Archipelago, Rocas Atoll and Trindade Island and Martin Vaz Archipelago. These islands are geographically highly isolated, experience less harmful human-driven impacts than the coastal area, and encompass different levels of protection. Therefore, these more pristine islands represent a fundamental reservoir of marine biodiversity not only to the country but to the whole world. However, the Brazilian oceanic islands remain unknown to the majority of the population. Our mission is to increase the awareness and interest among Brazil’s population, providing knowledge to support governmental decisions and thereby help to protect and preserve the diversity, manifoldness and health of the unique marine ecosystems of our oceanic islands.
+Our objective is to understand how ecosystem structures of reef communities at the four Brazilian oceanic islands change under a variety of human-driven impacts, such as fishing, pollution or climate change. Hence, PELD – ILOC monitors the Brazilian oceanic islands to continuously assess the dynamics of reef communities and populations and the processes driving these dynamics.
+</para>
+      </abstract>
+      <funding>
+        <para>Brazilian National Council for Scientific and Technological Development (CNPq, Portuguese: Conselho Nacional de Desenvolvimento Científico e Tecnológico)  grant #441241/2016-6
+</para>
+      </funding>
+      <studyAreaDescription>
+        <descriptor name="generic"
+                    citableClassificationSystem="false">
+          <descriptorValue>Fernando de Noronha Archipelago (FNA) is composed of the main island and other 20 smaller islands located of volcanic origin, ~350 km offshore the Brazilian coast. FNA’s reefs are usually shallow (&lt; 60 m), steep and highly exposed to wave action. The reef benthic community at depths up to 30 m is mainly composed of turf algae and macroalgae, besides the high cover of articulated coralline algae and crustose coralline algae.Saint Peter and Saint Paul Archipelago (SPSPA) is a tiny immerse tip of the Mid-Atlantic Ridge, also composed of the main island (~120 m^2) and a set of 15 islets, ~1010 km from the northeastern coast of Brazil, and 650 km east from FNA. The inlet on the main island is the most sampled site and varies from 3 to 27 m deep. Rocas Atoll (RA) is the only atoll in the South Atlantic and is considered the smallest atoll in the world. It is located 266 km off the Brazilian coast and 124 km west of FNA. A large part of the atoll is directly under the influence of the local high tides (up to 3.8 m) which forms tide pools of diverse volumes. Monitoring sampling is conducted in the tide pools because of the difficult access to the outer reef.Finally, Trindade Island (TI) is also of volcanic origin, formed by an emerged tip of the Vitória-Trindade Seamount Chain, at 1140 km off the eastern coast of Brazil. Winds prevailing from NE to E lead to greater exposure of the eastern side to waves and erosion of the rocky shore, and favouring the monitoring of most sites on the leeward side of the island. Ascension island is also of volcanic origin, with steep shores, and three sites were sampled only once in 2015.</descriptorValue>
+        </descriptor>
+      </studyAreaDescription>
+      <designDescription>
+        <description>
+          <para>For FNA has three sites are monitored on the leeward side of the main island (Cagarras, Sapata and Laje Dois Irmãos), with depths ranging from 1 to 30 m. The SPSPA has only one monitoring site in the main island inlet, with depths from 5 to 35 m. Trindade Island is monitored in four sites at the leeward side of the island, on depths from 3 to 20 m. In each site of the monitored sites, at least 25 transects for fish counting are conducted each year since 2013.</para>
+        </description>
+      </designDescription>
+  </project>
+</dataset>
+  <additionalMetadata>
+    <metadata>
+      <gbif>
+          <dateStamp>2022-02-02T12:41:48.593+01:00</dateStamp>
+          <hierarchyLevel>dataset</hierarchyLevel>
+            <citation identifier="http://doi.org/10.25607/yrfths">Cordeiro C A M M, Silveira T, Zamoner J B, Picolotto V, Medeiros C, Vergara D, Birolli M, Monteiro-Leonel A (2022): Long-term Ecological Monitoring Research Brazilian Oceanic Islands (benthic community). v1.0. Tropical and Subtropical Western South Atlantic OBIS. Dataset/Samplingevent. http://doi.org/10.25607/yrfths</citation>
+          <bibliography>
+                <citation>Zamoner JB, Aued AW, Macedo-Soares LCP, Picolotto VAP, Garcia CAE, Segal B. 2021. Integrating Oceanographic Data and Benthic Community Structure Temporal Series to Assess the Dynamics of a Marginal Reef. Frontiers in Marine Science 8, 762453. DOI: 10.3389/fmars.2021.762453
+
+Aued AW, Smith F, Quimbayo JP, Candido DV, Longo GO, Ferreira CEL, Witman JD, Floeter SR, Segal B. 2018. Large-scale patterns of benthic marine communities in the Brazilian Province. PLoS ONE 13(6): e0198452. DOI: 10.1371/journal.pone.0198452</citation>
+          </bibliography>
+      </gbif>
+    </metadata>
+  </additionalMetadata>
+</eml:eml>
