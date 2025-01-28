@@ -78,7 +78,6 @@ fish_DF_occ2$scientificName[grep("anisotremus virginicus", fish_DF_occ2$scientif
 fish_DF_occ2$scientificName[grep("^ophioblennius$", fish_DF_occ2$scientificName)] <- "ophioblennius trinitatis"
 fish_DF_occ2$scientificName[grep("menaphorus", fish_DF_occ2$scientificName)] <- "menephorus punticulatus"
 
-
 # match with worms
 worms_record <- lapply (unique(fish_DF_occ2$scientificName), function (i) 
   
@@ -142,6 +141,11 @@ fish_DF_occ2$scientificNameAccepted[grep ("polygonius", fish_DF_occ2$scientificN
 fish_DF_occ2$scientificNameAccepted[grep ("Anthias salmopunctatus", fish_DF_occ2$scientificNameAccepted)] <- "Choranthias salmopunctatus"
 fish_DF_occ2$scientificNameAccepted[grep ("Hypanus americanus", fish_DF_occ2$scientificNameAccepted)] <- "Hypanus berthalutzae"
 fish_DF_occ2$scientificNameAccepted[grep ("Sphoeroides spengleri", fish_DF_occ2$scientificNameAccepted)] <- "Sphoeroides camila"
+
+
+# Stegastes fuscus trindadensis instead S fuscus in Trindade island
+fish_DF_occ2 [which(fish_DF_occ2$scientificNameAccepted == "Stegastes fuscus"),"scientificNameAccepted"] <- "Stegastes fuscus trindadensis"
+fish_DF_occ2 [which(fish_DF_occ2$scientificNameAccepted == "Ophioblennius atlanticus"),"scientificNameAccepted"] <- "Ophioblennius trinitatis"  # check
 
 # genus
 fish_DF_occ2$genus[grep ("multilineata", fish_DF_occ2$scientificNameAccepted)] <- "Azurina"

@@ -123,13 +123,13 @@ dados_bind$locality <- recode(dados_bind$locality,
                           "calheta"            = "calheta",
                           "tartarugas"      =  "tartarugas_trindade",
                           "parcel"            =  "parcel" ,
-                          "cabritas"           =  "praia_das_cabritas" ,
+                          "cabritas"           =  "cabritas" ,
                           "racha"              =  "racha" ,
                           "parcel"             =  "parcel" ,
                           "tunel"              =  "tunel" ,
                           "ponta norte"        =  "ponta_norte" ,
                           "orelhas"           =  "orelhas" ,
-                          "cabritas"           =  "praia_das_cabritas" ,
+                          "cabritas"           =  "cabritas" ,
                           "farol"            =  "farol" ,
                           "eme" = "eme")
 
@@ -223,7 +223,7 @@ dados_bind$verbatimIdentification<- recode (dados_bind$verbatimIdentification,
   "lab nuq"= "Labrisomus nuchipinnis",
   "lagosta"   = "Panulirus sp.",
   "mal plu"    = "Malacanthus plumieri",
-  "mal sp"     = "Malacanthus sp.",
+  "mal sp"     = "Malacoctenus brunoi", # correction following J. Fonseca advise
   "mel nig"    = "Melichthys niger",
   "menephorus" = "Menephorus punticulatus", # hybrid (adjust after) otherwise worms will report two (wrong) matches
   "Menephorus" = "Menephorus punticulatus", # hybrid (adjust after)
@@ -233,7 +233,7 @@ dados_bind$verbatimIdentification<- recode (dados_bind$verbatimIdentification,
   "myc vem"= "Mycteroperca venenosa",
   "myr bre"  = "Myrichthys breviceps",
   "myr jac" = "Myripristis jacobus",
-  "oph atl"    = "Ophioblennius atlanticus",
+  "oph atl"    = "Ophioblennius triniatis", # correction following J. Fonseca advise
   "opi aur"    = "Opistognathus aurifrons",
   "par bai"    = "Paradiplogramus bairdi",
   "par fur"    = "Paranthias furcifer",
@@ -250,7 +250,7 @@ dados_bind$verbatimIdentification<- recode (dados_bind$verbatimIdentification,
   "sph bar"    = "Sphyraena barracuda",
   "sph spe"    = "Sphoeroides spengleri",
   "ste pic"    = "Stegastes pictus",
-  "ste tri"   = "Stegastes trindadensis",
+    "ste tri"   = "Stegastes fuscus trindadensis",
   "syn syn"    = "Synodus synodus",
   "tha nor" = "Thalassoma noronhanum"
 )  
@@ -343,8 +343,6 @@ dados_bind$genus[grep ("Goblioclinus kalisherae", dados_bind$scientificNameAccep
 # adjust family
 dados_bind$family[which(dados_bind$family == "Scaridae")] <- "Labridae"
 
-
-
 # bind identification remarks
 # Sergio: Menephorus é um nome utilizado para o híbrido entre 
 # Sergio: Deixar ele na base de dados pois é um cara interessante sim de ter nas planilhas, e colocar assim: Menephorus (hybrid)
@@ -409,7 +407,7 @@ dados_bind$eventID <- paste (paste (paste ("BR:ReefSYN:TrindadeMartinVaz:",
                                     dados_bind$site,sep=":"),  
                                     dados_bind$locality, 
                                     dados_bind$year,
-                                    dados_bind$seq_censo, # check this
+                                    dados_bind$censo,
                         sep="_")
 
 
@@ -420,7 +418,7 @@ dados_bind$occurrenceID <- paste (paste (paste ("BR:ReefSYN:TrindadeMartinVaz:",
                                          dados_bind$site,sep=":"),  
                                   dados_bind$locality, 
                                   dados_bind$year,
-                                  dados_bind$seq_censo,# check this
+                                  dados_bind$censo,
                              
                                   paste ("occ",seq(1,
                                                    nrow(dados_bind %>% 

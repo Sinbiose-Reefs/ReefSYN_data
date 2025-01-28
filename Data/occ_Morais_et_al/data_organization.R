@@ -212,13 +212,78 @@ dados$higherGeography <- ifelse (dados$site %in% c("stpauls_rocks",
                                         "BrazilianCoast")
 
 
+# ------------------------------------------------------
+# Solving data redundancy - identified by Juliana Fonseca (Cadu's lab)
+
+# 4. Sobreposição dos dados 
+# Dataset que se sobrepõem:
+#  - Noronha:  Morais e PELD ILOC 
+#  - Rocas:  Morais e PELD ILOC
+#  - SPSP:  Morais e PELD ILOC
+#  - Trindade: Hudson, Morais e PELD ILOC
+#  - Arraial: Morais e Cadu
+#  - Santa Catarina: Morais e Floeter
+# (basicamente todos que foram coletados mais de uma vez rs)
+
+# removing observations from H. Pinheiro from this data set - these data will be maintained in the datasets of Pinheiro et al.
+unique(dados [which(dados$observer == "hudson_pinheiro"),"verbatimSite"]) # did sampling at "trindade"   and    "espirito_santo" - redundant
+unique(dados [which(dados$observer == "hudson_pinheiro"),"higherGeography"]) # "BrazilianOceanicIslands" & "BrazilianCoast" - redundant
+dados <- dados[which(dados$observer != "hudson_pinheiro"), ]
+unique(dados$observer)[order(unique(dados$observer))]
+
+# check data from Noronha # ok.. the older ones are j. krajewski (2007, own research, and 2011 are SISBIOTA - PELD started at 2013)
+unique(dados [which(dados$site == "noronha"),"year"])
+unique(dados [which(dados$site == "noronha" & dados$year %in% c("2007", "2011")),"observer"])
+dados <- (dados [-which(dados$site == "noronha" & dados$year %in% c("2013", "2014")),]) # remove these records (already in other data bases)
+
+# check data from Rocas # ok.. the older ones are "renato_morais"  "sergio_floeter" (2012) -- keep only them
+unique(dados [which(dados$site == "rocas"),"year"])
+unique(dados [which(dados$site == "rocas" & dados$year == "2012"),"observer"])
+unique(dados [which(dados$site == "rocas" & dados$year == "2013"),"observer"])
+unique(dados [which(dados$site == "rocas" & dados$year == "2014"),"observer"])
+dados <- (dados [-which(dados$site == "rocas" & dados$year %in% c("2013", "2014")),]) # remove these records (already in other data bases)
+
+# check data from SPSP # ok.. the older ones are "gugaw_ferreira"  "eduardo_godoy"   "bertran_feitoza" "ramon_noguchi"  "gugaw_ferreira" "cel_ferreira"  -- keep only them
+unique(dados [which(dados$site == "stpauls_rocks"),"year"])
+unique(dados [which(dados$site == "stpauls_rocks" & dados$year == "2009"),"observer"])
+unique(dados [which(dados$site == "stpauls_rocks" & dados$year == "2011"),"observer"])
+unique(dados [which(dados$site == "stpauls_rocks" & dados$year == "2012"),"observer"])
+unique(dados [which(dados$site == "stpauls_rocks" & dados$year == "2013"),"observer"])
+dados <- (dados [-which(dados$site == "stpauls_rocks" & dados$year %in% c("2013")),]) # remove these records from 2013 (already in other data bases)
+
+
+# check data from trindade # 2012 sampling made by "renato_morais"
+unique(dados [which(dados$site == "trindade"),"year"])
+unique(dados [which(dados$site == "trindade" & dados$year == "2012"),"observer"])
+unique(dados [which(dados$site == "trindade" & dados$year == "2013"),"observer"]) # PELD team
+dados <- (dados [-which(dados$site == "trindade" & dados$year %in% c("2013")),]) # remove these records from 2013 (already in other data bases)
+
+
+# check data from arraial # "renato_morais" name not appears -- get rid of all these data
+unique(dados [which(dados$site == "arraial"),"year"])
+unique(dados [which(dados$site == "arraial" & dados$year == "2003"),"observer"])
+unique(dados [which(dados$site == "arraial" & dados$year == "2004"),"observer"])
+unique(dados [which(dados$site == "arraial" & dados$year == "2005"),"observer"])
+unique(dados [which(dados$site == "arraial" & dados$year == "2006"),"observer"])
+unique(dados [which(dados$site == "arraial" & dados$year == "2007"),"observer"])
+unique(dados [which(dados$site == "arraial" & dados$year == "2008"),"observer"])
+unique(dados [which(dados$site == "arraial" & dados$year == "2009"),"observer"])
+unique(dados [which(dados$site == "arraial" & dados$year == "2011"),"observer"]) 
+unique(dados [which(dados$site == "arraial" & dados$year == ""),"observer"])
+dados <- (dados [-which(dados$site == "arraial"),]) # remove all records from arraial (already in other data bases)
+
+
+# check data from santa catarina #
+unique(dados [which(dados$site %in% c( "ilhasc_norte" ,"ilhasc_sul" )),"year"])
+unique(dados [which(dados$site %in% c( "ilhasc_norte" ,"ilhasc_sul" )),"observer"])
+unique(dados [which(dados$site %in% c( "ilhasc_norte" ,"ilhasc_sul" ) & dados$observer == "renato_morais"),"year"]) # 2011 might be sisbiota data
+unique(dados [which(dados$site %in% c( "ilhasc_norte" ,"ilhasc_sul" ) & dados$observer == "renato_morais"),"locality"])
+dados <- (dados [-which(dados$site %in% c( "ilhasc_norte" ,"ilhasc_sul" ) & dados$year %in% c( "2009", "2010",  "2008", "2014", "2013", "2012", "2015")),]) # remove all records from arraial (already in other data bases)
+
 
 
 # ------------------------------------------------------
 # CREATING IDS
-
-
-
 
 
 
@@ -402,6 +467,8 @@ dados$scientificNameAccepted[grep ("Hypanus americanus", dados$scientificNameAcc
 dados$scientificNameAccepted[grep ("Haemulon steindachneri", dados$scientificNameAccepted)] <- "Haemulon atlanticus"
 dados$scientificNameAccepted[grep ("Sphoeroides spengleri", dados$scientificNameAccepted)] <- "Sphoeroides camila"
 
+# Stegastes fuscus trindadensis instead S fuscus in Trindade island
+dados [which(dados$scientificNameAccepted == "Stegastes fuscus" & dados$site == "trindade"),"scientificNameAccepted"] <- "Stegastes fuscus trindadensis"
 
 # genus
 dados$genus[grep ("multilineata", dados$scientificNameAccepted)] <- "Azurina"

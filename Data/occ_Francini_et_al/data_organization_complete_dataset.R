@@ -13,7 +13,7 @@ occ_Francini_et_al <- read.xlsx(here("Data","occ_Francini_et_al",
 
 
 # remove data from Aued et al. 2018 (no year)
-occ_Francini_et_al <- occ_Francini_et_al[which(is.na(occ_Francini_et_al$YEAR)!= T),]
+#occ_Francini_et_al <- occ_Francini_et_al[which(is.na(occ_Francini_et_al$YEAR)!= T),]
 
 
 
@@ -192,18 +192,23 @@ francini_bind_data <- cbind(var_data,
                             cover_data)
 
 
-# remove plot data
-francini_bind_data <-francini_bind_data[which(francini_bind_data$taxonOrGroup %in% 
-                                                c("Sand","Rock") != T),]
+# dont remove plot data
+#francini_bind_data <-francini_bind_data[which(francini_bind_data$taxonOrGroup %in% 
+#                                                c("Sand","Rock") != T),]
 
 
+
+taxa_to_seach <- unique(francini_bind_data$taxonOrGroup)
+
+# dont search these
+taxa_to_seach<-taxa_to_seach [which(taxa_to_seach %in%  c("Sand","Rock") != T)]
 
 
 # validation of species name (worms) ----------------------------------
 # matching with worms
 
 
-worms_record <- lapply (unique(francini_bind_data$taxonOrGroup), function (i) 
+worms_record <- lapply (taxa_to_seach, function (i) 
   
   tryCatch (
     
@@ -260,6 +265,9 @@ francini_bind_data$family<-(df_worms_record$family [match (francini_bind_data$ta
 francini_bind_data$genus <-(df_worms_record$genus [match (francini_bind_data$taxonOrGroup,
                                                            tolower (df_worms_record$scientificname))])
 
+francini_bind_data [which(francini_bind_data$taxonOrGroup %in% c("Sand","Rock")),]
+unique(francini_bind_data [which(francini_bind_data$taxonOrGroup %in% c("Sand","Rock")),"scientificNameID"])
+unique(francini_bind_data [which(francini_bind_data$taxonOrGroup %in% c("Sand","Rock")),"scientificNameAccepted"])
 
 
 # ----------------------------------------------------------------------------------------------
@@ -455,7 +463,7 @@ years_sites <- table (francini_bind_data$site,francini_bind_data$locality,franci
 colnames(francini_bind_data)[which(colnames(francini_bind_data) == "cover")] <- "measurementValue"
 
 # 0 - 1
-francini_bind_data$measurementValue <- francini_bind_data$measurementValue
+francini_bind_data$measurementValue <- francini_bind_data$measurementValue/100
 
 # method
 francini_bind_data$samplingProtocol <- "Photoquadrats - 0.66 x 0.75 m"
@@ -511,12 +519,12 @@ francini_bind_data$language <- "en"
 
 
 # eventRemarks
-francini_bind_data$eventRemarks <- "Bare substrate, sediment, lost information (shade, quadrat, tape), morpho-anatomical benthic groups and turf were not included in the data because they do not represent taxonomical entities in which DwC standards are based. This implies in a measurementValue which does not add up to 1. Please contact the data curators Andre Luza and Cesar Cordeiro to have the complete dataset with verbatimIdentification"
+#francini_bind_data$eventRemarks <- "Bare substrate, sediment, lost information (shade, quadrat, tape), morpho-anatomical benthic groups and turf were not included in the data because they do not represent taxonomical entities in which DwC standards are based. This implies in a measurementValue which does not add up to 1. Please contact the data curators Andre Luza and Cesar Cordeiro to have the complete dataset with verbatimIdentification"
 
 
 
-# remove these MAGs
-francini_bind_data <- francini_bind_data [which(is.na(francini_bind_data$scientificNameAccepted) !=T),]
+# dont remove these MAGs
+# francini_bind_data <- francini_bind_data [which(is.na(francini_bind_data$scientificNameAccepted) !=T),]
 
 
 # sites into locations
@@ -528,19 +536,20 @@ colnames(francini_bind_data)[which(colnames(francini_bind_data) == "site")] <- "
 # for one ID
 test_id <- unique(francini_bind_data$eventID)
 
-test <- (francini_bind_data[which(francini_bind_data$eventID == test_id[1]) ,]) %>%
+test <- (francini_bind_data[which(francini_bind_data$eventID == test_id[10]) ,]) %>%
   
   group_by(eventID, scientificName) %>%
   summarize(cover = sum(measurementValue)) # 
 
-hist(test$cover)
+sum(test$cover)
+test[which(test$cover>0),]
 
 test <- francini_bind_data %>%
   
   group_by(eventID) %>%
   summarize(cover = sum(measurementValue)) # 
 
-range(test$cover)
+range(francini_bind_data$measurementValue,na.rm=T)
 
 test %>%
   filter (cover >1)
@@ -550,12 +559,12 @@ test %>%
 data_all <- francini_bind_data %>% # Problem on the join with many-to-many relationship
   
   group_by(eventID, scientificName) %>%
-  summarize(total = sum(measurementValue)) %>% 
+  summarize(total = mean(measurementValue)) %>% 
   ungroup()
 
 data_all %>%
   filter (total >1)
-
+# the problem might be some not well coded site / year / point
 hist(data_all$total) # Problem: the sum is not equal to 100 for most sampling units
 
 
@@ -571,8 +580,9 @@ DF_eMOF <- francini_bind_data [,c("eventID",
                                   "occurrenceID",
                                   "measurementValue", 
                                   "measurementType",
-                                  "measurementUnit",
-                                  "eventRemarks")]
+                                  "measurementUnit"#,
+                                  #"eventRemarks"
+                                  )]
 
 DF_occ <- francini_bind_data [,c("eventID", 
                                  "occurrenceID",
@@ -635,14 +645,14 @@ output <- list (DF_occ = DF_occ,
 # txt format
 write.csv(DF_occ, file =here("DwC_output",
                                "RFrancini_spatialData",
-                               "DF_occ.csv"))
+                               "DF_occ_complete.csv"))
 
 write.csv(DF_eMOF, file =here("DwC_output",
                                 "RFrancini_spatialData",
-                                "DF_eMOF.csv"))
+                                "DF_eMOF_complete.csv"))
 
 
 write.csv(event_core, file =here("DwC_output",
                                    "RFrancini_spatialData",
-                                   "event_core.csv"))
+                                   "event_core_complete.csv"))
 rm(list=ls())

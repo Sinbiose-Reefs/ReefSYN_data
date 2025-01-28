@@ -180,6 +180,7 @@ bentos_long_format$eventID <- paste (bentos_long_format$Region,
                                      bentos_long_format$photoquadrat,
                                      bentos_long_format$year,sep=".")
 
+
 # check whether the sum of one event ID reaches 100
 #test_id <- unique(bentos_long_format$eventID)
 #test <- (bentos_long_format[which(bentos_long_format$eventID == test_id[1]) ,]) %>%
@@ -304,12 +305,15 @@ unique(bentos_long_format$taxonOrGroup)[order(unique(bentos_long_format$taxonOrG
 
 
 # matching scientificNames with worms
-# remove plot data (because worms may find some equivalent, weird name for them)
+# enable plot data (because worms may find some equivalent, weird name for them)
+# bentos_long_format<-bentos_long_format [which(bentos_long_format$taxonOrGroup %in% c("sombra","quadrado","areia e cascalho","desconhecido" ) != T),]
 
-bentos_long_format<-bentos_long_format [which(bentos_long_format$taxonOrGroup %in% c("sombra","quadrado","areia e cascalho","desconhecido" ) != T),]
+taxa_to_seach <- unique(bentos_long_format$taxonOrGroup)
+# dont search these
+taxa_to_seach<-taxa_to_seach [which(taxa_to_seach %in% c("sombra","quadrado","areia e cascalho","desconhecido" ) != T)]
 
 # match with worms
-worms_record <- lapply (unique(bentos_long_format$taxonOrGroup), function (i) 
+worms_record <- lapply (taxa_to_seach, function (i) 
   
   tryCatch (
     
@@ -321,7 +325,6 @@ worms_record <- lapply (unique(bentos_long_format$taxonOrGroup), function (i)
   )
   
 )
-
 
 
 # two rows
@@ -368,7 +371,8 @@ bentos_long_format$family<-(df_worms_record$family [match (bentos_long_format$ta
 bentos_long_format$genus <-(df_worms_record$genus [match (bentos_long_format$taxonOrGroup,
                                                            tolower (df_worms_record$scientificname))])
 
-
+unique(bentos_long_format [which(bentos_long_format$taxonOrGroup %in% c("sombra","quadrado","areia e cascalho","desconhecido" )),"scientificNameID"])
+unique(bentos_long_format [which(bentos_long_format$taxonOrGroup %in% c("sombra","quadrado","areia e cascalho","desconhecido" )),"scientificNameAccepted"])
 
 
 # ----------------------------------------------------------------------------------------------
@@ -453,8 +457,6 @@ bentos_long_format$sampleSizeValue <- 0.25*0.25 # subsamples # the scale we're p
 # sampleSizeUnit
 bentos_long_format$sampleSizeUnit <- "squared meters"
 
-# adjusting cover (x100 to transform into percentage)
-bentos_long_format$measurementValue <- bentos_long_format$measurementValue*100
 
 # country and code
 bentos_long_format$Country <- "Brazil"
@@ -468,10 +470,10 @@ bentos_long_format$basisOfRecord <- "HumanObservation"
 bentos_long_format$occurrenceStatus <- "presence"
 
 # organismQuantityType
-bentos_long_format$organismQuantityType <- "Percentage cover"
+bentos_long_format$organismQuantityType <- "Relative cover"
 
 # measurementType
-bentos_long_format$measurementType <- "Percentage cover"
+bentos_long_format$measurementType <- "Relative cover"
 
 # measurementUnit
 bentos_long_format$measurementUnit <- "dimensionless"
@@ -504,8 +506,8 @@ bentos_long_format$bibliographicCitation <- "Aued, Anaide Wrublevski et al. (201
 # eventRemarks
 bentos_long_format$eventRemarks <- "Bare substrate, sediment, lost information (shade, quadrat, tape), morpho-anatomical benthic groups and turf were not included in the data because they do not represent taxonomical entities in which DwC standards are based. This implies in a measurementValue which does not add up to 1. Names listed in 'recordedBy' are of people who collected data and/or analyzed photos. Please contact the data curators Andre Luza and Cesar Cordeiro to have the complete dataset with verbatimIdentification"
 
-# remove these MAGs
-bentos_long_format <- bentos_long_format [which(is.na(bentos_long_format$scientificNameAccepted) !=T),]
+# dont remove these MAGs
+# bentos_long_format <- bentos_long_format [which(is.na(bentos_long_format$scientificNameAccepted) !=T),]
 
 
 # ----------------------------------------------------------------------------------------------
@@ -646,14 +648,18 @@ colnames(bentos_long_format)[which(colnames(bentos_long_format) == "site")] <- "
 
 
 # check whether the sum of one event ID reaches 100
+
 test_id <- unique(bentos_long_format$eventID)
 
-test <- (bentos_long_format[which(bentos_long_format$eventID == test_id[100]) ,]) %>%
+# sometimes the cover overpass 1. This is because the video ID was not well coded or not coded in the data. 
+# examples are test_id[308] and test_id[20]
+test <- (bentos_long_format[which(bentos_long_format$eventID == test_id[308]) ,]) %>%
   
   group_by(eventID, scientificName) %>%
   summarize(cover = sum(measurementValue)) # 
 
-(test$cover)
+test[which(test$cover>0),]
+sum(test$cover)
 
 test <- bentos_long_format %>%
   
@@ -742,6 +748,7 @@ data_all <- left_join(DF_eMOF, event_core) %>%
   summarize(total = sum(measurementValue)) %>% 
   ungroup()
 
+# this is because of video ID issues 
 hist(data_all$total) # Problem: the sum is not equal to 100 for most sampling units
 
 
@@ -749,13 +756,13 @@ hist(data_all$total) # Problem: the sum is not equal to 100 for most sampling un
 # csv format
 write.csv(DF_occ, file =here("DwC_output",
                                "AAued_spatialData",
-                               "DF_occ.csv"))
+                               "DF_occ_complete.csv"))
 write.csv(DF_eMOF, file =here("DwC_output",
                                 "AAued_spatialData",
-                                "DF_eMOF.csv"))
+                                "DF_eMOF_complete.csv"))
 write.csv(event_core, file =here("DwC_output",
                                    "AAued_spatialData",
-                                   "event_core.csv"))
+                                   "event_core_complete.csv"))
 
 # end
 rm(list=ls())
