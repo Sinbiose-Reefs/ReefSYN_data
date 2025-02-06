@@ -634,15 +634,15 @@ output <- list (DF_occ = DF_occ,
 # save RData
 # txt format
 write.csv(DF_occ, file =here("DwC_output",
-                               "RFrancini_spatialData",
+                               "XIII",
                                "DF_occ.csv"))
 
 write.csv(DF_eMOF, file =here("DwC_output",
-                                "RFrancini_spatialData",
+                                "XIII",
                                 "DF_eMOF.csv"))
 
 
 write.csv(event_core, file =here("DwC_output",
-                                   "RFrancini_spatialData",
+                                   "XIII",
                                    "event_core.csv"))
 rm(list=ls())

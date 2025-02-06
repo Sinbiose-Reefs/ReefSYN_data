@@ -265,7 +265,7 @@ dados_bind$scientificNameAccepted[grep ("polygonius", dados_bind$scientificNameA
 dados_bind$scientificNameAccepted[grep ("Dasyatis americana", dados_bind$scientificNameAccepted)] <- "Hypanus berthalutzae"
 dados_bind$scientificNameAccepted[grep ("Haemulon steindachneri", dados_bind$scientificNameAccepted)] <- "Haemulon atlanticus"
 dados_bind$scientificNameAccepted[grep ("Sphoeroides spengleri", dados_bind$scientificNameAccepted)] <- "Sphoeroides camila"
-
+# 
 
 # genus
 dados_bind$genus[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina"
@@ -539,16 +539,16 @@ output <- list (DF_occ = DF_occ,
 # save
 # write to txt format
 write.csv(DF_occ, file =here("DwC_output",
-                               "SC_time_series",
+                               "VI",
                                "DF_occ.csv"))
 
 write.csv(DF_eMOF, file =here("DwC_output",
-                                "SC_time_series",
+                                "VI",
                                 "DF_eMOF.csv"))
 
 
 write.csv(event_core, file =here("DwC_output",
-                                   "SC_time_series",
+                                   "VI",
                                    "event_core.csv"))
 
 ## end

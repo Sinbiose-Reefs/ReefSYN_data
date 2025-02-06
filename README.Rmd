@@ -16,8 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Target journal: Earth System Science Data
 
-
-Here we present the raw figures of the datapaper. We adopted the Darwin Core Standard to organize the 16 datasets. The root R script "RUN_TO_ORGANIZE_DATA_INTO_DwC.R" can be used to generate these organized datasets from raw datasets. By running this script you will create the folder 'DwC_output' which will host the processed datasets (most of them in a particular folder; exceptions are datasets II and XII (fish and benthos from the ABrolhos Bank), and XI and XVI (fish and benthos from Rio Grande do Norte state), which were produced by the same researchers).
+Here we present the raw figures of the datapaper. We adopted the Darwin Core Standard to organize the 16 datasets. The root R script "RUN_TO_ORGANIZE_DATA_INTO_DwC.R" can be used to generate these organized datasets from raw datasets. By running this script you will create the folder 'DwC_output' which will host the processed datasets (most of them in a particular folder; exceptions are datasets II and XII (fish and benthos from the ABrolhos Bank), and XI and XVI (fish and benthos from Rio Grande do Norte state), which were produced by the same researchers). Main data updates are listed in the end of this file. 
 
 Folders in this project:
 
@@ -70,7 +69,6 @@ Students and researchers that collected the data. ReefSYN was supported by the C
 # Financial support
 
 This project is funded by the Center for Synthesis in Biodiversity and Ecosystem Services SinBiose (https://www.gov.br/cnpq/pt-br/acesso-a-informacao/acoes-e-programas/programas/sinbiose-1) (CNPq #442417/2019-5, granted to MGB). The center is part of the National Council for Scientific and Technological Development (Conselho Nacional de Desenvolvimento Científico e Tecnológico, CNPq). Researchers from the “Brazilian Marine Biodiversity Research Network – SISBIOTA-Mar” (CNPq #563276/2010-0 and FAPESC #6308/2011-8 to SRF) and ‘‘Programa de Monitoramento de Longa Duração das Comunidades Recifais de Ilhas Oceânicas – PELD ILOC’’ (CNPq 441241/2016-6, to CELF), initiatives that collected and shared their data sets used in this research. ALL received post-doctoral fellowships from CNPq (#153024/2022-4, #164240/2021-7, #151228/2021-3, #152410/2020-1). J.P.Q. received post-doctoral fellowship from FAPESP (2018/21380-0 and 2021/). TCM received post-doctoral fellowships from FAPERJ (E-26/202.372/2021) and CNPq (#102450/2022-6). GOL is grateful to a research productivity scholarship provided by the Brazilian National Council for Scientific and Technological Development (CNPq; 310517/2019-2) and Serrapilheira Institute (Grant No. Serra-1708-15364) for continued research support.
-
 
 ## This paper was produced using the following software and associated packages:
 

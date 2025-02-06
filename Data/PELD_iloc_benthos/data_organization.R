@@ -235,16 +235,16 @@ benthos_event_core$island[which(benthos_event_core$island == "sao_pedro_e_sao_pa
 
 # save
 write.csv(benthos_DF_occ2, file =here("DwC_output",
-                               "PELD_iloc_benthos",
+                               "XV",
                                "DF_occ.csv"),
             quote = T)
 write.csv(benthos_DF_eMOF, file =here("DwC_output",
-                                "PELD_iloc_benthos",
+                                "XV",
                                 "DF_eMOF.csv"),
             quote = T)
 
 write.csv(benthos_event_core, file =here("DwC_output",
-                                   "PELD_iloc_benthos",
+                                   "XV",
                                    "event_core.csv"),
             quote = T)
 

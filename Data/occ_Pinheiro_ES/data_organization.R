@@ -567,22 +567,18 @@ output <- list (DF_occ = DF_occ,
                 event_core=event_core)
 
 
-
-# save
-dir.create(here ("DwC_output", "Pinheiro_ES"))
-
 # write to txt format
 write.csv(DF_occ, file =here("DwC_output",
-                               "Pinheiro_ES",
+                               "VIII",
                                "DF_occ.csv"),fileEncoding = "latin1")
 
 write.csv(DF_eMOF, file =here("DwC_output",
-                                "Pinheiro_ES",
+                                "VIII",
                                 "DF_eMOF.csv"),fileEncoding = "latin1")
 
 
 write.csv(event_core, file =here("DwC_output",
-                                   "Pinheiro_ES",
+                                   "VIII",
                                    "event_core.csv"),fileEncoding = "latin1")
 
 

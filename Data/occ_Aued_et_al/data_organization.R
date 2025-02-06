@@ -748,13 +748,13 @@ hist(data_all$total) # Problem: the sum is not equal to 100 for most sampling un
 # save
 # csv format
 write.csv(DF_occ, file =here("DwC_output",
-                               "AAued_spatialData",
+                               "XIV",
                                "DF_occ.csv"))
 write.csv(DF_eMOF, file =here("DwC_output",
-                                "AAued_spatialData",
+                                "XIV",
                                 "DF_eMOF.csv"))
 write.csv(event_core, file =here("DwC_output",
-                                   "AAued_spatialData",
+                                   "XIV",
                                    "event_core.csv"))
 
 # end

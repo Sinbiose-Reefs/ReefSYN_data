@@ -500,24 +500,19 @@ output <- list (DF_occ = DF_occ,
                 event_core=event_core)
 
 
-# create dir
-dir.create(here ("DwC_output",
-                 "Alcatrazes_time_series"))
-
-
 # save
 # write to txt format
 write.csv(DF_occ, file =here("DwC_output",
-                             "Alcatrazes_time_series",
+                             "X",
                                "DF_occ.csv"))
 
 write.csv(DF_eMOF, file =here("DwC_output",
-                              "Alcatrazes_time_series",
+                              "X",
                                 "DF_eMOF.csv"))
 
 
 write.csv(event_core, file =here("DwC_output",
-                                 "Alcatrazes_time_series",
+                                 "X",
                                    "event_core.csv"))
 
 ## end

@@ -893,17 +893,16 @@ output <- list (DF_occ = DF_occ,
                 event_core=event_core)
 
 
-
 # save
 # txt format
 write.csv(DF_occ, file =here("DwC_output",
-                               "GLongo_spatialData",
+                               "IX",
                                "DF_occ.csv"))
 write.csv(DF_eMOF, file =here("DwC_output",
-                                "GLongo_spatialData",
+                                "IX",
                                 "DF_eMOF.csv"))
 write.csv(event_core, file =here("DwC_output",
-                                   "GLongo_spatialData",
+                                   "IX",
                                    "event_core.csv"))
 
 rm(list=ls())

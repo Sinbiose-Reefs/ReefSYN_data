@@ -565,19 +565,19 @@ output <- list (DF_occ = DF_occ,
 # write to txt
 
 write.csv(DF_occ, file =here("DwC_output",
-                               "RFrancini_timeSeries_abrolhos",
+                               "II",
                                "DF_occ_fish.csv"))
 
 
 
 write.csv(DF_eMOF, file =here("DwC_output",
-                                "RFrancini_timeSeries_abrolhos",
+                                "II",
                                 "DF_eMOF_fish.csv"))
 
 
 
 write.csv(event_core, file =here("DwC_output",
-                                   "RFrancini_timeSeries_abrolhos",
+                                   "II",
                                    "event_core_fish.csv"))
 
 
@@ -645,19 +645,19 @@ event_core_presence <- data.frame (group_by(fish_long_format%>%
 # write to txt
 
 write.csv(DF_occ_presence, file =here("DwC_output",
-                             "RFrancini_timeSeries_abrolhos",
+                             "II",
                              "DF_occ_fish_presence.csv"))
 
 
 
 write.csv(DF_eMOF_presence, file =here("DwC_output",
-                              "RFrancini_timeSeries_abrolhos",
+                              "II",
                               "DF_eMOF_fish_presence.csv"))
 
 
 
 write.csv(event_core_presence, file =here("DwC_output",
-                                 "RFrancini_timeSeries_abrolhos",
+                                 "II",
                                  "event_core_fish_presence.csv"))
 
 
@@ -728,19 +728,19 @@ event_core_absence <- data.frame (group_by(fish_long_format%>%
 # write to txt
 
 write.csv(DF_occ_absence, file =here("DwC_output",
-                                      "RFrancini_timeSeries_abrolhos",
+                                      "II",
                                       "DF_occ_fish_absence.csv"))
 
 
 
 write.csv(DF_eMOF_absence, file =here("DwC_output",
-                                       "RFrancini_timeSeries_abrolhos",
+                                       "II",
                                        "DF_eMOF_fish_absence.csv"))
 
 
 
 write.csv(event_core_absence, file =here("DwC_output",
-                                          "RFrancini_timeSeries_abrolhos",
+                                          "II",
                                           "event_core_fish_absence.csv"))
 
 

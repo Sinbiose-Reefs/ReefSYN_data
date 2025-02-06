@@ -368,7 +368,7 @@ dados_bind <- dados_bind %>%
 
 
 # coordinates (gather coordinates from PELD Dataset)
-PELD_coords <- read.csv (here ("\\.","Pos_Doc_Sinbiose", "ReefSYN_data", "DwC_output","PELD_iloc_fish","event_core.csv"))
+PELD_coords <- read.csv (here ("\\.","Pos_Doc_Sinbiose", "ReefSYN_data", "DwC_output","IV","event_core.csv"))
 PELD_coords_trindade <- PELD_coords %>% 
                       
   filter (island == "trindade")  
@@ -514,21 +514,18 @@ output <- list (DF_occ = DF_occ,
 
 
 
-# save
-dir.create(here ("DwC_output", "Pinheiro_TrindadeMVaz"))
-
 # write to txt format
 write.csv(DF_occ, file =here("DwC_output",
-                               "Pinheiro_TrindadeMVaz",
+                               "V",
                                "DF_occ.csv"))
 
 write.csv(DF_eMOF, file =here("DwC_output",
-                                "Pinheiro_TrindadeMVaz",
+                                "V",
                                 "DF_eMOF.csv"))
 
 
 write.csv(event_core, file =here("DwC_output",
-                                   "Pinheiro_TrindadeMVaz",
+                                   "V",
                                    "event_core.csv"))
 
 

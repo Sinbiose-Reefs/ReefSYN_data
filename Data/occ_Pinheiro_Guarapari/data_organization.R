@@ -319,7 +319,7 @@ dados_bind$decimalLongitude<-NA
 dados_bind$georeferenceRemarks <- NA
 
 # coordinates (gather coordinates from Aued et al. from Escalvada -- the only site that names match)
-Aued_coords <- read.csv (here ("\\.","Pos_Doc_Sinbiose", "ReefSYN_data", "DwC_output","AAued_spatialData","event_core.csv"))
+Aued_coords <- read.csv (here ("\\.","Pos_Doc_Sinbiose", "ReefSYN_data", "DwC_output","XIV","event_core.csv"))
 
 # bind
 dados_bind [grep("escalvada",dados_bind$locality), "decimalLatitude"] <- mean(Aued_coords [which(Aued_coords$locality == "escalvada"),"decimalLatitude"])
@@ -618,22 +618,17 @@ output <- list (DF_occ = DF_occ,
                 event_core=event_core)
 
 
-
-# save
-dir.create(here ("DwC_output", "Pinheiro_GuarapariES"))
-
 # write to txt format
 write.csv(DF_occ, file =here("DwC_output",
-                               "Pinheiro_GuarapariES",
+                               "VII",
                                "DF_occ.csv"))
 
 write.csv(DF_eMOF, file =here("DwC_output",
-                                "Pinheiro_GuarapariES",
+                                "VII",
                                 "DF_eMOF.csv"))
 
-
 write.csv(event_core, file =here("DwC_output",
-                                   "Pinheiro_GuarapariES",
+                                   "VII",
                                    "event_core.csv"))
 
 

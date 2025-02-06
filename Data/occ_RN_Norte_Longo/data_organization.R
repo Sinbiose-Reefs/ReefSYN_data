@@ -1163,17 +1163,14 @@ output <- list (DF_occ = DF_occ,
 # save
 # txt format
 write.csv(DF_occ, file =here("DwC_output",
-                               "GLongo_NRoss_spatialData",
-                               "DF_occ_fish.csv"))
+                               "XI",
+                               "DF_occ.csv"))
 write.csv(DF_eMOF, file =here("DwC_output",
-                                "GLongo_NRoss_spatialData",
-                                "DF_eMOF_fish.csv"))
+                                "XI",
+                                "DF_eMOF.csv"))
 write.csv(event_core, file =here("DwC_output",
-                                   "GLongo_NRoss_spatialData",
-                                   "event_core_fish.csv"))
-
-
-
+                                   "XI",
+                                   "event_core.csv"))
 
 
 
@@ -1595,14 +1592,14 @@ event_core <- data.frame (group_by(occ_Ross_et_al_benthos, eventID,higherGeograp
 )
 # save
 write.csv(DF_occ, file =here("DwC_output",
-                               "GLongo_NRoss_spatialData",
-                               "DF_occ_benthos.csv"))
+                               "XVI",
+                               "DF_occ.csv"))
 write.csv(DF_eMOF, file =here("DwC_output",
-                                "GLongo_NRoss_spatialData",
-                                "DF_eMOF_benthos.csv"))
+                                "XVI",
+                                "DF_eMOF.csv"))
 write.csv(event_core, file =here("DwC_output",
-                                   "GLongo_NRoss_spatialData",
-                                   "event_core_benthos.csv"))
+                                   "XVI",
+                                   "event_core.csv"))
 
 # end
 rm(list=ls())

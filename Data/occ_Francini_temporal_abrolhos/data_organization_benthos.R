@@ -886,15 +886,15 @@ output <- list (DF_occ = DF_occ,
 
 
 write.csv(DF_occ, file =here("DwC_output",
-                               "RFrancini_timeSeries_abrolhos",
-                               "DF_occ_benthos.csv"))
+                               "XII",
+                               "DF_occ.csv"))
 write.csv(DF_eMOF, file =here("DwC_output",
-                                "RFrancini_timeSeries_abrolhos",
-                                "DF_eMOF_benthos.csv"))
+                                "XII",
+                                "DF_eMOF.csv"))
 
 write.csv(event_core, file =here("DwC_output",
-                                   "RFrancini_timeSeries_abrolhos",
-                                   "event_core_benthos.csv"))
+                                   "XII",
+                                   "event_core.csv"))
 
 # end
 rm(list=ls())

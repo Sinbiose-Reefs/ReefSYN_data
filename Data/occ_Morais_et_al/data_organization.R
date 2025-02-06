@@ -866,16 +866,16 @@ output <- list (DF_occ = DF_occ,
 # write to txt format
 
 write.csv(DF_occ, file =here("DwC_output",
-                               "RMorais_spatialData",
+                               "I",
                                "DF_occ.csv"))
 
 write.csv(DF_eMOF, file =here("DwC_output",
-                                "RMorais_spatialData",
+                                "I",
                                 "DF_eMOF.csv"))
 
 
 write.csv(event_core, file =here("DwC_output",
-                                   "RMorais_spatialData",
+                                   "I",
                                    "event_core.csv"))
 rm(list=ls())
 
