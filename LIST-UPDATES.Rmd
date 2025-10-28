@@ -1,0 +1,30 @@
+---
+title:  "Standardized datasets of Brazilian reef diversity in space and time"
+author: "Reef Synthesis Working Group (André Luza)"
+date: "2023/12/14"
+output: github_document
+---
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Main updates:
+
+### JANUARY 2025
+1 - Folders with DwC data named appropriately (from I to XVI);
+2 - Redundancy of records among data sets was eliminated -- many observations from PELD, ES, SC, ..., were eliminated from the SISBIOTA data set (as identified by Juliana Fonseca-UFF);
+3 - Taxonomic updates were:
+a) *Ophioblennius atlanticus* (Only eastern Atlantic): Brazil has *Ophioblennius trinitatis* in the coast and islands. The only exception is Santa Catarina, which has a new species (SR Floeter pers. comm.). Thus, the data set of Santa Catarina has just "Ophioblennius". Details can be found here: https://lbmm.ufsc.br/pdfs/Lastrucci_et_al_(2018)_Ophioblennius_JFB.pdf
+b) *Stegastes fuscus trindadensis* in Trindade, instead of *Stegastes fuscus*
+
+
+
+
+ToDo list:
+
+1) Ensure that the sum of benthic cover within eventIDs sum 1 (ie. plot scale). For some datasets might not be possible (XIII, for which plot ID was not avaiable). Look the scripts in R/Corrections and try to solve the issues.
+2) Is it possible to define a scale that integrates all data sets. From now, each data set has an unique hierarchy which might hardly match between data sets.
