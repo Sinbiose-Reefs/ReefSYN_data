@@ -1,7 +1,7 @@
 
 # Package names
 packages <- c("here", "openxlsx", "tidyverse", "rnaturalearth", "rnaturalearthdata" , "gridExtra" , 
-              "ggrepel" , "scatterpie" , "sf" , "rgeos" , "tm", "SnowballC", 
+              "ggrepel" , "scatterpie" , "sf" ,  "tm", "SnowballC",   "terra" ,
               "wordcloud", "tm","knitr", "png", "rerddap", "parallel", "lubridate",
               "flexdashboard", "leaflet", "vegan", "dygraphs", "xts", "plotly",
               "mapdata", "RColorBrewer", "reshape2", "magrittr", "patchwork")
