@@ -121,11 +121,15 @@ L.peixes$region [is.na(L.peixes$region)] <- "Caribbean_NorthAmerica"
 
 
 
-L.peixes$eventDate <- as.Date (L.peixes$date) # date
+L.peixes$eventDate <-  (L.peixes$date) # date
+L.peixes$eventDate <- gsub ("/", "-",L.peixes$eventDate)
+L.peixes$eventDate <- as.Date(L.peixes$eventDate,tryFormats = c("%d-%m-%Y"))
 L.peixes$year <- format(L.peixes$eventDate,"%Y")
 L.peixes$month <- format(L.peixes$eventDate,"%m")
 L.peixes$day <- format(L.peixes$eventDate,"%d")
 
+
+L.peixes[is.na(L.peixes$year),]
 
 # eventTime
 L.peixes$eventTime <- L.peixes$time_of_day
