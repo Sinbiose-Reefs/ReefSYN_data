@@ -1,7 +1,7 @@
 ---
 title:  "Standardized datasets of Brazilian reef diversity in space and time"
 author: "Reef Synthesis Working Group"
-date: "2023/12/14"
+date: "2025/10/28"
 output: github_document
 ---
 
@@ -26,7 +26,7 @@ Folders in this project:
 
 - **Policy**: policies of authorship and data sharing (only Portuguese);
 
-- **R**: folder with R scripts. Scratch of a Shiny App;
+- **R**: folder with R scripts. Draft of a Shiny App;
 
 
 ## Figure: Team members' Institutes and Research Topics
@@ -64,13 +64,13 @@ Structure of the datasets gathered by the ReefSYN working group, showing the Dar
 These data are published under CC BY-NC license. “Policy of data sharing and use” can be found in the ReefSYN Organization in Github (available at  [here::here](https://github.com/Sinbiose-Reefs/reefsyn_site/blob/master/DataPolicy_SINBIOSE.pdf)). Data embargo goes up to January 2025.
 
 # Acknowledgements
-Students and researchers that collected the data. ReefSYN was supported by the Center for Synthesis in Biodiversity and Ecosystem Services (SinBiose, CNPq). Thiago Silveira and Marina Sissini (PELD-ILOC team).
+Students and researchers that collected the data. ReefSYN was supported by the Center for Synthesis in Biodiversity and Ecosystem Services (SinBiose, CNPq). The authors would like to thank the contributions of Thiago Silveira and Marina Sissini (PELD-ILOC team).
 
 # Financial support
 
 This project is funded by the Center for Synthesis in Biodiversity and Ecosystem Services SinBiose (https://www.gov.br/cnpq/pt-br/acesso-a-informacao/acoes-e-programas/programas/sinbiose-1) (CNPq #442417/2019-5, granted to MGB). The center is part of the National Council for Scientific and Technological Development (Conselho Nacional de Desenvolvimento Científico e Tecnológico, CNPq). Researchers from the “Brazilian Marine Biodiversity Research Network – SISBIOTA-Mar” (CNPq #563276/2010-0 and FAPESC #6308/2011-8 to SRF) and ‘‘Programa de Monitoramento de Longa Duração das Comunidades Recifais de Ilhas Oceânicas – PELD ILOC’’ (CNPq 441241/2016-6, to CELF), initiatives that collected and shared their data sets used in this research. ALL received post-doctoral fellowships from CNPq (#153024/2022-4, #164240/2021-7, #151228/2021-3, #152410/2020-1). J.P.Q. received post-doctoral fellowship from FAPESP (2018/21380-0 and 2021/). TCM received post-doctoral fellowships from FAPERJ (E-26/202.372/2021) and CNPq (#102450/2022-6). GOL is grateful to a research productivity scholarship provided by the Brazilian National Council for Scientific and Technological Development (CNPq; 310517/2019-2) and Serrapilheira Institute (Grant No. Serra-1708-15364) for continued research support.
 
-## This paper was produced using the following software and associated packages:
+## The data was processed using the following versions of software and associated packages:
 
 ```{r pressure, echo=F,warning=F,message=F}
 
