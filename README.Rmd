@@ -70,7 +70,7 @@ This project is funded by the Center for Synthesis in Biodiversity and Ecosystem
 
 ## Main updates:
 
-### 2025/06/24\
+### 2025/06/24
 
 1 - Folders with DwC data named appropriately (from I to XVI);\
 2 - The redundancy of records among data sets was eliminated. For instance, many records from PELD, ES, SC, ..., were aggregated to the Dataset I -- SISBIOTA data set-- in the past, generating the data redundancy (identified by Juliana Fonseca-UFF). Thus, we kept the records from their original sources;\
@@ -78,12 +78,11 @@ This project is funded by the Center for Synthesis in Biodiversity and Ecosystem
 a) *Ophioblennius atlanticus* (Only eastern Atlantic): Brazil has *Ophioblennius trinitatis* in the coast and islands. The only exception is Santa Catarina, which has a new species (SR Floeter pers. comm.). Thus, the data set of Santa Catarina has just "Ophioblennius". Details can be found here: https://lbmm.ufsc.br/pdfs/Lastrucci_et_al_(2018)_Ophioblennius_JFB.pdf; \
 b) *Stegastes fuscus trindadensis* in Trindade, instead of *Stegastes fuscus*. \
 
-### 2025/10/28\
+### 2025/10/28
 
-1 - Correcting year in dataset IX;\
-2 - Correction of site name in dataset V ("cabritas" to "praia_das_cabritas");\
-
-
+1 - Correcting year in dataset IX; \
+2 - Correction of site name in dataset V ("cabritas" to "praia_das_cabritas"); \
+ 
 ToDo list:
 
 1) Sum of benthic cover within eventIDs sum 1 (ie. plot scale). For some datasets might not be possible (XIII, for which plot ID was not available). Look the scripts in R/Corrections and try to solve the issues. PS: perhaps not a problem if one wants to work at site level, but need some care if one is interested in plot-level cover data;

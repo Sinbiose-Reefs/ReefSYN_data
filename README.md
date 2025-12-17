@@ -88,7 +88,7 @@ Institute (Grant No. Serra-1708-15364) for continued research support.
 
 ## Main updates:
 
-### 2025/06/24 
+### 2025/06/24
 
 1 - Folders with DwC data named appropriately (from I to XVI);  
 2 - The redundancy of records among data sets was eliminated. For
@@ -106,7 +106,7 @@ can be found here:
 b) *Stegastes fuscus trindadensis* in Trindade, instead of *Stegastes
 fuscus*.  
 
-### 2025/10/28 
+### 2025/10/28
 
 1 - Correcting year in dataset IX;  
 2 - Correction of site name in dataset V (“cabritas” to
