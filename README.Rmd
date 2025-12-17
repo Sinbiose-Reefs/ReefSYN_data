@@ -14,15 +14,13 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Target journal: Earth System Science Data
-
-Here we present the raw figures of the datapaper. We adopted the Darwin Core Standard to organize the 16 datasets. The root R script "RUN_TO_ORGANIZE_DATA_INTO_DwC.R" can be used to generate these organized datasets from raw datasets. By running this script you will create the folder 'DwC_output' which will host the processed datasets (most of them in a particular folder; exceptions are datasets II and XII (fish and benthos from the ABrolhos Bank), and XI and XVI (fish and benthos from Rio Grande do Norte state), which were produced by the same researchers). Main data updates are listed in the end of this file. 
+Here we present main details about our datapaper. We adopted the Darwin Core Standard to organize the 16 datasets. The root R script "RUN_TO_ORGANIZE_DATA_INTO_DwC.R" can be used to generate these organized datasets from raw data. By running this script you will create the folder 'DwC_output', which will then host the processed datasets. The last updates are listed in the end of this file. 
 
 Folders in this project:
 
 - **Data**: raw datasets. Each dataset folder has its own R script to organize data (DwC standard);
 
-- **DwC_output**: the processed data, after running each organization script;
+- **DwC_output**: the processed data, after running each organization script - folders will be numbered sequentially from I to XVI;
 
 - **Policy**: policies of authorship and data sharing (only Portuguese);
 
@@ -69,6 +67,27 @@ Students and researchers that collected the data. ReefSYN was supported by the C
 # Financial support
 
 This project is funded by the Center for Synthesis in Biodiversity and Ecosystem Services SinBiose (https://www.gov.br/cnpq/pt-br/acesso-a-informacao/acoes-e-programas/programas/sinbiose-1) (CNPq #442417/2019-5, granted to MGB). The center is part of the National Council for Scientific and Technological Development (Conselho Nacional de Desenvolvimento Científico e Tecnológico, CNPq). Researchers from the “Brazilian Marine Biodiversity Research Network – SISBIOTA-Mar” (CNPq #563276/2010-0 and FAPESC #6308/2011-8 to SRF) and ‘‘Programa de Monitoramento de Longa Duração das Comunidades Recifais de Ilhas Oceânicas – PELD ILOC’’ (CNPq 441241/2016-6, to CELF), initiatives that collected and shared their data sets used in this research. ALL received post-doctoral fellowships from CNPq (#153024/2022-4, #164240/2021-7, #151228/2021-3, #152410/2020-1). J.P.Q. received post-doctoral fellowship from FAPESP (2018/21380-0 and 2021/). TCM received post-doctoral fellowships from FAPERJ (E-26/202.372/2021) and CNPq (#102450/2022-6). GOL is grateful to a research productivity scholarship provided by the Brazilian National Council for Scientific and Technological Development (CNPq; 310517/2019-2) and Serrapilheira Institute (Grant No. Serra-1708-15364) for continued research support.
+
+## Main updates:
+
+### 2025/06/24
+
+1 - Folders with DwC data named appropriately (from I to XVI);
+2 - The redundancy of records among data sets was eliminated. For instance, many records from PELD, ES, SC, ..., were aggregated to the Dataset I -- SISBIOTA data set-- in the past, generating the data redundancy (identified by Juliana Fonseca-UFF). Thus, we kept the records from their original sources;
+3 - The taxonomic updates were:
+a) *Ophioblennius atlanticus* (Only eastern Atlantic): Brazil has *Ophioblennius trinitatis* in the coast and islands. The only exception is Santa Catarina, which has a new species (SR Floeter pers. comm.). Thus, the data set of Santa Catarina has just "Ophioblennius". Details can be found here: https://lbmm.ufsc.br/pdfs/Lastrucci_et_al_(2018)_Ophioblennius_JFB.pdf
+b) *Stegastes fuscus trindadensis* in Trindade, instead of *Stegastes fuscus*
+
+### 2025/10/28
+1 - Correcting year in dataset IX;
+2 - Correction of site name in dataset V ("cabritas" to "praia_das_cabritas")
+
+
+ToDo list:
+
+1) Sum of benthic cover within eventIDs sum 1 (ie. plot scale). For some datasets might not be possible (XIII, for which plot ID was not available). Look the scripts in R/Corrections and try to solve the issues. PS: perhaps not a problem if one wants to work at site level, but need some care if one is interested in plot-level cover data;
+2) Is it possible to define a scale (hierarchy of locations, localities, etc) that integrates all data sets? From now, each data set has an unique hierarchy which might not match with other data sets. Perhaps the best way to create 'sites' is through the use of the whole hierarchy by creating combinations of unique coordinates, locations, localities, regions.
+
 
 ## The data was processed using the following versions of software and associated packages:
 
