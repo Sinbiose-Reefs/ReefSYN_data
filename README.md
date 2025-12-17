@@ -7,17 +7,12 @@ Reef Synthesis Working Group
 <!-- badges: start -->
 <!-- badges: end -->
 
-Target journal: Earth System Science Data
-
-Here we present the raw figures of the datapaper. We adopted the Darwin
+Here we present main details about our datapaper. We adopted the Darwin
 Core Standard to organize the 16 datasets. The root R script
 “RUN_TO_ORGANIZE_DATA_INTO_DwC.R” can be used to generate these
-organized datasets from raw datasets. By running this script you will
-create the folder ‘DwC_output’ which will host the processed datasets
-(most of them in a particular folder; exceptions are datasets II and XII
-(fish and benthos from the ABrolhos Bank), and XI and XVI (fish and
-benthos from Rio Grande do Norte state), which were produced by the same
-researchers). Main data updates are listed in the end of this file.
+organized datasets from raw data. By running this script you will create
+the folder ‘DwC_output’, which will then host the processed datasets.
+The last updates are listed in the end of this file.
 
 Folders in this project:
 
@@ -25,7 +20,7 @@ Folders in this project:
   organize data (DwC standard);
 
 - **DwC_output**: the processed data, after running each organization
-  script;
+  script - folders will be numbered sequentially from I to XVI;
 
 - **Policy**: policies of authorship and data sharing (only Portuguese);
 
@@ -91,6 +86,47 @@ provided by the Brazilian National Council for Scientific and
 Technological Development (CNPq; 310517/2019-2) and Serrapilheira
 Institute (Grant No. Serra-1708-15364) for continued research support.
 
+## Main updates:
+
+### 2025/06/24 
+
+1 - Folders with DwC data named appropriately (from I to XVI);  
+2 - The redundancy of records among data sets was eliminated. For
+instance, many records from PELD, ES, SC, …, were aggregated to the
+Dataset I – SISBIOTA data set– in the past, generating the data
+redundancy (identified by Juliana Fonseca-UFF). Thus, we kept the
+records from their original sources;  
+3 - The taxonomic updates were:  
+a) *Ophioblennius atlanticus* (Only eastern Atlantic): Brazil has
+*Ophioblennius trinitatis* in the coast and islands. The only exception
+is Santa Catarina, which has a new species (SR Floeter pers. comm.).
+Thus, the data set of Santa Catarina has just “Ophioblennius”. Details
+can be found here:
+<https://lbmm.ufsc.br/pdfs/Lastrucci_et_al_(2018)_Ophioblennius_JFB.pdf>;  
+b) *Stegastes fuscus trindadensis* in Trindade, instead of *Stegastes
+fuscus*.  
+
+### 2025/10/28 
+
+1 - Correcting year in dataset IX;  
+2 - Correction of site name in dataset V (“cabritas” to
+“praia_das_cabritas”);  
+
+ToDo list:
+
+1)  Sum of benthic cover within eventIDs sum 1 (ie. plot scale). For
+    some datasets might not be possible (XIII, for which plot ID was not
+    available). Look the scripts in R/Corrections and try to solve the
+    issues. PS: perhaps not a problem if one wants to work at site
+    level, but need some care if one is interested in plot-level cover
+    data;
+2)  Is it possible to define a scale (hierarchy of locations,
+    localities, etc) that integrates all data sets? From now, each data
+    set has an unique hierarchy which might not match with other data
+    sets. Perhaps the best way to create ‘sites’ is through the use of
+    the whole hierarchy by creating combinations of unique coordinates,
+    locations, localities, regions.
+
 ## The data was processed using the following versions of software and associated packages:
 
     ## R version 4.4.1 (2024-06-14 ucrt)
@@ -142,7 +178,7 @@ Institute (Grant No. Serra-1708-15364) for continued research support.
     ## [41] KernSmooth_2.23-24 ggfun_0.1.6        ncdf4_1.23         generics_0.1.4    
     ## [45] rprojroot_2.0.4    hms_1.1.3          munsell_0.5.1      scales_1.3.0      
     ## [49] class_7.3-22       glue_1.7.0         slam_0.1-55        lazyeval_0.2.2    
-    ## [53] tools_4.4.1        data.table_1.16.2  fs_1.6.4           grid_4.4.1        
+    ## [53] tools_4.4.1        data.table_1.17.8  fs_1.6.4           grid_4.4.1        
     ## [57] crosstalk_1.2.1    colorspace_2.1-1   nlme_3.1-164       ggforce_0.4.2     
     ## [61] cli_3.6.2          rappdirs_0.3.3     viridisLite_0.4.2  gtable_0.3.5      
     ## [65] yulab.utils_0.1.8  sass_0.4.9         digest_0.6.35      classInt_0.4-10   
