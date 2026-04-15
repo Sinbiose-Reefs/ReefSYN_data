@@ -418,7 +418,7 @@ dados_bind$scientificNameAccepted[grep ("multilineata", dados_bind$scientificNam
 dados_bind$scientificNameAccepted[grep ("polygonius", dados_bind$scientificNameAccepted)] <- "Acanthostracion polygonium"
 dados_bind$scientificNameAccepted[grep ("Dasyatis centroura", dados_bind$scientificNameAccepted)] <- "Bathytoshia centroura"
 dados_bind$scientificNameAccepted[grep ("Haemulon plumieri", dados_bind$scientificNameAccepted)] <- "Haemulon plumierii"
-dados_bind$scientificNameAccepted[grep ("Labrisomus kalisherae", dados_bind$scientificNameAccepted)] <- "Goblioclinus kalisherae"
+dados_bind$scientificNameAccepted[grep ("Labrisomus kalisherae", dados_bind$scientificNameAccepted)] <- "Gobioclinus kalisherae"
 dados_bind$scientificNameAccepted[grep ("Haemulon steindachneri", dados_bind$scientificNameAccepted)] <- "Haemulon atlanticus"
 dados_bind$scientificNameAccepted[grep ("Pempheris schomburgki", dados_bind$scientificNameAccepted)] <- "Pempheris schomburgkii"
 dados_bind$scientificNameAccepted[grep ("Malacoctenus delalandei", dados_bind$scientificNameAccepted)] <- "Malacoctenus delalandii"
@@ -427,7 +427,7 @@ dados_bind$scientificNameAccepted[grep ("Sphoeroides spengleri", dados_bind$scie
 # genus
 dados_bind$genus[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina"
 dados_bind$genus[grep ("Bathytoshia centroura", dados_bind$scientificNameAccepted)] <- "Bathytoshia"
-dados_bind$genus[grep ("Goblioclinus kalisherae", dados_bind$scientificNameAccepted)] <- "Goblioclinus"
+dados_bind$genus[grep ("Gobioclinus kalisherae", dados_bind$scientificNameAccepted)] <- "Gobioclinus"
 
 # adjust family
 dados_bind$family[which(dados_bind$family == "Scaridae")] <- "Labridae"
