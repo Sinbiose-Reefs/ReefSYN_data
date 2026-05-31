@@ -66,25 +66,34 @@ Thiago Silveira and Marina Sissini (PELD-ILOC team).
 
 # Financial support
 
-This project is funded by the Center for Synthesis in Biodiversity and
-Ecosystem Services SinBiose
-(<https://www.gov.br/cnpq/pt-br/acesso-a-informacao/acoes-e-programas/programas/sinbiose-1>)
-(CNPq \#442417/2019-5, granted to MGB). The center is part of the
-National Council for Scientific and Technological Development (Conselho
-Nacional de Desenvolvimento Científico e Tecnológico, CNPq). Researchers
-from the “Brazilian Marine Biodiversity Research Network – SISBIOTA-Mar”
-(CNPq \#563276/2010-0 and FAPESC \#6308/2011-8 to SRF) and ‘‘Programa de
-Monitoramento de Longa Duração das Comunidades Recifais de Ilhas
-Oceânicas – PELD ILOC’’ (CNPq 441241/2016-6, to CELF), initiatives that
-collected and shared their data sets used in this research. ALL received
-post-doctoral fellowships from CNPq (#153024/2022-4, \#164240/2021-7,
-\#151228/2021-3, \#152410/2020-1). J.P.Q. received post-doctoral
-fellowship from FAPESP (2018/21380-0 and 2021/). TCM received
-post-doctoral fellowships from FAPERJ (E-26/202.372/2021) and CNPq
-(#102450/2022-6). GOL is grateful to a research productivity scholarship
-provided by the Brazilian National Council for Scientific and
-Technological Development (CNPq; 310517/2019-2) and Serrapilheira
-Institute (Grant No. Serra-1708-15364) for continued research support.
+This research was conducted by the team and collaborators of the Reef
+Synthesis Working Group (ReefSYN) funded by the Brazilian National
+Council for Scientific and Technological Development (CNPq) through the
+Synthesis Center on Biodiversity and Ecosystem Services (SinBiose, CNPq,
+\#442417/2019-5 to MGB) and PPBio INTEGRA-Mar (MCTI, CNPq, 441226/2023-0
+to MGB and GOL) Researchers from the ‘Brazilian Marine Biodiversity
+Research Network—SISBIOTA-Mar’ (CNPq \#563276/2010-0 and FAPESC
+\#6308/2011-8 to SRF), ‘Programa de Monitoramento de Longa Duração das
+Comunidades Recifais de Ilhas Oceânicas—PELD ILOC’ (CNPq
+\#441327/2020-6, to CELF) and Universidade Federal do Espírito Santo
+(Fundação de Amparo à Pesquisa do Espírito Santo, FAPES grant
+\#38854660/2007) collected and shared datasets used in this research.
+The project of dataset VIII was funded by Fundação Grupo O Boticário,
+Fundação SOS Mata Atlântica and ICMBio. ALL received post-doctoral
+fellowships from CNPq (#153024/2022-4, \#164240/2021-7, \#151228/2021-3,
+\#152410/2020-1) and CAPES (PDPG-POSDOC, \#88887.800011/2022-00). JPQ
+received post-doctoral fellowships from FAPESP (2018/21380-0 and
+2021/09279-4). GOL is grateful to his research productivity scholarship
+provided by CNPq (#310517/2019-2 and 308072/2022-7), and to
+Serrapilheira Institute (Grant No. Serra-1708-15364) for continued
+research support. CELF, RBFF and SRF are grateful for their research
+productivity scholarships provided by CNPq (#304004/2018-9 to CELF,
+\#309651/2021-2 to RBFF, and \#307340/2019-8 to SRF). HT Pinheiro
+acknowledges a CAPES scholarship for his master degree between 2008 and
+2010. The group thanks Ana Paula Prates (Brazilian Ministry of the
+Environment) for kindly sharing the map of priority areas, and Leticia
+Costa-Lotufo and the ProspecMar-Ilhas team (CNPq, \#62/2013) for
+supporting PELD researchers during data acquisition on oceanic islands.
 
 ## Last updates:
 
@@ -95,7 +104,6 @@ Institute (Grant No. Serra-1708-15364) for continued research support.
 <!-- -->
 
 1)  *Goblioclinus* to *Gobioclinus*
-2)  *Antias* to *Anthias*
 
 ### 2025/10/28
 
@@ -178,7 +186,7 @@ fuscus*.
     ##  [5] compiler_4.5.2     mgcv_1.9-3         vctrs_0.6.5        httpcode_0.3.0    
     ##  [9] pkgconfig_2.0.3    fastmap_1.2.0      rmarkdown_2.30     tzdb_0.5.0        
     ## [13] xfun_0.55          cachem_1.1.0       jsonlite_2.0.0     tweenr_2.0.3      
-    ## [17] cluster_2.1.8.1    R6_2.6.1           bslib_0.9.0        stringi_1.8.7     
+    ## [17] cluster_2.1.8.2    R6_2.6.1           bslib_0.9.0        stringi_1.8.7     
     ## [21] hoardr_0.5.5       jquerylib_0.1.4    Rcpp_1.1.0         Matrix_1.7-4      
     ## [25] splines_4.5.2      timechange_0.3.0   tidyselect_1.2.1   rstudioapi_0.17.1 
     ## [29] yaml_2.3.12        codetools_0.2-20   curl_7.0.0         plyr_1.8.9        
