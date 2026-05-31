@@ -1,4 +1,6 @@
 
+
+
 source("R/functions.R") # function for coordinate transformation
 
 
@@ -29,8 +31,8 @@ benthos_event_core <-  read.csv(here ("Data",
                                       "PELD_iloc_benthos",
                                    "event_core.txt"),sep=",", encoding= "UTF-8")
 
-
-
+View(benthos_event_core %>%
+  filter (island == "Trindade"))
 
 # identify these sites are in the islands
 benthos_event_core$higherGeography <- "BrazilianOceanicIslands"
@@ -46,6 +48,17 @@ benthos_event_core$locality<-gsub (" ","_",benthos_event_core$locality)
 # locations
 benthos_event_core$island<-tolower(iconv(benthos_event_core$island, "UTF-8", "ASCII//TRANSLIT", sub=""))
 benthos_event_core$island<-gsub (" ","_",benthos_event_core$island)
+
+# correct coordinates of Trindade tartarugas --- confounded with tartarugas in Rocas
+# take from the Morais et al. data
+
+benthos_event_core [which(benthos_event_core$island == "trindade" & benthos_event_core$locality == "tartarugas_trindade"),"decimalLatitude"] <- -20.51711
+benthos_event_core [which(benthos_event_core$island == "trindade" & benthos_event_core$locality == "tartarugas_trindade"),"decimalLongitude"] <- -29.30096
+
+tapply (benthos_event_core$decimalLatitude,
+        list(benthos_event_core$island,
+             benthos_event_core$locality),
+        function (i) mean(i))
 
 # create year
 benthos_event_core$year<-substr(benthos_event_core$eventDate,1,4) # only year

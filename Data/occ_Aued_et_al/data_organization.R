@@ -160,9 +160,11 @@ bentos_long_format$Sites<-gsub ("_noronha", "",bentos_long_format$Sites)
 bentos_long_format [grep("saco_dagua",bentos_long_format$Sites),"decimalLatitude"] <- as.numeric(-27.274033)
 bentos_long_format [grep("saco_dagua",bentos_long_format$Sites),"decimalLongitude"] <- as.numeric(-48.367183)
 
+bentos_long_format [grep("saco_dagua",bentos_long_format$Sites),]
 
-
-
+plot(bentos_long_format$decimalLongitude, bentos_long_format$decimalLatitude)
+bentos_long_format %>%
+  filter ( locality == "trindade")
 
 
 
