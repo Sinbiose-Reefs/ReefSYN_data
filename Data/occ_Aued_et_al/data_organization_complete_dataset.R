@@ -173,12 +173,12 @@ bentos_long_format [grep("saco_dagua",bentos_long_format$Sites),"decimalLongitud
 
 
 ### define an ID for each event (first try to define one)
-bentos_long_format$eventID <- paste (bentos_long_format$Region,
-                                     bentos_long_format$site,
-                                     bentos_long_format$Sites,
-                                     bentos_long_format$eventDepth,
-                                     bentos_long_format$photoquadrat,
-                                     bentos_long_format$year,sep=".")
+# bentos_long_format$eventID <- paste (bentos_long_format$Region,
+#                                      bentos_long_format$site,
+#                                      bentos_long_format$Sites,
+#                                      bentos_long_format$eventDepth,
+#                                      bentos_long_format$photoquadrat,
+#                                      bentos_long_format$year,sep=".")
 
 
 # check whether the sum of one event ID reaches 100
@@ -403,8 +403,17 @@ bentos_long_format$higherGeography <- ifelse (bentos_long_format$site %in% c("ro
                                                 "BrazilianOceanicIslands", 
                                                 "BrazilianCoast")
 
+### It is not necessary include 0 values because this data is based on presence only
+bentos_long_format <- bentos_long_format %>% 
+  filter(measurementValue > 0)
 
 ## substituir a ID antiga pela nova com os anos ajustados (new eventID)
+# add sampleID because there are more images than eventIDs
+teste <- bentos_long_format %>% 
+  left_join(bentos_long_format %>% 
+              distinct(verbatimSamples) %>% 
+              mutate(sampleID = seq(1:length(unique(bentos_long_format$verbatimSamples))))) 
+
 bentos_long_format$eventID <- paste (
   paste ( 
       paste ("BR:ReefSYN:SISBIOTA-MAR:", 
@@ -417,7 +426,17 @@ bentos_long_format$eventID <- paste (
   sep="_")
 
 
-
+bentos_long_format <- teste %>% 
+  mutate(eventID = paste(
+    "BR:ReefSYN:SISBIOTA-MAR:", 
+    higherGeography, sep = ":") %>% paste(
+      Sites,
+      locality,
+      year,
+      photoquadrat,
+      sampleID,
+      sep = "_"
+    ))
 
 # occurrenceID
 bentos_long_format$occurrenceID <- paste (
@@ -434,15 +453,15 @@ bentos_long_format$occurrenceID <- paste (
 
 
 # creating parentEventids
-bentos_long_format$parentEventID <- paste (
-  paste ( 
-    paste ("BR:ReefSYN:SISBIOTA-MAR:", 
-           bentos_long_format$higherGeography,
-           sep=""),
-    bentos_long_format$site,sep=":"),
-  bentos_long_format$locality,
-  bentos_long_format$year,
-  sep="_")
+# bentos_long_format$parentEventID <- paste (
+#   paste ( 
+#     paste ("BR:ReefSYN:SISBIOTA-MAR:", 
+#            bentos_long_format$higherGeography,
+#            sep=""),
+#     bentos_long_format$site,sep=":"),
+#   bentos_long_format$locality,
+#   bentos_long_format$year,
+#   sep="_")
 
 
 # method
@@ -671,7 +690,7 @@ range(test$cover)
 test %>%
   filter (cover >1)
 
-View(bentos_long_format[bentos_long_format$eventID == "BR:ReefSYN:SISBIOTA-MAR:BrazilianCoast:arraial_anequim_2010_",])
+# View(bentos_long_format[bentos_long_format$eventID == "BR:ReefSYN:SISBIOTA-MAR:BrazilianCoast:arraial_anequim_2010_",])
 
 
 
@@ -716,30 +735,36 @@ DF_occ <- bentos_long_format [,c("eventID",
                                  )]
 
 # aggregate data by eventIDs to have event_core
-event_core <- data.frame (group_by(bentos_long_format[,-4], 
-                                   eventID,
-                                   higherGeography,
-                                   location,
-                                   verbatimLocality,
-                                   locality) %>% 
-                            
-                            summarise(year = mean(as.numeric(year)),
-                                      eventDate = mean(eventDate),
-                                      minimumDepthInMeters = mean(minimumDepthInMeters),
-                                      maximumDepthInMeters = mean(maximumDepthInMeters),
-                                      samplingProtocol = unique(samplingProtocol),
-                                      samplingEffort = mean(samplingEffort),
-                                      sampleSizeValue = mean(sampleSizeValue),
-                                      sampleSizeUnit = unique(sampleSizeUnit),
-                                      eventRemarks = unique(eventRemarks),
-                                      decimalLongitude = mean(decimalLongitude),
-                                      decimalLatitude = mean(decimalLatitude),
-                                      geodeticDatum = unique(geodeticDatum),
-                                      Country = unique(Country),
-                                      countryCode = unique(countryCode))
-)
+# event_core <- data.frame (group_by(bentos_long_format[,-4], 
+#                                    eventID,
+#                                    higherGeography,
+#                                     location,
+#                                    # verbatimLocality,
+#                                    locality) %>% 
+#                             
+#                             summarise(year = mean(as.numeric(year)),
+#                                       eventDate = mean(eventDate),
+#                                       minimumDepthInMeters = mean(minimumDepthInMeters),
+#                                       maximumDepthInMeters = mean(maximumDepthInMeters),
+#                                       samplingProtocol = unique(samplingProtocol),
+#                                       samplingEffort = mean(samplingEffort),
+#                                       sampleSizeValue = mean(sampleSizeValue),
+#                                       sampleSizeUnit = unique(sampleSizeUnit),
+#                                       eventRemarks = unique(eventRemarks),
+#                                       decimalLongitude = mean(decimalLongitude),
+#                                       decimalLatitude = mean(decimalLatitude),
+#                                       geodeticDatum = unique(geodeticDatum),
+#                                       Country = unique(Country),
+#                                       countryCode = unique(countryCode))
+# )
 
-
+event_core <- bentos_long_format %>% 
+  select("eventID", "higherGeography", "location", "locality",, "decimalLongitude", "decimalLatitude", "year", "eventDate",
+         "minimumDepthInMeters", "maximumDepthInMeters", "samplingProtocol", "samplingEffort", 
+         "sampleSizeValue", "sampleSizeUnit", "eventRemarks", "geodeticDatum", "Country", "countryCode") %>% 
+  distinct() %>% 
+  mutate(decimalLatitude = ifelse(locality == "farilhoes", -20.522423, decimalLatitude),
+         decimalLongitude = ifelse(locality == "farilhoes", -29.331352, decimalLongitude))
 
 data_all <- left_join(DF_eMOF, event_core) %>% 
   left_join(., DF_occ) %>% # Problem on the join with many-to-many relationship
@@ -754,15 +779,30 @@ hist(data_all$total) # Problem: the sum is not equal to 100 for most sampling un
 
 # save
 # csv format
-write.csv(DF_occ, file =here("DwC_output",
-                               "AAued_spatialData",
-                               "DF_occ_complete.csv"))
-write.csv(DF_eMOF, file =here("DwC_output",
-                                "AAued_spatialData",
-                                "DF_eMOF_complete.csv"))
-write.csv(event_core, file =here("DwC_output",
-                                   "AAued_spatialData",
-                                   "event_core_complete.csv"))
+safe_write_csv <- function(x, file, ...) {
+  dir_name <- dirname(file)
+  if (!dir.exists(dir_name)) {
+    dir.create(dir_name, recursive = TRUE)
+  }
+  write.csv(x, file = file, ...)
+}
+
+# Usage
+safe_write_csv(DF_occ, "DwC_output/XVI_AAued_spatialData/DF_occ_v2026.csv")
+safe_write_csv(DF_eMOF, "DwC_output/XVI_AAued_spatialData/DF_eMOF_v2026.csv")
+safe_write_csv(event_core, "DwC_output/XVI_AAued_spatialData/event_core_v2026.csv")
+
+# write.csv(DF_occ, file =here("DwC_output",
+#                                "XVI_AAued_spatialData",
+#                                "DF_occ_v2026.csv"))
+# 
+# write.csv(DF_eMOF, file =here("DwC_output",
+#                                 "XVI_AAued_spatialData",
+#                                 "DF_eMOF_v2026.csv"))
+# event_core  %>% 
+#   write.csv(file =here("DwC_output",
+#                                    "XVI_AAued_spatialData",
+#                                    "event_core_v2026.csv"))
 
 # end
 rm(list=ls())

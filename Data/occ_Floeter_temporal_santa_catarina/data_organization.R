@@ -152,7 +152,7 @@ dados_bind$higherGeography <- "BrazilianCoast"
 
 
 # verbatimLocality
-dados_bind$verbatimLocality<- dados_bind$locality
+dados_bind$verbatimLocality <- dados_bind$locality
 
 
 # adjusting species scientific name
@@ -188,7 +188,6 @@ dados_bind$species_to_search <- gsub ("_", " ", dados_bind$scientificName)
 dados_bind$species_to_search [grep ("decapteru macarellus", dados_bind$species_to_search)] <- "decapterus macarellus"
 
 # remove stegastes partitus (comment Sergio: Temos amostras do Caribe nesse datapaper? Ste partitus é só do Caribe. Tem um registro só em SC, mas não é para estar em nenhuma amostra, double check it)
-
 dados_bind <- dados_bind [-grep("partitus",dados_bind$species_to_search),]
 
 # non identified species
@@ -289,13 +288,13 @@ dados_bind$family[which(dados_bind$family == "Scaridae")] <- "Labridae"
 
 # IDs
 # creating parentIDs
-dados_bind$parentEventID <- paste (paste (paste ("BR:ReefSYN:SC-TIME-SERIES:", 
-                                                 dados_bind$higherGeography,
-                                                 sep=""),
-                                          dados_bind$site,sep=":"), 
-                                           dados_bind$locality, 
-                                          dados_bind$year,
-                              sep="_")
+# dados_bind$parentEventID <- paste (paste (paste ("BR:ReefSYN:SC-TIME-SERIES:", 
+#                                                  dados_bind$higherGeography,
+#                                                  sep=""),
+#                                           dados_bind$site,sep=":"), 
+#                                            dados_bind$locality, 
+#                                           dados_bind$year,
+#                               sep="_")
 
 
 
@@ -335,7 +334,7 @@ dados_bind$licence <- "CC BY"
 dados_bind$language <- "en"
 
 # eventRemarks
-dados_bind$eventRemarks <- "Just published by Quimbayo et al. in Ecology"
+# dados_bind$eventRemarks <- "Just published by Quimbayo et al. in Ecology"
 
 dados_bind$bibliographicCitation <- "Quimbayo, J. P., Nunes, L. T., Silva, F. C., Anderson, A. B., Barneche, D. R., Canterle, A. M., Cord, I., Dalben, A., Ferrari, D. S., Fontoura, L., Fiuza, T. M. J., Liedke, A. M. R., Longo, G. O., Morais, R. A., Siqueira, A. C., & Floeter, S. R. (2023). TimeFISH: Long-term assessment of reef fish assemblages in a transition zone in the Southwestern Atlantic. Ecology, 104(3), [e3966]. https://doi.org/10.1002/ecy.3966"
 
@@ -480,31 +479,40 @@ colnames(dados_bind)[which(colnames(dados_bind) == "site")] <- "location"
 DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
                           "measurementValue", 
                           "measurementType",
-                          "measurementUnit",
-                          "eventRemarks")]
+                          "measurementUnit")]
 
+DF_eMOF_sz <- DF_eMOF %>% 
+  filter(measurementType == "total length")
 
+DF_eMOF_ab <- DF_eMOF %>% 
+  filter(measurementType == "abundance")  
+  
+DF_occ <- dados_bind %>% 
+  select(eventID, occurrenceID, basisOfRecord, verbatimIdentification, scientificNameID,
+         scientificName, scientificNameAccepted, taxonRank, kingdom, phylum, class,
+         order, family, genus, recordedBy, organismQuantityType, occurrenceStatus,
+         licence, language, bibliographicCitation)
 
-DF_occ <- dados_bind [,c("eventID", 
-                         "occurrenceID",
-                         "basisOfRecord",
-                         "verbatimIdentification",
-                         "scientificNameID",
-                         "scientificName",
-                         "scientificNameAccepted",
-                         "taxonRank",
-                         "kingdom",
-                         "phylum",
-                         "class",
-                         "order",
-                         "family",
-                         "genus",
-                         "recordedBy",
-                         "organismQuantityType", 
-                         "occurrenceStatus",
-                         "licence",
-                         "language",
-                         "bibliographicCitation")]
+# DF_occ <- dados_bind [, c("eventID", 
+#                          "occurrenceID",
+#                          "basisOfRecord",
+#                          "verbatimIdentification",
+#                          "scientificNameID",
+#                          "scientificName",
+#                          "scientificNameAccepted",
+#                          "taxonRank",
+#                          "kingdom",
+#                          "phylum",
+#                          "class",
+#                          "order",
+#                          "family",
+#                          "genus",
+#                          "recordedBy",
+#                          "organismQuantityType", 
+#                          "occurrenceStatus",
+#                          "licence",
+#                          "language",
+#                          "bibliographicCitation")]
 
 
 
@@ -529,27 +537,44 @@ event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,location,
 
 
 
-# make a list with files in DwC
-output <- list (DF_occ = DF_occ,
-                DF_eMOF = DF_eMOF,
-                event_core=event_core)
-
-
+# # make a list with files in DwC
+# output <- list (DF_occ = DF_occ,
+#                 DF_eMOF = DF_eMOF,
+#                 event_core=event_core)
+# 
+# 
+# 
+# # save
+# # write to txt format
+# write.csv(DF_occ, file =here("DwC_output",
+#                                "VI",
+#                                "DF_occ.csv"))
+# 
+# write.csv(DF_eMOF, file =here("DwC_output",
+#                                 "VI",
+#                                 "DF_eMOF.csv"))
+# 
+# 
+# write.csv(event_core, file =here("DwC_output",
+#                                    "VI",
+#                                    "event_core.csv"))
 
 # save
-# write to txt format
-write.csv(DF_occ, file =here("DwC_output",
-                               "VI",
-                               "DF_occ.csv"))
+# csv format
+safe_write_csv <- function(x, file, ...) {
+  dir_name <- dirname(file)
+  if (!dir.exists(dir_name)) {
+    dir.create(dir_name, recursive = TRUE)
+  }
+  write.csv(x, file = file, ...)
+}
 
-write.csv(DF_eMOF, file =here("DwC_output",
-                                "VI",
-                                "DF_eMOF.csv"))
+# Usage
+safe_write_csv(DF_occ, "DwC_output/VI_SC_time_series/DF_occ_v2026.csv")
+safe_write_csv(DF_eMOF_sz, "DwC_output/VI_SC_time_series/DF_eMOF_sz_v2026.csv")
+safe_write_csv(DF_eMOF_ab, "DwC_output/VI_SC_time_series/DF_eMOF_ab_v2026.csv")
+safe_write_csv(event_core, "DwC_output/VI_SC_time_series/event_core_v2026.csv")
 
-
-write.csv(event_core, file =here("DwC_output",
-                                   "VI",
-                                   "event_core.csv"))
 
 ## end
 rm(list=ls())

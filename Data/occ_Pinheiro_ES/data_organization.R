@@ -514,6 +514,11 @@ DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
                           #"eventRemarks"
                           )]
 
+DF_eMOF_sz <- DF_eMOF %>% 
+  filter(measurementType == "total length")
+
+DF_eMOF_ab <- DF_eMOF %>% 
+  filter(measurementType == "abundance")  
 
 
 DF_occ <- dados_bind [,c("eventID", 
@@ -561,26 +566,41 @@ event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,location,
 
 
 
-# make a list with files in DwC
-output <- list (DF_occ = DF_occ,
-                DF_eMOF = DF_eMOF,
-                event_core=event_core)
+# # make a list with files in DwC
+# output <- list (DF_occ = DF_occ,
+#                 DF_eMOF = DF_eMOF,
+#                 event_core=event_core)
+# 
+# 
+# # write to txt format
+# write.csv(DF_occ, file =here("DwC_output",
+#                                "VIII",
+#                                "DF_occ.csv"),fileEncoding = "latin1")
+# 
+# write.csv(DF_eMOF, file =here("DwC_output",
+#                                 "VIII",
+#                                 "DF_eMOF.csv"),fileEncoding = "latin1")
+# 
+# 
+# write.csv(event_core, file =here("DwC_output",
+#                                    "VIII",
+#                                    "event_core.csv"),fileEncoding = "latin1")
+# 
+# save
+# csv format
+safe_write_csv <- function(x, file, ...) {
+  dir_name <- dirname(file)
+  if (!dir.exists(dir_name)) {
+    dir.create(dir_name, recursive = TRUE)
+  }
+  write.csv(x, file = file, ...)
+}
 
-
-# write to txt format
-write.csv(DF_occ, file =here("DwC_output",
-                               "VIII",
-                               "DF_occ.csv"),fileEncoding = "latin1")
-
-write.csv(DF_eMOF, file =here("DwC_output",
-                                "VIII",
-                                "DF_eMOF.csv"),fileEncoding = "latin1")
-
-
-write.csv(event_core, file =here("DwC_output",
-                                   "VIII",
-                                   "event_core.csv"),fileEncoding = "latin1")
-
+# Usage
+safe_write_csv(DF_occ, "DwC_output/VIII_Pinheiro_ES/DF_occ_v2026.csv")
+safe_write_csv(DF_eMOF_sz, "DwC_output/VIII_Pinheiro_ES/DF_eMOF_sz_v2026.csv")
+safe_write_csv(DF_eMOF_ab, "DwC_output/VIII_Pinheiro_ES/DF_eMOF_ab_v2026.csv")
+safe_write_csv(event_core, "DwC_output/VIII_Pinheiro_ES/event_core_v2026.csv")
 
 ## end
 rm(list=ls())

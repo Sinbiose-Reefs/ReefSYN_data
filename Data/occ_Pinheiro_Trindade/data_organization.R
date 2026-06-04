@@ -160,8 +160,6 @@ dados_bind$higherGeography <- "BrazilianOceanicIslands"
 # occurrenceStatus
 dados_bind$occurrenceStatus <- "presence"
 
-# coordinates are missing
-
 # ----------------------------------------------------------------------------
 
 # adjust scientific names
@@ -327,7 +325,7 @@ dados_bind$genus<-(data_to_match$genus [match (dados_bind$verbatimIdentification
 # taxonomic updates
 # species
 dados_bind$scientificNameAccepted[grep ("multilineata", dados_bind$scientificNameAccepted)] <- "Azurina multilineata"
-dados_bind$scientificNameAccepted[grep ("polygonius", dados_bind$scientificNameAccepted)] <- "Acanthostracion polygonium"
+# dados_bind$scientificNameAccepted[grep ("polygonius", dados_bind$scientificNameAccepted)] <- "Acanthostracion polygonium"
 dados_bind$scientificNameAccepted[grep ("Dasyatis centroura", dados_bind$scientificNameAccepted)] <- "Bathytoshia centroura"
 dados_bind$scientificNameAccepted[grep ("Haemulon plumieri", dados_bind$scientificNameAccepted)] <- "Haemulon plumierii"
 dados_bind$scientificNameAccepted[grep ("Labrisomus kalisherae", dados_bind$scientificNameAccepted)] <- "Gobioclinus kalisherae"
@@ -364,23 +362,31 @@ dados_bind <- dados_bind %>%
 # ----------------------------------------------------------------------------
 # ADJUSTING GEOGRAPHIC COORDINATES
 
-
-
 # coordinates (gather coordinates from PELD Dataset)
-PELD_coords <- read.csv (here ("\\.","Pos_Doc_Sinbiose", "ReefSYN_data", "DwC_output","IV","event_core.csv"))
-PELD_coords_trindade <- PELD_coords %>% 
-                      
-  filter (island == "trindade")  
+# PELD_coords <- read.csv (here ("\\.","Pos_Doc_Sinbiose", "ReefSYN_data", "DwC_output","IV","event_core.csv"))
+# PELD_coords_trindade <- PELD_coords %>% 
+#   filter (island == "trindade")  
+
+coordinates <- data.frame(locality = c("martin_vaz_oeste", "calheta", "eme", "farol", "lixo", "orelhas",
+                                       "parcel",  "ponta_norte", "praia_das_cabritas", "racha", "tartarugas_trindade", "tunel"),
+                          decimalLongitude =	c(-28.856821, -29.31243, -29.337928, -29.321447, -29.328228, -29.344021, 
+                                               -29.347291, -29.339223, -29.332129, -29.347639, -29.30271, -29.30162),
+                          decimalLatitude = c(-20.474061, -20.506512, -20.515618, -20.49803, -20.524679, -20.492884, 
+                                              -20.506451, -20.4892, -20.490393, -20.505467, -20.514895, -20.52876))
+
 # aggregate at locality level
-PELD_coords_trindade <- data.frame (decimalLatitude = tapply(PELD_coords_trindade$decimalLatitude,
-               PELD_coords_trindade$locality,"mean"),
-            decimalLongitude = tapply(PELD_coords_trindade$decimalLongitude,
-                                      PELD_coords_trindade$locality,"mean"))
+# PELD_coords_trindade <- data.frame (decimalLatitude = tapply(PELD_coords_trindade$decimalLatitude,
+#                PELD_coords_trindade$locality,"mean"),
+#             decimalLongitude = tapply(PELD_coords_trindade$decimalLongitude,
+#                                       PELD_coords_trindade$locality,"mean"))
 
 # match
-dados_bind <- cbind (dados_bind,
-                    PELD_coords_trindade [match (dados_bind$locality,
-                   rownames(PELD_coords_trindade)),])
+# dados_bind <- cbind (dados_bind,
+#                     PELD_coords_trindade [match (dados_bind$locality,
+#                    rownames(PELD_coords_trindade)),])
+
+dados_bind <- dados_bind %>% 
+  left_join(coordinates)
 
 dados_bind$georeferenceRemarks <-  "Coordinates gathered from PELD dataset, Dataset IV"
 
@@ -390,25 +396,24 @@ dados_bind$georeferenceRemarks <-  "Coordinates gathered from PELD dataset, Data
 
 # IDs
 # creating parentIDs
-dados_bind$parentEventID <- paste (paste (paste ("BR:ReefSYN:TrindadeMartinVaz:", 
-                                                 dados_bind$higherGeography,
-                                                 sep=""),
-                                          dados_bind$site,sep=":"), 
-                                           dados_bind$locality, 
-                                          dados_bind$year,
-                              sep="_")
+# dados_bind$parentEventID <- paste (paste (paste ("BR:ReefSYN:TrindadeMartinVaz:", 
+#                                                  dados_bind$higherGeography,
+#                                                  sep=""),
+#                                           dados_bind$site,sep=":"), 
+#                                            dados_bind$locality, 
+#                                           dados_bind$year,
+#                               sep="_")
 
 
 # creating eventIds
 dados_bind$eventID <- paste (paste (paste ("BR:ReefSYN:TrindadeMartinVaz:", 
                                            dados_bind$higherGeography,
                                            sep=""),
-                                    dados_bind$site,sep=":"),  
+                                    dados_bind$site, sep=":"),  
                                     dados_bind$locality, 
                                     dados_bind$year,
                                     dados_bind$censo,
                         sep="_")
-
 
 # creating occurrenceIDs
 dados_bind$occurrenceID <- paste (paste (paste ("BR:ReefSYN:TrindadeMartinVaz:", 
@@ -446,9 +451,6 @@ colnames(dados_bind)[which(colnames(dados_bind) == "site")] <- "location"
 # ----------------------------------------------------------------------------
 #  Formatted according to DwC
 
-
-
-
 DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
                           "measurementValue", 
                           "measurementType",
@@ -457,7 +459,11 @@ DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
                           #"eventRemarks"
                           )]
 
+DF_eMOF_sz <- DF_eMOF %>% 
+  filter(measurementType == "total length")
 
+DF_eMOF_ab <- DF_eMOF %>% 
+  filter(measurementType == "abundance")
 
 DF_occ <- dados_bind [,c("eventID", 
                          "occurrenceID",
@@ -505,7 +511,6 @@ event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,location,
 )
 
 
-
 # make a list with files in DwC
 output <- list (DF_occ = DF_occ,
                 DF_eMOF = DF_eMOF,
@@ -514,18 +519,34 @@ output <- list (DF_occ = DF_occ,
 
 
 # write to txt format
-write.csv(DF_occ, file =here("DwC_output",
-                               "V",
-                               "DF_occ.csv"))
+# write.csv(DF_occ, file =here("DwC_output",
+#                                "V_Pinheiro_TrindadeMVaz",
+#                                "DF_occ.csv"))
+# 
+# write.csv(DF_eMOF, file =here("DwC_output",
+#                                 "V_Pinheiro_TrindadeMVaz",
+#                                 "DF_eMOF.csv"))
+# 
+# 
+# write.csv(event_core, file =here("DwC_output",
+#                                    "V_Pinheiro_TrindadeMVaz",
+#                                    "event_core.csv"))
 
-write.csv(DF_eMOF, file =here("DwC_output",
-                                "V",
-                                "DF_eMOF.csv"))
+# save
+# csv format
+safe_write_csv <- function(x, file, ...) {
+  dir_name <- dirname(file)
+  if (!dir.exists(dir_name)) {
+    dir.create(dir_name, recursive = TRUE)
+  }
+  write.csv(x, file = file, ...)
+}
 
-
-write.csv(event_core, file =here("DwC_output",
-                                   "V",
-                                   "event_core.csv"))
+# Usage
+safe_write_csv(DF_occ, "DwC_output/V_Pinheiro_TrindadeMVaz/DF_occ_v2026.csv")
+safe_write_csv(DF_eMOF_sz, "DwC_output/V_Pinheiro_TrindadeMVaz/DF_eMOF_sz_v2026.csv")
+safe_write_csv(DF_eMOF_ab, "DwC_output/V_Pinheiro_TrindadeMVaz/DF_eMOF_ab_v2026.csv")
+safe_write_csv(event_core, "DwC_output/V_Pinheiro_TrindadeMVaz/event_core_v2026.csv")
 
 
 ## end

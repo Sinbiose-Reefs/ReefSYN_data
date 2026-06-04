@@ -1147,31 +1147,57 @@ event_core_parrachos <- data.frame (group_by(dados_bind_parrachos,
 
 
 # bind parrachos and other sites in RN
-DF_occ <- rbind (DF_occ,
-                 DF_occ_parrachos)
-DF_eMOF <- rbind (DF_eMOF,
-                  DF_eMOF_parrachos)
-event_core <- rbind (event_core,
-                     event_core_parrachos)
+DF_occ1 <- rbind (DF_occ,
+                 DF_occ_parrachos) %>% 
+  distinct()
+
+DF_eMOF1 <- rbind (DF_eMOF,
+                  DF_eMOF_parrachos) %>% 
+  distinct()
+
+event_core1 <- rbind (event_core,
+                     event_core_parrachos) %>% 
+  distinct()
 
 
 # make a list with files in DwC
-output <- list (DF_occ = DF_occ,
-                DF_eMOF = DF_eMOF,
-                event_core=event_core)
+# output <- list (DF_occ = DF_occ,
+#                 DF_eMOF = DF_eMOF,
+#                 event_core = event_core)
+# 
+# # save
+# # txt format
+# write.csv(DF_occ, file =here("DwC_output",
+#                                "XI_Longo_Roos",
+#                                "DF_occ.csv"))
+# write.csv(DF_eMOF, file =here("DwC_output",
+#                                 "XI_Longo_Roos",
+#                                 "DF_eMOF.csv"))
+# write.csv(event_core, file =here("DwC_output",
+#                                    "XI_Longo_Roos",
+#                                    "event_core.csv"))
+
+DF_eMOF_sz <- DF_eMOF1 %>% 
+  filter(measurementType == "total length")
+
+DF_eMOF_ab <- DF_eMOF1 %>% 
+  filter(measurementType == "abundance")  
 
 # save
-# txt format
-write.csv(DF_occ, file =here("DwC_output",
-                               "XI",
-                               "DF_occ.csv"))
-write.csv(DF_eMOF, file =here("DwC_output",
-                                "XI",
-                                "DF_eMOF.csv"))
-write.csv(event_core, file =here("DwC_output",
-                                   "XI",
-                                   "event_core.csv"))
+# csv format
+safe_write_csv <- function(x, file, ...) {
+  dir_name <- dirname(file)
+  if (!dir.exists(dir_name)) {
+    dir.create(dir_name, recursive = TRUE)
+  }
+  write.csv(x, file = file, ...)
+}
 
+# Usage
+safe_write_csv(DF_occ1, "DwC_output/XI_Longo_Roos_fish/DF_occ_v2026.csv")
+safe_write_csv(DF_eMOF, "DwC_output/XI_Longo_Roos_fish/DF_eMOF_v2026.csv")
+safe_write_csv(DF_eMOF, "DwC_output/XI_Longo_Roos_fish/DF_eMOF_v2026.csv")
+safe_write_csv(event_core1, "DwC_output/XI_Longo_Roos_fish/event_core_v2026.csv")
 
 
 
@@ -1543,7 +1569,7 @@ colnames(occ_Ross_et_al_benthos)[which(colnames(occ_Ross_et_al_benthos) == "site
 
 
 
-DF_eMOF <- occ_Ross_et_al_benthos [,c("eventID", "occurrenceID",
+DF_eMOF_benthos <- occ_Ross_et_al_benthos [,c("eventID", "occurrenceID",
                                       "measurementValue",
                                       "measurementType",
                                       "measurementUnit",
@@ -1551,7 +1577,7 @@ DF_eMOF <- occ_Ross_et_al_benthos [,c("eventID", "occurrenceID",
 
 
 
-DF_occ <- occ_Ross_et_al_benthos [,c("eventID", 
+DF_occ_benthos <- occ_Ross_et_al_benthos [,c("eventID", 
                                      "occurrenceID",
                                      "basisOfRecord",
                                      "verbatimIdentification",
@@ -1574,7 +1600,7 @@ DF_occ <- occ_Ross_et_al_benthos [,c("eventID",
 # aggregate data by eventIDs to have event_core
 # do the lines have the same information? (check this by calculating the sd of depth)
 
-event_core <- data.frame (group_by(occ_Ross_et_al_benthos, eventID,higherGeography,location,verbatimLocality, locality) %>% 
+event_core_benthos <- data.frame (group_by(occ_Ross_et_al_benthos, eventID,higherGeography,location,verbatimLocality, locality) %>% 
                             
                             summarise(year = mean(year),
                                       eventDate = mean(eventDate),
@@ -1591,15 +1617,20 @@ event_core <- data.frame (group_by(occ_Ross_et_al_benthos, eventID,higherGeograp
                                       countryCode = unique(countryCode))
 )
 # save
-write.csv(DF_occ, file =here("DwC_output",
-                               "XVI",
-                               "DF_occ.csv"))
-write.csv(DF_eMOF, file =here("DwC_output",
-                                "XVI",
-                                "DF_eMOF.csv"))
-write.csv(event_core, file =here("DwC_output",
-                                   "XVI",
-                                   "event_core.csv"))
+# write.csv(DF_occ, file =here("DwC_output",
+#                                "XVI",
+#                                "DF_occ.csv"))
+# write.csv(DF_eMOF, file =here("DwC_output",
+#                                 "XVI",
+#                                 "DF_eMOF.csv"))
+# write.csv(event_core, file =here("DwC_output",
+#                                    "XVI",
+#                                    "event_core.csv"))
+
+safe_write_csv(DF_occ_benthos, "DwC_output/XVI_Longo_Roos_benthos/DF_occ_v2026.csv")
+safe_write_csv(DF_eMOF_benthos, "DwC_output/XVI_Longo_Roos_benthos/DF_eMOF_v2026.csv")
+safe_write_csv(event_core_benthos, "DwC_output/XVI_Longo_Roos_benthos/event_core_v2026.csv")
+
 
 # end
 rm(list=ls())

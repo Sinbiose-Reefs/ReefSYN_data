@@ -56,8 +56,9 @@ alcatrazes_time_series$verbatimIdentification <- paste (alcatrazes_time_series$g
 alcatrazes_time_series$verbatimIdentification[grep ("spp", alcatrazes_time_series$verbatimIdentification)]# genus level
 alcatrazes_time_series$verbatimIdentification <- gsub (" spp", "", alcatrazes_time_series$verbatimIdentification)
 
-# Chromis limbaughi is not from SW Atlantic... probably Chromis limbata
+# Chromis limbaughi and Gymnothorax mordax are not from SW Atlantic... probably Chromis limbata and Gymnothorax moringa
 alcatrazes_time_series$verbatimIdentification [which(alcatrazes_time_series$verbatimIdentification == "chromis limbaughi")] <- "chromis limbata"
+alcatrazes_time_series$verbatimIdentification [which(alcatrazes_time_series$verbatimIdentification == "gymnothorax mordax")] <- "gymnothorax moringa"
 
 # matching with worms
 worms_record <- lapply (unique(alcatrazes_time_series$verbatimIdentification), function (i) 
@@ -151,8 +152,8 @@ alcatrazes_time_series$verbatimMonth <- alcatrazes_time_series$month
 
 # paste 0 if sole number
 # correct day
-alcatrazes_time_series$day <- (ifelse (alcatrazes_time_series$verbatimMonth<10, 
-                                        paste0("0",alcatrazes_time_series$verbatimMonth),
+alcatrazes_time_series$day <- (ifelse (alcatrazes_time_series$verbatimMonth < 10, 
+                                        paste0("0", alcatrazes_time_series$verbatimMonth),
                                        alcatrazes_time_series$verbatimMonth))
 
 # correct month
@@ -222,6 +223,11 @@ alcatrazes_time_series$decimalLatitude <- alcatrazes_time_series$latitude
 alcatrazes_time_series$geodeticDatum <- "decimal degrees"
 
 # depth of sampling
+# fixing depth and repeated transect_id_locality
+alcatrazes_time_series <- alcatrazes_time_series %>% 
+  mutate(depth = ifelse(transect_id_site == 5 & transect_id_locality == 193, 5.1, depth),
+         transect_id_locality = ifelse(transect_id_site == 18 & transect_id_locality == 91, 91000, transect_id_locality))
+
 alcatrazes_time_series$maximumDepthinMeters <- as.numeric(alcatrazes_time_series$depth)
 alcatrazes_time_series$minimumDepthinMeters <- as.numeric(alcatrazes_time_series$depth)
 
@@ -256,27 +262,29 @@ alcatrazes_time_series$locality[which(alcatrazes_time_series$locality == "portin
 
 # IDs
 # creating parentIDs
-alcatrazes_time_series$parentEventID <- paste (paste (paste ("BR:ReefSYN:ALCATRAZES-TIME-SERIES:", 
-                                                             alcatrazes_time_series$higherGeography,
-                                                 sep=""),
-                                                 alcatrazes_time_series$site,sep=":"),
-                                               alcatrazes_time_series$locality,
-                                           alcatrazes_time_series$year,
-                              sep="_")
+# alcatrazes_time_series$parentEventID <- paste (paste (paste ("BR:ReefSYN:ALCATRAZES-TIME-SERIES:", 
+#                                                              alcatrazes_time_series$higherGeography,
+#                                                  sep=""),
+#                                                  alcatrazes_time_series$site,sep=":"),
+#                                                alcatrazes_time_series$locality,
+#                                            alcatrazes_time_series$year,
+#                               sep="_")
 
 
 
 # creating eventIds
-alcatrazes_time_series$eventID <- paste (paste (paste ("BR:ReefSYN:ALCATRAZES-TIME-SERIES:", 
-                                           alcatrazes_time_series$higherGeography,
-                                           sep=""),
-                                    alcatrazes_time_series$site,sep=":"),  
-                                    alcatrazes_time_series$locality,
-                                    alcatrazes_time_series$year,
-                             alcatrazes_time_series$transect_id_locality,
-                        sep="_")
-
-
+alcatrazes_time_series$eventID <- paste0(
+  paste(
+    paste0("BR:ReefSYN:ALCATRAZES-TIME-SERIES:", 
+          alcatrazes_time_series$higherGeography),
+    alcatrazes_time_series$site, sep=":"),
+  paste(
+    alcatrazes_time_series$locality,
+    alcatrazes_time_series$year,
+    paste0(alcatrazes_time_series$transect_id_locality,
+    alcatrazes_time_series$transect_id_site),
+    sep="_")
+  )
 
 
 # creating occurrenceIDs
@@ -428,25 +436,23 @@ alcatrazes_time_series <- alcatrazes_time_series %>%
   )
 
 
-
-
 # sites into locations
 colnames(alcatrazes_time_series)[which(colnames(alcatrazes_time_series) == "site")] <- "location"
 
 # ----------------------------------------------------------------------------
 #  Formatted according to DwC
 
-
-
-
-
-
-
 DF_eMOF <- alcatrazes_time_series [,c("eventID", "occurrenceID",
                           "measurementValue", 
                           "measurementType",
                           "measurementUnit")]
 
+# OBIS is not accepting duplicated occurrenceIDs in same file, need to separate size and abundance
+DF_eMOF_ab <- DF_eMOF %>% 
+  filter(measurementType == "abundance")
+
+DF_eMOF_sz <- DF_eMOF %>% 
+  filter(measurementType == "total length")
 
 
 DF_occ <- alcatrazes_time_series [,c("eventID", 
@@ -469,51 +475,88 @@ DF_occ <- alcatrazes_time_series [,c("eventID",
                          "language")]
 
 
+# indication of oversized individuals
+max_sizes <- rfishbase::species(alcatrazes_time_series %>% 
+                                  distinct(scientificNameAccepted) %>% pull()) %>% 
+  select(Species, Length)
+
+occ_oversize <- left_join(DF_occ %>% 
+                            select(eventID, occurrenceID, scientificNameAccepted),
+                          DF_eMOF_sz) %>%
+  left_join(max_sizes %>% dplyr::rename(scientificNameAccepted = Species)) %>% 
+  mutate(occurrenceRemarks = ifelse(measurementValue > Length, "maybe oversized", NA)) %>% 
+  filter(!is.na(occurrenceRemarks)) %>% 
+  distinct(occurrenceID) %>% 
+  pull()
+
+DF_eMOF_sz <- DF_eMOF_sz %>% 
+  mutate(measurementRemarks = ifelse(occurrenceID %in% occ_oversize, "estimated size superior to maximum reported for species in Froese and Pauly (2026) www.fishbase.org. Either exclude or use the maximum size reported", NA))
 
 # aggregate data by eventIDs to have event_core
 
-event_core <- data.frame (group_by(alcatrazes_time_series, 
-                                   eventID,higherGeography,location,locality) %>% 
-                            
-                            summarise(year = mean(year),
-                                      eventDate = mean(eventDate),
-                                      eventTime = unique(eventTime),
-                                      minimumDepthinMeters = mean(minimumDepthinMeters),
-                                      maximumDepthinMeters = mean(maximumDepthinMeters),
-                                      seaSurfaceTemperature = mean(maximumDepthinMeters),
-                                      samplingProtocol = unique(samplingProtocol),
-                                      samplingEffort = mean(samplingEffort),
-                                      sampleSizeValue = mean(sampleSizeValue),
-                                      sampleSizeUnit = unique(sampleSizeUnit),
-                                      decimalLongitude = mean(decimalLongitude),
-                                      decimalLatitude = mean(decimalLatitude),
-                                      geodeticDatum = unique(geodeticDatum),
-                                      Country = unique(Country),
-                                      countryCode = unique(countryCode))
-)
+event_core <- alcatrazes_time_series %>% 
+  select("eventID", "higherGeography", "location", "locality", "decimalLongitude", "decimalLatitude", "year", "eventDate",
+         "minimumDepthinMeters", "maximumDepthinMeters", "samplingProtocol", "samplingEffort", 
+         "sampleSizeValue", "sampleSizeUnit", "geodeticDatum", "Country", "countryCode") %>% 
+  distinct() 
 
+# event_core <- data.frame (group_by(alcatrazes_time_series, 
+#                                    eventID,higherGeography,location,locality) %>% 
+#                             
+#                             summarise(year = mean(year),
+#                                       eventDate = mean(eventDate),
+#                                       eventTime = unique(eventTime),
+#                                       minimumDepthinMeters = mean(minimumDepthinMeters),
+#                                       maximumDepthinMeters = mean(maximumDepthinMeters),
+#                                       seaSurfaceTemperature = mean(maximumDepthinMeters),
+#                                       samplingProtocol = unique(samplingProtocol),
+#                                       samplingEffort = mean(samplingEffort),
+#                                       sampleSizeValue = mean(sampleSizeValue),
+#                                       sampleSizeUnit = unique(sampleSizeUnit),
+#                                       decimalLongitude = mean(decimalLongitude),
+#                                       decimalLatitude = mean(decimalLatitude),
+#                                       geodeticDatum = unique(geodeticDatum),
+#                                       Country = unique(Country),
+#                                       countryCode = unique(countryCode))
+# )
+
+# save
+# csv format
+safe_write_csv <- function(x, file, ...) {
+  dir_name <- dirname(file)
+  if (!dir.exists(dir_name)) {
+    dir.create(dir_name, recursive = TRUE)
+  }
+  write.csv(x, file = file, ...)
+}
+
+# Usage
+safe_write_csv(DF_occ, "DwC_output/X_Alcatrazes/DF_occ_v2026.csv")
+safe_write_csv(DF_eMOF_sz, "DwC_output/X_Alcatrazes/DF_eMOF_sz_v2026.csv")
+safe_write_csv(DF_eMOF_ab, "DwC_output/X_Alcatrazes/DF_eMOF_ab_v2026.csv")
+safe_write_csv(event_core, "DwC_output/X_Alcatrazes/event_core_v2026.csv")
 
 
 # make a list with files in DwC
-output <- list (DF_occ = DF_occ,
-                DF_eMOF = DF_eMOF,
-                event_core=event_core)
+# output <- list (DF_occ = DF_occ,
+#                 DF_eMOF = DF_eMOF,
+#                 event_core=event_core)
 
 
 # save
 # write to txt format
-write.csv(DF_occ, file =here("DwC_output",
-                             "X",
-                               "DF_occ.csv"))
-
-write.csv(DF_eMOF, file =here("DwC_output",
-                              "X",
-                                "DF_eMOF.csv"))
-
-
-write.csv(event_core, file =here("DwC_output",
-                                 "X",
-                                   "event_core.csv"))
+# write.csv(DF_occ, file =here("DwC_output",
+#                              "X",
+#                                "DF_occ.csv"))
+# 
+# write.csv(DF_eMOF, file =here("DwC_output",
+#                               "X",
+#                                 "DF_eMOF.csv"))
+# 
+# 
+# write.csv(event_core, file =here("DwC_output",
+#                                  "X",
+#                                    "event_core.csv"))
 
 ## end
 rm(list=ls())

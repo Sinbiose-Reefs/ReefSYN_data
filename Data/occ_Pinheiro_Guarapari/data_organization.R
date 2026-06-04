@@ -319,7 +319,8 @@ dados_bind$decimalLongitude<-NA
 dados_bind$georeferenceRemarks <- NA
 
 # coordinates (gather coordinates from Aued et al. from Escalvada -- the only site that names match)
-Aued_coords <- read.csv (here ("\\.","Pos_Doc_Sinbiose", "ReefSYN_data", "DwC_output","XIV","event_core.csv"))
+# Aued_coords <- read.csv (here ("\\.","Pos_Doc_Sinbiose", "ReefSYN_data", "DwC_output","XIV","event_core.csv"))
+Aued_coords <- data.frame(location = "espirito_santo",	locality = "escalvada", decimalLongitude = -40.407589,	decimalLatitude = -20.699631)
 
 # bind
 dados_bind [grep("escalvada",dados_bind$locality), "decimalLatitude"] <- mean(Aued_coords [which(Aued_coords$locality == "escalvada"),"decimalLatitude"])
@@ -495,13 +496,13 @@ dados_bind$family[which(dados_bind$family == "Scaridae")] <- "Labridae"
 
 # IDs
 # creating parentIDs
-dados_bind$parentEventID <- paste (paste (paste ("BR:ReefSYN:GUARAPARI-ES:", 
-                                                 dados_bind$higherGeography,
-                                                 sep=""),
-                                          dados_bind$site,sep=":"), 
-                                           dados_bind$locality, 
-                                          dados_bind$year,
-                              sep="_")
+# dados_bind$parentEventID <- paste (paste (paste ("BR:ReefSYN:GUARAPARI-ES:", 
+#                                                  dados_bind$higherGeography,
+#                                                  sep=""),
+#                                           dados_bind$site,sep=":"), 
+#                                            dados_bind$locality, 
+#                                           dados_bind$year,
+#                               sep="_")
 
 
 # creating eventIds
@@ -565,7 +566,11 @@ DF_eMOF <- dados_bind [,c("eventID", "occurrenceID",
                           #"eventRemarks"
                           )]
 
+DF_eMOF_sz <- DF_eMOF %>% 
+  filter(measurementType == "total length")
 
+DF_eMOF_ab <- DF_eMOF %>% 
+  filter(measurementType == "abundance")  
 
 DF_occ <- dados_bind [,c("eventID", 
                          "occurrenceID",
@@ -612,24 +617,40 @@ event_core <- data.frame (group_by(dados_bind, eventID,higherGeography,location,
 
 
 
-# make a list with files in DwC
-output <- list (DF_occ = DF_occ,
-                DF_eMOF = DF_eMOF,
-                event_core=event_core)
+# # make a list with files in DwC
+# output <- list (DF_occ = DF_occ,
+#                 DF_eMOF = DF_eMOF,
+#                 event_core=event_core)
+# 
+# 
+# # write to txt format
+# write.csv(DF_occ, file =here("DwC_output",
+#                                "VII",
+#                                "DF_occ.csv"))
+# 
+# write.csv(DF_eMOF, file =here("DwC_output",
+#                                 "VII",
+#                                 "DF_eMOF.csv"))
+# 
+# write.csv(event_core, file =here("DwC_output",
+#                                    "VII",
+#                                    "event_core.csv"))
 
+# save
+# csv format
+safe_write_csv <- function(x, file, ...) {
+  dir_name <- dirname(file)
+  if (!dir.exists(dir_name)) {
+    dir.create(dir_name, recursive = TRUE)
+  }
+  write.csv(x, file = file, ...)
+}
 
-# write to txt format
-write.csv(DF_occ, file =here("DwC_output",
-                               "VII",
-                               "DF_occ.csv"))
-
-write.csv(DF_eMOF, file =here("DwC_output",
-                                "VII",
-                                "DF_eMOF.csv"))
-
-write.csv(event_core, file =here("DwC_output",
-                                   "VII",
-                                   "event_core.csv"))
+# Usage
+safe_write_csv(DF_occ, "DwC_output/VII_Pinheiro_Guarapari/DF_occ_v2026.csv")
+safe_write_csv(DF_eMOF_sz, "DwC_output/VII_Pinheiro_Guarapari/DF_eMOF_sz_v2026.csv")
+safe_write_csv(DF_eMOF_ab, "DwC_output/VII_Pinheiro_Guarapari/DF_eMOF_ab_v2026.csv")
+safe_write_csv(event_core, "DwC_output/VII_Pinheiro_Guarapari/event_core_v2026.csv")
 
 
 ## end
